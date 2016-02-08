@@ -1,0 +1,28 @@
+<html>
+        <head>
+                <meta charset="utf-8">
+                <title>Catan Client </title>
+                <script type="text/javascript" src="Grid.js" ></script>
+                <script type="text/javascript" src="Canvas.js"></script>
+                <script type="text/javascript">
+                        function test() {
+                                return "lol"
+                        }
+                        function main() {
+                                canvas = document.getElementById('board');
+                                if(canvas.getContext) {
+                                        ctx = canvas.getContext('2d');
+                                } else {
+                                    console.log("browser unsupported")
+                                }
+                        }
+                </script>
+                <style type="text/css">
+                    canvas { border: 1px solid black; }
+                </style>
+        </head>
+        <body onload="main();">
+                <canvas id="board" width="500" height="500"> </canvas>
+
+        </body>
+</html>

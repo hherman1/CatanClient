@@ -4,6 +4,8 @@
                 <title>Catan Client </title>
                 <script type="text/javascript" src="Grid.js" ></script>
                 <script type="text/javascript" src="Canvas.js"></script>
+                <script type="text/javascript" src="Hitbox.js"></script>
+                <script type="text/javascript" src="Interact.js"></script>
                 <script type="text/javascript">
                         function test() {
                                 return "lol"
@@ -12,6 +14,7 @@
                                 canvas = document.getElementById('board');
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
+                                        initCanvas(canvas,ctx)
                                 } else {
                                     console.log("browser unsupported")
                                 }

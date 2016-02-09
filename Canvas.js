@@ -2,8 +2,24 @@ function drawRect(coords,diameter,ctx) {
         ctx.fillRect(coords.x,coords.y,diameter,diameter)
 }
 function drawHex(hexCoords,diameter,ctx) {
-        var coords = center(hexToCanvas(hexCoords,diameter),ctx.canvas)
-        drawRect(coords,diameter,ctx);
+        ctx.beginPath()
+        var verts = vertices(hexCoords);
+        var start = center(vertexToCanvas(verts[0],diameter),ctx.canvas)
+        ctx.moveTo(start.x,start.y)
+        var mappingFunction = function(coord) {
+               var point = center(vertexToCanvas(coord,diameter),ctx.canvas);
+               ctx.lineTo(point.x,point.y);
+        }
+        verts.map(mappingFunction)
+        ctx.closePath();
+        ctx.fill();
+}
+function drawHexPoints(hexCoords,diameter,ctx) {
+    var mappingFunction = function(coord) {
+        drawVertex(coord,diameter,ctx);
+    }
+    var coordsList = vertices(hexCoords);
+    coordsList.map(mappingFunction)
 }
 function drawVertex(vertexCoords,diameter,ctx) {
         coords = center(vertexToCanvas(vertexCoords,diameter),ctx.canvas);

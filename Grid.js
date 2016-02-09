@@ -37,9 +37,9 @@ function vertices(hexCoords) {
         return [piecewiseTimes(makePoint(1,2),hexCoords)
                 ,add(identY(1),piecewiseTimes(makePoint(1,2),hexCoords))
                 ,add(identX(1),piecewiseTimes(makePoint(1,2),hexCoords))
-                ,add(identY(-1),piecewiseTimes(makePoint(1,2),hexCoords))
                 ,add(makePoint(1,-1),piecewiseTimes(makePoint(1,2),hexCoords))
-                ,add(makePoint(1,-2),piecewiseTimes(makePoint(1,2),hexCoords))]
+                ,add(makePoint(1,-2),piecewiseTimes(makePoint(1,2),hexCoords))
+                ,add(identY(-1),piecewiseTimes(makePoint(1,2),hexCoords))]
 }
 
 

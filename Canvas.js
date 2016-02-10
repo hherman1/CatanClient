@@ -38,10 +38,10 @@ function drawRect(coords,side,ctx) {
 function hexPath(hexCoords,side,ctx) {
         ctx.beginPath()
         var verts = vertices(hexCoords);
-        var start = center(vertexToCanvas(verts[0],side),ctx.canvas)
+        var start = worldToCanvas(vertexToWorld(verts[0],side),ctx.canvas)
         ctx.moveTo(start.x,start.y)
         var mappingFunction = function(coord) {
-               var point = center(vertexToCanvas(coord,side),ctx.canvas);
+               var point = worldToCanvas(vertexToWorld(coord,side),ctx.canvas);
                ctx.lineTo(point.x,point.y);
         }
         verts.map(mappingFunction)
@@ -60,19 +60,19 @@ function drawHexPoints(hexCoords,side,ctx) {
     coordsList.map(mappingFunction)
 }
 function drawVertex(vertexCoords,side,ctx) {
-        coords = center(vertexToCanvas(vertexCoords,side),ctx.canvas);
+        coords = worldToCanvas(vertexToCanvas(vertexCoords,side),ctx.canvas);
 
         ctx.fillRect(coords.x,coords.y,10,10)
 }
 
-function center(coords,canvas) {
+function worldToCanvas(coords,canvas) {
         return add(makeVector(canvas.width/2, canvas.height/2),coords)
 }
 
-function hexToCanvas(hexcoords,side) {
+function hexToWorld(hexcoords,side) {
     return add(makeVector(-side/2,-side/2),piecewiseTimes(makeVector(side,-side),fromHex(hexcoords)))
 }
-function vertexToCanvas(vcoords,side) {
+function vertexToWorld(vcoords,side) {
     return add(makeVector(-side,-side),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))
 
 }

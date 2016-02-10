@@ -1,13 +1,44 @@
 /* Hitbox Object
  * {center:vector,
  *  dimension:vector, - Positive values 
- *  data: any
+ *  data: any,
+ *  activate: function(mouseevent)
  *  }
  */
 
 testBox = {center: makeVector(0,0),
            dimension: makeVector(5,5),
-           data: makeVector (0,1)}
+           data: makeVector (0,1),
+           activate: function(evt) {
+            console.log(evt);
+           }
+           }
+
+function makeBox(center,dimension,data,activate) {
+    return {center:center,dimension:dimension,data:data,activate:activate}
+}
+
+function updateCenter(box,f) {
+    box.center = f(box.center);
+    return box
+}
+
+function hexBox(hexCoords,side,dimension,activate){
+    return makeBox(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
+}
+
+function runHit(hitList,evt) {
+    var vec = makeVector(evt.offsetx,evt.offsety);
+    getHits(hitList,vec).forEach(function (box) {
+            box.activate(evt)
+    }
+}
+
+function getHits(hitList,coord) {
+    return hitList.filter(function(box) {
+            return isHit(coord,box)
+    })
+}
 
 function topRight(box) {
         return add(box.center,times(0.5,box.dimension))

@@ -23,10 +23,11 @@ function drawTitle(ctx){
 //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
 //created by hherman, edited by sduong [IN PROGRESS]
 function drawBoard(ctx) {
+  //setting the side of hexagon to be a value
   var side = 50;
   //create object holding 19 xy coordinates
   var hCoords = generateHexCoords(side);
-  console.log(hCoords);
+  console.log(hCoords); //check console ...it works!
   //array of possible resource terrains
   var resList = ["lumber","lumber","lumber","lumber",
                   "grain","grain","grain","grain",
@@ -34,10 +35,22 @@ function drawBoard(ctx) {
                   "ore","ore","ore",
                   "brick","brick","brick","nothing"];
   //generate number tokens
-  var tokens = [0,2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
+  var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
   //shuffle them!
-  shuffle(tokens);
   shuffle(resList);
+  shuffle(tokens);
+
+  console.log(resList);
+  var temp = 0;
+  for (var i in resList){
+    
+    temp++;
+    if (i == "nothing"){
+      tokens.splice(temp,0,99); //placing robber on desert
+    }
+  }
+  console.log(tokens);
+
 
   for (var i = 0; i < hCoords.x.length; i++){
       var hcpair = [hCoords.x[i],hCoords.y[i]];

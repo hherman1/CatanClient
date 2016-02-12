@@ -1,6 +1,6 @@
 /* Hitbox Object
  * {center:vector,
- *  dimension:vector, - Positive values 
+ *  dimension:vector, - Positive values
  *  data: any,
  *  activate: function(mouseevent)
  *  }
@@ -29,9 +29,9 @@ function hexBox(hexCoords,side,dimension,activate){
 
 function runHit(hitList,evt) {
     var vec = makeVector(evt.offsetx,evt.offsety);
-    getHits(hitList,vec).forEach(function (box) {
-            box.activate(evt)
-    }
+    getHits(hitList,vec).forEach(function(box) {
+            box.activate(evt);
+    })
 }
 
 function getHits(hitList,coord) {

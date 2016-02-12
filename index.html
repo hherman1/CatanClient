@@ -14,18 +14,23 @@
                                 canvas = document.getElementById('board');
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
+                                        drawTitle(ctx);
+                                        drawBoard(ctx);
                                         initCanvas(canvas,ctx)
                                 } else {
                                     console.log("browser unsupported")
                                 }
                         }
                 </script>
+
                 <style type="text/css">
                     canvas { border: 1px solid black; }
                 </style>
         </head>
         <body onload="main();">
-                <canvas id="board" width="500" height="500"> </canvas>
+          <style>#board { background-color: lightblue; }</style>
+          <canvas id="board" width="1000" height="500"></canvas>
+
 
         </body>
 </html>

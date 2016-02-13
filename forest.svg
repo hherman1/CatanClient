@@ -13,9 +13,9 @@
    id="svg3390"
    version="1.1"
    inkscape:version="0.91 r13725"
-   width="3840"
-   height="2880"
-   viewBox="0 0 3840 2880"
+   width="550"
+   height="550"
+   viewBox="0 0 550 550"
    sodipodi:docname="forest.svg">
   <metadata
      id="metadata3396">
@@ -25,6 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,13 +65,14 @@
      inkscape:window-height="629"
      id="namedview3392"
      showgrid="false"
-     inkscape:zoom="0.14826389"
-     inkscape:cx="1911.6022"
-     inkscape:cy="1448.3978"
-     inkscape:window-x="0"
+     inkscape:zoom="0.85399998"
+     inkscape:cx="255.82495"
+     inkscape:cy="337.66858"
+     inkscape:window-x="70"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg3390" />
+     inkscape:current-layer="svg3390"
+     showborder="true" />
   <image
      width="3840"
      height="2880"
@@ -32565,5 +32567,6 @@ WvbJRC3T/9k=
      x="-8.3978043"
      y="-8.3978043"
      clip-path="url(#clipPath3462)"
-     style="fill:#008000;opacity:1" />
+     style="opacity:1;fill:#008000"
+     transform="matrix(0.18905373,0,0,0.17438997,16.766974,25.237741)" />
 </svg>

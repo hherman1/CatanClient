@@ -52,8 +52,8 @@ function drawBoard(ctx) {
 function getResImg(res){
   //still needs work...i will have to spend some time resizing these photos somehow
   var resources = {};
-  resources.lumber = 'forest.svg';//'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
-  resources.grain = 'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';//labeled for noncommercial reuse
+  resources.lumber = 'forest.svg'; //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
+  resources.grain = 'field.svg'; //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';//labeled for noncommercial reuse
   resources.wool = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg'; //labeled for noncommercial reuse
   resources.ore = 'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';//labeled for noncommercial reuse
   resources.brick = 'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg';//labeled for noncommercial reuse
@@ -113,23 +113,23 @@ function generateHexCoords(side,ctx){
   //generate and x and y coordinates for 19 hexagons
   for (var i = 0; i < 19; i++){
   if (i < 3) { //first row of tiles
-    xco.push(initx+2*w*i);
+    xco.push(initx+2.3*w*i);
     yco.push(inity);
 
   } else if (i < 7){ //second row
-    xco.push(initx-2*side+2*w*(i-2.35));
+    xco.push(initx-2.3*side+2.3*w*(i-2.35));
     yco.push(inity+1.5*side);
 
   } else if (i < 12){ //third row
-    xco.push(initx-4*side+2*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
+    xco.push(initx-4.6*side+2.3*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
     yco.push(inity+3*side);
 
   } else if (i < 16){ //fourth row
-    xco.push(initx-2*side+2*w*(i-11.36));
+    xco.push(initx-2.3*side+2.3*w*(i-11.36));
     yco.push(inity+4.5*side);
   }
   else{ //last row
-    xco.push(initx+2*w*(i-16.02));
+    xco.push(initx+2.3*w*(i-16.02));
     yco.push(inity+6*side);
   }}
 
@@ -173,7 +173,10 @@ function drawSVG(path, hcpair,ctx){
   //execute drawImage statements here
   //}, false);
   img.src = path; //set source path
-  ctx.drawImage(img, hcpair[0], hcpair[1], hcpair[2]*2.9, hcpair[2]*2.8);
+  var x = hcpair[0];
+  var y = hcpair[1];
+  var scale = hcpair[2]*2.5;
+  ctx.drawImage(img, x, y, scale,scale);
 }
 
 function drawRect(coords,side,ctx) {

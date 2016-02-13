@@ -25,46 +25,34 @@ function drawTitle(ctx){
 function drawBoard(ctx) {
   //setting the side of hexagon to be a value
   var side = 50;
-  //create object holding 19 xy coordinates
-  var hCoords = generateHexCoords(side);
+  //create object holding 19 xy coordinates and w value
+  var hCoords = generateHexCoords(side,ctx);
   console.log(hCoords); //check console ...it works!
+
   //array of possible resource terrains
   var resList = ["lumber","lumber","lumber","lumber",
                   "grain","grain","grain","grain",
                   "wool","wool","wool","wool",
                   "ore","ore","ore",
                   "brick","brick","brick","nothing"];
-  //generate number tokens
+  //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-  //shuffle them!
-  shuffle(resList);
-  shuffle(tokens);
+  shuffleRT(resList,tokens);
 
-  console.log(resList);
-  var temp = 0;
-  for (var i in resList){
-    
-    temp++;
-    if (i == "nothing"){
-      tokens.splice(temp,0,99); //placing robber on desert
-    }
-  }
-  console.log(tokens);
-
-
+  //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
-      var hcpair = [hCoords.x[i],hCoords.y[i]];
-
+      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z];
+      console.log(hcpair);
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg(resList[i]);
-      drawTile(hcpair,tiletype,ctx);
+      var tiletype = getResImg('lumber');
+      drawTile(hcpair,tiletype,side,ctx);
   }
 }
 
 function getResImg(res){
   //still needs work...i will have to spend some time resizing these photos somehow
   var resources = {};
-  resources.lumber = 'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
+  resources.lumber = 'forest.svg';//'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
   resources.grain = 'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';//labeled for noncommercial reuse
   resources.wool = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg'; //labeled for noncommercial reuse
   resources.ore = 'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';//labeled for noncommercial reuse
@@ -74,6 +62,22 @@ function getResImg(res){
 
 }
 
+//shuffles the resources and number tokens and includes the robber to be set on the desert.
+//created by sduong
+function shuffleRT(resList,tokens){
+  //shuffle them!
+  shuffle(resList);
+  shuffle(tokens);
+
+  var temp = 0;
+  for (var i in resList){
+    if (resList[i] == "nothing"){
+      tokens.splice(temp,0,99); //placing robber (99) on desert
+    }
+    temp++;
+  }
+
+}
 //function to shuffle up the number tokens
 //Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 
@@ -97,14 +101,14 @@ function shuffle(array) {
 }
 
 //generates an object that stores 19 x and y coordinates for the hexagons
-function generateHexCoords(side){
+function generateHexCoords(side,ctx){
   var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2)); //half of the hexagon, from center to side
   var xco = [];
   var yco = [];
 
   //initial xy to place board
-  var initx = canvas.width/5; //distance from left canvas border
-  var inity = canvas.height/3.5; //distance from top canvas border
+  var initx = ctx.canvas.width/5; //distance from left canvas border
+  var inity = ctx.canvas.height/6; //distance from top canvas border
 
   //generate and x and y coordinates for 19 hexagons
   for (var i = 0; i < 19; i++){
@@ -133,7 +137,8 @@ function generateHexCoords(side){
   console.log(xco.length,yco.length);
   var hexCoords = {
     x:xco,
-    y:yco
+    y:yco,
+    z: w
   };
   return hexCoords;
 }
@@ -150,17 +155,25 @@ function drawBuilding(vert,color,building,ctx) {
 }
 
 // takes the hexcoord and tiletype (includes number) and draws it on the ctx
-function drawTile(hexcoord,tiletype,ctx) {
+function drawTile(hcpair,tiletype,side,ctx) {
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1;
-  hexPath(hexcoord,6,ctx);
-  //polygon(ctx, xco[i],yco[i],side,6,-Math.PI/2);
-  //ctx.fillStyle=color;
+  hexPath(hcpair,6,ctx);
+  drawSVG(tiletype, hcpair,ctx);
   ctx.fill();
   ctx.stroke();
 
 
+}
+
+function drawSVG(path, hcpair,ctx){
+  var img = new Image(); //create new image element
+  //img.addEventListener("load", function() {
+  //execute drawImage statements here
+  //}, false);
+  img.src = path; //set source path
+  ctx.drawImage(img, hcpair[0], hcpair[1], hcpair[2]*2.9, hcpair[2]*2.8);
 }
 
 function drawRect(coords,side,ctx) {

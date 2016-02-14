@@ -15,7 +15,7 @@ function rollDice(){
 }
 
 function drawRoll(roll1, roll2,rsum){
-  ctx.fillStyle = '#2B65EC';
+  ctx.fillStyle = '#C2DFFF';
   ctx.fillRect(ctx.canvas.width/100,ctx.canvas.height/9,175,30);
   ctx.font = "bold 24px Courier New";
   ctx.fillStyle = "white";

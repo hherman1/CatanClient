@@ -9,6 +9,6 @@ function moveRobber(){
 function drawRobber(x, y, z, ctx){
   var rob = new Image();
   rob.src = 'graphics/robber.svg';
-  ctx.drawImage(rob, x-15, y-(z*.75), z, z*1.25);
+  ctx.drawImage(rob, x-15, y-(z*0.75), z, z*1.25);
 
 }

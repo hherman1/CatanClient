@@ -19,5 +19,6 @@ function settler(){
 
 function selectColor(){
   var color = "yellow"; //for now i'm just going to make users be yellow
+  //colors for select from (4): red, blue, yellow, white <--Catan colors (we can change this if we want)
   return color;
 }

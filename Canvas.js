@@ -174,7 +174,7 @@ function drawSVG(path, hcpair,ctx){
   var scale = hcpair[2]*2.5;
   ctx.drawImage(img, x, y, scale, scale);
 }
-
+///////////////////////////////////////////////////////////////////////////////
 function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }

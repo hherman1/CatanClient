@@ -29,22 +29,15 @@ function drawBoard(ctx) {
   var hCoords = generateHexCoords(side,ctx);
   console.log(hCoords); //check console ...it works!
 
-  //array of possible resource terrains
-  var resList = ["lumber","lumber","lumber","lumber",
-                  "grain","grain","grain","grain",
-                  "wool","wool","wool","wool",
-                  "ore","ore","ore",
-                  "brick","brick","brick","nothing"];
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-  shuffleRT(resList,tokens);
-  console.log(resList)
+
+  shuffleRT(getResList(),tokens);
   //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
       var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z];
-      console.log(resList[i]);
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg(resList[i]);
+      var tiletype = getResImg(getResList()[i]);
       drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
       drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
   }
@@ -80,18 +73,7 @@ function drawToken(res,hcpair, token, ctx){
 
 }
 
-function getResImg(res){
-  //still needs work...i will have to spend some time resizing these photos somehow
-  var resources = {};
-  resources.lumber = 'graphics/forest.svg'; //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
-  resources.grain = 'graphics/field.svg'; //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';//labeled for noncommercial reuse
-  resources.wool = 'graphics/pasture.svg'; //'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg'; //labeled for noncommercial reuse
-  resources.ore = 'graphics/mountains.svg'; //'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';//labeled for noncommercial reuse
-  resources.brick = 'graphics/hills.svg'; //'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg';//labeled for noncommercial reuse
-  resources.nothing = 'graphics/desert.svg'; //"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg"; //labeled for noncommercial reuse
-  return resources[res];
 
-}
 
 //shuffles the resources and number tokens and includes the robber to be set on the desert.
 //created by sduong
@@ -172,17 +154,6 @@ function generateHexCoords(side,ctx){
     z: w
   };
   return hexCoords;
-}
-
-
-//takes the start and end points of the road and a color and draws it on the ctx
-function drawRoad(verta,vertb,color,ctd) {
-
-}
-
-//takes the vertex coordinate, color, and building type and draws it on the ctx
-function drawBuilding(vert,color,building,ctx) {
-
 }
 
 // takes the hexcoord and tiletype (includes number) and draws it on the ctx

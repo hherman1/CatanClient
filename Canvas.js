@@ -56,18 +56,25 @@ function drawToken(res,hcpair, token, ctx){
   	ctx.beginPath();
     var xctx = hcpair[0]+hcpair[2]*1.2;
     var yctx = hcpair[1]+hcpair[2]*1.2;
-    ctx.fillStyle="white";
+    ctx.fillStyle="beige";
   	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI);
   	ctx.fill();
   	ctx.stroke();
 	if (res != "nothing") {
-		ctx.font = "24px Times New Roman";
-		ctx.fillStyle="black";
-		ctx.fillText(String(token),xctx-9,yctx+10);
+    if (token == 6 || token == 8){
+  		ctx.fillStyle="red";
+    }
+    else{
+
+  		ctx.fillStyle="black";
+    }
+    ctx.font = "24px Times New Roman";
+    ctx.fillText(String(token),xctx-9,yctx+10);
+
 	} else{
     var rob = new Image();
     rob.src = 'robber.svg';
-    ctx.drawImage(rob, xctx-15, yctx-80,50,90);
+    ctx.drawImage(rob, xctx-15, yctx-(hcpair[2]*.75),hcpair[2],hcpair[2]*1.25);
 
 	}
 

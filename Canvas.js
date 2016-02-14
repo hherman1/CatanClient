@@ -45,8 +45,32 @@ function drawBoard(ctx) {
       console.log(resList[i]);
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
       var tiletype = getResImg(resList[i]);
-      drawTile(hcpair,tiletype,side,ctx);
+      drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
+      drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
   }
+}
+
+function drawToken(res,hcpair, token, ctx){
+    ctx.strokeStyle="black"
+  	ctx.lineWidth=1;
+  	ctx.beginPath();
+    var xctx = hcpair[0]+hcpair[2]*1.2;
+    var yctx = hcpair[1]+hcpair[2]*1.2;
+    ctx.fillStyle="white";
+  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI);
+  	ctx.fill();
+  	ctx.stroke();
+	if (res != "nothing") {
+		ctx.font = "24px Times New Roman";
+		ctx.fillStyle="black";
+		ctx.fillText(String(token),xctx-9,yctx+10);
+	} else{
+    var rob = new Image();
+    rob.src = 'robber.svg';
+    ctx.drawImage(rob, xctx-15, yctx-80,50,90);
+
+	}
+
 }
 
 function getResImg(res){
@@ -107,8 +131,8 @@ function generateHexCoords(side,ctx){
   var yco = [];
 
   //initial xy to place board
-  var initx = ctx.canvas.width/5; //distance from left canvas border
-  var inity = ctx.canvas.height/6; //distance from top canvas border
+  var initx = ctx.canvas.width/3; //distance from left canvas border
+  var inity = ctx.canvas.height/10; //distance from top canvas border
 
   //generate and x and y coordinates for 19 hexagons
   for (var i = 0; i < 19; i++){
@@ -159,7 +183,7 @@ function drawTile(hcpair,tiletype,side,ctx) {
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1;
-  hexPath(hcpair,6,ctx);
+  hexPath(hcpair,6,ctx); //not sure if this does anything?
   drawSVG(tiletype, hcpair,ctx);
   ctx.fill();
   ctx.stroke();
@@ -169,9 +193,6 @@ function drawTile(hcpair,tiletype,side,ctx) {
 
 function drawSVG(path, hcpair,ctx){
   var img = new Image(); //create new image element
-  //img.addEventListener("load", function() {
-  //execute drawImage statements here
-  //}, false);
   img.src = path; //set source path
   var x = hcpair[0];
   var y = hcpair[1];

@@ -6,6 +6,7 @@
                 <script type="text/javascript" src="Canvas.js"></script>
                 <script type="text/javascript" src="Hitbox.js"></script>
                 <script type="text/javascript" src="Interact.js"></script>
+                <script type="text/javascript" src="Dice.js"></script>
                 <script type="text/javascript">
                         function test() {
                                 return "lol"
@@ -31,7 +32,7 @@
           <style>#board { background-color: blue; }</style>
           <canvas id="board" width="1000" height="500"></canvas>
           <br>
-
+          <input type="button" value="ROLL DICE" onclick="rollDice()">
           <!--For some reason this code needs to be here as the "source" to load images on the board.-->
           <img src="forest.svg" width='0',height='0'>
           <img src="field.svg" width='0',height='0'>

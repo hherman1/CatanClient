@@ -38,13 +38,13 @@ function drawBoard(ctx) {
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
   shuffleRT(resList,tokens);
-
+  console.log(resList)
   //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
       var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z];
-      console.log(hcpair);
+      console.log(resList[i]);
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg('lumber');
+      var tiletype = getResImg(resList[i]);
       drawTile(hcpair,tiletype,side,ctx);
   }
 }

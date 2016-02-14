@@ -8,6 +8,7 @@
                 <script type="text/javascript" src="Interact.js"></script>
                 <script type="text/javascript" src="Dice.js"></script>
                 <script type="text/javascript" src="Resource.js"></script>
+                <script type="text/javascript" src="Robber.js"></script>
                 <script type="text/javascript">
                         function test() {
                                 return "lol"
@@ -17,7 +18,6 @@
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
                                         drawTitle(ctx);
-                                        //drawBoard(ctx);
                                         initCanvas(canvas,ctx)
                                 } else {
                                     console.log("browser unsupported")
@@ -30,7 +30,7 @@
                 </style>
         </head>
         <body onload="main();">
-          <style>#board { background-color: blue; }</style>
+          <style>#board { background-color: #2B65EC; }</style>
           <canvas id="board" width="1000" height="500"></canvas>
           <br>
           <input type="button" value="NEW GAME" onclick="drawBoard(ctx)">

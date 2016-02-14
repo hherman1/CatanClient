@@ -1,4 +1,4 @@
-
+//RESOURCE
 //array of possible resource terrains
 var resList = ["lumber","lumber","lumber","lumber",
                 "grain","grain","grain","grain",

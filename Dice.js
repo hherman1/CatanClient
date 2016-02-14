@@ -1,4 +1,4 @@
-//
+//DICE
 //generate roll of 2 dice
 //created by sduong
 
@@ -8,12 +8,15 @@ function rollDice(){
   var rsum = 0;
 	rsum = roll1 + roll2;
   drawRoll(roll1,roll2,rsum);
+	if (rsum == 7){
+		moveRobber();
+	}
   return rsum;
 }
 
 function drawRoll(roll1, roll2,rsum){
-  //ctx.fillStyle = "blue";
-  //ctx.fillRect(ctx.canvas.width/100,ctx.canvas.height/9,475,24);
+  ctx.fillStyle = '#2B65EC';
+  ctx.fillRect(ctx.canvas.width/100,ctx.canvas.height/9,175,30);
   ctx.font = "bold 24px Courier New";
   ctx.fillStyle = "white";
   //ctx.fillText("ROLL RESULTS: " + roll1 + ", " + roll2,canvas.width/100,canvas.height/7);

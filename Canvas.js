@@ -10,7 +10,9 @@
  * - Render Thiefs
  * - Render trade ports
  * - ?
- */
+ *///^notes?
+
+//CANVAS
 
 //Draws title of the canvas
 //created by sduong
@@ -27,15 +29,16 @@ function drawBoard(ctx) {
   var side = 50;
   //create object holding 19 xy coordinates and w value
   var hCoords = generateHexCoords(side,ctx);
-  console.log(hCoords); //check console ...it works!
+  //console.log(hCoords); //check console ...it works!
 
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 
-  shuffleRT(getResList(),tokens);
+  shuffleRT(getResList(),tokens); //shuffles the resources and tokesn so we get a new board each time!
+
   //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
-      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z];
+      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
       var tiletype = getResImg(getResList()[i]);
       drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
@@ -43,14 +46,16 @@ function drawBoard(ctx) {
   }
 }
 
+//draw them tokens
+//created by sduong
 function drawToken(res,hcpair, token, ctx){
-    ctx.strokeStyle="black"
-  	ctx.lineWidth=1;
-  	ctx.beginPath();
     var xctx = hcpair[0]+hcpair[2]*1.2;
     var yctx = hcpair[1]+hcpair[2]*1.2;
-    ctx.fillStyle="beige";
-  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI);
+    ctx.strokeStyle="black"; //draw a black border for the number
+  	ctx.lineWidth=1; //with width 1
+  	ctx.beginPath();
+    ctx.fillStyle="beige"; //fill color of the token
+  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
   	ctx.fill();
   	ctx.stroke();
 	if (res != "nothing") {
@@ -58,22 +63,15 @@ function drawToken(res,hcpair, token, ctx){
   		ctx.fillStyle="red";
     }
     else{
-
   		ctx.fillStyle="black";
     }
     ctx.font = "24px Times New Roman";
     ctx.fillText(String(token),xctx-9,yctx+10);
 
 	} else{
-    var rob = new Image();
-    rob.src = 'graphics/robber.svg';
-    ctx.drawImage(rob, xctx-15, yctx-(hcpair[2]*.75),hcpair[2],hcpair[2]*1.25);
-
+      drawRobber(xctx,yctx,hcpair[2],ctx);
 	}
-
 }
-
-
 
 //shuffles the resources and number tokens and includes the robber to be set on the desert.
 //created by sduong
@@ -81,19 +79,17 @@ function shuffleRT(resList,tokens){
   //shuffle them!
   shuffle(resList);
   shuffle(tokens);
-
   var temp = 0;
   for (var i in resList){
     if (resList[i] == "nothing"){
-      tokens.splice(temp,0,99); //placing robber (99) on desert
+      tokens.splice(temp,0,99); //placing robber (99) on desert at the beginning of game
     }
     temp++;
   }
-
 }
+
 //function to shuffle up the number tokens
 //Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -109,11 +105,11 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }
 
 //generates an object that stores 19 x and y coordinates for the hexagons
+//created by sduong
 function generateHexCoords(side,ctx){
   var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2)); //half of the hexagon, from center to side
   var xco = [];
@@ -161,7 +157,7 @@ function drawTile(hcpair,tiletype,side,ctx) {
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1;
-  hexPath(hcpair,6,ctx); //not sure if this does anything?
+  //hexPath(hcpair,6,ctx); //not sure if this does anything?
   drawSVG(tiletype, hcpair,ctx);
   ctx.fill();
   ctx.stroke();
@@ -169,13 +165,14 @@ function drawTile(hcpair,tiletype,side,ctx) {
 
 }
 
+//draws the image of the terrain on the board
 function drawSVG(path, hcpair,ctx){
   var img = new Image(); //create new image element
   img.src = path; //set source path
   var x = hcpair[0];
   var y = hcpair[1];
   var scale = hcpair[2]*2.5;
-  ctx.drawImage(img, x, y, scale,scale);
+  ctx.drawImage(img, x, y, scale, scale);
 }
 
 function drawRect(coords,side,ctx) {

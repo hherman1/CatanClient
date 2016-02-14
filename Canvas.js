@@ -143,7 +143,7 @@ function generateHexCoords(side,ctx){
   }}
 
   //to check the array of coordinate values
-  console.log(xco.length,yco.length);
+  //console.log(xco.length,yco.length);
   var hexCoords = {
     x:xco,
     y:yco,

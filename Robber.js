@@ -5,7 +5,7 @@ function moveRobber(){
   //move the robber!
   //getSettlers //to check which settlers are settled around the terrain/hexagon. this will be a getter method.
   //robSettler //rob one of the settlers of their resources
-  console.log("we moved the robber oh yeahh");
+  console.log("777 we moved the robber oh yeahh");
 }
 
 function drawRobber(x, y, z, ctx){

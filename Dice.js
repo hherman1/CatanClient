@@ -18,7 +18,7 @@ function drawRoll(roll1, roll2,rsum){
   ctx.fillStyle = '#C2DFFF';
   ctx.fillRect(ctx.canvas.width/100,ctx.canvas.height/9,175,30);
   ctx.font = "bold 24px Courier New";
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "#6AA121";
   //ctx.fillText("ROLL RESULTS: " + roll1 + ", " + roll2,canvas.width/100,canvas.height/7);
   ctx.fillText("ROLL SUM: " + rsum, canvas.width/100,canvas.height/6);
 }

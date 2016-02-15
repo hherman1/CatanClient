@@ -36,11 +36,15 @@ function drawBoard(ctx) {
 
   shuffleRT(getResList(),tokens); //shuffles the resources and tokesn so we get a new board each time!
 
+  //store all terrain nodes in one place
+  var allTerrainNodes = {};
+
   //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
       var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
       var tiletype = getResImg(getResList()[i]);
+      allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null);
       drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
       drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
   }
@@ -108,6 +112,20 @@ function shuffle(array) {
   return array;
 }
 
+
+// takes the hexcoord and tiletype (includes number) and draws it on the ctx
+function drawTile(hcpair,tiletype,side,ctx) {
+  ctx.beginPath();
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 1;
+  //hexPath(hcpair,6,ctx); //not sure if this does anything?
+  drawSVG(tiletype, hcpair,ctx);
+  ctx.fill();
+  ctx.stroke();
+
+
+}
+
 //generates an object that stores 19 x and y coordinates for the hexagons
 //created by sduong
 function generateHexCoords(side,ctx){
@@ -121,26 +139,27 @@ function generateHexCoords(side,ctx){
 
   //generate and x and y coordinates for 19 hexagons
   for (var i = 0; i < 19; i++){
-  if (i < 3) { //first row of tiles
-    xco.push(initx+2.3*w*i);
-    yco.push(inity);
 
-  } else if (i < 7){ //second row
-    xco.push(initx-2.3*side+2.3*w*(i-2.35));
-    yco.push(inity+1.5*side);
+    if (i < 3) { //first row of tiles
+      xco.push(initx+2.3*w*i);
+      yco.push(inity);
 
-  } else if (i < 12){ //third row
-    xco.push(initx-4.6*side+2.3*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
-    yco.push(inity+3*side);
+    } else if (i < 7){ //second row
+      xco.push(initx-2.3*side+2.3*w*(i-2.35));
+      yco.push(inity+1.5*side);
 
-  } else if (i < 16){ //fourth row
-    xco.push(initx-2.3*side+2.3*w*(i-11.36));
-    yco.push(inity+4.5*side);
-  }
-  else{ //last row
-    xco.push(initx+2.3*w*(i-16.02));
-    yco.push(inity+6*side);
-  }}
+    } else if (i < 12){ //third row
+      xco.push(initx-4.6*side+2.3*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
+      yco.push(inity+3*side);
+
+    } else if (i < 16){ //fourth row
+      xco.push(initx-2.3*side+2.3*w*(i-11.36));
+      yco.push(inity+4.5*side);
+    }
+    else{ //last row
+      xco.push(initx+2.3*w*(i-16.02));
+      yco.push(inity+6*side);
+    }}
 
   //to check the array of coordinate values
   //console.log(xco.length,yco.length);
@@ -150,19 +169,6 @@ function generateHexCoords(side,ctx){
     z: w
   };
   return hexCoords;
-}
-
-// takes the hexcoord and tiletype (includes number) and draws it on the ctx
-function drawTile(hcpair,tiletype,side,ctx) {
-  ctx.beginPath();
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 1;
-  //hexPath(hcpair,6,ctx); //not sure if this does anything?
-  drawSVG(tiletype, hcpair,ctx);
-  ctx.fill();
-  ctx.stroke();
-
-
 }
 
 //draws the image of the terrain on the board

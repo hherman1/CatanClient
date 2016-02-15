@@ -21,3 +21,5 @@ function getResImg(res){
   return resources[res];
 
 }
+
+//wood image src: https://static.pexels.com/photos/5766/wood-fireplace-horizontal.jpg

@@ -16,9 +16,8 @@ function initGame(ctx) {
 
 
 
-function gameStep(mousebuffer,hitboxes,ctx) {
+function gameStep(mousebuffer,hitboxes,gamestate,server,ctx) {
         var hits = processHits(mousebuffer,hitboxes);
-
 
 
         flushMouseEvents(mousebuffer);

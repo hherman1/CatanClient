@@ -10,7 +10,9 @@
  * - Render Thiefs
  * - Render trade ports
  * - ?
- */
+ *///^notes?
+
+//CANVAS
 
 //Draws title of the canvas
 //created by sduong
@@ -25,58 +27,76 @@ function drawTitle(ctx){
 function drawBoard(ctx) {
   //setting the side of hexagon to be a value
   var side = 50;
-  //create object holding 19 xy coordinates
-  var hCoords = generateHexCoords(side);
-  console.log(hCoords); //check console ...it works!
-  //array of possible resource terrains
-  var resList = ["lumber","lumber","lumber","lumber",
-                  "grain","grain","grain","grain",
-                  "wool","wool","wool","wool",
-                  "ore","ore","ore",
-                  "brick","brick","brick","nothing"];
-  //generate number tokens
+  //create object holding 19 xy coordinates and w value
+  var hCoords = generateHexCoords(side,ctx);
+  //console.log(hCoords); //check console ...it works!
+
+  //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-  //shuffle them!
-  shuffle(resList);
-  shuffle(tokens);
 
-  console.log(resList);
-  var temp = 0;
-  for (var i in resList){
-    
-    temp++;
-    if (i == "nothing"){
-      tokens.splice(temp,0,99); //placing robber on desert
-    }
-  }
-  console.log(tokens);
+  shuffleRT(getResList(),tokens); //shuffles the resources and tokesn so we get a new board each time!
 
+  //store all terrain nodes in one place
+  var allTerrainNodes = {}; //there should be 19 of the node objects here
+  var allSettleSpaces = {}; //there should be 54 of the node objects here
 
+  //we want to draw a hexagon at each of the hexagon coordinates...
   for (var i = 0; i < hCoords.x.length; i++){
-      var hcpair = [hCoords.x[i],hCoords.y[i]];
-
+      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
       //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg(resList[i]);
-      drawTile(hcpair,tiletype,ctx);
+      var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
+      allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
+      drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
+      drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
+
+      //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
   }
 }
 
-function getResImg(res){
-  //still needs work...i will have to spend some time resizing these photos somehow
-  var resources = {};
-  resources.lumber = 'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg'; //labeled for noncommercial reuse
-  resources.grain = 'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';//labeled for noncommercial reuse
-  resources.wool = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg'; //labeled for noncommercial reuse
-  resources.ore = 'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';//labeled for noncommercial reuse
-  resources.brick = 'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg';//labeled for noncommercial reuse
-  resources.nothing = "https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg"; //labeled for noncommercial reuse
-  return resources[res];
+//draw them tokens
+//created by sduong
+function drawToken(res,hcpair, token, ctx){
+    var xctx = hcpair[0]+hcpair[2]*1.2;
+    var yctx = hcpair[1]+hcpair[2]*1.2;
+    ctx.strokeStyle="black"; //draw a black border for the number
+  	ctx.lineWidth=1; //with width 1
+  	ctx.beginPath();
+    ctx.fillStyle="beige"; //fill color of the token
+  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
+  	ctx.fill();
+  	ctx.stroke();
+	if (res != "nothing") {
+    if (token == 6 || token == 8){
+  		ctx.fillStyle="red";
+    }
+    else{
+  		ctx.fillStyle="black";
+    }
+    ctx.font = "24px Times New Roman";
+    ctx.fillText(String(token),xctx-9,yctx+10);
 
+	} else{
+      drawRobber(xctx,yctx,hcpair[2],ctx);
+	}
+}
+
+//shuffles the resources and number tokens and includes the robber to be set on the desert.
+//created by sduong
+function shuffleRT(resList,tokens){
+  //shuffle them!
+  shuffle(resList);
+  shuffle(tokens);
+  var temp = 0;
+  for (var i in resList){
+    if (resList[i] == "nothing"){
+      tokens.splice(temp,0,99); //placing robber (99) on desert at the beginning of game
+    }
+    temp++;
+  }
 }
 
 //function to shuffle up the number tokens
 //Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -92,77 +112,78 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }
 
-//generates an object that stores 19 x and y coordinates for the hexagons
-function generateHexCoords(side){
-  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2)); //half of the hexagon, from center to side
-  var xco = [];
-  var yco = [];
-
-  //initial xy to place board
-  var initx = canvas.width/5; //distance from left canvas border
-  var inity = canvas.height/3.5; //distance from top canvas border
-
-  //generate and x and y coordinates for 19 hexagons
-  for (var i = 0; i < 19; i++){
-  if (i < 3) { //first row of tiles
-    xco.push(initx+2*w*i);
-    yco.push(inity);
-
-  } else if (i < 7){ //second row
-    xco.push(initx-2*side+2*w*(i-2.35));
-    yco.push(inity+1.5*side);
-
-  } else if (i < 12){ //third row
-    xco.push(initx-4*side+2*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
-    yco.push(inity+3*side);
-
-  } else if (i < 16){ //fourth row
-    xco.push(initx-2*side+2*w*(i-11.36));
-    yco.push(inity+4.5*side);
-  }
-  else{ //last row
-    xco.push(initx+2*w*(i-16.02));
-    yco.push(inity+6*side);
-  }}
-
-  //to check the array of coordinate values
-  console.log(xco.length,yco.length);
-  var hexCoords = {
-    x:xco,
-    y:yco
-  };
-  return hexCoords;
-}
-
-
-//takes the start and end points of the road and a color and draws it on the ctx
-function drawRoad(verta,vertb,color,ctd) {
-
-}
-
-//takes the vertex coordinate, color, and building type and draws it on the ctx
-function drawBuilding(vert,color,building,ctx) {
-
-}
 
 // takes the hexcoord and tiletype (includes number) and draws it on the ctx
-function drawTile(hexcoord,tiletype,ctx) {
+function drawTile(hcpair,tiletype,side,ctx) {
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1;
-  hexPath(hexcoord,6,ctx);
-  //polygon(ctx, xco[i],yco[i],side,6,-Math.PI/2);
-  //ctx.fillStyle=color;
+  //hexPath(hcpair,6,ctx); //not sure if this does anything?
+  drawSVG(tiletype, hcpair,ctx);
   ctx.fill();
   ctx.stroke();
 
 
 }
 
+//generates an object that stores 19 x and y coordinates for the hexagons
+//created by sduong
+function generateHexCoords(side,ctx){
+  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2)); //half of the hexagon, from center to side
+  var xco = [];
+  var yco = [];
+
+  //initial xy to place board
+  var initx = ctx.canvas.width/3; //distance from left canvas border
+  var inity = ctx.canvas.height/10; //distance from top canvas border
+
+  //generate and x and y coordinates for 19 hexagons
+  for (var i = 0; i < 19; i++){
+
+    if (i < 3) { //first row of tiles
+      xco.push(initx+2.3*w*i);
+      yco.push(inity);
+
+    } else if (i < 7){ //second row
+      xco.push(initx-2.3*side+2.3*w*(i-2.35));
+      yco.push(inity+1.5*side);
+
+    } else if (i < 12){ //third row
+      xco.push(initx-4.6*side+2.3*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
+      yco.push(inity+3*side);
+
+    } else if (i < 16){ //fourth row
+      xco.push(initx-2.3*side+2.3*w*(i-11.36));
+      yco.push(inity+4.5*side);
+    }
+    else{ //last row
+      xco.push(initx+2.3*w*(i-16.02));
+      yco.push(inity+6*side);
+    }}
+
+  //to check the array of coordinate values
+  //console.log(xco.length,yco.length);
+  var hexCoords = {
+    x:xco,
+    y:yco,
+    z: w
+  };
+  return hexCoords;
+}
+
+//draws the image of the terrain on the board
+function drawSVG(path, hcpair,ctx){
+  var img = new Image(); //create new image element
+  img.src = path; //set source path
+  var x = hcpair[0];
+  var y = hcpair[1];
+  var scale = hcpair[2]*2.5;
+  ctx.drawImage(img, x, y, scale, scale);
+}
+///////////////////////////////////////////////////////////////////////////////
 function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }

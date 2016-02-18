@@ -51,10 +51,10 @@ function drawBoard(ctx) {
   //
   //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
   // }
-  var hc = buildRegularHexFramework(3);
+  var hc = buildRegularHexFramework(5);
   for (i in hc){
     ctx.fillStyle = "green";
-    hexPath(makeVector(0,0),side,ctx);
+    hexPath(makeVector(hc[i].coordinates.x,hc[i].coordinates.y),side,ctx);
     ctx.fill();
     ctx.stroke();
   }

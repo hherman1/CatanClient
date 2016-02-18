@@ -28,7 +28,7 @@ function drawBoard(ctx) {
   //setting the side of hexagon to be a value
   var side = 50;
   //create object holding 19 xy coordinates and w value
-  var hCoords = generateHexCoords(side,ctx);
+  //var hCoords = generateHexCoords(side,ctx);
   //console.log(hCoords); //check console ...it works!
 
   //generate number tokens aka the possible dice outcomes
@@ -51,10 +51,14 @@ function drawBoard(ctx) {
   //
   //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
   // }
-  ctx.fillStyle = "green";
-  hexPath(makeVector(0,0),side,ctx);
-  ctx.fill();
-  ctx.stroke();
+  var hc = buildRegularHexFramework(3);
+  for (i in hc){
+    ctx.fillStyle = "green";
+    hexPath(makeVector(0,0),side,ctx);
+    ctx.fill();
+    ctx.stroke();
+  }
+
 }
 
 //draw them tokens

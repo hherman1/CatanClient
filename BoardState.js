@@ -14,7 +14,7 @@ function makeVertex(settled, team){
 }
 
 /* Returns a dictionary, the keys of which refer to coordinates on the hexagonal plane
- * and the values of which are the vertex objects. The 
+ * and the values of which are the vertex objects. The
  */
 
 function buildVertexFramework(coordList){
@@ -33,8 +33,8 @@ function makeHexObject(resource, token){   //TODO: Naming Conventions?
 /* buildRegularHexFramework
  * Function builds a dictionary, the keys of which are hex coordinates(contained in arrays -
  * the first value is the x coordinate, the second the y) and the values of which are
- * hex objects. This represents a regular hexagonal board - that is to say, like a normal 
- * catan board - with a width at the highest point of width. 
+ * hex objects. This represents a regular hexagonal board - that is to say, like a normal
+ * catan board - with a width at the highest point of width.
  */
 
 function buildRegularHexFramework(width){

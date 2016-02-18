@@ -10,13 +10,24 @@ function initGame(ctx) {
 
         var frameDuration = 10;
 
+        var server = null; //newServer()
+        var gamestate = server.getState();
 
-        window.setInterval(gameStep,frameDuration,mousebuffer,ctx)
+        var uiaction = null; //None?
+
+
+        window.setInterval(gameStep,frameDuration
+                            ,mousebuffer
+                            ,hitboxes
+                            ,uiaction
+                            ,gamestate
+                            ,server
+                            ,ctx);
 }
 
 
 
-function gameStep(mousebuffer,hitboxes,gamestate,server,ctx) {
+function gameStep(mousebuffer,hitboxes,uiaction,gamestate,server,ctx) {
         var hits = processHits(mousebuffer,hitboxes);
 
 

@@ -23,11 +23,12 @@ function buildVertexFramework(coordList){
 
 /* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
- * num: integer from 2 to 12, 7 indicating robber}
+ * num: integer from 2 to 12, 7 indicating robber
+ * coordiantes: vector object containing hex's coordinates.}
  */
 
-function makeHexObject(resource, token){   //TODO: Naming Conventions?
-	return {resource:resource, token:token}
+function makeHexObject(resource, token, coordinates){   //TODO: Naming Conventions?
+	return {resource:resource, token:token, coordinates:coordinates}
 }
 
 /* buildRegularHexFramework
@@ -38,7 +39,7 @@ function makeHexObject(resource, token){   //TODO: Naming Conventions?
  */
 
 function buildRegularHexFramework(width){
-	var tileFrame = {};
+	var tileFrame = [];
 	resList = shuffle(baseResourceList);
 	tokList = shuffle(baseTokenList);
 	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){
@@ -51,11 +52,17 @@ function buildRegularHexFramework(width){
 			else{
 				tok = tokList.pop();
 			}
-			tileFrame[[i,j+yShift]] = makeHexObject(res,tok);
+			coords = makeVector(i, j+yShift);
+			tileFrame.push() = makeHexObject(res,tok,coords);
 		}
 	}
 	return tileFrame
 }
+
+/* Helper function to be used in building a regular Hex Framwork. Determines where
+ * each diagonal y-column should begin.
+ *
+ */
 
 function generateYShift(width, xcoord){
 	if(xcoord>=0){

@@ -1,18 +1,15 @@
 /* Hitbox Object
  * {center:vector,
  *  dimension:vector, - Positive values
- *  data: any,
- *  activate: function(mouseevent)
+ *  data: any
  *  }
  */
 
 testBox = {center: makeVector(0,0),
            dimension: makeVector(5,5),
            data: makeVector (0,1),
-           activate: function(evt) {
-            console.log(evt);
            }
-           }
+
 
 function makeBox(center,dimension,data,activate) {
     return {center:center,dimension:dimension,data:data,activate:activate}
@@ -27,12 +24,6 @@ function hexBox(hexCoords,side,dimension,activate){
     return makeBox(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
 }
 
-function runHit(hitList,evt) {
-    var vec = makeVector(evt.offsetx,evt.offsety);
-    getHits(hitList,vec).forEach(function(box) {
-            box.activate(evt);
-    })
-}
 
 function getHits(hitList,coord) {
     return hitList.filter(function(box) {

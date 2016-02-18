@@ -41,16 +41,20 @@ function drawBoard(ctx) {
   var allSettleSpaces = {}; //there should be 54 of the node objects here
 
   //we want to draw a hexagon at each of the hexagon coordinates...
-  for (var i = 0; i < hCoords.x.length; i++){
-      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
-      //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
-      allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
-      drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
-      drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
-
-      //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
-  }
+  // for (var i = 0; i < hCoords.x.length; i++){
+  //     var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
+  //     //tiletype here...will be the "image link" to superimpose it onto the hexagon...
+  //     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
+  //     allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
+  //     drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
+  //     drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
+  //
+  //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
+  // }
+  ctx.fillStyle = "green";
+  hexPath(makeVector(0,0),side,ctx);
+  ctx.fill();
+  ctx.stroke();
 }
 
 //draw them tokens

@@ -1,152 +1,69 @@
 //Global Variables
 
-nodeRowSize = [3,4,4,5,5,6,6,5,5,4,4,3];
 baseResourceList = ["d", "w", "w", "w", "w", "s", "s", "s", "s", "l", "l", "l", "l",
 "o", "o", "o", "b", "b", "b"];
-baseValueList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
-tileRowSize = [3,4,5,4,3];
+baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
-/* Node Object
+/* Vertex Object
  * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city),
- * team:integer(0 indicates none, numbered 1 through 4 otherwise),
- * coords:array(first value is frame y-coord, 2nd is frame x-coord)}
+ * team:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-function makeNode(settled, team, coords){
-	return {settled:settled, team:team, coords:coords}
+function makeVertex(settled, team){
+	return {settled:settled, team:team}
 }
 
-/* getNeighbors takes in a node on a catan board and returns a list of its 2-3 neighbors.
- * This function will likely be used in checking building legality.
+/* Returns a dictionary, the keys of which refer to coordinates on the hexagonal plane
+ * and the values of which are the vertex objects. The 
  */
 
-function getNeighbors(node, board){
-	neighbor1 = [node.coords[0] - 1, node.coords[1]];
-	neighbor2 = [node.coords[0] + 1, node.coords[1]];
-	if(node.coords[0]>=6){
-		if(node.coords[0]%2==0){
-			neighbor3 = [node.coords[0] + 1, node.coords[1] - 1];
-		}
-		else{
-			neighbor3 = [node.coords[0] - 1, node.coords[1] + 1];
-		}
-	}
-	else{
-		if(node.coords[0]%2==0){
-			neighbor3 = [node.coords[0] + 1, node.coords[1] + 1];
-		}
-		else{
-			neighbor3 = [node.coords[0] - 1, node.coords[1] - 1];
-		}
-	}
-	var neighborList = [];
-	if(neighbor1[0]>11 || neighbor1[0]<0 || neighbor1[1]<0 || neighbor1[1]>=nodeRowSize[neighbor1[0]]){
-		neighborList.push(neighbor2);
-		neighborList.push(neighbor3);
-	}
-	else if(neighbor2[0]>11 || neighbor2[0]<0 || neighbor2[1]<0 || neighbor2[1]>=nodeRowSize[neighbor2[0]]){
-		neighborList.push(neighbor3);
-		neighborList.push(neighbor1);
-	}
-	else if(neighbor3[0]>11 || neighbor3[0]<0 || neighbor3[1]<0 || neighbor3[1]>=nodeRowSize[neighbor3[0]]){
-		neighborList.push(neighbor1);
-		neighborList.push(neighbor2);
-	}
-	else{
-		neighborList.push(neighbor1);
-		neighborList.push(neighbor2);
-		neighborList.push(neighbor3);
-	}
-	return neighborList
-}
+function buildVertexFramework(coordList){
+	var vertexFrame = {};  // What will the coordinates be? How are they stored?
+	} //Not yet completed - vertex system must be discussed
 
-/* Board Framework
- * Returns a two dimensional array of all the nodes in the catan board.
- * The first array represents the 12 rows of nodes, while each array within this
- * array stores three to six nodes, depending on the size of the row.
- */
-
-
-function buildNodeFramework(){
-	frame = [[],[],[],[],[],[],[],[],[],[],[],[]];
-	for(i = 0;i<12;i++){
-		for(j=0;j<nodeRowSize[i];j++){
-			frame[i].push(makeNode(0,0,[i,j]));
-		}
-	}
-	return frame
-}
-
-/* getNode
- * given a pair of coordinates and a board, returns the node on the board.
- */
-
-function getNode(ycoord, xcoord, board){
-	node = board[ycoord][xcoord]
-	return node
-}
-	
-/* Tile Object
+/* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
- * num: integer from 2 to 12, excluding 7},
- * nodes: array of the coordinates of 6 bordering nodes, the first representing the one
- * at the peak and cycling clockwise thereafter,
- * coords: array containing coordinates of the hex(ycoord, xcoord), 
+ * num: integer from 2 to 12, 7 indicating robber}
  */
 
-function makeTile(resource, num, nodes, ycoord, xcoord){
-	return {resource:resource, num:num, nodes:nodes, ycoord:ycoord, xcoord:xcoord}
+function makeHexObject(resource, token){   //TODO: Naming Conventions?
+	return {resource:resource, token:token}
 }
 
-/* calculateBorderNodes(ycoord, xcoord)
- * Returns an array of the coordinates of the six nodes that border
- * a hex tile at a location coords. The first pair of the coordinates refers to the
- * node above the tile, and the list proceeds clockwise thereafter.
+/* buildRegularHexFramework
+ * Function builds a dictionary, the keys of which are hex coordinates(contained in arrays -
+ * the first value is the x coordinate, the second the y) and the values of which are
+ * hex objects. This represents a regular hexagonal board - that is to say, like a normal 
+ * catan board - with a width at the highest point of width. 
  */
 
-function calculateBorderNodes(ycoord, xcoord){
-	if(ycoord<3){
-		node0 = [ycoord*2,xcoord];
-		node1 = [ycoord*2+1,xcoord+1];
-		node2 = [ycoord*2+2,xcoord+1];
-		node3 = [ycoord*2+3,xcoord+1];
-		node4 = [ycoord*2+2,xcoord];
-		node5 = [ycoord*2+1,xcoord];
-	}
-	else{
-		node0 = [ycoord*2,xcoord+1];
-		node1 = [ycoord*2+1,xcoord+1];
-		node2 = [ycoord*2+2,xcoord+1];
-		node3 = [ycoord*2+3,xcoord];
-		node4 = [ycoord*2+2,xcoord];
-		node5 = [ycoord*2+1,xcoord];
-	}
-	return [node0, node1, node2, node3, node4, node5]
-}
-
-/* Tile Framework
- * Returns a two dimensional array of all the tiles on the Catan Board.
- * The first array represents the 5 rows of nodes, while the arrays within the first
- * array contains the tiles for each row.
- */
-
-function buildTileFramework(){
-	frame = [[],[],[],[],[]];
-	for(i = 0;i<5;i++){
-		for(j=0;j<tileRowSize[i];j++){
-			res = baseResourceList.pop();
-			if(res == "d"){
-				num = 0;
+function buildRegularHexFramework(width){
+	var tileFrame = {};
+	resList = shuffle(baseResourceList);
+	tokList = shuffle(baseTokenList);
+	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){
+		yShift = generateYShift(width,i);
+		for(j=0;j<width-Math.abs(i);j++){
+			res = resList.pop();
+			if(res=="d"){
+				tok = 7;
 			}
 			else{
-				num = baseValueList.pop();
+				tok = tokList.pop();
 			}
-			nodeList = calculateBorderNodes([i,j]);
-			newTile = makeTile(res,num,nodeList, i,j);
-			frame[i].push(newTile);
+			tileFrame[[i,j+yShift]] = makeHexObject(res,tok);
 		}
 	}
-	return frame;
+	return tileFrame
+}
+
+function generateYShift(width, xcoord){
+	if(xcoord>=0){
+		return 0-Math.floor(width/2)
+	}
+	else{
+		return 0-Math.floor(width/2)-xcoord
+	}
 }
 
 /* Road Object

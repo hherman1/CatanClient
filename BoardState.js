@@ -53,7 +53,7 @@ function buildRegularHexFramework(width){
 				tok = tokList.pop();
 			}
 			coords = makeVector(i, j+yShift);
-			tileFrame.push() = makeHexObject(res,tok,coords);
+			tileFrame.push(makeHexObject(res,tok,coords);
 		}
 	}
 	return tileFrame

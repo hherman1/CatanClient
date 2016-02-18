@@ -56,7 +56,7 @@ function allHits(events,hitboxes) {
             var hits = getHits(hitboxes,getCoords(cevt));
             hits.map(function(hitbox) {
                     return makeActivatedBox(hitbox,cevt)
-            }
+            })
             out.concat(hits);
     })
     return out

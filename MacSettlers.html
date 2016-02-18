@@ -2,6 +2,7 @@
         <head>
                 <meta charset="utf-8">
                 <title>Catan Client </title>
+                <!-- We should eventualy use a compiler to pack these into a single minified javascript source -->
                 <script type="text/javascript" src="Grid.js" ></script>
                 <script type="text/javascript" src="Canvas.js"></script>
                 <script type="text/javascript" src="Hitbox.js"></script>
@@ -10,6 +11,7 @@
                 <script type="text/javascript" src="Resource.js"></script>
                 <script type="text/javascript" src="Robber.js"></script>
                 <script type="text/javascript" src="Terrain.js"></script>
+                <script type="text/javascript" src="Game.js"></script>
                 <script type="text/javascript" src="BoardState.js"></script>
                 <script type="text/javascript">
                         function test() {
@@ -20,7 +22,7 @@
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
                                         drawTitle(ctx);
-                                        initCanvas(canvas,ctx)
+                                        initGame(ctx);
                                 } else {
                                     console.log("browser unsupported")
                                 }

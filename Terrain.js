@@ -2,7 +2,7 @@
 
 function TerrainNode(i, x, y, toke, res, ss){
   var tn = {
-    terrainID : i, //the terrain id
+    //terrainID : i, //the terrain id
     xco : x, //the x coordinate where the terrain node is placed
     yco : y, //the y coordinate where the terrain node is placed
     token : toke, //the number token assigned to this terrain

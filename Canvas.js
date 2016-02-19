@@ -14,6 +14,20 @@
 
 //CANVAS
 
+function drawHitboxes(boxes,ctx) {
+        boxes.map(function(box) {drawHitbox(box,ctx)})
+}
+function drawHitbox(box,ctx) {
+        resetTransform(ctx);
+        drawPath(boxCorners(box),ctx);
+        ctx.fillStyle = "rgba(255, 0, 0, 0.5)"
+        ctx.fill();
+        ctx.stroke();
+}
+
+function resetTransform(ctx) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
 //Draws title of the canvas
 //created by sduong
 function drawTitle(ctx){
@@ -24,7 +38,7 @@ function drawTitle(ctx){
 
 function clearCanvas(ctx,transform) {
         var canvas = ctx.canvas;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        resetTransform(ctx);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         setTransform(ctx,transform);
 }
@@ -65,7 +79,7 @@ function drawBoard(board,transform,ctx) {
   for (i in hc){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
     ctx.fillStyle = "#FFDAB9";
-    hexPath(hc[i],side,ctx);
+    hexPath(hc[i].coordinates,side,ctx);
     ctx.fill();
     ctx.stroke();
     drawSVG(tiletype,hexToWorld(hc[i].coordinates,side*1.75), ctx);
@@ -250,18 +264,22 @@ function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }
 
-function hexPath(hexCoords,side,ctx) {
+function drawPath(verts,ctx) {
         ctx.beginPath()
-        var verts = vertices(hexCoords);
-        var start = vertexToWorld(verts[0],side)
+        var start = verts[0]
         ctx.moveTo(start.x,start.y)
         var mappingFunction = function(coord) {
-               var point = vertexToWorld(coord,side);
-               ctx.lineTo(point.x,point.y);
+               ctx.lineTo(coord.x,coord.y);
         }
         verts.map(mappingFunction)
         ctx.closePath();
+}
 
+function hexPath(hexCoords,side,ctx) {
+        var verts = vertices(hexCoords).map(function(c) {
+                return vertexToWorld(c,side);
+        })
+        drawPath(verts,ctx)
 }
 
 function makeHex(hexCoords,side,ctx) {
@@ -295,7 +313,8 @@ function vertexToWorld(vcoords,side) {
 
 }
 
-unitY = makeVector(Math.cos(Math.PI/3),Math.sin(Math.PI/3));
+
+unitY = unitVector(Math.PI/3)
 
 function fromVertex(vcoords) {
     yunits = times(Math.ceil(vcoords.y/2),makeVector(Math.cos(Math.PI/6),Math.sin(Math.PI/6)));

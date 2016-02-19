@@ -24,22 +24,77 @@
  *  }
  */
 
+maxClickMove = 5
+
+function newMouse() {
+        return {
+                pos: makeVector(-1,-1),
+                button: -1,
+                click: 0, // could the mouse be clicking
+                clicked: 0, // has the mouse just clicked
+                dragging: 0, // is the mouse dragging
+                movement: makeVector(0,0)
+        }
+
+}
+
+function processBuffer(mouse,mousebuffer) {
+        mouse.clicked = 0;
+        mouse.movement.x = 0;
+        mouse.movement.y = 0;
+        if(mousebuffer.mousemoves.length > 0) {
+                updateMouse(mouse,collapseMouseEvents(mousebuffer.mousemoves))
+        }
+        if (mousebuffer.mousedowns.length > 0) {
+                mouse.click = 1;
+        }
+        if (mouse.click && norm(mouse.movement) > maxClickMove) {
+                mouse.click = 0;
+                mouse.dragging = 1;
+        }
+        if (mousebuffer.mouseups.length > 0) {
+                mouse.dragging = 0;
+                if(mouse.click) {
+                        mouse.clicked = 1;
+                        mouse.click = 0;
+                }
+        }
+        return mouse
+}
+
+function updateMouse(mouse,evt) {
+        mouse.pos = getCoords(evt);
+
+        mouse.button = evt.button;
+
+        mouse.movement.x = evt.movementX;
+        mouse.movement.y = evt.movementY;
+
+}
+
 function mouseEventSaver(mousebuffer) {
         return (function(evt) {
-            mousebuffer.push(evt)
+            mousebuffer.push(evt);
         })
 }
 
 function flushMouseEvents(mousebuffer) {
-    mousebuffer.clicks = [];
-    mousebuffer.mousemoves = [];
-
+    mousebuffer.mousemoves.length = 0;
+    mousebuffer.mousedowns.length = 0;
+    mousebuffer.mouseups.length = 0;
 }
 
 function newMouseBuffer() {
-        return {clicks:[]
-                ,mousemoves:[]
+        return {mousemoves:[]
+                ,mousedowns: []
+                ,mouseups: []
                 }
+}
+
+function initBuffer(elem,buffer) {
+        elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
+        elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
+        elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
 }
 
 function getCoords(evt) {
@@ -48,6 +103,15 @@ function getCoords(evt) {
 
 function makeActivatedBox(hitbox,evt){
         return {hitbox:hitbox,evt:evt}
+}
+
+function collapseMouseEvents(evts) {
+    out = evts.pop();
+    evts.forEach(function(evt) {
+            out.movementX += evt.movementX;
+            out.movementY += evt.movementY;
+    })
+    return out;
 }
 
 function allHits(events,hitboxes) {

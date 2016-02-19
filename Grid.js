@@ -99,3 +99,26 @@ function rotationMatrix(theta) {
 function multiplyMatrix(mat,vec) {
         return makeVector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
 }
+
+function hexToWorld(hexcoords,side) {
+    return add(makeVector(-side/2,-side/2),piecewiseTimes(makeVector(side,-side),fromHex(hexcoords)))
+}
+function vertexToWorld(vcoords,side) {
+    return add(makeVector(-side,-side),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))
+
+}
+
+
+unitY = unitVector(Math.PI/3)
+
+function fromVertex(vcoords) {
+    yunits = times(Math.ceil(vcoords.y/2),makeVector(Math.cos(Math.PI/6),Math.sin(Math.PI/6)));
+    regunits = 2*Math.floor(vcoords.y/2) * Math.sin(Math.PI/6);
+    xdelta = 2*vcoords.x*Math.cos(Math.PI/6)
+    return add(makeVector(xdelta,regunits),yunits);
+}
+
+function fromHex(hexcoords) {
+    return add(identX(hexcoords.x),
+                     times(hexcoords.y,unitY))
+}

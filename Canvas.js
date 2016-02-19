@@ -13,6 +13,22 @@
  *///^notes?
 
 //CANVAS
+//
+
+function transformHitlist(boxes,trans) {
+        return boxes.map(function(box){return transformHitbox(box,trans)})
+}
+function transformHitbox(box,trans) {
+        return newHitbox(transform(box.center,trans)
+                           ,times(trans.scale,box.dimension)
+                           ,box.data
+                           ,box.rotation)
+
+}
+
+function transform(v,trans) {
+        return add(trans.translation,times(trans.scale,v))
+}
 
 function drawHitboxes(boxes,ctx) {
         boxes.map(function(box) {drawHitbox(box,ctx)})
@@ -301,29 +317,3 @@ function drawVertex(vertexCoords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,10,10)
 }
 
-function worldToCanvas(coords,canvas) {
-        return add(makeVector(canvas.width/2, canvas.height/2),coords)
-}
-
-function hexToWorld(hexcoords,side) {
-    return add(makeVector(-side/2,-side/2),piecewiseTimes(makeVector(side,-side),fromHex(hexcoords)))
-}
-function vertexToWorld(vcoords,side) {
-    return add(makeVector(-side,-side),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))
-
-}
-
-
-unitY = unitVector(Math.PI/3)
-
-function fromVertex(vcoords) {
-    yunits = times(Math.ceil(vcoords.y/2),makeVector(Math.cos(Math.PI/6),Math.sin(Math.PI/6)));
-    regunits = 2*Math.floor(vcoords.y/2) * Math.sin(Math.PI/6);
-    xdelta = 2*vcoords.x*Math.cos(Math.PI/6)
-    return add(makeVector(xdelta,regunits),yunits);
-}
-
-function fromHex(hexcoords) {
-    return add(identX(hexcoords.x),
-                     times(hexcoords.y,unitY))
-}

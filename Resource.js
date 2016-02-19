@@ -1,14 +1,4 @@
 //RESOURCE
-//array of possible resource terrains
-var resList = ["lumber","lumber","lumber","lumber",
-                "grain","grain","grain","grain",
-                "wool","wool","wool","wool",
-                "ore","ore","ore",
-                "brick","brick","brick","nothing"];
-function getResList(){
-  return resList;
-}
-
 function getResImg(res){
   //still needs work...i will have to spend some time resizing these photos somehow
   var resources = {};

@@ -31,14 +31,32 @@ function drawBoard(ctx) {
   //var hCoords = generateHexCoords(side,ctx);
   //console.log(hCoords); //check console ...it works!
 
+  //array of possible resource terrains
+  var resList = ["lumber","lumber","lumber","lumber",
+                  "grain","grain","grain","grain",
+                  "wool","wool","wool","wool",
+                  "ore","ore","ore",
+                  "brick","brick","brick","nothing"];
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 
-  shuffleRT(getResList(),tokens); //shuffles the resources and tokesn so we get a new board each time!
+  shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
+  console.log(tokens);
+  var hc = buildRegularHexFramework(5);
+  for (i in hc){
+    var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
+    ctx.fillStyle = "#FFDAB9";
+    hexPath(makeVector(hc[i].coordinates.x,hc[i].coordinates.y),side,ctx);
+    ctx.fill();
+    ctx.stroke();
+    drawSVG(tiletype,worldToCanvas(hexToWorld(hc[i].coordinates,side*1.75),ctx.canvas), ctx);
+    drawToken2(hexToWorld(hc[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
+
+  }
   //store all terrain nodes in one place
-  var allTerrainNodes = {}; //there should be 19 of the node objects here
-  var allSettleSpaces = {}; //there should be 54 of the node objects here
+  // var allTerrainNodes = {}; //there should be 19 of the node objects here
+  // var allSettleSpaces = {}; //there should be 54 of the node objects here
 
   //we want to draw a hexagon at each of the hexagon coordinates...
   // for (var i = 0; i < hCoords.x.length; i++){
@@ -51,29 +69,21 @@ function drawBoard(ctx) {
   //
   //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
   // }
-  var hc = buildRegularHexFramework(5);
-  for (i in hc){
-    ctx.fillStyle = "green";
-    hexPath(makeVector(hc[i].coordinates.x,hc[i].coordinates.y),side,ctx);
-    ctx.fill();
-    ctx.stroke();
-  }
+
 
 }
 
-//draw them tokens
-//created by sduong
-function drawToken(res,hcpair, token, ctx){
-    var xctx = hcpair[0]+hcpair[2]*1.2;
-    var yctx = hcpair[1]+hcpair[2]*1.2;
-    ctx.strokeStyle="black"; //draw a black border for the number
-  	ctx.lineWidth=1; //with width 1
-  	ctx.beginPath();
-    ctx.fillStyle="beige"; //fill color of the token
-  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
-  	ctx.fill();
-  	ctx.stroke();
-	if (res != "nothing") {
+function drawToken2(hc, token, ctx){
+  var temp = worldToCanvas(hc,ctx.canvas);
+  ctx.strokeStyle="black"; //draw a black border for the number
+  ctx.lineWidth=1; //with width 1
+  ctx.beginPath();
+  ctx.fillStyle="beige"; //fill color of the token
+  ctx.arc(temp.x+35,temp.y+20, 20, 0, 2*Math.PI); //draw the token circle
+  ctx.fill();
+  ctx.stroke();
+
+  if (token != 99) {
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";
     }
@@ -81,12 +91,39 @@ function drawToken(res,hcpair, token, ctx){
   		ctx.fillStyle="black";
     }
     ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),xctx-9,yctx+10);
+    ctx.fillText(String(token),temp.x+25,temp.y+25);
 
 	} else{
-      drawRobber(xctx,yctx,hcpair[2],ctx);
+      drawRobber(temp.x+30,temp.y+10,40,ctx);
 	}
 }
+
+//draw them tokens
+//created by sduong
+// function drawToken(res,hcpair, token, ctx){
+//     var xctx = hcpair[0]+hcpair[2]*1.2;
+//     var yctx = hcpair[1]+hcpair[2]*1.2;
+//     ctx.strokeStyle="black"; //draw a black border for the number
+//   	ctx.lineWidth=1; //with width 1
+//   	ctx.beginPath();
+//     ctx.fillStyle="beige"; //fill color of the token
+//   	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
+//   	ctx.fill();
+//   	ctx.stroke();
+// 	if (res != "nothing") {
+//     if (token == 6 || token == 8){
+//   		ctx.fillStyle="red";
+//     }
+//     else{
+//   		ctx.fillStyle="black";
+//     }
+//     ctx.font = "24px Times New Roman";
+//     ctx.fillText(String(token),xctx-9,yctx+10);
+//
+// 	} else{
+//       drawRobber(xctx,yctx,hcpair[2],ctx);
+// 	}
+// }
 
 //shuffles the resources and number tokens and includes the robber to be set on the desert.
 //created by sduong
@@ -183,13 +220,13 @@ function generateHexCoords(side,ctx){
 }
 
 //draws the image of the terrain on the board
-function drawSVG(path, hcpair,ctx){
+function drawSVG(path, hc,ctx){
   var img = new Image(); //create new image element
   img.src = path; //set source path
-  var x = hcpair[0];
-  var y = hcpair[1];
-  var scale = hcpair[2]*2.5;
-  ctx.drawImage(img, x, y, scale, scale);
+  var x = hc.x-8;
+  var y = hc.y-31;
+  var scale = 100;
+  ctx.drawImage(img, x, y, scale-10, scale);
 }
 ///////////////////////////////////////////////////////////////////////////////
 function drawRect(coords,side,ctx) {

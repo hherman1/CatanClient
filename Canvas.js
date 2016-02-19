@@ -171,7 +171,6 @@ function drawTile(hcpair,tiletype,side,ctx) {
   ctx.fill();
   ctx.stroke();
 
-
 }
 
 //generates an object that stores 19 x and y coordinates for the hexagons

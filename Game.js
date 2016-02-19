@@ -34,7 +34,7 @@ function newUI(canvas) {
 function initGame(ctx) {
         var mouse = newMouse();
         var mousebuffer = newMouseBuffer();
-        var hitboxes  = [];
+        var hitboxes  = [testBox,testBox2];
 
         var canvas = ctx.canvas;
 
@@ -97,8 +97,14 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
                 ui.transform.scale = newScale(mouse.scroll.y,ui.transform.scale);
         }
 
+        if(hits.length > 0) {
+                console.log("hitting")
+        }
+
+        //console.log(mouse.pos);
 
         redraw(gamestate.board,ui.transform,ctx);
+        drawHitboxes(hitboxes,ctx);
         flushMouseEvents(mousebuffer);
         
 }

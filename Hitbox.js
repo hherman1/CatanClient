@@ -5,14 +5,20 @@
  *  }
  */
 
-testBox = {center: makeVector(0,0),
-           dimension: makeVector(5,5),
+testBox = {center: makeVector(100,100),
+           dimension: makeVector(100,100),
            data: makeVector (0,1),
+           rotation: Math.PI/3,
            }
 
+testBox2 = {center: makeVector(300,200),
+           dimension: makeVector(50,200),
+           data: makeVector (0,1),
+           rotation: Math.PI/6,
+           }
 
-function makeBox(center,dimension,data,activate) {
-    return {center:center,dimension:dimension,data:data,activate:activate}
+function makeBox(center,dimension,data,rotation) {
+    return {center:center,dimension:dimension,data:data,rotation:rotate}
 }
 
 function updateCenter(box,f) {
@@ -32,12 +38,24 @@ function getHits(hitList,coord) {
 }
 
 function topRight(box) {
-        return add(box.center,times(0.5,box.dimension))
+        return add(box.center,box.dimension)
 }
 function bottomLeft(box) {
-        return add(box.center,times(-0.5,box.dimension))
+        return add(box.center,times(-1,box.dimension))
 }
 function isHit(loc,box) {
-       return (loc.x <= topRight(box).x && loc.y <= topRight(box).y
-              && loc.x >= bottomLeft(box).x && loc.y >= bottomLeft(box).y)
+        var t = multiplyMatrix(rotationMatrix(-box.rotation),add(loc,times(-1,box.center)))
+       return (t.x <= box.dimension.x && t.y <= box.dimension.y
+              && t.x >= -box.dimension.x && t.y >= -box.dimension.y)
+}
+
+function boxCorners(box) {
+        var t =  [box.dimension
+                 ,piecewiseTimes(makeVector(1,-1),box.dimension)
+                 ,piecewiseTimes(makeVector(-1,-1),box.dimension)
+                 ,piecewiseTimes(makeVector(-1,1),box.dimension)
+                 ]
+        return t.map(function(p) {
+            return add(box.center,multiplyMatrix(rotationMatrix(box.rotation),p));
+        })
 }

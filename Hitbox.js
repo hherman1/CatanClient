@@ -5,8 +5,8 @@
  *  }
  */
 
-testBox = {center: makeVector(0,0),
-           dimension: makeVector(100,100),
+testBox = {center: hexToWorld(makeVector(1,1),50),
+           dimension: makeVector(10,10),
            data: makeVector (0,1),
            rotation: Math.PI/3,
            }
@@ -17,6 +17,14 @@ testBox2 = {center: makeVector(300,200),
            rotation: Math.PI/6,
            }
 
+function genTileBoxes(coords,side) {
+        return coords.map(function(hc) {
+                return newHitbox(hexToWorld(hc,side)
+                                ,ident(side/2)
+                                ,hc
+                                ,Math.PI/4)
+        })
+}
 
 function newHitbox(center,dimension,data,rotation) {
     return {center:center,dimension:dimension,data:data,rotation:rotation}

@@ -34,7 +34,6 @@ function newUI(canvas) {
 function initGame(ctx) {
         var mouse = newMouse();
         var mousebuffer = newMouseBuffer();
-        var hitboxes  = [testBox,testBox2];
 
         var canvas = ctx.canvas;
 
@@ -48,6 +47,7 @@ function initGame(ctx) {
         var server = newServer();
         server.newGame(5);
         var gamestate =  server.getState();
+        var hitboxes  = genTileBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50);
 
         var ui = newUI(canvas) //None?
 

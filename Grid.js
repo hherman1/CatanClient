@@ -101,7 +101,7 @@ function multiplyMatrix(mat,vec) {
 }
 
 function hexToWorld(hexcoords,side) {
-    return piecewiseTimes(makeVector(side,-side),fromHex(hexcoords))
+    return piecewiseTimes(makeVector(Math.cos(Math.PI/6)*side*2,2*-side*Math.sin(Math.PI/3)),fromHex(hexcoords))
 }
 function vertexToWorld(vcoords,side) {
     return add(makeVector(-side*Math.sin(Math.PI/3),-side/2),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))

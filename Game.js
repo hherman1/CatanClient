@@ -36,7 +36,10 @@ function initGame(ctx) {
 
         var canvas = ctx.canvas;
 
-        initBuffer(canvas,mousebuffer)
+        initBuffer(canvas,mousebuffer);
+        //Pay attention to mouse releases from anywhere in the document
+        document.addEventListener("mouseup",mouseEventSaver(mousebuffer.mouseups))
+
 
         var frameDuration = 10;
 

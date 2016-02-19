@@ -43,7 +43,7 @@ function processBuffer(mouse,mousebuffer) {
         mouse.movement.x = 0;
         mouse.movement.y = 0;
         if(mousebuffer.mousemoves.length > 0) {
-                updateMouse(mouse,collapseMouseEvents(mousebuffer.mousemoves))
+                updateMouse(mouse,collapseMouseEvents(mousebuffer.mousemoves));
         }
         if (mousebuffer.mousedowns.length > 0) {
                 mouse.click = 1;

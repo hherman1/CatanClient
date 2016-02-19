@@ -114,23 +114,13 @@ function collapseMouseEvents(evts) {
     return out;
 }
 
-function allHits(events,hitboxes) {
-    var out = []
-    events.forEach(function(cevt) {
-            var hits = getHits(hitboxes,getCoords(cevt));
-            hits.map(function(hitbox) {
-                    return makeActivatedBox(hitbox,cevt)
-            })
-            out.concat(hits);
-    })
-    return out
-}
 
 //Returns a mousebuffer of ActivatedBox's
-function processHits(mousebuffer,hitboxes) {
-    var out = newMouseBuffer();
-    out.clicks = allHits(mousebuffer.clicks,hitboxes)
-    out.mousemoves = allHits(mousebuffer.mousemoves,hitboxes)
+function processHits(mouse,hitboxes) {
+    var filterFunction = function(box) {
+            return isHit(mouse.pos,box)
+    }
+    return hitboxes.filter(filterFunction)
 }
 
 //Takes a list of current players and produces a mapping [(player,color)]

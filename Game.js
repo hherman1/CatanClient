@@ -21,17 +21,22 @@ function newServer() {
 UI = {
         build: 0
        ,loading: 1
+       ,mousePos: null // vector
+       ,boardeffect: {
+
+       }
+       ,mode: this.build
 }
                 
 
 function initGame(ctx) {
+        var mouse = newMouse();
         var mousebuffer = newMouseBuffer();
         var hitboxes  = [];
 
         var canvas = ctx.canvas;
 
-        canvas.addEventListener("click",mouseEventSaver(mousebuffer.clicks));
-        canvas.addEventListener("mousemove",mouseEventSaver(mousebuffer.mousemoves));
+        initBuffer(canvas,mousebuffer)
 
         var frameDuration = 10;
 
@@ -39,25 +44,33 @@ function initGame(ctx) {
         server.newGame(5);
         var gamestate =  server.getState();
 
-        var uimode = UI.build; //None?
+        var ui = UI //None?
 
 
         window.setInterval(gameStep,frameDuration
+                            ,mouse
                             ,mousebuffer
                             ,hitboxes
-                            ,uiaction
+                            ,ui
                             ,gamestate
                             ,server
                             ,ctx);
 }
 
 
+function last(list) {
+        return list[list.length - 1]
+}
 
-function gameStep(mousebuffer,hitboxes,uimode,gamestate,server,ctx) {
-        var hits = processHits(mousebuffer,hitboxes);
+function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
 
+        mouse = processBuffer(mouse,mousebuffer);
+        var hits = processHits(mouse,hitboxes);
         
+
+
         flushMouseEvents(mousebuffer);
+        
 }
 
 

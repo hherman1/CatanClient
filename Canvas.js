@@ -22,9 +22,25 @@ function drawTitle(ctx){
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
  }
 
+function clearCanvas(ctx) {
+        var canvas = ctx.canvas;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function setTransform(ctx,transform) {
+  ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
+}
+
+function redraw(board,transform,ctx) {
+        clearCanvas(ctx);
+        drawBoard(board,transform,ctx);
+}
+
 //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
 //created by hherman, edited by sduong [IN PROGRESS]
-function drawBoard(ctx) {
+function drawBoard(board,transform,ctx) {
+        //Set transformation
+  setTransform(ctx,transform)
   //setting the side of hexagon to be a value
   var side = 50;
   //create object holding 19 xy coordinates and w value

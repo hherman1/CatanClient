@@ -21,9 +21,9 @@ function newServer() {
 UI = {
         build: 0
        ,loading: 1
-       ,mousePos: null // vector
-       ,boardeffect: {
-
+       ,transform: {
+               translation: makeVector(0,0)
+              ,scale: 1
        }
        ,mode: this.build
 }
@@ -67,8 +67,12 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
         mouse = processBuffer(mouse,mousebuffer);
         var hits = processHits(mouse,hitboxes);
         
+        if(mouse.dragging) {
+                ui.transform.translation = add(ui.transform.translation,mouse.movement);
+        }
 
 
+        redraw(gamestate.board,ui.transform,ctx);
         flushMouseEvents(mousebuffer);
         
 }

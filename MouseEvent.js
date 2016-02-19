@@ -80,6 +80,7 @@ function updateMouse(mouse,evt) {
 
 function mouseEventSaver(mousebuffer) {
         return (function(evt) {
+            evt.preventDefault();
             mousebuffer.push(evt);
         })
 }

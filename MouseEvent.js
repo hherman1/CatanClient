@@ -25,7 +25,6 @@
  */
 
 maxClickMove = 5
-
 function newMouse() {
         return {
                 pos: makeVector(-1,-1),
@@ -33,7 +32,8 @@ function newMouse() {
                 click: 0, // could the mouse be clicking
                 clicked: 0, // has the mouse just clicked
                 dragging: 0, // is the mouse dragging
-                movement: makeVector(0,0)
+                movement: makeVector(0,0),
+                scroll: makeVector(0,0)
         }
 
 }
@@ -42,8 +42,14 @@ function processBuffer(mouse,mousebuffer) {
         mouse.clicked = 0;
         mouse.movement.x = 0;
         mouse.movement.y = 0;
+        mouse.scroll.x = 0;
+        mouse.scroll.y = 0;
+        if(mousebuffer.mousescrolls.length > 0) {
+                var wheel = collapseWheelEvents(mousebuffer.mousescrolls);
+                mouse.scroll = makeVector(wheel.deltaX,wheel.deltaY);
+        }
         if(mousebuffer.mousemoves.length > 0) {
-                updateMouse(mouse,collapseMouseEvents(mousebuffer.mousemoves));
+                updateMouse(mouse,collapseMousemoveEvents(mousebuffer.mousemoves));
         }
         if (mousebuffer.mousedowns.length > 0) {
                 mouse.click = 1;
@@ -88,6 +94,7 @@ function newMouseBuffer() {
         return {mousemoves:[]
                 ,mousedowns: []
                 ,mouseups: []
+                ,mousescrolls: []
                 }
 }
 
@@ -95,6 +102,7 @@ function initBuffer(elem,buffer) {
         elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
         elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
         elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
+        elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
 }
 
 function getCoords(evt) {
@@ -105,11 +113,19 @@ function makeActivatedBox(hitbox,evt){
         return {hitbox:hitbox,evt:evt}
 }
 
-function collapseMouseEvents(evts) {
+function collapseMousemoveEvents(evts) {
     out = evts.pop();
     evts.forEach(function(evt) {
             out.movementX += evt.movementX;
             out.movementY += evt.movementY;
+    })
+    return out;
+}
+function collapseWheelEvents(evts) {
+    out = evts.pop();
+    evts.forEach(function(evt) {
+            out.deltaX += evt.deltaX;
+            out.deltaY += evt.deltaY;
     })
     return out;
 }

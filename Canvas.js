@@ -22,9 +22,11 @@ function drawTitle(ctx){
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
  }
 
-function clearCanvas(ctx) {
+function clearCanvas(ctx,transform) {
         var canvas = ctx.canvas;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        setTransform(ctx,transform);
 }
 
 function setTransform(ctx,transform) {
@@ -32,7 +34,7 @@ function setTransform(ctx,transform) {
 }
 
 function redraw(board,transform,ctx) {
-        clearCanvas(ctx);
+        clearCanvas(ctx,transform);
         drawBoard(board,transform,ctx);
 }
 
@@ -63,10 +65,10 @@ function drawBoard(board,transform,ctx) {
   for (i in hc){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
     ctx.fillStyle = "#FFDAB9";
-    hexPath(makeVector(hc[i].coordinates.x,hc[i].coordinates.y),side,ctx);
+    hexPath(hc[i],side,ctx);
     ctx.fill();
     ctx.stroke();
-    drawSVG(tiletype,worldToCanvas(hexToWorld(hc[i].coordinates,side*1.75),ctx.canvas), ctx);
+    drawSVG(tiletype,hexToWorld(hc[i].coordinates,side*1.75), ctx);
     drawToken2(hexToWorld(hc[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
 
   }
@@ -90,7 +92,7 @@ function drawBoard(board,transform,ctx) {
 }
 
 function drawToken2(hc, token, ctx){
-  var temp = worldToCanvas(hc,ctx.canvas);
+  var temp = hc;
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
   ctx.beginPath();
@@ -251,10 +253,10 @@ function drawRect(coords,side,ctx) {
 function hexPath(hexCoords,side,ctx) {
         ctx.beginPath()
         var verts = vertices(hexCoords);
-        var start = worldToCanvas(vertexToWorld(verts[0],side),ctx.canvas)
+        var start = vertexToWorld(verts[0],side)
         ctx.moveTo(start.x,start.y)
         var mappingFunction = function(coord) {
-               var point = worldToCanvas(vertexToWorld(coord,side),ctx.canvas);
+               var point = vertexToWorld(coord,side);
                ctx.lineTo(point.x,point.y);
         }
         verts.map(mappingFunction)
@@ -276,7 +278,7 @@ function drawHexPoints(hexCoords,side,ctx) {
 }
 
 function drawVertex(vertexCoords,side,ctx) {
-        coords = worldToCanvas(vertexToCanvas(vertexCoords,side),ctx.canvas);
+        coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 
         ctx.fillRect(coords.x,coords.y,10,10)
 }

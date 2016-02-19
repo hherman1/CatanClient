@@ -18,14 +18,16 @@ function newServer() {
         }
 }
 
-UI = {
-        build: 0
-       ,loading: 1
-       ,transform: {
-               translation: makeVector(0,0)
-              ,scale: 1
-       }
-       ,mode: this.build
+function newUI(canvas) {
+        return {
+                build: 0
+               ,loading: 1
+               ,transform: {
+                       translation: makeVector(canvas.width/2,canvas.height/2)
+                      ,scale: 1
+               }
+               ,mode: this.build
+        }
 }
                 
 
@@ -47,7 +49,7 @@ function initGame(ctx) {
         server.newGame(5);
         var gamestate =  server.getState();
 
-        var ui = UI //None?
+        var ui = newUI(canvas) //None?
 
 
         window.setInterval(gameStep,frameDuration
@@ -65,6 +67,24 @@ function last(list) {
         return list[list.length - 1]
 }
 
+function newScale(delta,scale) {
+    
+        function sigmoid(x) {
+                return 1/(1 + Math.exp(-x))
+        }
+        function spec(x) {
+                return sigmoid(x) + 0.5
+        }
+        var out = scale + sigmoid(scale)/2* ((sigmoid(delta/10) - 0.5)/4) ;
+        if ( out < 0.5) {
+                return 0.5;
+        } else if (out > 1) {
+                return 1;
+        } else {
+                return out;
+        }
+}
+
 function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
 
         mouse = processBuffer(mouse,mousebuffer);
@@ -72,6 +92,9 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
         
         if(mouse.dragging) {
                 ui.transform.translation = add(ui.transform.translation,mouse.movement);
+        }
+        if(mouse.scroll.y != 0) {
+                ui.transform.scale = newScale(mouse.scroll.y,ui.transform.scale);
         }
 
 

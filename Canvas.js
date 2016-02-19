@@ -56,7 +56,7 @@ function redraw(board,transform,ctx) {
 //created by hherman, edited by sduong [IN PROGRESS]
 function drawBoard(board,transform,ctx) {
         //Set transformation
-  setTransform(ctx,transform)
+  setTransform(ctx,transform);
   //setting the side of hexagon to be a value
   var side = 50;
   //create object holding 19 xy coordinates and w value

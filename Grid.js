@@ -4,6 +4,15 @@
  */
 
  //This is a test line. Please delete it when you find it!
+ //
+
+function dotProduct(v1,v2) {
+        return sum(piecewiseTimes(v1,v2))
+}
+
+function sum(v) {
+        return v.x + v.y
+}
 
 function ident(v) {
         return makeVector(v,v)
@@ -79,4 +88,14 @@ function hexPoints(coords,radius) {
 
 function norm(vector) {
         return Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+}
+
+function unitVector(theta) {
+        return makeVector(Math.cos(theta),Math.sin(theta))
+}
+function rotationMatrix(theta) {
+        return makeVector(makeVector(Math.cos(theta),-Math.sin(theta)),makeVector(Math.sin(theta),Math.cos(theta)))
+}
+function multiplyMatrix(mat,vec) {
+        return makeVector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
 }

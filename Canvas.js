@@ -88,18 +88,18 @@ function drawBoard(board,transform,ctx) {
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 
-  shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
+  //shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
   //console.log(tokens);
-  var hc = buildRegularHexFramework(5);
-  for (i in hc){
+  
+  for (i in board){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
     ctx.fillStyle = "#FFDAB9";
-    hexPath(hc[i].coordinates,side,ctx);
+    hexPath(board[i].coordinates,side,ctx);
     ctx.fill();
     ctx.stroke();
-    drawSVG(tiletype,hexToWorld(hc[i].coordinates,side*1.75), ctx);
-    drawToken2(hexToWorld(hc[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
+//    drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
+ //   drawToken2(hexToWorld(board[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
 
   }
   //store all terrain nodes in one place

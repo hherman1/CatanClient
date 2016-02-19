@@ -5,7 +5,7 @@
  *  }
  */
 
-testBox = {center: hexToWorld(makeVector(0,0),50),
+testBox = {center: makeVector(0,0),
            dimension: makeVector(100,100),
            data: makeVector (0,1),
            rotation: Math.PI/3,

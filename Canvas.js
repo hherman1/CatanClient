@@ -58,7 +58,7 @@ function drawBoard(board,transform,ctx) {
 
   shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
-  console.log(tokens);
+  //console.log(tokens);
   var hc = buildRegularHexFramework(5);
   for (i in hc){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image

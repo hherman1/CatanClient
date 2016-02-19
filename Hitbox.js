@@ -5,7 +5,7 @@
  *  }
  */
 
-testBox = {center: makeVector(100,100),
+testBox = {center: hexToWorld(makeVector(0,0),50),
            dimension: makeVector(100,100),
            data: makeVector (0,1),
            rotation: Math.PI/3,
@@ -17,8 +17,9 @@ testBox2 = {center: makeVector(300,200),
            rotation: Math.PI/6,
            }
 
-function makeBox(center,dimension,data,rotation) {
-    return {center:center,dimension:dimension,data:data,rotation:rotate}
+
+function newHitbox(center,dimension,data,rotation) {
+    return {center:center,dimension:dimension,data:data,rotation:rotation}
 }
 
 function updateCenter(box,f) {
@@ -27,7 +28,7 @@ function updateCenter(box,f) {
 }
 
 function hexBox(hexCoords,side,dimension,activate){
-    return makeBox(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
+    return newHitbox(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
 }
 
 

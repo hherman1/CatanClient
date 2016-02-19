@@ -86,9 +86,9 @@ function newScale(delta,scale) {
 }
 
 function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
-
+        var hitlist = transformHitlist(hitboxes,ui.transform);
         mouse = processBuffer(mouse,mousebuffer);
-        var hits = processHits(mouse,hitboxes);
+        var hits = processHits(mouse.pos,hitlist);
         
         if(mouse.dragging) {
                 ui.transform.translation = add(ui.transform.translation,mouse.movement);
@@ -104,7 +104,7 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
         //console.log(mouse.pos);
 
         redraw(gamestate.board,ui.transform,ctx);
-        drawHitboxes(hitboxes,ctx);
+        drawHitboxes(hitlist,ctx);
         flushMouseEvents(mousebuffer);
         
 }

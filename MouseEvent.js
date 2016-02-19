@@ -133,9 +133,9 @@ function collapseWheelEvents(evts) {
 
 
 //Returns a mousebuffer of ActivatedBox's
-function processHits(mouse,hitboxes) {
+function processHits(loc,hitboxes) {
     var filterFunction = function(box) {
-            return isHit(mouse.pos,box)
+            return isHit(loc,box)
     }
     return hitboxes.filter(filterFunction)
 }

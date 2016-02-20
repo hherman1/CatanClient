@@ -86,8 +86,8 @@ function newScale(delta,scale) {
         var out = scale + sigmoid(scale)/2* ((sigmoid(delta/10) - 0.5)/4) ;
         if ( out < 0.5) {
                 return 0.5;
-        } else if (out > 1) {
-                return 1;
+        } else if (out > 1.5) {
+                return 1.5;
         } else {
                 return out;
         }

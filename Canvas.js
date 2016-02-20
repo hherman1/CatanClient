@@ -30,13 +30,15 @@ function transform(v,trans) {
         return add(trans.translation,times(trans.scale,v))
 }
 
-function drawHitboxes(boxes,ctx) {
-        boxes.map(function(box) {drawHitbox(box,ctx)})
+function drawHitboxes(boxes,hits,ctx) {
+        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        boxes.map(function(box) {drawHitbox(box,ctx)});
+        ctx.fillStyle = "rgba(255, 122, 0, 0.5)";
+        hits.map(function(box){drawHitbox(box,ctx)});
 }
 function drawHitbox(box,ctx) {
         resetTransform(ctx);
         drawPath(boxCorners(box),ctx);
-        ctx.fillStyle = "rgba(255, 0, 0, 0.5)"
         ctx.fill();
         ctx.stroke();
 }
@@ -63,10 +65,9 @@ function setTransform(ctx,transform) {
   ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(board,mouse,hitlist,transform,animations,ctx) {
+function redraw(board,mouse,transform,animations,ctx) {
         clearCanvas(ctx,transform);
         drawBoard(board,transform,ctx);
-        drawHitboxes(hitlist,ctx);
 
         if(mouse.clicked) {
                 animations.data.push(multiFrame(function(context,frames) {
@@ -105,9 +106,9 @@ function drawBoard(board,transform,ctx) {
 
   //console.log(tokens);
   
+  ctx.fillStyle = "#FFDAB9";
   for (i in board){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
-    ctx.fillStyle = "#FFDAB9";
     hexPath(board[i].coordinates,side,ctx);
     ctx.fill();
     ctx.stroke();

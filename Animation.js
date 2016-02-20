@@ -24,5 +24,6 @@ function pruneAnimations(anims) {
 }
 
 function drawAnims(anims,ctx) {
+        resetTransform(ctx);
         anims.forEach(function(anim){anim.draw(ctx)})
 }

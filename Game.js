@@ -108,14 +108,11 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,animations,gamestate,server,ctx)
                 ui.transform.scale = newScale(mouse.scroll.y,ui.transform.scale);
         }
 
-        if(hits.length > 0) {
-                console.log("hitting")
-        }
-
         //console.log(mouse.pos);
 
-        redraw(gamestate.board,mouse,hitlist,ui.transform,animations,ctx);
+        redraw(gamestate.board,mouse,ui.transform,animations,ctx);
         flushMouseEvents(mousebuffer);
+        drawHitboxes(hitlist,hits,ctx);
         
 }
 

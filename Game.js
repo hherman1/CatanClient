@@ -47,7 +47,8 @@ function initGame(ctx) {
         var server = newServer();
         server.newGame(5);
         var gamestate =  server.getState();
-        var hitboxes  = genTileBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50);
+        var hitboxes  = genTileBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50)
+                        .concat(genVertexBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50));
 
         var ui = newUI(canvas) //None?
 

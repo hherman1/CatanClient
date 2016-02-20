@@ -4,6 +4,11 @@
  *  data: any
  *  }
  */
+Type = {
+        Vertex: 0,
+        Line: 1,
+        Tile: 2
+}
 
 testBox = {center: hexToWorld(makeVector(1,1),50),
            dimension: makeVector(10,10),
@@ -21,8 +26,16 @@ function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
                 return newHitbox(hexToWorld(hc,side)
                                 ,ident((side + side*Math.sin(Math.PI/3))/(2 * Math.sqrt(2)))
-                                ,hc
+                                ,[Type.Tile,hc]
                                 ,Math.PI/4)
+        })
+}
+function genVertexBoxes(coords,side) {
+        return coords.map(function(vc) {
+                return newHitbox(vertexToWorld(vc,side)
+                                ,ident(side/5)
+                                ,[Type.Vertex,vc]
+                                ,0)
         })
 }
 

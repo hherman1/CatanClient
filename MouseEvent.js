@@ -24,7 +24,7 @@
  *  }
  */
 
-maxClickMove = 5
+maxClickMove = 1
 function newMouse() {
         return {
                 pos: makeVector(-1,-1),

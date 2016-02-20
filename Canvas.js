@@ -30,6 +30,10 @@ function transform(v,trans) {
         return add(trans.translation,times(trans.scale,v))
 }
 
+function inverseTransform(v,trans) {
+        return times((1/trans.scale),add(times(-1,trans.translation),v))
+}
+
 function drawHitboxes(boxes,hits,ctx) {
         ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
@@ -68,13 +72,18 @@ function setTransform(ctx,transform) {
 function redraw(board,mouse,transform,animations,ctx) {
         clearCanvas(ctx,transform);
         drawBoard(board,transform,ctx);
+        var test = mouse.pos.x.valueOf();
+        var rest = mouse.pos.y.valueOf();
+        var vec = makeVector(test,rest);
+        vec = inverseTransform(vec,transform);
 
         if(mouse.clicked) {
                 animations.data.push(multiFrame(function(context,frames) {
-                        context.rect(mouse.pos.x,mouse.pos.y,50 + frames,50 + frames);
-                        context.fillStyle = "green";
+                        setTransform(context,transform);
+                        context.rect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
+                        context.fillStyle = "rgba(0, 255, 0, 0.5)";
                         context.fill();
-                },100))
+                },1000))
         }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {

@@ -81,9 +81,8 @@ function redraw(board,mouse,transform,animations,ctx) {
                 // draw a square where clicked in world
                 animations.data.push(multiFrame(function(context,frames) {
                         setTransform(context,transform);
-                        context.rect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
                         context.fillStyle = "rgba(0, 255, 0, 0.5)";
-                        context.fill();
+                        context.fillRect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
                 },1000))
 
                 // move the view to the right

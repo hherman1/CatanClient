@@ -78,12 +78,18 @@ function redraw(board,mouse,transform,animations,ctx) {
         vec = inverseTransform(vec,transform);
 
         if(mouse.clicked) {
+                // draw a square where clicked in world
                 animations.data.push(multiFrame(function(context,frames) {
                         setTransform(context,transform);
                         context.rect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
                         context.fillStyle = "rgba(0, 255, 0, 0.5)";
                         context.fill();
                 },1000))
+
+                // move the view to the right
+                animations.data.push(multiFrame(function(context) {
+                        transform.translation.x += 1;
+                },100))
         }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {

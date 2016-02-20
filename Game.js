@@ -48,8 +48,8 @@ function initGame(ctx) {
         server.newGame(5);
         var gamestate =  server.getState();
         var hitboxes  = genTileBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50)
-                        .concat(genVertexBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50));
-
+                        .concat(genVertexBoxes(gamestate.board.map(function(tile) {return tile.coordinates}),50))
+                        .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)])
         var ui = newUI(canvas) //None?
 
 

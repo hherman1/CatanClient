@@ -38,6 +38,22 @@ function genVertexBoxes(coords,side) {
                                 ,0)
         })
 }
+function genLineBox(c1,c2,side) {
+        var w1 = vertexToWorld(c1,side);
+        var w2 = vertexToWorld(c2,side);
+        var cost = dotProduct(makeVector(1,0),add(w1,times(-1,w2)))/(side);
+        if (cost < -1) {
+                cost = -1;
+        } else if (cost > 1) {
+                cost = 1;
+        }
+        var rotation = Math.acos(cost);
+        var center = times(0.5,add(w1,w2));
+        return newHitbox(center
+                        ,makeVector(side/2,side/5)
+                        ,[Type.Line,makeVector(c1,c2)]
+                        ,rotation)
+}
 
 function newHitbox(center,dimension,data,rotation) {
     return {center:center,dimension:dimension,data:data,rotation:rotation}

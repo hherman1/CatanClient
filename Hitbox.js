@@ -20,7 +20,7 @@ testBox2 = {center: makeVector(300,200),
 function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
                 return newHitbox(hexToWorld(hc,side)
-                                ,ident(side/2)
+                                ,ident((side + side*Math.sin(Math.PI/3))/(2 * Math.sqrt(2)))
                                 ,hc
                                 ,Math.PI/4)
         })

@@ -63,9 +63,22 @@ function setTransform(ctx,transform) {
   ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(board,transform,ctx) {
+function redraw(board,mouse,hitlist,transform,animations,ctx) {
         clearCanvas(ctx,transform);
         drawBoard(board,transform,ctx);
+        drawHitboxes(hitlist,ctx);
+
+        if(mouse.clicked) {
+                animations.data.push(multiFrame(function(context,frames) {
+                        context.rect(mouse.pos.x,mouse.pos.y,50 + frames,50 + frames);
+                        context.fillStyle = "green";
+                        context.fill();
+                },100))
+        }
+        animations.data = pruneAnimations(animations.data);
+        if(animations.data.length > 0)  {
+                drawAnims(animations.data,ctx);
+        }
 }
 
 //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.

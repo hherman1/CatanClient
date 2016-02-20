@@ -1,4 +1,8 @@
 
+function newReference(data) {
+        return {data:data}
+}
+
 function newServer() {
         return {
                 gamestate: null
@@ -44,6 +48,8 @@ function initGame(ctx) {
 
         var frameDuration = 10;
 
+        var animations = newReference([]);
+
         var server = newServer();
         server.newGame(5);
         var gamestate =  server.getState();
@@ -58,6 +64,7 @@ function initGame(ctx) {
                             ,mousebuffer
                             ,hitboxes
                             ,ui
+                            ,animations
                             ,gamestate
                             ,server
                             ,ctx);
@@ -86,11 +93,14 @@ function newScale(delta,scale) {
         }
 }
 
-function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
+function gameStep(mouse,mousebuffer,hitboxes,ui,animations,gamestate,server,ctx) {
         var hitlist = transformHitlist(hitboxes,ui.transform);
         mouse = processBuffer(mouse,mousebuffer);
         var hits = processHits(mouse.pos,hitlist);
         
+        if(mouse.clicked) {
+                console.log("click")
+        }
         if(mouse.dragging) {
                 ui.transform.translation = add(ui.transform.translation,mouse.movement);
         }
@@ -104,8 +114,7 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,gamestate,server,ctx) {
 
         //console.log(mouse.pos);
 
-        redraw(gamestate.board,ui.transform,ctx);
-        drawHitboxes(hitlist,ctx);
+        redraw(gamestate.board,mouse,hitlist,ui.transform,animations,ctx);
         flushMouseEvents(mousebuffer);
         
 }

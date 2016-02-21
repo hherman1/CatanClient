@@ -3,6 +3,12 @@
  *  dimension:vector, - Positive values
  *  data: any
  *  }
+ *
+ *  Hitcircle
+ *  {center:vector,
+ *  radius:int,
+ *  data:any
+ *  }
  */
 Type = {
         Vertex: 0,
@@ -10,18 +16,15 @@ Type = {
         Tile: 2
 }
 
-testBox = {center: hexToWorld(makeVector(1,1),50),
-           dimension: makeVector(10,10),
-           data: makeVector (0,1),
-           rotation: Math.PI/3,
-           }
+Box = {
+        box:0,
+        circle:1
+}
 
-testBox2 = {center: makeVector(300,200),
-           dimension: makeVector(50,200),
-           data: makeVector (0,1),
-           rotation: Math.PI/6,
-           }
+testBox = newHitbox(hexToWorld(makeVector(1,1),50),makeVector(10,10),makeVector (0,1),Math.PI/3)
 
+testBox2 = newHitbox(makeVector(300,200),makeVector(50,200),makeVector (0,1),Math.PI/6)
+/* Use hitcircles instead
 function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
                 return newHitbox(hexToWorld(hc,side)
@@ -30,6 +33,15 @@ function genTileBoxes(coords,side) {
                                 ,Math.PI/4)
         })
 }
+*/
+function genTileBoxes(coords,side) {
+        return coords.map(function(hc) {
+                return newHitcircle(hexToWorld(hc,side)
+                                   ,side - 5
+                                   ,[Type.Tile,hc])
+        })
+}
+/* Use hitcircles instead
 function genVertexBoxes(coords,side) {
         return coords.map(function(vc) {
                 return newHitbox(vertexToWorld(vc,side)
@@ -38,6 +50,15 @@ function genVertexBoxes(coords,side) {
                                 ,0)
         })
 }
+*/
+function genVertexBoxes(coords,side) {
+        return coords.map(function(vc) {
+                return newHitcircle(vertexToWorld(vc,side)
+                                ,side/5
+                                ,[Type.Vertex,vc])
+        })
+}
+
 function genLineBox(c1,c2,side) {
         var w1 = vertexToWorld(c1,side);
         var w2 = vertexToWorld(c2,side);
@@ -56,8 +77,31 @@ function genLineBox(c1,c2,side) {
 }
 
 function newHitbox(center,dimension,data,rotation) {
-    return {center:center,dimension:dimension,data:data,rotation:rotation}
+    return {center:center
+           ,dimension:dimension
+           ,data:data
+           ,rotation:rotation
+           ,type: Box.box
+           ,isHit: (function(loc) {
+               var t = multiplyMatrix(rotationMatrix(-this.rotation),add(loc,times(-1,this.center)));
+               return (t.x <= this.dimension.x && t.y <= this.dimension.y
+                      && t.x >= -this.dimension.x && t.y >= -this.dimension.y)
+            })
+        }
 }
+
+function newHitcircle(center,radius,data) {
+        return {center:center,
+                radius:radius,
+                data:data,
+                type:Box.circle,
+                isHit: function(loc) {
+                    return (norm(add(times(-1,loc),center)) < radius)
+                }
+        }
+}
+
+
 
 function updateCenter(box,f) {
     box.center = f(box.center);
@@ -71,7 +115,7 @@ function hexBox(hexCoords,side,dimension,activate){
 
 function getHits(hitList,coord) {
     return hitList.filter(function(box) {
-            return isHit(coord,box)
+            return box.isHit(coord)
     })
 }
 
@@ -80,11 +124,6 @@ function topRight(box) {
 }
 function bottomLeft(box) {
         return add(box.center,times(-1,box.dimension))
-}
-function isHit(loc,box) {
-        var t = multiplyMatrix(rotationMatrix(-box.rotation),add(loc,times(-1,box.center)))
-       return (t.x <= box.dimension.x && t.y <= box.dimension.y
-              && t.x >= -box.dimension.x && t.y >= -box.dimension.y)
 }
 
 function boxCorners(box) {

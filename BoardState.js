@@ -14,7 +14,7 @@ function makeVertex(settled, team){
 }
 
 /* Returns a dictionary, the keys of which refer to coordinates on the hexagonal plane
- * and the values of which are the vertex objects. The 
+ * and the values of which are the vertex objects. The
  */
 
 function buildVertexFramework(coordList){
@@ -23,22 +23,23 @@ function buildVertexFramework(coordList){
 
 /* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
- * num: integer from 2 to 12, 7 indicating robber}
+ * num: integer from 2 to 12, 7 indicating robber
+ * coordiantes: vector object containing hex's coordinates.}
  */
 
-function makeHexObject(resource, token){   //TODO: Naming Conventions?
-	return {resource:resource, token:token}
+function makeHexObject(resource, token, coordinates){   //TODO: Naming Conventions?
+	return {resource:resource, token:token, coordinates:coordinates}
 }
 
 /* buildRegularHexFramework
  * Function builds a dictionary, the keys of which are hex coordinates(contained in arrays -
  * the first value is the x coordinate, the second the y) and the values of which are
- * hex objects. This represents a regular hexagonal board - that is to say, like a normal 
- * catan board - with a width at the highest point of width. 
+ * hex objects. This represents a regular hexagonal board - that is to say, like a normal
+ * catan board - with a width at the highest point of width.
  */
 
 function buildRegularHexFramework(width){
-	var tileFrame = {};
+	var tileFrame = [];
 	resList = shuffle(baseResourceList);
 	tokList = shuffle(baseTokenList);
 	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){
@@ -51,11 +52,17 @@ function buildRegularHexFramework(width){
 			else{
 				tok = tokList.pop();
 			}
-			tileFrame[[i,j+yShift]] = makeHexObject(res,tok);
+			coords = makeVector(i, j+yShift);
+			tileFrame.push(makeHexObject(res,tok,coords));
 		}
 	}
 	return tileFrame
 }
+
+/* Helper function to be used in building a regular Hex Framwork. Determines where
+ * each diagonal y-column should begin.
+ *
+ */
 
 function generateYShift(width, xcoord){
 	if(xcoord>=0){

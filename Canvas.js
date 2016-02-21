@@ -13,7 +13,54 @@
  *///^notes?
 
 //CANVAS
+//
 
+function transformHitlist(boxes,trans) {
+        return boxes.map(function(box){return transformHitbox(box,trans)})
+}
+function transformHitbox(box,trans) {
+        if(box.type == Box.box) {
+                return newHitbox(transform(box.center,trans)
+                           ,times(trans.scale,box.dimension)
+                           ,box.data
+                           ,box.rotation)
+        } else if (box.type == Box.circle) {
+                return newHitcircle(transform(box.center,trans)
+                                   ,trans.scale * box.radius
+                                   ,box.data)
+        }
+
+}
+
+function transform(v,trans) {
+        return add(trans.translation,times(trans.scale,v))
+}
+
+function inverseTransform(v,trans) {
+        return times((1/trans.scale),add(times(-1,trans.translation),v))
+}
+
+function drawHitboxes(boxes,hits,ctx) {
+        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        boxes.map(function(box) {drawHitbox(box,ctx)});
+        ctx.fillStyle = "rgba(255, 122, 0, 0.5)";
+        hits.map(function(box){drawHitbox(box,ctx)});
+}
+function drawHitbox(box,ctx) {
+        resetTransform(ctx);
+        if(box.type == Box.box) {
+                drawPath(boxCorners(box),ctx);
+        } else if (box.type == Box.circle) {
+                ctx.beginPath();
+                ctx.arc(box.center.x,box.center.y,box.radius,0,2*Math.PI,0);
+        }
+        ctx.fill();
+        ctx.stroke();
+}
+
+function resetTransform(ctx) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
 //Draws title of the canvas
 //created by sduong
 function drawTitle(ctx){
@@ -22,50 +69,108 @@ function drawTitle(ctx){
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
  }
 
+function clearCanvas(ctx,transform) {
+        var canvas = ctx.canvas;
+        resetTransform(ctx);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        setTransform(ctx,transform);
+}
+
+function setTransform(ctx,transform) {
+  ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
+}
+
+function redraw(board,mouse,transform,animations,ctx) {
+        clearCanvas(ctx,transform);
+        drawBoard(board,transform,ctx);
+        var test = mouse.pos.x.valueOf();
+        var rest = mouse.pos.y.valueOf();
+        var vec = makeVector(test,rest);
+        vec = inverseTransform(vec,transform);
+
+        if(mouse.clicked) {
+                // draw a square where clicked in world
+                animations.data.push(multiFrame(function(context,frames) {
+                        setTransform(context,transform);
+                        context.fillStyle = "rgba(0, 255, 0, 0.5)";
+                        context.fillRect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
+                },1000))
+
+                // move the view to the right
+                animations.data.push(multiFrame(function(context,frames) {
+                        transform.translation.x += 1/(1 + Math.exp(-frames/100));
+                },100))
+        }
+        animations.data = pruneAnimations(animations.data);
+        if(animations.data.length > 0)  {
+                drawAnims(animations.data,ctx);
+        }
+}
+
 //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
 //created by hherman, edited by sduong [IN PROGRESS]
-function drawBoard(ctx) {
+function drawBoard(board,transform,ctx) {
+        //Set transformation
+  setTransform(ctx,transform);
   //setting the side of hexagon to be a value
   var side = 50;
   //create object holding 19 xy coordinates and w value
-  var hCoords = generateHexCoords(side,ctx);
+  //var hCoords = generateHexCoords(side,ctx);
   //console.log(hCoords); //check console ...it works!
 
+  //array of possible resource terrains
+  var resList = ["lumber","lumber","lumber","lumber",
+                  "grain","grain","grain","grain",
+                  "wool","wool","wool","wool",
+                  "ore","ore","ore",
+                  "brick","brick","brick","nothing"];
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 
-  shuffleRT(getResList(),tokens); //shuffles the resources and tokesn so we get a new board each time!
+  //shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
+  //console.log(tokens);
+  
+  ctx.fillStyle = "#FFDAB9";
+  for (i in board){
+    var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
+    hexPath(board[i].coordinates,side,ctx);
+    ctx.fill();
+    ctx.stroke();
+//    drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
+ //   drawToken2(hexToWorld(board[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
+
+  }
   //store all terrain nodes in one place
-  var allTerrainNodes = {}; //there should be 19 of the node objects here
-  var allSettleSpaces = {}; //there should be 54 of the node objects here
+  // var allTerrainNodes = {}; //there should be 19 of the node objects here
+  // var allSettleSpaces = {}; //there should be 54 of the node objects here
 
   //we want to draw a hexagon at each of the hexagon coordinates...
-  for (var i = 0; i < hCoords.x.length; i++){
-      var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
-      //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-      var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
-      allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
-      drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
-      drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
+  // for (var i = 0; i < hCoords.x.length; i++){
+  //     var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
+  //     //tiletype here...will be the "image link" to superimpose it onto the hexagon...
+  //     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
+  //     allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
+  //     drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
+  //     drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
+  //
+  //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
+  // }
 
-      //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
-  }
+
 }
 
-//draw them tokens
-//created by sduong
-function drawToken(res,hcpair, token, ctx){
-    var xctx = hcpair[0]+hcpair[2]*1.2;
-    var yctx = hcpair[1]+hcpair[2]*1.2;
-    ctx.strokeStyle="black"; //draw a black border for the number
-  	ctx.lineWidth=1; //with width 1
-  	ctx.beginPath();
-    ctx.fillStyle="beige"; //fill color of the token
-  	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
-  	ctx.fill();
-  	ctx.stroke();
-	if (res != "nothing") {
+function drawToken2(hc, token, ctx){
+  var temp = hc;
+  ctx.strokeStyle="black"; //draw a black border for the number
+  ctx.lineWidth=1; //with width 1
+  ctx.beginPath();
+  ctx.fillStyle="beige"; //fill color of the token
+  ctx.arc(temp.x+35,temp.y+20, 20, 0, 2*Math.PI); //draw the token circle
+  ctx.fill();
+  ctx.stroke();
+
+  if (token != 99) {
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";
     }
@@ -73,12 +178,39 @@ function drawToken(res,hcpair, token, ctx){
   		ctx.fillStyle="black";
     }
     ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),xctx-9,yctx+10);
+    ctx.fillText(String(token),temp.x+25,temp.y+25);
 
 	} else{
-      drawRobber(xctx,yctx,hcpair[2],ctx);
+      drawRobber(temp.x+30,temp.y+10,40,ctx);
 	}
 }
+
+//draw them tokens
+//created by sduong
+// function drawToken(res,hcpair, token, ctx){
+//     var xctx = hcpair[0]+hcpair[2]*1.2;
+//     var yctx = hcpair[1]+hcpair[2]*1.2;
+//     ctx.strokeStyle="black"; //draw a black border for the number
+//   	ctx.lineWidth=1; //with width 1
+//   	ctx.beginPath();
+//     ctx.fillStyle="beige"; //fill color of the token
+//   	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
+//   	ctx.fill();
+//   	ctx.stroke();
+// 	if (res != "nothing") {
+//     if (token == 6 || token == 8){
+//   		ctx.fillStyle="red";
+//     }
+//     else{
+//   		ctx.fillStyle="black";
+//     }
+//     ctx.font = "24px Times New Roman";
+//     ctx.fillText(String(token),xctx-9,yctx+10);
+//
+// 	} else{
+//       drawRobber(xctx,yctx,hcpair[2],ctx);
+// 	}
+// }
 
 //shuffles the resources and number tokens and includes the robber to be set on the desert.
 //created by sduong
@@ -125,7 +257,6 @@ function drawTile(hcpair,tiletype,side,ctx) {
   drawSVG(tiletype, hcpair,ctx);
   ctx.fill();
   ctx.stroke();
-
 
 }
 
@@ -175,31 +306,35 @@ function generateHexCoords(side,ctx){
 }
 
 //draws the image of the terrain on the board
-function drawSVG(path, hcpair,ctx){
+function drawSVG(path, hc,ctx){
   var img = new Image(); //create new image element
   img.src = path; //set source path
-  var x = hcpair[0];
-  var y = hcpair[1];
-  var scale = hcpair[2]*2.5;
-  ctx.drawImage(img, x, y, scale, scale);
+  var x = hc.x-8;
+  var y = hc.y-31;
+  var scale = 100;
+  ctx.drawImage(img, x, y, scale-10, scale);
 }
 ///////////////////////////////////////////////////////////////////////////////
 function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }
 
-function hexPath(hexCoords,side,ctx) {
+function drawPath(verts,ctx) {
         ctx.beginPath()
-        var verts = vertices(hexCoords);
-        var start = worldToCanvas(vertexToWorld(verts[0],side),ctx.canvas)
+        var start = verts[0]
         ctx.moveTo(start.x,start.y)
         var mappingFunction = function(coord) {
-               var point = worldToCanvas(vertexToWorld(coord,side),ctx.canvas);
-               ctx.lineTo(point.x,point.y);
+               ctx.lineTo(coord.x,coord.y);
         }
         verts.map(mappingFunction)
         ctx.closePath();
+}
 
+function hexPath(hexCoords,side,ctx) {
+        var verts = vertices(hexCoords).map(function(c) {
+                return vertexToWorld(c,side);
+        })
+        drawPath(verts,ctx)
 }
 
 function makeHex(hexCoords,side,ctx) {
@@ -216,33 +351,8 @@ function drawHexPoints(hexCoords,side,ctx) {
 }
 
 function drawVertex(vertexCoords,side,ctx) {
-        coords = worldToCanvas(vertexToCanvas(vertexCoords,side),ctx.canvas);
+        coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 
         ctx.fillRect(coords.x,coords.y,10,10)
 }
 
-function worldToCanvas(coords,canvas) {
-        return add(makeVector(canvas.width/2, canvas.height/2),coords)
-}
-
-function hexToWorld(hexcoords,side) {
-    return add(makeVector(-side/2,-side/2),piecewiseTimes(makeVector(side,-side),fromHex(hexcoords)))
-}
-function vertexToWorld(vcoords,side) {
-    return add(makeVector(-side,-side),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))
-
-}
-
-unitY = makeVector(Math.cos(Math.PI/3),Math.sin(Math.PI/3));
-
-function fromVertex(vcoords) {
-    yunits = times(Math.ceil(vcoords.y/2),makeVector(Math.cos(Math.PI/6),Math.sin(Math.PI/6)));
-    regunits = 2*Math.floor(vcoords.y/2) * Math.sin(Math.PI/6);
-    xdelta = 2*vcoords.x*Math.cos(Math.PI/6)
-    return add(makeVector(xdelta,regunits),yunits);
-}
-
-function fromHex(hexcoords) {
-    return add(identX(hexcoords.x),
-                     times(hexcoords.y,unitY))
-}

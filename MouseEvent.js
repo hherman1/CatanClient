@@ -24,22 +24,86 @@
  *  }
  */
 
+maxClickMove = 0
+function newMouse() {
+        return {
+                pos: makeVector(-1,-1),
+                button: -1,
+                click: 0, // could the mouse be clicking
+                clicked: 0, // has the mouse just clicked
+                dragging: 0, // is the mouse dragging
+                movement: makeVector(0,0),
+                scroll: makeVector(0,0)
+        }
+
+}
+
+function processBuffer(mouse,mousebuffer) {
+        mouse.clicked = 0;
+        mouse.movement.x = 0;
+        mouse.movement.y = 0;
+        mouse.scroll.x = 0;
+        mouse.scroll.y = 0;
+        if(mousebuffer.mousescrolls.length > 0) {
+                var wheel = collapseWheelEvents(mousebuffer.mousescrolls);
+                mouse.scroll = makeVector(wheel.deltaX,wheel.deltaY);
+        }
+        if(mousebuffer.mousemoves.length > 0) {
+                updateMouse(mouse,collapseMousemoveEvents(mousebuffer.mousemoves));
+        }
+        if (mousebuffer.mousedowns.length > 0) {
+                mouse.click = 1;
+        }
+        if (mouse.click && norm(mouse.movement) > maxClickMove) {
+                mouse.click = 0;
+                mouse.dragging = 1;
+        }
+        if (mousebuffer.mouseups.length > 0) {
+                mouse.dragging = 0;
+                if(mouse.click) {
+                        mouse.clicked = 1;
+                        mouse.click = 0;
+                }
+        }
+        return mouse
+}
+
+function updateMouse(mouse,evt) {
+        mouse.pos = getCoords(evt);
+
+        mouse.button = evt.button;
+
+        mouse.movement.x = evt.movementX;
+        mouse.movement.y = evt.movementY;
+
+}
+
 function mouseEventSaver(mousebuffer) {
         return (function(evt) {
-            mousebuffer.push(evt)
+            evt.preventDefault();
+            mousebuffer.push(evt);
         })
 }
 
 function flushMouseEvents(mousebuffer) {
-    mousebuffer.clicks = [];
-    mousebuffer.mousemoves = [];
-
+    mousebuffer.mousemoves.length = 0;
+    mousebuffer.mousedowns.length = 0;
+    mousebuffer.mouseups.length = 0;
 }
 
 function newMouseBuffer() {
-        return {clicks:[]
-                ,mousemoves:[]
+        return {mousemoves:[]
+                ,mousedowns: []
+                ,mouseups: []
+                ,mousescrolls: []
                 }
+}
+
+function initBuffer(elem,buffer) {
+        elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
+        elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
+        elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
+        elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
 }
 
 function getCoords(evt) {
@@ -50,24 +114,25 @@ function makeActivatedBox(hitbox,evt){
         return {hitbox:hitbox,evt:evt}
 }
 
-function allHits(events,hitboxes) {
-    var out = []
-    events.forEach(function(cevt) {
-            var hits = getHits(hitboxes,getCoords(cevt));
-            hits.map(function(hitbox) {
-                    return makeActivatedBox(hitbox,cevt)
-            }
-            out.concat(hits);
+function collapseMousemoveEvents(evts) {
+    out = evts.pop();
+    evts.forEach(function(evt) {
+            out.movementX += evt.movementX;
+            out.movementY += evt.movementY;
     })
-    return out
+    return out;
+}
+function collapseWheelEvents(evts) {
+    out = evts.pop();
+    evts.forEach(function(evt) {
+            out.deltaX += evt.deltaX;
+            out.deltaY += evt.deltaY;
+    })
+    return out;
 }
 
+
 //Returns a mousebuffer of ActivatedBox's
-function processHits(mousebuffer,hitboxes) {
-    var out = newMouseBuffer();
-    out.clicks = allHits(mousebuffer.clicks,hitboxes)
-    out.mousemoves = allHits(mousebuffer.mousemoves,hitboxes)
-}
 
 //Takes a list of current players and produces a mapping [(player,color)]
 function pickColors(players) {

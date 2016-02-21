@@ -4,6 +4,15 @@
  */
 
  //This is a test line. Please delete it when you find it!
+ //
+
+function dotProduct(v1,v2) {
+        return sum(piecewiseTimes(v1,v2))
+}
+
+function sum(v) {
+        return v.x + v.y
+}
 
 function ident(v) {
         return makeVector(v,v)
@@ -74,4 +83,42 @@ function hexPoints(coords,radius) {
                                 unitY),
                  coords));
     return out
+}
+
+
+function norm(vector) {
+        return Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+}
+
+function unitVector(theta) {
+        return makeVector(Math.cos(theta),Math.sin(theta))
+}
+function rotationMatrix(theta) {
+        return makeVector(makeVector(Math.cos(theta),-Math.sin(theta)),makeVector(Math.sin(theta),Math.cos(theta)))
+}
+function multiplyMatrix(mat,vec) {
+        return makeVector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
+}
+
+function hexToWorld(hexcoords,side) {
+    return piecewiseTimes(makeVector(Math.cos(Math.PI/6)*side*2,2*-side*Math.sin(Math.PI/3)),fromHex(hexcoords))
+}
+function vertexToWorld(vcoords,side) {
+    return add(makeVector(-side*Math.sin(Math.PI/3),-side/2),piecewiseTimes(makeVector(side,-side),fromVertex(vcoords)))
+
+}
+
+
+unitY = unitVector(Math.PI/3)
+
+function fromVertex(vcoords) {
+    yunits = times(Math.ceil(vcoords.y/2),makeVector(Math.cos(Math.PI/6),Math.sin(Math.PI/6)));
+    regunits = 2*Math.floor(vcoords.y/2) * Math.sin(Math.PI/6);
+    xdelta = 2*vcoords.x*Math.cos(Math.PI/6)
+    return add(makeVector(xdelta,regunits),yunits);
+}
+
+function fromHex(hexcoords) {
+    return add(identX(hexcoords.x),
+                     times(hexcoords.y,unitY))
 }

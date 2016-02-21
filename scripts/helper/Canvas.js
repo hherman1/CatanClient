@@ -3,6 +3,7 @@
  *Canvas.js contains functions to draw/render objects onto the window.
  */
 
+//requirejs(['Grid','Hitbox','Animation'],function(){})
 
 //Draws title of the canvas
 //created by sduong
@@ -36,6 +37,7 @@ function drawTitle(ctx){
 
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
+           console.log(i);
      var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
      ctx.fill();
@@ -206,7 +208,7 @@ function drawSVG(path, hc,ctx){
   var y = hc.y-side;
   var scale = side*2;
   ctx.drawImage(img, x, y, scale-12, scale);
-  console.log("image is being drawn");
+  //console.log("image is being drawn");
 }
 
 

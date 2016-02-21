@@ -130,33 +130,17 @@ function drawBoard(board,transform,ctx) {
   //shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
   //console.log(tokens);
-  
+
   ctx.fillStyle = "#FFDAB9";
   for (i in board){
     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
     hexPath(board[i].coordinates,side,ctx);
     ctx.fill();
     ctx.stroke();
-//    drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
- //   drawToken2(hexToWorld(board[i].coordinates,side*1.75),tokens[i],ctx); //draw number token
+    drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
+    //drawToken2(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
 
   }
-  //store all terrain nodes in one place
-  // var allTerrainNodes = {}; //there should be 19 of the node objects here
-  // var allSettleSpaces = {}; //there should be 54 of the node objects here
-
-  //we want to draw a hexagon at each of the hexagon coordinates...
-  // for (var i = 0; i < hCoords.x.length; i++){
-  //     var hcpair = [hCoords.x[i], hCoords.y[i], hCoords.z]; //individual hexagon coordinate with the z value (distance from center of hexagon to its left/right side)
-  //     //tiletype here...will be the "image link" to superimpose it onto the hexagon...
-  //     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
-  //     allTerrainNodes[i] = TerrainNode(i,hcpair[0],hcpair[1],tokens[i],getResList()[i],null); //store all terrain data into this node except for the settle space data (set to null)
-  //     drawTile(hcpair,tiletype,side,ctx); //draw terrain tile
-  //     drawToken(resList[i],hcpair,tokens[i],ctx); //draw number token
-  //
-  //     //allSettleSpaces[i] = SettleSpaceNode(hcpair[0], hcpair[1], false, )//create the settle space nodes
-  // }
-
 
 }
 
@@ -309,10 +293,13 @@ function generateHexCoords(side,ctx){
 function drawSVG(path, hc,ctx){
   var img = new Image(); //create new image element
   img.src = path; //set source path
-  var x = hc.x-8;
-  var y = hc.y-31;
-  var scale = 100;
-  ctx.drawImage(img, x, y, scale-10, scale);
+  var side = 50;
+  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2));
+  var x = hc.x-w;
+  var y = hc.y-side;
+  var scale = side*2;
+  ctx.drawImage(img, x, y, scale-12, scale);
+  console.log("image is being drawn");
 }
 ///////////////////////////////////////////////////////////////////////////////
 function drawRect(coords,side,ctx) {
@@ -355,4 +342,3 @@ function drawVertex(vertexCoords,side,ctx) {
 
         ctx.fillRect(coords.x,coords.y,10,10)
 }
-

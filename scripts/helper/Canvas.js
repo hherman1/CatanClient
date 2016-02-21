@@ -127,7 +127,7 @@ function drawBoard(board,transform,ctx) {
   //generate number tokens aka the possible dice outcomes
   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 
-  //shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
+  shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
 
   //console.log(tokens);
 
@@ -138,7 +138,7 @@ function drawBoard(board,transform,ctx) {
     ctx.fill();
     ctx.stroke();
     drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-    //drawToken2(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
+    drawToken2(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
 
   }
 
@@ -150,7 +150,7 @@ function drawToken2(hc, token, ctx){
   ctx.lineWidth=1; //with width 1
   ctx.beginPath();
   ctx.fillStyle="beige"; //fill color of the token
-  ctx.arc(temp.x+35,temp.y+20, 20, 0, 2*Math.PI); //draw the token circle
+  ctx.arc(temp.x,temp.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();
   ctx.stroke();
 
@@ -162,10 +162,10 @@ function drawToken2(hc, token, ctx){
   		ctx.fillStyle="black";
     }
     ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),temp.x+25,temp.y+25);
+    ctx.fillText(String(token),temp.x-6,temp.y+5);
 
 	} else{
-      drawRobber(temp.x+30,temp.y+10,40,ctx);
+      drawRobber(temp.x,temp.y,40,ctx);
 	}
 }
 

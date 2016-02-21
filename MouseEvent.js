@@ -133,12 +133,6 @@ function collapseWheelEvents(evts) {
 
 
 //Returns a mousebuffer of ActivatedBox's
-function processHits(loc,hitboxes) {
-    var filterFunction = function(box) {
-            return isHit(loc,box)
-    }
-    return hitboxes.filter(filterFunction)
-}
 
 //Takes a list of current players and produces a mapping [(player,color)]
 function pickColors(players) {

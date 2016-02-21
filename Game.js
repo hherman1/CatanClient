@@ -96,7 +96,7 @@ function newScale(delta,scale) {
 function gameStep(mouse,mousebuffer,hitboxes,ui,animations,gamestate,server,ctx) {
         var hitlist = transformHitlist(hitboxes,ui.transform);
         mouse = processBuffer(mouse,mousebuffer);
-        var hits = processHits(mouse.pos,hitlist);
+        var hits = getHits(hitlist,mouse.pos);
         
         if(mouse.clicked) {
                 console.log("click")

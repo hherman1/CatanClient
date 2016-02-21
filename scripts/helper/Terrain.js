@@ -1,4 +1,10 @@
-
+Terrain = {
+  Wood: 0,
+  Sheep: 1,
+  Brick: 2,
+  Grain: 3,
+  Ore: 4
+}
 
 function TerrainNode(i, x, y, toke, res, ss){
   var tn = {

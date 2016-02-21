@@ -1,19 +1,51 @@
 /*
- * board data:
- * {buildings: [(coords,(color,building))]
- *  roads:[(coords,coords,color)],
- *  tiles: [(vector,tiletype)],
- *  }
- * Goal: become capable of rendering board objects
- *
- * Next Steps:
- * - Render Thiefs
- * - Render trade ports
- * - ?
- *///^notes?
+ * CANVAS.JS
+ *Canvas.js contains functions to draw/render objects onto the window.
+ */
 
-//CANVAS
-//
+
+//Draws title of the canvas
+//created by sduong
+function drawTitle(ctx){
+     ctx.font = "bold 36px Courier New";
+     ctx.fillStyle = "coral";
+     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
+ }
+
+ //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
+ //created by hherman, edited by sduong [IN PROGRESS]
+ function drawBoard(board,transform,ctx) {
+         //Set transformation
+   setTransform(ctx,transform);
+   //setting the side of hexagon to be a value
+   var side = 50;
+   //create object holding 19 xy coordinates and w value
+   //var hCoords = generateHexCoords(side,ctx);
+   //console.log(hCoords); //check console ...it works!
+
+   //array of possible resource terrains
+   var resList = ["lumber","lumber","lumber","lumber",
+                   "grain","grain","grain","grain",
+                   "wool","wool","wool","wool",
+                   "ore","ore","ore",
+                   "brick","brick","brick","nothing"];
+   //generate number tokens aka the possible dice outcomes
+   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
+
+   shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
+
+   ctx.fillStyle = "#FFDAB9";
+   for (i in board){
+     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
+     hexPath(board[i].coordinates,side,ctx);
+     ctx.fill();
+     ctx.stroke();
+     drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
+     drawToken(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
+
+   }
+
+ }
 
 function transformHitlist(boxes,trans) {
         return boxes.map(function(box){return transformHitbox(box,trans)})
@@ -41,9 +73,9 @@ function inverseTransform(v,trans) {
 }
 
 function drawHitboxes(boxes,hits,ctx) {
-        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
-        ctx.fillStyle = "rgba(255, 122, 0, 0.5)";
+        ctx.fillStyle = "rgba(255, 122, 0, 0.3)";
         hits.map(function(box){drawHitbox(box,ctx)});
 }
 function drawHitbox(box,ctx) {
@@ -61,13 +93,7 @@ function drawHitbox(box,ctx) {
 function resetTransform(ctx) {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
-//Draws title of the canvas
-//created by sduong
-function drawTitle(ctx){
-     ctx.font = "bold 36px Courier New";
-     ctx.fillStyle = "coral";
-     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
- }
+
 
 function clearCanvas(ctx,transform) {
         var canvas = ctx.canvas;
@@ -107,44 +133,8 @@ function redraw(board,mouse,transform,animations,ctx) {
         }
 }
 
-//draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
-//created by hherman, edited by sduong [IN PROGRESS]
-function drawBoard(board,transform,ctx) {
-        //Set transformation
-  setTransform(ctx,transform);
-  //setting the side of hexagon to be a value
-  var side = 50;
-  //create object holding 19 xy coordinates and w value
-  //var hCoords = generateHexCoords(side,ctx);
-  //console.log(hCoords); //check console ...it works!
 
-  //array of possible resource terrains
-  var resList = ["lumber","lumber","lumber","lumber",
-                  "grain","grain","grain","grain",
-                  "wool","wool","wool","wool",
-                  "ore","ore","ore",
-                  "brick","brick","brick","nothing"];
-  //generate number tokens aka the possible dice outcomes
-  var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-
-  shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
-
-  //console.log(tokens);
-
-  ctx.fillStyle = "#FFDAB9";
-  for (i in board){
-    var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
-    hexPath(board[i].coordinates,side,ctx);
-    ctx.fill();
-    ctx.stroke();
-    drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-    drawToken2(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
-
-  }
-
-}
-
-function drawToken2(hc, token, ctx){
+function drawToken(hc, token, ctx){
   var temp = hc;
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
@@ -168,33 +158,6 @@ function drawToken2(hc, token, ctx){
       drawRobber(temp.x,temp.y,40,ctx);
 	}
 }
-
-//draw them tokens
-//created by sduong
-// function drawToken(res,hcpair, token, ctx){
-//     var xctx = hcpair[0]+hcpair[2]*1.2;
-//     var yctx = hcpair[1]+hcpair[2]*1.2;
-//     ctx.strokeStyle="black"; //draw a black border for the number
-//   	ctx.lineWidth=1; //with width 1
-//   	ctx.beginPath();
-//     ctx.fillStyle="beige"; //fill color of the token
-//   	ctx.arc(xctx,yctx, 20, 0, 2*Math.PI); //draw the token circle
-//   	ctx.fill();
-//   	ctx.stroke();
-// 	if (res != "nothing") {
-//     if (token == 6 || token == 8){
-//   		ctx.fillStyle="red";
-//     }
-//     else{
-//   		ctx.fillStyle="black";
-//     }
-//     ctx.font = "24px Times New Roman";
-//     ctx.fillText(String(token),xctx-9,yctx+10);
-//
-// 	} else{
-//       drawRobber(xctx,yctx,hcpair[2],ctx);
-// 	}
-// }
 
 //shuffles the resources and number tokens and includes the robber to be set on the desert.
 //created by sduong
@@ -232,64 +195,8 @@ function shuffle(array) {
 }
 
 
-// takes the hexcoord and tiletype (includes number) and draws it on the ctx
-function drawTile(hcpair,tiletype,side,ctx) {
-  ctx.beginPath();
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 1;
-  //hexPath(hcpair,6,ctx); //not sure if this does anything?
-  drawSVG(tiletype, hcpair,ctx);
-  ctx.fill();
-  ctx.stroke();
-
-}
-
-//generates an object that stores 19 x and y coordinates for the hexagons
-//created by sduong
-function generateHexCoords(side,ctx){
-  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2)); //half of the hexagon, from center to side
-  var xco = [];
-  var yco = [];
-
-  //initial xy to place board
-  var initx = ctx.canvas.width/3; //distance from left canvas border
-  var inity = ctx.canvas.height/10; //distance from top canvas border
-
-  //generate and x and y coordinates for 19 hexagons
-  for (var i = 0; i < 19; i++){
-
-    if (i < 3) { //first row of tiles
-      xco.push(initx+2.3*w*i);
-      yco.push(inity);
-
-    } else if (i < 7){ //second row
-      xco.push(initx-2.3*side+2.3*w*(i-2.35));
-      yco.push(inity+1.5*side);
-
-    } else if (i < 12){ //third row
-      xco.push(initx-4.6*side+2.3*w*(i-5.7)); //5.7 = arbitrary numbers that work through trial & error. I need to work on how to get a system down for this.
-      yco.push(inity+3*side);
-
-    } else if (i < 16){ //fourth row
-      xco.push(initx-2.3*side+2.3*w*(i-11.36));
-      yco.push(inity+4.5*side);
-    }
-    else{ //last row
-      xco.push(initx+2.3*w*(i-16.02));
-      yco.push(inity+6*side);
-    }}
-
-  //to check the array of coordinate values
-  //console.log(xco.length,yco.length);
-  var hexCoords = {
-    x:xco,
-    y:yco,
-    z: w
-  };
-  return hexCoords;
-}
-
 //draws the image of the terrain on the board
+//created by sduong
 function drawSVG(path, hc,ctx){
   var img = new Image(); //create new image element
   img.src = path; //set source path
@@ -301,7 +208,12 @@ function drawSVG(path, hc,ctx){
   ctx.drawImage(img, x, y, scale-12, scale);
   console.log("image is being drawn");
 }
-///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//not called?
 function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }
@@ -324,11 +236,13 @@ function hexPath(hexCoords,side,ctx) {
         drawPath(verts,ctx)
 }
 
+//not called
 function makeHex(hexCoords,side,ctx) {
         hexPath(hexCoords,side,ctx)
         ctx.fill();
 }
 
+//not called
 function drawHexPoints(hexCoords,side,ctx) {
     var mappingFunction = function(coord) {
         drawVertex(coord,side,ctx);
@@ -337,6 +251,7 @@ function drawHexPoints(hexCoords,side,ctx) {
     coordsList.map(mappingFunction)
 }
 
+//not called because drawhexpoints is not called
 function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 

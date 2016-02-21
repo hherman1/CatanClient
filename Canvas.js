@@ -19,10 +19,16 @@ function transformHitlist(boxes,trans) {
         return boxes.map(function(box){return transformHitbox(box,trans)})
 }
 function transformHitbox(box,trans) {
-        return newHitbox(transform(box.center,trans)
+        if(box.type == Box.box) {
+                return newHitbox(transform(box.center,trans)
                            ,times(trans.scale,box.dimension)
                            ,box.data
                            ,box.rotation)
+        } else if (box.type == Box.circle) {
+                return newHitcircle(transform(box.center,trans)
+                                   ,trans.scale * box.radius
+                                   ,box.data)
+        }
 
 }
 
@@ -42,7 +48,12 @@ function drawHitboxes(boxes,hits,ctx) {
 }
 function drawHitbox(box,ctx) {
         resetTransform(ctx);
-        drawPath(boxCorners(box),ctx);
+        if(box.type == Box.box) {
+                drawPath(boxCorners(box),ctx);
+        } else if (box.type == Box.circle) {
+                ctx.beginPath();
+                ctx.arc(box.center.x,box.center.y,box.radius,0,2*Math.PI,0);
+        }
         ctx.fill();
         ctx.stroke();
 }
@@ -86,8 +97,8 @@ function redraw(board,mouse,transform,animations,ctx) {
                 },1000))
 
                 // move the view to the right
-                animations.data.push(multiFrame(function(context) {
-                        transform.translation.x += 1;
+                animations.data.push(multiFrame(function(context,frames) {
+                        transform.translation.x += 1/(1 + Math.exp(-frames/100));
                 },100))
         }
         animations.data = pruneAnimations(animations.data);

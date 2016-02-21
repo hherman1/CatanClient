@@ -37,7 +37,7 @@ function genTileBoxes(coords,side) {
 function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
                 return newHitcircle(hexToWorld(hc,side)
-                                   ,side - 5
+                                   ,side/(2*Math.tan(Math.PI/6))
                                    ,[Type.Tile,hc])
         })
 }

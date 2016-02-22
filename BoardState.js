@@ -13,14 +13,6 @@ function makeVertex(settled, team){
 	return {settled:settled, team:team}
 }
 
-/* Returns a dictionary, the keys of which refer to coordinates on the hexagonal plane
- * and the values of which are the vertex objects. The
- */
-
-function buildVertexFramework(coordList){
-	var vertexFrame = {};  // What will the coordinates be? How are they stored?
-	} //Not yet completed - vertex system must be discussed
-
 /* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
  * num: integer from 2 to 12, 7 indicating robber
@@ -80,6 +72,6 @@ function generateYShift(width, xcoord){
  * team: integer from 1 to 4, according to team}
  */
 
-function makeRoad(node1, node2, team){
-	return {node1:node1, node2:node2, team:team}
+function makeRoad(vertex1, vertex2, team){
+	return {vertex1:node1, vertex2:node2, team:team}
 }

@@ -3,16 +3,22 @@
                 <meta charset="utf-8">
                 <title>Catan Client </title>
                 <!-- We should eventualy use a compiler to pack these into a single minified javascript source -->
-                <script type="text/javascript" src="Grid.js" ></script>
-                <script type="text/javascript" src="Canvas.js"></script>
-                <script type="text/javascript" src="Hitbox.js"></script>
-                <script type="text/javascript" src="Dice.js"></script>
-                <script type="text/javascript" src="Resource.js"></script>
-                <script type="text/javascript" src="Robber.js"></script>
-                <script type="text/javascript" src="Terrain.js"></script>
-                <script type="text/javascript" src="MouseEvent.js"></script>
-                <script type="text/javascript" src="Game.js"></script>
-                <script type="text/javascript" src="BoardState.js"></script>
+                <!--using require.js-->
+                <!--<script data-main="scripts/main.js" src="scripts/require.js"></script>-->
+
+                <script type="text/javascript" src="scripts/helper/Grid.js" ></script>
+                <script type="text/javascript" src="scripts/helper/Animation.js"></script>
+                <script type="text/javascript" src="scripts/helper/Canvas.js"></script>
+                <script type="text/javascript" src="scripts/helper/Hitbox.js"></script>
+                <script type="text/javascript" src="scripts/helper/MouseEvent.js"></script>
+                <script type="text/javascript" src="scripts/helper/Game.js"></script>
+                <script type="text/javascript" src="scripts/helper/BoardState.js"></script>
+
+                <script type="text/javascript" src="scripts/helper/Dice.js"></script>
+                <script type="text/javascript" src="scripts/helper/Resource.js"></script>
+                <script type="text/javascript" src="scripts/helper/Robber.js"></script>
+                <script type="text/javascript" src="scripts/helper/Terrain.js"></script>
+
                 <script type="text/javascript">
                         function test() {
                                 return "lol"
@@ -30,25 +36,16 @@
                 </script>
 
                 <style type="text/css">
-                    canvas { border: 1px solid black; }
+                    canvas { border: 1px solid black; width: 1000px; height:500px}
                 </style>
         </head>
         <body onload="main();">
           <style>#board { background-color: #C2DFFF; }</style>
-          <canvas id="board" width="1000" height="500"></canvas>
+          <canvas draggable="false" id="board" width="1000" height="500"></canvas>
           <br>
           <input type="button" value="NEW GAME" onclick="drawBoard(ctx)">
           <input type="button" value="ROLL DICE" onclick="rollDice()">
-          <!--For some reason this code needs to be here as the "source" to load images on the board.-->
-          <img src="graphics/forest.svg" width='0',height='0'>
-          <img src="graphics/field.svg" width='0',height='0'>
-          <img src="graphics/pasture.svg" width='0',height='0'>
-          <img src="graphics/mountains.svg" width='0',height='0'>
-          <img src="graphics/hills.svg" width='0',height='0'>
-          <img src="graphics/desert.svg" width='0',height='0'>
-          <img src="graphics/robber.svg" width='0',height='0'>
-        ``<img src="graphics/wood.svg" width='100',height='200'>
-          <img src="graphics/woodsymbol.svg" width='100',height='100'>
+
 
         </body>
 </html>

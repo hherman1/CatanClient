@@ -48,7 +48,7 @@ function buildRegularHexFramework(width){
 			tileFrame.push(makeHexObject(res,tok,coords));
 		}
 	}
-	return tileFrame
+	return tileFrame;
 }
 
 /* Helper function to be used in building a regular Hex Framwork. Determines where

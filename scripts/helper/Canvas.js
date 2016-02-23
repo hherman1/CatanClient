@@ -20,8 +20,6 @@ function drawTitle(ctx){
    setTransform(ctx,transform);
    //setting the side of hexagon to be a value
    var side = 50;
-
-   setInitResTok(); //set the resources and tokens (new shuffling of resources and tokens)
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
            console.log(i);

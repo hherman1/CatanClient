@@ -1,4 +1,62 @@
 //RESOURCE
+
+var resList;
+var tokens;
+
+
+function getResList(){
+  return resList;
+}
+
+function getTokens(){
+  return tokens;
+}
+
+function setInitResTok(){
+  resList = ["lumber","lumber","lumber","lumber",
+                  "grain","grain","grain","grain",
+                  "wool","wool","wool","wool",
+                  "ore","ore","ore",
+                  "brick","brick","brick","nothing"];
+  //generate number tokens aka the possible dice outcomes
+  tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
+  shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
+}
+//shuffles the resources and number tokens and includes the robber to be set on the desert.
+//created by sduong
+function shuffleRT(resList,tokens){
+  //shuffle them!
+  shuffle(resList);
+  shuffle(tokens);
+  var temp = 0;
+  for (var i in resList){
+    if (resList[i] == "nothing"){
+      tokens.splice(temp,0,99); //placing robber (99) on desert at the beginning of game
+    }
+    temp++;
+  }
+}
+
+//function to shuffle up the number tokens
+//Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
 function getResImg(res){
   //still needs work...i will have to spend some time resizing these photos somehow
   var resources = {};

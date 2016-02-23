@@ -33,7 +33,7 @@ function newUI(canvas) {
                ,mode: this.build
         }
 }
-                
+
 
 function initGame(ctx) {
         var mouse = newMouse();
@@ -58,7 +58,7 @@ function initGame(ctx) {
                         .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)])
         var ui = newUI(canvas) //None?
 
-
+        setInitResTok(); //set the resources and tokens (new shuffling of resources and tokens)
         window.setInterval(gameStep,frameDuration
                             ,mouse
                             ,mousebuffer
@@ -76,7 +76,7 @@ function last(list) {
 }
 
 function newScale(delta,scale) {
-    
+
         function sigmoid(x) {
                 return 1/(1 + Math.exp(-x))
         }
@@ -97,7 +97,7 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,animations,gamestate,server,ctx)
         var hitlist = transformHitlist(hitboxes,ui.transform);
         mouse = processBuffer(mouse,mousebuffer);
         var hits = getHits(hitlist,mouse.pos);
-        
+
         if(mouse.clicked) {
                 console.log("click")
         }
@@ -113,8 +113,5 @@ function gameStep(mouse,mousebuffer,hitboxes,ui,animations,gamestate,server,ctx)
         redraw(gamestate.board,mouse,ui.transform,animations,ctx);
         flushMouseEvents(mousebuffer);
         drawHitboxes(hitlist,hits,ctx);
-        
+
 }
-
-
-

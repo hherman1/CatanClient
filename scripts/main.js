@@ -12,10 +12,9 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['BoardState', 'Canvas','Game','Grid','Hitbox','MouseEvent','Animation', 'Resource'],
-function (){
-    //jQuery, canvas and the app/sub module are all
-    //loaded and can be used here now.
+requirejs(['BoardState', 'Canvas','Game','Grid','Hitbox','MouseEvent','Animation', 'Resource','Dice','Robber'],
+function (BoardState, Canvas, Game, Grid, Hitbox, MouseEvent, Animation, Resource, dice, robber){
+
 });
 
 function test() {

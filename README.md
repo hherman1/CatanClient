@@ -4,6 +4,7 @@ Asynchronous online Catan
 
 ## Synopsis
 
+Our project is to create a version of Settlers of Catan, an original board game created by Klaus Teuber.
  <!--At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.) -->
 
 

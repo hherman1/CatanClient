@@ -37,7 +37,6 @@ function drawTitle(ctx){
 
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
-           console.log(i);
      var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
      ctx.fill();

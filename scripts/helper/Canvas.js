@@ -20,33 +20,17 @@ function drawTitle(ctx){
    setTransform(ctx,transform);
    //setting the side of hexagon to be a value
    var side = 50;
-   //create object holding 19 xy coordinates and w value
-   //var hCoords = generateHexCoords(side,ctx);
-   //console.log(hCoords); //check console ...it works!
-
-   //array of possible resource terrains
-   var resList = ["lumber","lumber","lumber","lumber",
-                   "grain","grain","grain","grain",
-                   "wool","wool","wool","wool",
-                   "ore","ore","ore",
-                   "brick","brick","brick","nothing"];
-   //generate number tokens aka the possible dice outcomes
-   var tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-
-   shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
-
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
-           console.log(i);
-     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
+     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
      ctx.fill();
      ctx.stroke();
      drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-     drawToken(hexToWorld(board[i].coordinates,side),tokens[i],ctx); //draw number token
+     drawToken(hexToWorld(board[i].coordinates,side),getTokens()[i],ctx); //draw number token
 
    }
-
+  console.log("BOARD DRAWN"); //in the console the board is being drawn hundreds of times
  }
 
 function transformHitlist(boxes,trans) {
@@ -161,40 +145,6 @@ function drawToken(hc, token, ctx){
 	}
 }
 
-//shuffles the resources and number tokens and includes the robber to be set on the desert.
-//created by sduong
-function shuffleRT(resList,tokens){
-  //shuffle them!
-  shuffle(resList);
-  shuffle(tokens);
-  var temp = 0;
-  for (var i in resList){
-    if (resList[i] == "nothing"){
-      tokens.splice(temp,0,99); //placing robber (99) on desert at the beginning of game
-    }
-    temp++;
-  }
-}
-
-//function to shuffle up the number tokens
-//Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
 
 
 //draws the image of the terrain on the board
@@ -221,6 +171,7 @@ function drawRect(coords,side,ctx) {
 }
 
 function drawPath(verts,ctx) {
+        ctx.strokeStyle = "black";
         ctx.beginPath()
         var start = verts[0]
         ctx.moveTo(start.x,start.y)
@@ -235,7 +186,7 @@ function hexPath(hexCoords,side,ctx) {
         var verts = vertices(hexCoords).map(function(c) {
                 return vertexToWorld(c,side);
         })
-        drawPath(verts,ctx)
+        drawPath(verts,ctx);
 }
 
 //not called

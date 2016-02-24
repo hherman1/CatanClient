@@ -36,6 +36,13 @@ function makeVector(x,y) {
         return {x:x,y:y}
 }
 
+function compareVectors(vector1, vector2){
+    if((vector1.x == vector2.x)&&(vector1.y==vector2.y)){
+        return true;
+    }
+    return false;
+}
+
 function add(c1,c2) {
         return makeVector(c1.x + c2.x,
                          c1.y + c2.y)

@@ -2,13 +2,15 @@
 //team 0. The ID is used for the purposes of identification
 //and automatic color selection. All other values are initialized to zero.
 
-function player(playerID){
+function player(id){
   colList = ["red", "orange", "blue", "white"];  //Player colors will be consistently assigned
                                                  //in accordance with their ID
   //Player owned constructions
   var settlementCount = 0;
   var roadCount = 0;
-  var cityCount = 0; 
+  var cityCount = 0;
+  //Player roads
+  var roadList = []; 
   //Player owned resources
   var woodCount = 0;
   var wheatCount = 0;
@@ -16,11 +18,11 @@ function player(playerID){
   var brickCount = 0;
   var sheepCount = 0;
   //Color assigned
-  var playerColor = colList[playerID-1];
+  var playerColor = colList[id-1];
   //Player victory points
   var vicPoints = 0;
   var playerInfo = {
-    playerID:playerID,
+    id:id,
     settlement: settlementCount,
     road: roadCount,
     city: cityCount,
@@ -30,7 +32,8 @@ function player(playerID){
     brickCount: brickCount,
     sheepCount: sheepCount,
     playerColor: playerColor,
-    vicPoints:vicPoints
+    vicPoints:vicPoints,
+    roadList:roadList
   }
   return playerInfo;
 }

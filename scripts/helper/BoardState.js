@@ -73,7 +73,7 @@ function generateYShift(width, xcoord){
  */
 
  function buildVertexFramework(tileFrame){
- 	var vertexFrame = {};
+ 	var vertexFrame = {};                        //Switch to list - necessary?
  	for(i=0;i<tileFrame.length;i++){
  		coordList = vertices(tileFrame[i].coordinates);
  		for(j=0;j<coordList.length;j++){

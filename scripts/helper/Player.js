@@ -10,7 +10,9 @@ function player(id){
   var roadCount = 0;
   var cityCount = 0;
   //Player roads
-  var roadList = []; 
+  var roadList = [];
+  //Coordinates of vertices the player has settled
+  var settledVertices = []; 
   //Player owned resources
   var woodCount = 0;
   var wheatCount = 0;
@@ -33,7 +35,8 @@ function player(id){
     sheepCount: sheepCount,
     playerColor: playerColor,
     vicPoints:vicPoints,
-    roadList:roadList
+    roadList:roadList,
+    settledVertices:settledVertices
   }
   return playerInfo;
 }

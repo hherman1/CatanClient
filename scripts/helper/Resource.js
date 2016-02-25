@@ -1,7 +1,6 @@
 //RESOURCE
 
-var resList;
-var tokens;
+
 
 
 function getResList(){
@@ -12,7 +11,7 @@ function getTokens(){
   return tokens;
 }
 
-function setInitResTok(){
+function setInitResTok(resList,tokens){
   resList = ["lumber","lumber","lumber","lumber",
                   "grain","grain","grain","grain",
                   "wool","wool","wool","wool",

@@ -58,7 +58,9 @@ function initGame(ctx) {
                         .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)])
         var ui = newUI(canvas) //None?
 
-        setInitResTok(); //set the resources and tokens (new shuffling of resources and tokens)
+        var resList;
+        var tokens;
+        setInitResTok(resList,tokens); //set the resources and tokens (new shuffling of resources and tokens)
         window.setInterval(gameStep,frameDuration
                             ,mouse
                             ,mousebuffer

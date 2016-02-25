@@ -148,3 +148,20 @@ function checkCityLegality(vert, player){
 	}
 	return true;
 }
+
+/* Given a vertex and it's board, returns a list of its three neighbors.
+ */
+
+function getVertexNeighbors(vert, vertexFrame){
+	if(vert.y%2==0){
+		neighbor0 = vertexFrame[[vert.x,vert.y+1]];
+		neighbor1 = vertexFrame[[vert.x-1,vert.y+1]];
+		neighbor2 = vertexFrame[[vert.x,vert.y-1]];
+	}
+	else{
+		neighbor0 = vertexFrame[[vert.x,vert.y+1]];
+		neighbor1 = vertexFrame[[vert.x+1,vert.y-1]];
+		neighbor2 = vertexFrame[[vert.x, vert.y-1]];
+	}
+	return [neighbor0, neighbor1, neighbor2];
+}

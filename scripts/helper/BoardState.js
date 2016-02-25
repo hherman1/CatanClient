@@ -31,8 +31,10 @@ function makeHexObject(resource, token, coordinates){   //TODO: Naming Conventio
 
 function buildRegularHexFramework(width){
 	var tileFrame = [];
-	resList = shuffle(baseResourceList);
-	tokList = shuffle(baseTokenList);
+	resList = baseResourceList.slice();
+	tokList = baseTokenList.slice();
+	shuffle(resList);
+	shuffle(tokList);
 	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){
 		yShift = generateYShift(width,i);
 		for(j=0;j<width-Math.abs(i);j++){

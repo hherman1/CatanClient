@@ -9,13 +9,17 @@ requirejs.config({
     //config is relative to the baseUrl, and
     //never includes a ".js" extension since
     //the paths config could be for a directory.
+    paths: {
+        main: '../main'
+    }
 });
 
 // Start the main app logic.
-requirejs(['BoardState', 'Canvas','Game','Grid','Hitbox','MouseEvent','Animation', 'Resource','Dice','Robber'],
-function (BoardState, Canvas, Game, Grid, Hitbox, MouseEvent, Animation, Resource, dice, robber){
+requirejs(['Animation', 'BoardState', 'Canvas', 'Dice','Game','Grid','Hitbox','MouseEvent','Resource','Road','Robber','Settlement','Settler'],
+  function   (an, bs, canvas, d, ga, gr, hi, me, res, roa, rob, settlement, settler) {
 
 });
+
 
 function test() {
         return "lol"

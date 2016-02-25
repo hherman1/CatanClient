@@ -1,25 +1,26 @@
 //Global Variables
 
-baseResourceList = ["d", "w", "w", "w", "w", "s", "s", "s", "s", "l", "l", "l", "l",
-"o", "o", "o", "b", "b", "b"];
+Resource = {
+        Lumber : 0,
+        Wool : 1,
+        Ore : 2,
+        Brick : 3,
+        Grain : 4,
+        Desert : 5
+}
+
+
+baseResourceList = [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore, Resource.Brick, Resource.Brick, Resource.Brick];
 baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
 /* Vertex Object
  * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city),
- * team:integer(0 indicates none, numbered 1 through 4 otherwise)}
+ * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-function makeVertex(settled, team){
-	return {settled:settled, team:team}
+function makeVertex(settled, player, x, y){
+	return {settled:settled, player:player, x:x, y:y}
 }
-
-/* Returns a dictionary, the keys of which refer to coordinates on the hexagonal plane
- * and the values of which are the vertex objects. The
- */
-
-function buildVertexFramework(coordList){
-	var vertexFrame = {};  // What will the coordinates be? How are they stored?
-	} //Not yet completed - vertex system must be discussed
 
 /* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
@@ -32,9 +33,8 @@ function makeHexObject(resource, token, coordinates){   //TODO: Naming Conventio
 }
 
 /* buildRegularHexFramework
- * Function builds a dictionary, the keys of which are hex coordinates(contained in arrays -
- * the first value is the x coordinate, the second the y) and the values of which are
- * hex objects. This represents a regular hexagonal board - that is to say, like a normal
+ * Function builds a list of hex objects
+ * This represents a regular hexagonal board - that is to say, like a normal
  * catan board - with a width at the highest point of width.
  */
 
@@ -59,6 +59,7 @@ function buildRegularHexFramework(width){
 	return tileFrame;
 }
 
+
 /* Helper function to be used in building a regular Hex Framwork. Determines where
  * each diagonal y-column should begin.
  *
@@ -66,20 +67,53 @@ function buildRegularHexFramework(width){
 
 function generateYShift(width, xcoord){
 	if(xcoord>=0){
-		return 0-Math.floor(width/2)
+		return 0-Math.floor(width/2);
 	}
 	else{
-		return 0-Math.floor(width/2)-xcoord
+		return 0-Math.floor(width/2)-xcoord;
 	}
 }
 
-/* Road Object
- * Roads will be stored in a list
- * {node1:size 2 array of the coordinates of the first node of the road (y-coord first),
- * node2:size 2 array of the coordinates of the second node of the road (y-coord first),
- * team: integer from 1 to 4, according to team}
+
+/* buildVertexFramework
+ * Given a list of hex objects, generates a dictionary of vertex objects for the game.
+ * Different vertices are not recognized as discrete objects, so the keys have to be
+ * size 2 arrays.
  */
 
-function makeRoad(node1, node2, team){
-	return {node1:node1, node2:node2, team:team}
+ function buildVertexFramework(tileFrame){
+ 	var vertexFrame = {};                        //Switch to list - necessary?
+ 	for(i=0;i<tileFrame.length;i++){
+ 		coordList = vertices(tileFrame[i].coordinates);
+ 		for(j=0;j<coordList.length;j++){
+ 			vertex = coordList[j];
+			newVertex = makeVertex(0,0,vertex.x,vertex.y);
+ 			vertexFrame[[vertex.x,vertex.y]] = newVertex;
+ 		}
+ 	}
+ 	return vertexFrame;
+ }
+
+/* Road Object
+ * Roads will be stored in a list
+ * {coord1:vector object storing x and y coordinates,
+ * coord2:vector object storing x and y coordinates,
+ * player: integer from 1 to 4, according to player}
+ */
+
+function makeRoad(coord1, coord2, player){
+	return {coord1:coord1, coord2:coord2, player:player}
+}
+
+/* compareRoadPositions
+ * returns true if the two roads occupy the same position.
+ */
+
+function compareRoadPositions(road1, road2){
+	if((compareVectors(road1.coord1,road2.coord1)&&compareVectors(road1.coord2,road2.coord2))||
+		(compareVectors(road1.coord1,road2.coord2)&&compareVectors(road1.coord2,road2.coord1))){
+		return true;
+	}
+	return false;
+
 }

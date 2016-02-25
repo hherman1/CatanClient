@@ -46,7 +46,7 @@ function initGame(ctx) {
         document.addEventListener("mouseup",mouseEventSaver(mousebuffer.mouseups))
 
 
-        var frameDuration = 10;
+        var frameDuration = 1000;
 
         var animations = newReference([]);
 

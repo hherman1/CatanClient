@@ -22,7 +22,7 @@ function drawTitle(ctx){
    var side = 50;
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
-     var tiletype = getResImg(resList[i]); //get the source path for the hexagon's terrain image
+     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
      ctx.fill();
      ctx.stroke();
@@ -30,7 +30,7 @@ function drawTitle(ctx){
      drawToken(hexToWorld(board[i].coordinates,side),getTokens()[i],ctx); //draw number token
 
    }
-
+  console.log("BOARD DRAWN"); //in the console the board is being drawn hundreds of times
  }
 
 function transformHitlist(boxes,trans) {
@@ -171,6 +171,7 @@ function drawRect(coords,side,ctx) {
 }
 
 function drawPath(verts,ctx) {
+        ctx.strokeStyle = "black";
         ctx.beginPath()
         var start = verts[0]
         ctx.moveTo(start.x,start.y)
@@ -185,7 +186,7 @@ function hexPath(hexCoords,side,ctx) {
         var verts = vertices(hexCoords).map(function(c) {
                 return vertexToWorld(c,side);
         })
-        drawPath(verts,ctx)
+        drawPath(verts,ctx);
 }
 
 //not called

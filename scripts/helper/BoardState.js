@@ -9,8 +9,8 @@ baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-function makeVertex(settled, player){
-	return {settled:settled, player:player}
+function makeVertex(settled, player, x, y){
+	return {settled:settled, player:player, x:x, y:y}
 }
 
 /* Hex Object
@@ -77,8 +77,8 @@ function generateYShift(width, xcoord){
  	for(i=0;i<tileFrame.length;i++){
  		coordList = vertices(tileFrame[i].coordinates);
  		for(j=0;j<coordList.length;j++){
- 			newVertex = makeVertex(0,0);
  			vertex = coordList[j];
+			newVertex = makeVertex(0,0,vertex.x,vertex.y);
  			vertexFrame[[vertex.x,vertex.y]] = newVertex;
  		}
  	}
@@ -103,10 +103,8 @@ function makeRoad(coord1, coord2, player){
 function compareRoadPositions(road1, road2){
 	if((compareVectors(road1.coord1,road2.coord1)&&compareVectors(road1.coord2,road2.coord2))||
 		(compareVectors(road1.coord1,road2.coord2)&&compareVectors(road1.coord2,road2.coord1))){
-		console.log("compare road positions returned true");
 		return true;
 	}
-	console.log("compare road positions returned false");
 	return false;
 
 }

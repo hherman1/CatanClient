@@ -1,16 +1,14 @@
 //File contains requisite methods for modifying the state of the game, e.g. construction, 
 //road connectivity checking, legality checking, etc.
 
-function testResourceFunctions(){
-	testBoard = [makeHexObject("w", 5, makeVector(0,0)), makeHexObject("s", 5, makeVector(1,0)), 
-	makeHexObject("b", 3, makeVector(0,1))];
+function testGameMethodFunctions(){
+	testBoard = buildRegularHexFramework(5);
 	testVertices = buildVertexFramework(testBoard);
 	console.log(testVertices);
 	p1 = player(1);
 	p2 = player(2);
 	playList = [p1,p2];
-	testVertices[[2,-1]].settled=1;
-	testVertices[[2,-1]].player=1;
+	buildSettlement(testVertices[[2,-1]],p1)
 	buildRoad(makeVector(0,0),makeVector(0,1),p1);
 	buildRoad(makeVector(0,0),makeVector(1,0),p1);
 	buildRoad(makeVector(0,2),makeVector(0,1),p2);
@@ -24,6 +22,7 @@ function testResourceFunctions(){
 	console.log("should be true");
 	console.log(checkRoadLegality(testVertices,makeVector(2,-1),makeVector(2,0),p1, playList));
 	console.log("should be true");
+	console.log()
 }
 //WORK ON THIS!!
 
@@ -69,11 +68,9 @@ function checkAdjacentPlayerRoads(coords1, coords2, player){
 			other2 = player.roadList[i].coord2;
 			if(compareVectors(coords1,other1)||compareVectors(coords1,other2)
 				||compareVectors(coords2,other1)||compareVectors(coords2,other2)){
-				console.log("check adjacent player roads returned true");
 				return true;
 			}
 		}
-		console.log("check adjacent player roads returned false");
 		return false;
 }
 
@@ -88,11 +85,66 @@ function checkConflictingRoads(coords1, coords2, playerList){
 		for(j=0; j<playerList[i].roadList.length;j++){
 	
 			if(compareRoadPositions(testRoad,playerList[i].roadList[j])){
-				console.log("check conflicting roads returned true");
 				return true;
 			}
 		}
 	}
-	console.log("check conflicting roads returned false");
 	return false;
+}
+
+/* Given a vertex and a player, identifies said vertex as having a settlement belonging to that player,
+ * and adds it to the player's settledVertices list.
+ */
+
+function buildSettlement(vert, player){
+	vert.settled=1;
+	vert.player=player.id;
+	for(i = 0;i<player.settledVertices.length;i++){
+		testVert = player.settledVertices[i];
+		if(testVert.x == newVert.x && testVert.y == newVert.y){
+			return;
+		}
+	player.settledVertices.push(makeVector(vert.x,vert.y));
+}
+
+/* Given a vertex, a player, and a vertex frame, checks if a settlement can be built on said vertex by that player.
+ */
+
+function checkSettlementLegality(vert, player, vertexFrame){
+	coords = makeVector(vert.x,vert.y);
+	if(!checkAdjacentPlayerRoads(coords, coords, player)){
+		return false;
+	}
+	if(vert.settled>0){
+		return false;
+	}
+	// Needs to add test for settled neighbors
+	return true;
+}
+
+/* Given a vertes and a player, identifies said vertex as having a city belonging to that player,
+ * and adds it to the player's settledVertices list if it isn't there.
+ */
+
+function buildCity(vert, player){
+	vert.settled = 2;
+	vert.player=player.id;
+	newVert = makeVector(vert.x,vert.y);
+	for(i = 0;i<player.settledVertices.length;i++){
+		testVert = player.settledVertices[i];
+		if(testVert.x == newVert.x && testVert.y == newVert.y) {
+			return;
+		}
+	}
+	player.settledVertices.push(makeVector(vert.x,vert.y));
+}}
+
+/* Given a vertex and a player, checks if a settlement can be built on said vertex by that player.
+ */
+
+function checkCityLegality(vert, player){
+	if(vert.settled != 1 || vert.player != player.id) {
+		return false;
+	}
+	return true;
 }

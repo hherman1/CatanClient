@@ -11,7 +11,7 @@ function player(id){
   var cityCount = 0;
   //Player roads
   var roadList = [];
-  //Coordinates of vertices the player has settled
+  //Coordinates of vertices the player has settled (list of vectors)
   var settledVertices = []; 
   //Player owned resources
   var woodCount = 0;

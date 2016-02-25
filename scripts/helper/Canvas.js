@@ -8,6 +8,7 @@
 //Draws title of the canvas
 //created by sduong
 function drawTitle(ctx){
+     resetTransform(ctx);
      ctx.font = "bold 36px Courier New";
      ctx.fillStyle = "coral";
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
@@ -20,17 +21,18 @@ function drawTitle(ctx){
    setTransform(ctx,transform);
    //setting the side of hexagon to be a value
    var side = 50;
-   ctx.fillStyle = "#FFDAB9";
+
    for (i in board){
      var tiletype = getResImg(board[i].resource); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
+     ctx.strokeStyle = "black";
+     ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
      drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
      drawToken(hexToWorld(board[i].coordinates,side),board[i].token,ctx); //draw number token
 
    }
-  console.log("BOARD DRAWN"); //in the console the board is being drawn hundreds of times
  }
 
 function transformHitlist(boxes,trans) {
@@ -94,6 +96,7 @@ function setTransform(ctx,transform) {
 
 function redraw(board,mouse,transform,animations,ctx) {
         clearCanvas(ctx,transform);
+        drawTitle(ctx);
         drawBoard(board,transform,ctx);
         var test = mouse.pos.x.valueOf();
         var rest = mouse.pos.y.valueOf();
@@ -129,7 +132,6 @@ function drawToken(hc, token, ctx){
   ctx.arc(temp.x,temp.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();
   ctx.stroke();
-  console.log(token);
   if (token != 7) {
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";
@@ -171,7 +173,6 @@ function drawRect(coords,side,ctx) {
 }
 
 function drawPath(verts,ctx) {
-        ctx.strokeStyle = "black";
         ctx.beginPath()
         var start = verts[0]
         ctx.moveTo(start.x,start.y)

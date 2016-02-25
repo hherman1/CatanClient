@@ -46,7 +46,7 @@ function buildRegularHexFramework(width){
 		yShift = generateYShift(width,i);
 		for(j=0;j<width-Math.abs(i);j++){
 			res = resList.pop();
-			if(res=="d"){
+			if(res==Resource.Desert){
 				tok = 7;
 			}
 			else{

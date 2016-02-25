@@ -22,12 +22,12 @@ function drawTitle(ctx){
    var side = 50;
    ctx.fillStyle = "#FFDAB9";
    for (i in board){
-     var tiletype = getResImg(getResList()[i]); //get the source path for the hexagon's terrain image
+     var tiletype = getResImg(board[i].resource); //get the source path for the hexagon's terrain image
      hexPath(board[i].coordinates,side,ctx);
      ctx.fill();
      ctx.stroke();
      drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-     drawToken(hexToWorld(board[i].coordinates,side),getTokens()[i],ctx); //draw number token
+     drawToken(hexToWorld(board[i].coordinates,side),board[i].token,ctx); //draw number token
 
    }
   console.log("BOARD DRAWN"); //in the console the board is being drawn hundreds of times
@@ -129,8 +129,8 @@ function drawToken(hc, token, ctx){
   ctx.arc(temp.x,temp.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();
   ctx.stroke();
-
-  if (token != 99) {
+  console.log(token);
+  if (token != 7) {
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";
     }

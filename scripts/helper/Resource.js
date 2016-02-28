@@ -33,3 +33,7 @@ function getResImg(res){
 }
 
 //wood image src: https://static.pexels.com/photos/5766/wood-fireplace-horizontal.jpg
+//bricks image src: https://pixabay.com/static/uploads/photo/2013/07/25/12/07/bricks-167072_960_720.jpg
+//wool image src: http://s0.geograph.org.uk/geophotos/02/40/15/2401511_d55c4dac.jpg
+//grain image src: https://c1.staticflickr.com/5/4038/4525119513_1ec891529b_b.jpg
+//ore image src: https://upload.wikimedia.org/wikipedia/commons/5/52/Gold-Quartz-273364.jpg

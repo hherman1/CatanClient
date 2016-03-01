@@ -28,8 +28,6 @@ function Buffer() {
     this.ui = {};
 }
 
-var frameDuration = 10;
-
 
 Game = function(context) {
         this.ctx;
@@ -45,7 +43,8 @@ Game = function(context) {
 initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
-        game.ui = newUI(canvas); //None?
+        game.ui = new UI(canvas); //None?
+        game.graphics.transform.translation = center(makeVector(canvas.width,canvas.height));
 
         //the below code may be better suited elsewhere
 
@@ -62,18 +61,16 @@ initGame = function(game,ctx) {
 
 Graphics = function(){
         this.animations = new Reference([])
+        this.transform = {
+               translation: makeVector(0,0)
+              ,scale: 1
+        }
 }
 
-function newUI(canvas) {
-        return {
-                build: 0
-               ,loading: 1
-               ,transform: {
-                       translation: makeVector(canvas.width/2,canvas.height/2)
-                      ,scale: 1
-               }
-               ,mode: this.build
-        }
+function UI(canvas) {
+       this.build = 0
+       this.loading = 1
+       this.mode = this.build
 }
 
 
@@ -105,7 +102,7 @@ function newScale(delta,scale) {
 }
 
 function gameStep(game) {
-        var hitlist = transformHitlist(game.hitboxes,game.ui.transform);
+        var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
@@ -113,15 +110,15 @@ function gameStep(game) {
                 console.log("click")
         }
         if(game.mouse.dragging) {
-                game.ui.transform.translation = add(game.ui.transform.translation,game.mouse.movement);
+                game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
         }
         if(game.mouse.scroll.y != 0) {
-                game.ui.transform.scale = newScale(game.mouse.scroll.y,game.ui.transform.scale);
+                game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
         }
 
         //console.log(mouse.pos);
 
-        redraw(game.gamestate.board,game.mouse,game.ui.transform,game.graphics.animations,game.ctx);
+        redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);
         flushMouseEvents(game.buffer.mouse);
         drawHitboxes(hitlist,hits,game.ctx);
 

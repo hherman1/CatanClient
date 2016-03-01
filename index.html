@@ -5,7 +5,7 @@
                 <!-- We should eventualy use a compiler to pack these into a single minified javascript source -->
                 <!--using require.js-->
                 <!--<script data-main="scripts/main.js" src="scripts/require.js"></script>-->
-
+                <link rel="stylesheet" href="styles/UserInterfaceStyles.css">
                 <script type="text/javascript" src="scripts/helper/Grid.js" ></script>
                 <script type="text/javascript" src="scripts/helper/Animation.js"></script>
                 <script type="text/javascript" src="scripts/helper/Canvas.js"></script>
@@ -48,6 +48,301 @@
           <br>
           <!--<input type="button" value="NEW GAME" onclick="drawBoard(ctx)">
           <input type="button" value="ROLL DICE" onclick="rollDice()">-->
+
+        
+        
+
+
+
+
+        <!--~~~~~~~~~~~~~~~User Interface Work~~~~~~~~~~~~~~~~-->
+            <!--Bottom Right Display-->
+
+            <div class="userInterface">
+                <div class="bottomRightDisplay">
+                    <div class="timerDiv">
+                        <div class="rollHolder">
+                            <h1 class="rollTittle">
+                                Roll=
+                            </h1>
+                            <h1 class="rollValue">
+                                7
+                            </h1>
+                        </div>
+                        <h1 id="clock" class="timer"><!--Use this id to change timer value-->
+                            <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span>
+                        </h1>
+                    </div>
+                    <div class="endTurnButtonDiv">
+                        <button class="endTurnButton">End Turn</button>
+                    </div>
+                </div>
+
+                <!--Bottom Left Display-->
+                <div id="bottomLeftDisplay" class="bottomLeftDisplay">
+                    <div id="resourceBar" class="resourceBar">
+                        <div class="resources">
+                            <ul class="resourceList">
+                                <div class="resourcePicAndNumHolder">
+                                    <p id="woodValue" class="resourceValue">
+                                        0
+                                    </p>
+                                    <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
+                                </div>
+                                <div class="resourcePicAndNumHolder">
+                                    <p id="wheatValue" class="resourceValue">
+                                        0
+                                    </p>
+                                    <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
+                                </div>
+                                <div class="resourcePicAndNumHolder">
+                                    <p id="sheepValue" class="resourceValue">
+                                        0
+                                    </p>
+                                    <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
+                                </div>
+                                <div class="resourcePicAndNumHolder">
+                                    <p id="oreValue" class="resourceValue">
+                                        0
+                                    </p>
+                                    <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
+                                </div>
+                                <div class="resourcePicAndNumHolder">
+                                    <p id="brickValue" class="resourceValue">
+                                        0
+                                    </p>
+                                    <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="buildCard" class="buildCard">
+                        <p class="buildCardTitle">Build Menu</p>
+                        <ul class="buildChoices">
+                            <div class="buildChoice">
+                                <div class="choiceInfo">
+                                    <p class="choiceTitle">
+                                        Road
+                                    </p>
+                                    <div class="choiceVictoryInfo">
+                                        <img style="height: 20px;" src="graphics/desert.svg" alt="">
+                                        <p style="display:inline;">
+                                            = 0 Victory Points
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="choiceReqs">
+                                    <img style="height:30px;" src="graphics/forest.svg" alt="">
+                                    <img style="height:30px;" src="graphics/hills.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="buildChoice">
+                                <div class="choiceInfo">
+                                    <p class="choiceTitle">
+                                        Settlement
+                                    </p>
+                                    <div class="choiceVictoryInfo">
+                                        <img style="height: 20px;" src="graphics/desert.svg" alt="">
+                                        <p style="display:inline;">
+                                            = 1 Victory Points
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="choiceReqs">
+                                    <img style="height:30px;" src="graphics/forest.svg" alt="">
+                                    <img style="height:30px;" src="graphics/hills.svg" alt="">
+                                    <img style="height:30px;" src="graphics/pasture.svg" alt="">
+                                    <img style="height:30px;" src="graphics/field.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="buildChoice">
+                                <div class="choiceInfo">
+                                    <p class="choiceTitle">
+                                        City
+                                    </p>
+                                    <div class="choiceVictoryInfo">
+                                        <img style="height: 20px;" src="graphics/desert.svg" alt="">
+                                        <p style="display:inline;">
+                                            = 2 Victory Points
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="choiceReqs">
+                                    <img style="height:30px;" src="graphics/field.svg" alt="">
+                                    <img style="height:30px;" src="graphics/field.svg" alt="">
+                                    <img style="height:30px;" src="graphics/mountains.svg" alt="">
+                                    <img style="height:30px;" src="graphics/mountains.svg" alt="">
+                                    <img style="height:30px;" src="graphics/mountains.svg" alt="">
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--Player Tabs-->
+                <div class="playerTabs">
+
+                    <div class="playerDiv">
+                        <div class="playerNameTab">
+                            <p id="player1Name" class="playerName">
+                                Player 1
+                            </p>
+                        </div>
+                        <div class="playerInfo">
+                            <div class="playerInfoVPoints">
+                                <p class="playerPointsText">
+                                    Victory Points: 
+                                </p>
+                                <p class="playerPoints">
+                                    0
+                                </p>
+                            </div>
+                            <div class="playerStructuresInfo">
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="playerDiv">
+                        <div class="playerNameTab">
+                            <p id="player2Name" class="playerName">
+                                Player 1
+                            </p>
+                        </div>
+                        <div class="playerInfo">
+                            <div class="playerInfoVPoints">
+                                <p class="playerPointsText">
+                                    Victory Points: 
+                                </p>
+                                <p class="playerPoints">
+                                    0
+                                </p>
+                            </div>
+                            <div class="playerStructuresInfo">
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="playerDiv">
+                        <div class="playerNameTab">
+                            <p id="player3Name" class="playerName">
+                                Player 1
+                            </p>
+                        </div>
+                        <div class="playerInfo">
+                            <div class="playerInfoVPoints">
+                                <p class="playerPointsText">
+                                    Victory Points: 
+                                </p>
+                                <p class="playerPoints">
+                                    0
+                                </p>
+                            </div>
+                            <div class="playerStructuresInfo">
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="playerDiv">
+                        <div class="playerNameTab">
+                            <p id="player4Name" class="playerName">
+                                Player 1
+                            </p>
+                        </div>
+                        <div class="playerInfo">
+                            <div class="playerInfoVPoints">
+                                <p class="playerPointsText">
+                                    Victory Points: 
+                                </p>
+                                <p class="playerPoints">
+                                    0
+                                </p>
+                            </div>
+                            <div class="playerStructuresInfo">
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                                <div class="playerStructure">
+                                    <img class="playerStructurePic" src="graphics/mountains.svg" alt="">
+                                    <p class="playerStructureQuantity">
+                                        0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slideHider"></div> 
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+            <script src="UserInterfaceJScript.js"></script>
+
+
+
+
+
 
 
         </body>

@@ -21,6 +21,7 @@ Box = {
         circle:1
 }
 
+
 testBox = newHitbox(hexToWorld(makeVector(1,1),50),makeVector(10,10),makeVector (0,1),Math.PI/3)
 
 testBox2 = newHitbox(makeVector(300,200),makeVector(50,200),makeVector (0,1),Math.PI/6)
@@ -34,6 +35,14 @@ function genTileBoxes(coords,side) {
         })
 }
 */
+
+
+genHitboxes = function(vertices,roads,hexes,side) { 
+        return genVertexBoxes(vertices,side)
+                .concat(genTileBoxes(hexes,side))
+                .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)]);
+}
+
 function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
                 return newHitcircle(hexToWorld(hc,side)

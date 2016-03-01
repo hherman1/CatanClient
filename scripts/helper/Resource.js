@@ -1,41 +1,4 @@
-// //RESOURCE
-//
-//
-//
-//
-// function getResList(){
-//   return resList;
-// }
-//
-// function getTokens(){
-//   return tokens;
-// }
-//
-// function setInitResTok(resList,tokens){
-//   resList = ["lumber","lumber","lumber","lumber",
-//                   "grain","grain","grain","grain",
-//                   "wool","wool","wool","wool",
-//                   "ore","ore","ore",
-//                   "brick","brick","brick","nothing"];
-//   //generate number tokens aka the possible dice outcomes
-//   tokens = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
-//   shuffleRT(resList,tokens); //shuffles the resources and tokesn so we get a new board each time!
-// }
-// //shuffles the resources and number tokens and includes the robber to be set on the desert.
-// //created by sduong
-// function shuffleRT(resList,tokens){
-//   //shuffle them!
-//   shuffle(resList);
-//   shuffle(tokens);
-//   var temp = 0;
-//   for (var i in resList){
-//     if (resList[i] == "nothing"){
-//       tokens.splice(temp,0,99); //placing robber (99) on desert at the beginning of game
-//     }
-//     temp++;
-//   }
-// }
-//
+
 //function to shuffle up the number tokens
 //Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle(array) {
@@ -70,3 +33,7 @@ function getResImg(res){
 }
 
 //wood image src: https://static.pexels.com/photos/5766/wood-fireplace-horizontal.jpg
+//bricks image src: https://pixabay.com/static/uploads/photo/2013/07/25/12/07/bricks-167072_960_720.jpg
+//wool image src: http://s0.geograph.org.uk/geophotos/02/40/15/2401511_d55c4dac.jpg
+//grain image src: https://c1.staticflickr.com/5/4038/4525119513_1ec891529b_b.jpg
+//ore image src: https://upload.wikimedia.org/wikipedia/commons/5/52/Gold-Quartz-273364.jpg

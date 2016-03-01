@@ -56,6 +56,24 @@ function piecewiseTimes(c1,c2) {
                          c1.y*c2.y)
 }
 
+function center(vector) {
+    return times(0.5,vector);
+}
+
+function norm(vector) {
+        return Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+}
+
+function unitVector(theta) {
+        return makeVector(Math.cos(theta),Math.sin(theta))
+}
+function rotationMatrix(theta) {
+        return makeVector(makeVector(Math.cos(theta),-Math.sin(theta)),makeVector(Math.sin(theta),Math.cos(theta)))
+}
+function multiplyMatrix(mat,vec) {
+        return makeVector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
+}
+
 function vertices(hexCoords) {
         return [piecewiseTimes(makeVector(1,2),hexCoords)
                 ,add(identY(1),piecewiseTimes(makeVector(1,2),hexCoords))
@@ -92,21 +110,6 @@ function hexPoints(coords,radius) {
     return out
 }
 
-
-function norm(vector) {
-        return Math.sqrt(vector.x*vector.x + vector.y*vector.y)
-}
-
-function unitVector(theta) {
-        return makeVector(Math.cos(theta),Math.sin(theta))
-}
-function rotationMatrix(theta) {
-        return makeVector(makeVector(Math.cos(theta),-Math.sin(theta)),makeVector(Math.sin(theta),Math.cos(theta)))
-}
-function multiplyMatrix(mat,vec) {
-        return makeVector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
-}
-
 function hexToWorld(hexcoords,side) {
     return piecewiseTimes(makeVector(Math.cos(Math.PI/6)*side*2,2*-side*Math.sin(Math.PI/3)),fromHex(hexcoords))
 }
@@ -129,3 +132,5 @@ function fromHex(hexcoords) {
     return add(identX(hexcoords.x),
                      times(hexcoords.y,unitY))
 }
+
+

@@ -1,4 +1,4 @@
-//File contains requisite methods for modifying the state of the game, e.g. construction, 
+//File contains requisite methods for modifying the state of the game, e.g. construction,
 //road connectivity checking, legality checking, etc.
 
 function testGameMethodFunctions(){
@@ -29,6 +29,7 @@ function testGameMethodFunctions(){
 	buildRoad(makeVector(2,0), makeVector(3,0),p1);
 	console.log(checkSettlementLegality(makeVector(3,0),p1,testVertices));
 	console.log("should be true")
+	buildSettlement(testVertices[[2,-1]],p1);
 }
 //WORK ON THIS!!
 
@@ -44,7 +45,7 @@ function buildRoad(vert1, vert2, player){
 
 /* checkRoadLegality
  * Given a list of vertex objects, two vector objects representing the two vertices
- * the road will travel between, and the player who wishes to build the road, 
+ * the road will travel between, and the player who wishes to build the road,
  * will return a boolean indicating the legality of the construction.
  */
 
@@ -63,7 +64,7 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, playerList){
 	}
 }
 
-/* Given a pair of vector coordinates and a player, 
+/* Given a pair of vector coordinates and a player,
  * checks if that player has roads adjacent to one of the coordinates.
  * Returns true if so, false otherwise.
  */
@@ -89,7 +90,7 @@ function checkConflictingRoads(coords1, coords2, playerList){
 	testRoad = makeRoad(coords1, coords2, 0);
 	for(i = 0; i<playerList.length;i++){
 		for(j=0; j<playerList[i].roadList.length;j++){
-	
+
 			if(compareRoadPositions(testRoad,playerList[i].roadList[j])){
 				return true;
 			}
@@ -103,6 +104,7 @@ function checkConflictingRoads(coords1, coords2, playerList){
  */
 
 function buildSettlement(vert, player) {
+	console.log("this is the vert" + vertexToWorld(vert, 50).x + " " + vertexToWorld(vert, 50).y);
 	vert.settled = 1;
 	vert.player = player.id;
 	for (i = 0; i < player.settledVertices.length; i++) {
@@ -111,6 +113,8 @@ function buildSettlement(vert, player) {
 			return;
 		}
 		player.settledVertices.push(makeVector(vert.x, vert.y));
+		// drawBuilding(vert, player.playerColor, 50, ctx);
+
 	}
 }
 

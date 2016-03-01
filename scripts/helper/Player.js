@@ -3,16 +3,24 @@
 //and automatic color selection. All other values are initialized to zero.
 
 function player(id){
-  colList = ["red", "orange", "blue", "white"];  //Player colors will be consistently assigned
+
+  var colors = {
+    red: 0,
+    orange: 1,
+    blue: 2,
+    white: 3
+  };
+
+  var colList = [colors.red, colors.orange, colors.blue, colors.white];  //Player colors will be consistently assigned
                                                  //in accordance with their ID
   //Player owned constructions
-  var settlementCount = 0;
-  var roadCount = 0;
+  var settlementCount = 2; //each player starts out with 2 settlements
+  var roadCount = 2; //each player starts out with 2 roads
   var cityCount = 0;
   //Player roads
   var roadList = [];
   //Coordinates of vertices the player has settled (list of vectors)
-  var settledVertices = []; 
+  var settledVertices = [];
   //Player owned resources
   var woodCount = 0;
   var wheatCount = 0;
@@ -66,3 +74,4 @@ function addResources(player, resource, amount){
 
     //TODO: Complete
 }
+

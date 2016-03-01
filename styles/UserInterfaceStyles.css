@@ -1,0 +1,223 @@
+/*Bottom Right Display*/
+
+.bottomRightDisplay{
+	border: solid black 1px;
+	border-radius: 8px 0 0 0;
+	position: absolute;
+	left: 708px; /*the board is 1000 and the button is ~300*/
+	top: 394px;
+}
+
+.endTurnButton{
+	background: #FFF0BD;
+	color: #696558;
+	width: 300px;
+	height: 75px;
+	font-size: 50px;
+	font-family: Verdana;
+}
+
+.timer{
+	display: inline-block;
+	margin: 0px;
+	position: relative;
+	margin: 0 0 0 2px;
+	color: #696558;
+	font-family: Verdana;
+}
+
+.timerDiv{
+	background-color: #FFFFFF;
+	border-radius: 8px 0px 0px 0px;
+}
+
+.rollHolder{
+	display: inline-block;
+	border-right: solid black 1px;
+}
+
+.rollTittle{
+	display: inline;
+	margin: 0 0 0 5px;
+}
+
+.rollValue{
+	display: inline;
+	margin: 0 20px 0 0px;
+}
+
+
+/*Bottom Left Display*/
+.animateUp{
+	-webkit-transform:translate(0px,0px);
+}
+
+.animateDown{
+	-webkit-transform:translate(0px,-171.5px);
+}
+
+.bottomLeftDisplay{
+	height: 50px;
+	width: 380px;
+	position: absolute;
+	top: 464.5px;
+	left:8px;
+	-webkit-transition: -webkit-transform .9s ease-in;
+}
+
+.slideHider{
+	position: absolute;
+	top:510px;
+	background-color: white;
+	height: 180px;
+	width: 390px;
+	z-index: 10;
+
+}
+/*Resource Bar*/
+.resourceBar{
+	-webkit-transition: -webkit-transform .9s ease-in;
+}
+
+.resourceList{
+	margin: 0px;
+	padding: 0px;
+}
+
+.resourcePicAndNumHolder{
+	display: inline-block;
+	margin: 0 0 0 11px;
+}
+
+.resourceValue{
+	cursor:default;
+	display: inline;
+	font-size: 38px;
+}
+
+.resources{
+	background-color: #FFF0BD;
+	border: solid black 1px;
+	border-radius: 0 8px 0 0;
+}
+/*Build Card*/
+.buildCard{
+	background: #FFF;
+}
+
+.buildCardTitle{
+	border-right: solid black 1px;
+	border-left: solid black 1px;
+	font-family: Verdana;
+	font-size: 30px;
+	margin: 0;
+	text-align: center;
+}
+
+.buildChoice{
+	border-bottom: black dashed 1px;
+}
+
+.buildChoices{
+	border: solid black 1px;
+	margin: 0px;
+	padding: 0;
+}
+
+.choiceTitle{
+	margin: 0;
+}
+
+.choiceInfo{
+	display: inline-block;
+}
+
+.choiceReqs{
+	display: inline-block;
+	float: right;
+	width: 200px;
+}
+
+/*Player Personal Tabs*/
+.playerDiv{
+	display:inline-block;
+	width: 152.8px;
+}
+
+.playerName{
+	text-align: center;
+	border: 1px solid black;
+	border-radius: 0 0 4px 4px;
+	margin: 0px;
+	width: 152.8px;
+}
+
+.playerNameTag{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.playerInfo{
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: white;
+	width: 152.8px;
+}
+
+.playerTabs{
+	position: absolute;
+	top: 9px;
+	left: 194.95px;
+	width: 624.514px;
+}
+
+.playerPoints{
+	display: inline;
+	font-size: 25px;
+}
+
+.playerPointsText{
+	display: inline;
+}
+
+.playerStructure{
+	border-right: 1px solid black;
+	display: inline;
+	padding: 4px;
+	width: 100%;
+}
+
+.playerStructuresInfo{
+	border-top: 1px solid black;
+}
+
+.playerStructurePic{
+	display: inline;
+	height: 20px;
+}
+
+.playerStructureQuantity{
+	display: inline;
+	font-size: 25px;
+}
+
+.playerInfoVPoints{
+	text-align: center;
+}
+
+#player1Name{
+	background-color: #68AE68
+}
+
+#player2Name{
+	background-color: #4E8282
+}
+
+#player3Name{
+	background-color: #D98282
+}
+
+#player4Name{
+	background-color: #D9AA82
+}

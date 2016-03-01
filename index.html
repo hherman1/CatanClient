@@ -10,10 +10,11 @@
                 <script type="text/javascript" src="scripts/helper/Animation.js"></script>
                 <script type="text/javascript" src="scripts/helper/Canvas.js"></script>
                 <script type="text/javascript" src="scripts/helper/Hitbox.js"></script>
-                <script type="text/javascript" src="scripts/helper/MouseEvent.js"></script>
+                <script type="text/javascript" src="scripts/helper/Mouse.js"></script>
                 <script type="text/javascript" src="scripts/helper/Game.js"></script>
                 <script type="text/javascript" src="scripts/helper/BoardState.js"></script>
                 <script type="text/javascript" src="scripts/helper/Player.js"></script>
+                <script type="text/javascript" src="scripts/helper/Action.js"></script>
                 <script type="text/javascript" src="scripts/helper/Dice.js"></script>
                 <script type="text/javascript" src="scripts/helper/Resource.js"></script>
                 <script type="text/javascript" src="scripts/helper/Robber.js"></script>
@@ -27,7 +28,9 @@
                                 canvas = document.getElementById('board');
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
-                                        initGame(ctx);
+                                        var game = new Game();
+                                        initGame(game,ctx);
+                                        runGame(game,13);
                                 } else {
                                     console.log("browser unsupported")
                                 }

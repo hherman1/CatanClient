@@ -99,7 +99,7 @@ function newMouseBuffer() {
                 }
 }
 
-function initBuffer(elem,buffer) {
+function initMouseBuffer(elem,buffer) {
         elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
         elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
         elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));

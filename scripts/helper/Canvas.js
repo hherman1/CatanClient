@@ -129,7 +129,6 @@ function drawToken(hc, token, ctx){
   ctx.arc(temp.x,temp.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();
   ctx.stroke();
-  console.log(token);
   if (token != 7) {
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";

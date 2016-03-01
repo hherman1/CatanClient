@@ -40,3 +40,29 @@ function player(id){
   }
   return playerInfo;
 }
+
+function getPlayer(id, playerList){
+  for(i = 0;i<playerList.length;i++){
+    if(playerList[i].id == id){
+      return playerList[i];
+    }
+  }
+    return undefined;
+}
+
+function addResources(player, resource, amount){
+  switch(resource){
+    case Resource.Brick:
+          player.brickCount += amount;
+    case Resource.Grain:
+          player.wheatCount += amount;
+    case Resource.Lumber:
+          player.woodCount += amount;
+    case Resource.Ore:
+          player.oreCount += amount;
+    case Resource.Wool:
+          player.sheepCount += amount;
+  }
+
+    //TODO: Complete
+}

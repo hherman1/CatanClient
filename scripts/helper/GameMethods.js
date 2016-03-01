@@ -11,6 +11,7 @@ function testGameMethodFunctions(){
 	buildSettlement(testVertices[[2,-1]],p1)
 	buildRoad(makeVector(0,0),makeVector(0,1),p1);
 	buildRoad(makeVector(0,0),makeVector(1,0),p1);
+
 	buildRoad(makeVector(0,2),makeVector(0,1),p2);
 	console.log(checkRoadLegality(testVertices,makeVector(0,2),makeVector(0,1),p1, playList));
 	console.log("should be false");
@@ -22,7 +23,12 @@ function testGameMethodFunctions(){
 	console.log("should be true");
 	console.log(checkRoadLegality(testVertices,makeVector(2,-1),makeVector(2,0),p1, playList));
 	console.log("should be true");
-	console.log()
+	buildRoad(makeVector(2,-1),makeVector(2,0),p1);
+	console.log(checkSettlementLegality(makeVector(2,0),p1,testVertices));
+	console.log("should be false");
+	buildRoad(makeVector(2,0), makeVector(3,0),p1);
+	console.log(checkSettlementLegality(makeVector(3,0),p1,testVertices));
+	console.log("should be true")
 }
 //WORK ON THIS!!
 
@@ -96,15 +102,16 @@ function checkConflictingRoads(coords1, coords2, playerList){
  * and adds it to the player's settledVertices list.
  */
 
-function buildSettlement(vert, player){
-	vert.settled=1;
-	vert.player=player.id;
-	for(i = 0;i<player.settledVertices.length;i++){
+function buildSettlement(vert, player) {
+	vert.settled = 1;
+	vert.player = player.id;
+	for (i = 0; i < player.settledVertices.length; i++) {
 		testVert = player.settledVertices[i];
-		if(testVert.x == newVert.x && testVert.y == newVert.y){
+		if (testVert.x == newVert.x && testVert.y == newVert.y) {
 			return;
 		}
-	player.settledVertices.push(makeVector(vert.x,vert.y));
+		player.settledVertices.push(makeVector(vert.x, vert.y));
+	}
 }
 
 /* Given a vertex, a player, and a vertex frame, checks if a settlement can be built on said vertex by that player.
@@ -118,7 +125,13 @@ function checkSettlementLegality(vert, player, vertexFrame){
 	if(vert.settled>0){
 		return false;
 	}
-	// Needs to add test for settled neighbors
+	neighborList = getVertexNeighbors(vert, vertexFrame);
+	console.log(neighborList);
+	for(i=0;i<neighborList.length;i++){
+		if(neighborList[i].settled>0){
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -137,7 +150,7 @@ function buildCity(vert, player){
 		}
 	}
 	player.settledVertices.push(makeVector(vert.x,vert.y));
-}}
+}
 
 /* Given a vertex and a player, checks if a settlement can be built on said vertex by that player.
  */
@@ -163,5 +176,32 @@ function getVertexNeighbors(vert, vertexFrame){
 		neighbor1 = vertexFrame[[vert.x+1,vert.y-1]];
 		neighbor2 = vertexFrame[[vert.x, vert.y-1]];
 	}
-	return [neighbor0, neighbor1, neighbor2];
+	var realNeighbors = [];
+	var neighbors = [neighbor0, neighbor1, neighbor2];
+	for(i=0;i<3;i++){
+		if(neighbors[i]!=undefined){
+				realNeighbors.push(neighbors[i]);
+		}
+	}
+
+	return realNeighbors;
+}
+
+/* Given a diceRoll integer, the list of players, and both the tile and vertex boards, allocates resources to the appropriate players
+ * from a dice roll.
+ */
+
+function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
+	for(i = 0;i<tileFrame.length;i++){
+		if(tileFrame[i].token == diceRoll){
+			var tileNeighbors = neighbours(tileFrame[i].coordinates);
+			for(j=0;j<tileNeighbors.length;j++){
+				var currNeighbor = vertexFrame[[tileNeighbors[j].x,tileNeighbors[j].y]];
+				if(currNeighbor.settled>0){
+					var receivingPlayer = getPlayer(currNeighbor.player, playerList); // TODO: Clear up player assignment
+					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.settled);
+				}
+			}
+		}
+	}
 }

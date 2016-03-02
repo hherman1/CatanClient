@@ -26,9 +26,9 @@ function testGameMethodFunctions(){
 	buildRoad(new Vector(2,-1),new Vector(2,0),p1);
 	console.log(checkSettlementLegality(new Vector(2,0),p1,testVertices));
 	console.log("should be false");
-	buildRoad(new Vector(2,0), new Vector(3,0),p1);
-	console.log(checkSettlementLegality(new Vector(3,0),p1,testVertices));
-	console.log("should be true")
+	buildRoad(makeVector(2,0), makeVector(3,0),p1);
+	console.log(checkSettlementLegality(makeVector(3,0),p1,testVertices));
+	console.log("should be true");
 	buildSettlement(testVertices[[2,-1]],p1);
 }
 //WORK ON THIS!!

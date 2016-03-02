@@ -28,22 +28,23 @@ validateAction = function(action,gamestate) {
     switch(action.type) {
             case Action.Type.BuildRoad:
                     if(checkRoadLegality(gamestate.board.vertexBoard, action.vertA, action.vertB, action.player, gamestate.players)) {
-                            buildRoad(action.vertexA, action.vertexB, action.player);
-                            console.log("Road built");
+                            console.log("Road legal");
                             break;
                     }
                         console.log("Road illegal")
                         break;
             case Action.Type.BuildSettlement:
-                    if(checkSettlementLegality(action.vertex,action.player,gamestate.board.vertexBoard)){
-                            buildSettlement(action.vertex, action.player);
-                            console.log("Settlement built");
+                    if(checkSettlementLegality(action.vert,action.player,gamestate.board.vertexBoard)){
+                            console.log("Settlement legal");
                             break;
                     }
                     console.log("Settlement illegal");
                     break;
             case Action.Type.BuildCity:
-                    console.log("City Built");
+                    if(checkCityLegality(action.vert,action.player)){
+                            console.log("City legal");
+                    }
+                    console.log("City illegal");
                     break;
     }
 

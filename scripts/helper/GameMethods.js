@@ -107,6 +107,10 @@ function buildSettlement(vert, player) {
 	console.log("this is the vert" + vertexToWorld(vert, 50).x + " " + vertexToWorld(vert, 50).y);
 	vert.settled = 1;
 	vert.player = player.id;
+	modifyResources(player, Resource.Brick, -1);
+	modifyResources(player, Resource.Lumber, -1);
+	modifyResources(player, Resource.Wool, -1);
+	modifyResources(player, Resource.Grain, -1);
 	for (i = 0; i < player.settledVertices.length; i++) {
 		testVert = player.settledVertices[i];
 		if (testVert.x == newVert.x && testVert.y == newVert.y) {
@@ -129,6 +133,9 @@ function checkSettlementLegality(vert, player, vertexFrame){
 	if(vert.settled>0){
 		return false;
 	}
+	if(player.grainCount == 0 || player.woolCount == 0 || player.brickCount == 0 || player.lumberCount ==0){
+		return false;
+	}
 	neighborList = getVertexNeighbors(vert, vertexFrame);
 	console.log(neighborList);
 	for(i=0;i<neighborList.length;i++){
@@ -146,6 +153,8 @@ function checkSettlementLegality(vert, player, vertexFrame){
 function buildCity(vert, player){
 	vert.settled = 2;
 	vert.player=player.id;
+	modifyResources(player, Resource.Grain, -2);
+	modifyResources(player, Resource.Ore, -3);
 	newVert = makeVector(vert.x,vert.y);
 	for(i = 0;i<player.settledVertices.length;i++){
 		testVert = player.settledVertices[i];
@@ -161,6 +170,9 @@ function buildCity(vert, player){
 
 function checkCityLegality(vert, player){
 	if(vert.settled != 1 || vert.player != player.id) {
+		return false;
+	}
+	if(player.oreCount<3 && player.grainCount<2){
 		return false;
 	}
 	return true;

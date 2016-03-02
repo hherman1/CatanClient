@@ -9,25 +9,25 @@ function testGameMethodFunctions(){
 	p2 = player(2);
 	playList = [p1,p2];
 	buildSettlement(testVertices[[2,-1]],p1)
-	buildRoad(makeVector(0,0),makeVector(0,1),p1);
-	buildRoad(makeVector(0,0),makeVector(1,0),p1);
+	buildRoad(new Vector(0,0),new Vector(0,1),p1);
+	buildRoad(new Vector(0,0),new Vector(1,0),p1);
 
-	buildRoad(makeVector(0,2),makeVector(0,1),p2);
-	console.log(checkRoadLegality(testVertices,makeVector(0,2),makeVector(0,1),p1, playList));
+	buildRoad(new Vector(0,2),new Vector(0,1),p2);
+	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(0,1),p1, playList));
 	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,makeVector(0,2),makeVector(0,1),p2, playList));
+	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(0,1),p2, playList));
 	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,makeVector(0,2),makeVector(1,1),p1, playList));
+	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(1,1),p1, playList));
 	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,makeVector(1,1),makeVector(0,1),p1, playList));
+	console.log(checkRoadLegality(testVertices,new Vector(1,1),new Vector(0,1),p1, playList));
 	console.log("should be true");
-	console.log(checkRoadLegality(testVertices,makeVector(2,-1),makeVector(2,0),p1, playList));
+	console.log(checkRoadLegality(testVertices,new Vector(2,-1),new Vector(2,0),p1, playList));
 	console.log("should be true");
-	buildRoad(makeVector(2,-1),makeVector(2,0),p1);
-	console.log(checkSettlementLegality(makeVector(2,0),p1,testVertices));
+	buildRoad(new Vector(2,-1),new Vector(2,0),p1);
+	console.log(checkSettlementLegality(new Vector(2,0),p1,testVertices));
 	console.log("should be false");
-	buildRoad(makeVector(2,0), makeVector(3,0),p1);
-	console.log(checkSettlementLegality(makeVector(3,0),p1,testVertices));
+	buildRoad(new Vector(2,0), new Vector(3,0),p1);
+	console.log(checkSettlementLegality(new Vector(3,0),p1,testVertices));
 	console.log("should be true")
 	buildSettlement(testVertices[[2,-1]],p1);
 }
@@ -39,7 +39,7 @@ function testGameMethodFunctions(){
  */
 
 function buildRoad(vert1, vert2, player){
-	newRoad = makeRoad(vert1, vert2, player.id);
+	newRoad = new Road(vert1, vert2, player.id);
 	player.roadList.push(newRoad);
 }
 
@@ -87,7 +87,7 @@ function checkAdjacentPlayerRoads(coords1, coords2, player){
  */
 
 function checkConflictingRoads(coords1, coords2, playerList){
-	testRoad = makeRoad(coords1, coords2, 0);
+	testRoad = new Road(coords1, coords2, 0);
 	for(i = 0; i<playerList.length;i++){
 		for(j=0; j<playerList[i].roadList.length;j++){
 
@@ -116,7 +116,7 @@ function buildSettlement(vert, player) {
 		if (testVert.x == newVert.x && testVert.y == newVert.y) {
 			return;
 		}
-		player.settledVertices.push(makeVector(vert.x, vert.y));
+		player.settledVertices.push(new Vector(vert.x, vert.y));
 
 	}
 }
@@ -125,7 +125,7 @@ function buildSettlement(vert, player) {
  */
 
 function checkSettlementLegality(vert, player, vertexFrame){
-	coords = makeVector(vert.x,vert.y);
+	coords = new Vector(vert.x,vert.y);
 	if(!checkAdjacentPlayerRoads(coords, coords, player)){
 		return false;
 	}
@@ -154,14 +154,14 @@ function buildCity(vert, player){
 	vert.player=player.id;
 	modifyResources(player, Resource.Grain, -2);
 	modifyResources(player, Resource.Ore, -3);
-	newVert = makeVector(vert.x,vert.y);
+	newVert = new Vector(vert.x,vert.y);
 	for(i = 0;i<player.settledVertices.length;i++){
 		testVert = player.settledVertices[i];
 		if(testVert.x == newVert.x && testVert.y == newVert.y) {
 			return;
 		}
 	}
-	player.settledVertices.push(makeVector(vert.x,vert.y));
+	player.settledVertices.push(new Vector(vert.x,vert.y));
 }
 
 /* Given a vertex and a player, checks if a settlement can be built on said vertex by that player.

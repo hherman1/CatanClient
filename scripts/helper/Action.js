@@ -1,6 +1,4 @@
 
-
-
 Action = {
         Type: {
                 BuildRoad: 0,
@@ -10,8 +8,8 @@ Action = {
         BuildRoad : function(player,vertA,vertB) {
                 this.type = Action.Type.BuildRoad;
                 this.player = player;
-                this.vertA = vertA;
-                this.vertB = vertB;
+                this.vertexA = vertexA;
+                this.vertexB = vertexB;
         },
         BuildSettlement : function(player,vertex) {
                 this.type = Action.Type.BuildSettlement;

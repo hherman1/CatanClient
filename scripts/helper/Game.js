@@ -45,7 +45,7 @@ GameState = function() {
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
-               translation: makeVector(0,0)
+               translation: new Vector(0,0)
               ,scale: 1
         }
 }
@@ -71,14 +71,14 @@ Server = function() {
 }
 
 Buffer = function() {
-    this.mouse = newMouseBuffer();
+    this.mouse = new MouseBuffer();
     this.ui = {};
 }
 
 
 Game = function(context) {
         this.ctx;
-        this.mouse = newMouse();
+        this.mouse = new Mouse();
         this.buffer = new Buffer();
         this.graphics = new Graphics();
         this.server = new Server();
@@ -91,7 +91,7 @@ initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
         game.ui = new UI(canvas); //None?
-        game.graphics.transform.translation = center(makeVector(canvas.width,canvas.height));
+        game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
 
         //the below code may be better suited elsewhere
 
@@ -102,7 +102,7 @@ initGame = function(game,ctx) {
         game.hitboxes =
                 genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinates})
+                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinate})
                            //,game.gamestate.board.vertexBoard.map(function(tile) {return tile.coordinates})
                            ,50);
 }

@@ -4,7 +4,7 @@ function drawBuilding(vert,playerColor,side,ctx){
   var img = new Image(); //create new image element
   console.log("drawing "+ vert.settled + " " + playerColor);
   img.src = getBuildingImg(vert.settled, playerColor); //set source path
-  ctx.drawImage(img, vert.x, vert.y);
+  ctx.drawImage(img, vert.coordinate.x, vert.coordinate.y);
 }
 
 Settlements = []

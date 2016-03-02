@@ -25,17 +25,21 @@
  */
 
 maxClickMove = 0
-function newMouse() {
-        return {
-                pos: makeVector(-1,-1),
-                button: -1,
-                click: 0, // could the mouse be clicking
-                clicked: 0, // has the mouse just clicked
-                dragging: 0, // is the mouse dragging
-                movement: makeVector(0,0),
-                scroll: makeVector(0,0)
-        }
+Mouse = function() {
+        this.pos = new Vector(-1,-1);
+        this.button = -1;
+        this.click = 0; // could the mouse be clicking
+        this.clicked = 0; // has the mouse just clicked
+        this.dragging = 0; // is the mouse dragging
+        this.movement = new Vector(0,0);
+        this.scroll = new Vector(0,0);
+}
 
+MouseBuffer = function() {
+        this.mousemoves=[];
+        this.mousedowns = [];
+        this.mouseups = [];
+        this.mousescrolls = [];
 }
 
 function processBuffer(mouse,mousebuffer) {
@@ -46,7 +50,7 @@ function processBuffer(mouse,mousebuffer) {
         mouse.scroll.y = 0;
         if(mousebuffer.mousescrolls.length > 0) {
                 var wheel = collapseWheelEvents(mousebuffer.mousescrolls);
-                mouse.scroll = makeVector(wheel.deltaX,wheel.deltaY);
+                mouse.scroll = new Vector(wheel.deltaX,wheel.deltaY);
         }
         if(mousebuffer.mousemoves.length > 0) {
                 updateMouse(mouse,collapseMousemoveEvents(mousebuffer.mousemoves));
@@ -91,13 +95,6 @@ function flushMouseEvents(mousebuffer) {
     mousebuffer.mouseups.length = 0;
 }
 
-function newMouseBuffer() {
-        return {mousemoves:[]
-                ,mousedowns: []
-                ,mouseups: []
-                ,mousescrolls: []
-                }
-}
 
 function initMouseBuffer(elem,buffer) {
         elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
@@ -107,7 +104,7 @@ function initMouseBuffer(elem,buffer) {
 }
 
 function getCoords(evt) {
-    return makeVector(evt.offsetX,evt.offsetY);
+    return new Vector(evt.offsetX,evt.offsetY);
 }
 
 function makeActivatedBox(hitbox,evt){

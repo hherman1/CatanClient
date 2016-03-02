@@ -24,13 +24,13 @@ function drawTitle(ctx){
 
    for (i in board.hexBoard){
      var tiletype = getResImg(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
-     hexPath(board.hexBoard[i].coordinates,side,ctx);
+     hexPath(board.hexBoard[i].coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinates,side), ctx);
-     drawToken(hexToWorld(board.hexBoard[i].coordinates,side),board.hexBoard[i].token,ctx); //draw number token
+     drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
+     drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
    }
  }
 
@@ -99,7 +99,7 @@ function redraw(board,mouse,transform,animations,ctx) {
         drawBoard(board,transform,ctx);
         var test = mouse.pos.x.valueOf();
         var rest = mouse.pos.y.valueOf();
-        var vec = makeVector(test,rest);
+        var vec = new Vector(test,rest);
         vec = inverseTransform(vec,transform);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
@@ -173,12 +173,6 @@ function hexPath(hexCoords,side,ctx) {
                 return vertexToWorld(c,side);
         })
         drawPath(verts,ctx);
-}
-
-//not called
-function makeHex(hexCoords,side,ctx) {
-        hexPath(hexCoords,side,ctx)
-        ctx.fill();
 }
 
 

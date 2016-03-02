@@ -50,12 +50,6 @@ Graphics = function(){
         }
 }
 
-UI = function(canvas) {
-       this.build = 0
-       this.loading = 1
-       this.mode = this.build
-}
-
 Server = function() {
         this.gamestate = new GameState();
         this.getState = function() {
@@ -76,27 +70,25 @@ Buffer = function() {
 }
 
 
-Game = function(context) {
+Game = function() {
         this.ctx;
         this.mouse = new Mouse();
         this.buffer = new Buffer();
         this.graphics = new Graphics();
         this.server = new Server();
+        this.actions = new Reference([]);
         this.gamestate;
         this.hitboxes;
-        this.ui
 }
 
 initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
-        game.ui = new UI(canvas); //None?
         game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
 
         //the below code may be better suited elsewhere
 
         initMouseBuffer(canvas,game.buffer.mouse);
-        document.addEventListener("mouseup",mouseEventSaver(game.buffer.mouse.mouseups)) //Pay attention to mouse releases from anywhere in the document
         game.server.newGame(5);
         game.gamestate = game.server.getState();
         game.hitboxes =
@@ -121,6 +113,9 @@ function gameStep(game) {
         }
         if(game.mouse.scroll.y != 0) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
+        }
+        if(game.mouse.clicked) {
+
         }
 
         redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);

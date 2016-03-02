@@ -37,10 +37,10 @@ function genTileBoxes(coords,side) {
 */
 
 
-genHitboxes = function(vertices,roads,hexes,side) { 
-        return genVertexBoxes(vertices,side)
-                .concat(genTileBoxes(hexes,side))
-                .concat([genLineBox(new Vector(0,0),new Vector(0,1),50),genLineBox(new Vector(1,0),new Vector(0,1),50)]);
+genHitboxes = function(vertexCoordinates,roadCoordinatePairs,hexCoordinates,side) { 
+        return genVertexBoxes(vertexCoordinates,side)
+                .concat(genTileBoxes(hexCoordinates,side))
+                .concat();
 }
 
 function genTileBoxes(coords,side) {

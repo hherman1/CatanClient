@@ -25,7 +25,15 @@ Reference = function(data) {
 }
 
 Board = function() {
+        this.hexBoard;
+        this.vertexBoard;
+        this.roadList = [];
+}
 
+RegularHexBoard = function(width) {
+  Board();
+  this.hexBoard = buildRegularHexFramework(width);
+  this.vertexBoard = buildVertexFramework(this.hexBoard);
 }
 
 GameState = function() {
@@ -33,6 +41,7 @@ GameState = function() {
         this.phase;
         this.players;
 }
+
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
@@ -53,7 +62,7 @@ Server = function() {
                 return this.gamestate;
         }
         this.newGame = function(width) {
-            this.gamestate.board = buildRegularHexFramework(width);
+            this.gamestate.board = new RegularHexBoard(width);
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {
@@ -74,7 +83,7 @@ Game = function(context) {
         this.graphics = new Graphics();
         this.server = new Server();
         this.gamestate;
-        this.hitboxes;  
+        this.hitboxes;
         this.ui
 }
 
@@ -90,10 +99,11 @@ initGame = function(game,ctx) {
         document.addEventListener("mouseup",mouseEventSaver(game.buffer.mouse.mouseups)) //Pay attention to mouse releases from anywhere in the document
         game.server.newGame(5);
         game.gamestate = game.server.getState();
-        game.hitboxes = 
-                genHitboxes(game.gamestate.board.map(function(tile) {return tile.coordinates})
+        game.hitboxes =
+                genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.map(function(tile) {return tile.coordinates})
+                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinates})
+                           //,game.gamestate.board.vertexBoard.map(function(tile) {return tile.coordinates})
                            ,50);
 }
 

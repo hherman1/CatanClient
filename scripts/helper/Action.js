@@ -29,10 +29,20 @@ Action = {
 validateAction = function(action,gamestate) {
     switch(action.type) {
             case Action.Type.BuildRoad:
-                    console.log("Road built");
-                    break;
+                    if(checkRoadLegality(gamestate.board.vertexBoard, action.vertA, action.vertB, action.player, gamestate.players)) {
+                            buildRoad(action.vertA, action.vertB, action.player);
+                            console.log("Road built");
+                            break;
+                    }
+                        console.log("Road illegal")
+                        break;
             case Action.Type.BuildSettlement:
-                    console.log("Settlement built");
+                    if(checkSettlementLegality(action.vert,action.player,gamestate.board.vertexBoard)){
+                            buildSettlement(action.vert, action.player);
+                            console.log("Settlement built");
+                            break;
+                    }
+                    console.log("Settlement illegal");
                     break;
             case Action.Type.BuildCity:
                     console.log("City Built");
@@ -41,14 +51,15 @@ validateAction = function(action,gamestate) {
 
 }
 
+
 applyAction = function(action,game) {
 
 }
 
 
-//May be unnecessary
+
 drawAction = function(action,ctx) {
 
+  drawBuilding(action.vert,action.player.playerColor,50,ctx);
+  
 }
-
-

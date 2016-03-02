@@ -40,20 +40,19 @@ function getPlayer(id, playerList){
     return undefined;
 }
 
-function addResources(player, resource, amount){
+function modifyResources(player, resource, amount){
   switch(resource){
     case Resource.Brick:
           player.brickCount += amount;
     case Resource.Grain:
-          player.wheatCount += amount;
+          player.grainCount += amount;
     case Resource.Lumber:
-          player.woodCount += amount;
+          player.lumberCount += amount;
     case Resource.Ore:
           player.oreCount += amount;
     case Resource.Wool:
-          player.sheepCount += amount;
+          player.woolCount += amount;
   }
 
     //TODO: Complete
 }
-

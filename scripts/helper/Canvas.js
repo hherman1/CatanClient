@@ -17,21 +17,20 @@ function drawTitle(ctx){
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
  //created by hherman, edited by sduong [IN PROGRESS]
  function drawBoard(board,transform,ctx) {
-    //Set transformation
-    setTransform(ctx,transform);
-    //setting the side of hexagon to be a value
-    var side = 50;
+         //Set transformation
+   setTransform(ctx,transform);
+   //setting the side of hexagon to be a value
+   var side = 50;
 
-    for (i in board){
-        var tiletype = getResImg(board[i].resource); //get the source path for the hexagon's terrain image
-        hexPath(board[i].coordinates,side,ctx);
-        ctx.strokeStyle = "black";
-        ctx.fillStyle = "#FFDAB9";
-        ctx.fill();
-        ctx.stroke();
-        drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-        drawToken(hexToWorld(board[i].coordinates,side),board[i].token,ctx); //draw number token
-
+   for (i in board.hexBoard){
+     var tiletype = getResImg(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
+     hexPath(board.hexBoard[i].coordinates,side,ctx);
+     ctx.strokeStyle = "black";
+     ctx.fillStyle = "#FFDAB9";
+     ctx.fill();
+     ctx.stroke();
+     drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinates,side), ctx);
+     drawToken(hexToWorld(board.hexBoard[i].coordinates,side),board.hexBoard[i].token,ctx); //draw number token
    }
  }
 
@@ -182,7 +181,7 @@ function makeHex(hexCoords,side,ctx) {
         ctx.fill();
 }
 
-//not called
+
 function drawHexPoints(hexCoords,side,ctx) {
     var mappingFunction = function(coord) {
         drawVertex(coord,side,ctx);
@@ -191,7 +190,7 @@ function drawHexPoints(hexCoords,side,ctx) {
     coordsList.map(mappingFunction)
 }
 
-//not called because drawhexpoints is not called
+
 function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 

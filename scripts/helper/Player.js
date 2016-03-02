@@ -6,11 +6,11 @@ Colors = {
     red: 0,
     orange: 1,
     blue: 2,
-    white: 3
-    ColorList: [Colors.red, Colors.orange, Colors.blue, Colors.white];  //Player Colors will be consistently assigned
+    white: 3,
 }
+Colors.list = [Colors.red, Colors.orange, Colors.blue, Colors.white]  //Player Colors will be consistently assigned
 
-function Player(id){
+Player = function(id){
   //Player owned constructions
   this.settlementCount = 2; //each player starts out with 2 settlements
   this.roadCount = 2; //each player starts out with 2 roads
@@ -26,7 +26,7 @@ function Player(id){
   this.brickCount = 0;
   this.sheepCount = 0;
   //Color assigned
-  this.playerColor = colList[id-1];
+  this.playerColor = Colors.list[id-1];
   //Player victory points
   this.vicPoints = 0;
 }

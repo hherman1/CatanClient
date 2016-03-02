@@ -13,15 +13,15 @@ Action = {
                 this.vertA = vertA;
                 this.vertB = vertB;
         },
-        BuildSettlement : function(player,vert) {
+        BuildSettlement : function(player,vertex) {
                 this.type = Action.Type.BuildSettlement;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         },
-        BuildCity : function(player,vert) {
+        BuildCity : function(player,vertex) {
                 this.type = Action.Type.BuildCity;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         }
 }
 
@@ -30,15 +30,15 @@ validateAction = function(action,gamestate) {
     switch(action.type) {
             case Action.Type.BuildRoad:
                     if(checkRoadLegality(gamestate.board.vertexBoard, action.vertA, action.vertB, action.player, gamestate.players)) {
-                            buildRoad(action.vertA, action.vertB, action.player);
+                            buildRoad(action.vertexA, action.vertexB, action.player);
                             console.log("Road built");
                             break;
                     }
                         console.log("Road illegal")
                         break;
             case Action.Type.BuildSettlement:
-                    if(checkSettlementLegality(action.vert,action.player,gamestate.board.vertexBoard)){
-                            buildSettlement(action.vert, action.player);
+                    if(checkSettlementLegality(action.vertex,action.player,gamestate.board.vertexBoard)){
+                            buildSettlement(action.vertex, action.player);
                             console.log("Settlement built");
                             break;
                     }
@@ -60,6 +60,6 @@ applyAction = function(action,game) {
 
 drawAction = function(action,ctx) {
 
-  drawBuilding(action.vert,action.player.playerColor,50,ctx);
+  drawBuilding(action.vertex,action.player.playerColor,50,ctx);
   
 }

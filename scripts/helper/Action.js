@@ -1,6 +1,4 @@
 
-
-
 Action = {
         Type: {
                 BuildRoad: 0,
@@ -10,18 +8,18 @@ Action = {
         BuildRoad : function(player,vertA,vertB) {
                 this.type = Action.Type.BuildRoad;
                 this.player = player;
-                this.vertA = vertA;
-                this.vertB = vertB;
+                this.vertexA = vertexA;
+                this.vertexB = vertexB;
         },
-        BuildSettlement : function(player,vert) {
+        BuildSettlement : function(player,vertex) {
                 this.type = Action.Type.BuildSettlement;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         },
-        BuildCity : function(player,vert) {
+        BuildCity : function(player,vertex) {
                 this.type = Action.Type.BuildCity;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         }
 }
 
@@ -52,14 +50,15 @@ validateAction = function(action,gamestate) {
 
 }
 
+
 applyAction = function(action,game) {
 
 }
 
 
-//May be unnecessary
+
 drawAction = function(action,ctx) {
 
+  drawBuilding(action.vertex,action.player.playerColor,50,ctx);
+  
 }
-
-

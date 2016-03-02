@@ -2,27 +2,29 @@
 
 function drawBuilding(vert,playerColor,side,ctx){
   var img = new Image(); //create new image element
+  console.log("drawing "+ vert.settled + " " + playerColor);
   img.src = getBuildingImg(vert.settled, playerColor); //set source path
-  ctx.drawImage(img, vertexToWorld(vert, side).x, vertexToWorld(vert, side).y);
+  ctx.drawImage(img, vert.coordinate.x, vert.coordinate.y);
 }
+
+Settlements = []
+Settlements[Colors.red]     = 'graphics/reds.svg';
+Settlements[Colors.orange]  = 'graphics/oranges.svg';
+Settlements[Colors.blue]    = 'graphics/blues.svg';
+Settlements[Colors.white]   = 'graphics/whites.svg';
+
+Cities = []
+Cities[Colors.red]      = 'graphics/redc.svg';
+Cities[Colors.orange]   = 'graphics/orangec.svg';
+Cities[Colors.blue]     = 'graphics/bluec.svg';
+Cities[Colors.white]    = 'graphics/whitec.svg';
+
 function getBuildingImg(settletype, playerColor){
   //still needs work...i will have to spend some time resizing these photos somehow
-  var settlements = {
-    colors.red : 'graphics/reds.svg',
-    colors.orange : 'graphics/oranges.svg',
-    colors.blue : 'graphics/blues.svg',
-    colors.white : 'graphics/whites.svg'
-  };
-  var cities = {
-    colors.red : 'graphics/redc.svg',
-    colors.orange : 'graphics/orangec.svg',
-    colors.blue : 'graphics/bluec.svg',
-    colors.white : 'graphics/whitec.svg'
-  };
   if (settletype == 1){
-    return settlement[playerColor];
+    return Settlements[playerColor];
   }
   else{
-    return cities[playerColor];
+    return Cities[playerColor];
   }
 }

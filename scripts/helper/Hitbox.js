@@ -22,9 +22,9 @@ Box = {
 }
 
 
-testBox = newHitbox(hexToWorld(makeVector(1,1),50),makeVector(10,10),makeVector (0,1),Math.PI/3)
+testBox = newHitbox(hexToWorld(new Vector(1,1),50),new Vector(10,10),new Vector (0,1),Math.PI/3)
 
-testBox2 = newHitbox(makeVector(300,200),makeVector(50,200),makeVector (0,1),Math.PI/6)
+testBox2 = newHitbox(new Vector(300,200),new Vector(50,200),new Vector (0,1),Math.PI/6)
 /* Use hitcircles instead
 function genTileBoxes(coords,side) {
         return coords.map(function(hc) {
@@ -40,7 +40,7 @@ function genTileBoxes(coords,side) {
 genHitboxes = function(vertices,roads,hexes,side) { 
         return genVertexBoxes(vertices,side)
                 .concat(genTileBoxes(hexes,side))
-                .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)]);
+                .concat([genLineBox(new Vector(0,0),new Vector(0,1),50),genLineBox(new Vector(1,0),new Vector(0,1),50)]);
 }
 
 function genTileBoxes(coords,side) {
@@ -71,7 +71,7 @@ function genVertexBoxes(coords,side) {
 function genLineBox(c1,c2,side) {
         var w1 = vertexToWorld(c1,side);
         var w2 = vertexToWorld(c2,side);
-        var cost = dotProduct(makeVector(1,0),add(w1,times(-1,w2)))/(side);
+        var cost = dotProduct(new Vector(1,0),add(w1,times(-1,w2)))/(side);
         if (cost < -1) {
                 cost = -1;
         } else if (cost > 1) {
@@ -80,8 +80,8 @@ function genLineBox(c1,c2,side) {
         var rotation = Math.acos(cost);
         var center = times(0.5,add(w1,w2));
         return newHitbox(center
-                        ,makeVector(side/2,side/5)
-                        ,[Type.Line,makeVector(c1,c2)]
+                        ,new Vector(side/2,side/5)
+                        ,[Type.Line,new Vector(c1,c2)]
                         ,rotation)
 }
 
@@ -137,9 +137,9 @@ function bottomLeft(box) {
 
 function boxCorners(box) {
         var t =  [box.dimension
-                 ,piecewiseTimes(makeVector(1,-1),box.dimension)
-                 ,piecewiseTimes(makeVector(-1,-1),box.dimension)
-                 ,piecewiseTimes(makeVector(-1,1),box.dimension)
+                 ,piecewiseTimes(new Vector(1,-1),box.dimension)
+                 ,piecewiseTimes(new Vector(-1,-1),box.dimension)
+                 ,piecewiseTimes(new Vector(-1,1),box.dimension)
                  ]
         return t.map(function(p) {
             return add(box.center,multiplyMatrix(rotationMatrix(box.rotation),p));

@@ -9,7 +9,6 @@ Resource = {
         Desert : 5
 }
 
-
 baseResourceList = [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore, Resource.Brick, Resource.Brick, Resource.Brick];
 baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
@@ -18,18 +17,22 @@ baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-function makeVertex(settled, player, x, y){
-	return {settled:settled, player:player, x:x, y:y}
+Vertex = function(settled, player,coordinate){
+	this.settled=settled; 
+    this.player=player;
+    this.coordinate=coordinate;
 }
 
 /* Hex Object
  * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
  * num: integer from 2 to 12, 7 indicating robber
- * coordiantes: vector object containing hex's coordinates.}
+ * coordiantes: vector object containing hex's coordinate.}
  */
 
-function makeHexObject(resource, token, coordinates){   //TODO: Naming Conventions?
-	return {resource:resource, token:token, coordinates:coordinates}
+HexObject = function(resource, token, coordinate){   //TODO: Naming Conventions?
+    this.resource=resource; 
+    this.token=token; 
+    this.coordinate=coordinate;
 }
 
 /* buildRegularHexFramework
@@ -54,8 +57,8 @@ function buildRegularHexFramework(width){
 			else{
 				tok = tokList.pop();
 			}
-			coords = makeVector(i, j+yShift);
-			tileFrame.push(makeHexObject(res,tok,coords));
+			coords = new Vector(i, j+yShift);
+			tileFrame.push(new HexObject(res,tok,coords));
 		}
 	}
 	return tileFrame;
@@ -86,11 +89,10 @@ function generateYShift(width, xcoord){
  function buildVertexFramework(tileFrame){
  	var vertexFrame = {};                        //Switch to list - necessary?
  	for(i=0;i<tileFrame.length;i++){
- 		coordList = vertices(tileFrame[i].coordinates);
+ 		coordList = vertices(tileFrame[i].coordinate);
  		for(j=0;j<coordList.length;j++){
  			vertex = coordList[j];
-			newVertex = makeVertex(0,0,vertex.x,vertex.y);
- 			vertexFrame[[vertex.x,vertex.y]] = newVertex;
+ 			vertexFrame[[vertex.x,vertex.y]] = new Vertex(0,0,vertex.x,vertex.y);
  		}
  	}
  	return vertexFrame;
@@ -98,13 +100,15 @@ function generateYShift(width, xcoord){
 
 /* Road Object
  * Roads will be stored in a list
- * {coord1:vector object storing x and y coordinates,
- * coord2:vector object storing x and y coordinates,
+ * {coord1:vector object storing x and y coordinate,
+ * coord2:vector object storing x and y coordinate,
  * player: integer from 1 to 4, according to player}
  */
 
-function makeRoad(coord1, coord2, player){
-	return {coord1:coord1, coord2:coord2, player:player}
+Road = new function(coord1, coord2, player){
+	this.coord1=coord1;
+    this.coord2=coord2; 
+    this.player=player;
 }
 
 /* compareRoadPositions

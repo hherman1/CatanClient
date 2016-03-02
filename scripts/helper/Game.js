@@ -24,21 +24,28 @@ Reference = function(data) {
         return {data:data}
 }
 
-Board = function(hexBoard) {
-        this.hexBoard = hexBoard;
-        this.vertexBoard = buildVertexFramework(hexBoard);
+Board = function() {
+        this.hexBoard;
+        this.vertexBoard;
         this.roadList = [];
 }
 
-GameState = function(hexBoard, players) {
-        this.board = new Board(hexBoard);
-        this.phase;
-        this.players = players;
+RegularHexBoard = function(width) {
+  Board();
+  this.hexBoard = buildRegularHexFramework(width);
+  this.vertexBoard = buildVertexFramework(this.hexBoard);
 }
+
+GameState = function() {
+        this.board = new Board();
+        this.phase;
+        this.players;
+}
+
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
-               translation: makeVector(0,0)
+               translation: new Vector(0,0)
               ,scale: 1
         }
 }
@@ -55,7 +62,7 @@ Server = function() {
                 return this.gamestate;
         }
         this.newGame = function(width) {
-            this.gamestate.board = new Board(buildRegularHexFramework(width));
+            this.gamestate.board = new RegularHexBoard(width);
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {
@@ -64,19 +71,19 @@ Server = function() {
 }
 
 Buffer = function() {
-    this.mouse = newMouseBuffer();
+    this.mouse = new MouseBuffer();
     this.ui = {};
 }
 
 
 Game = function(context) {
         this.ctx;
-        this.mouse = newMouse();
+        this.mouse = new Mouse();
         this.buffer = new Buffer();
         this.graphics = new Graphics();
         this.server = new Server();
         this.gamestate;
-        this.hitboxes;  
+        this.hitboxes;
         this.ui
 }
 
@@ -84,7 +91,7 @@ initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
         game.ui = new UI(canvas); //None?
-        game.graphics.transform.translation = center(makeVector(canvas.width,canvas.height));
+        game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
 
         //the below code may be better suited elsewhere
 
@@ -92,10 +99,11 @@ initGame = function(game,ctx) {
         document.addEventListener("mouseup",mouseEventSaver(game.buffer.mouse.mouseups)) //Pay attention to mouse releases from anywhere in the document
         game.server.newGame(5);
         game.gamestate = game.server.getState();
-        game.hitboxes = 
-                genHitboxes(game.gamestate.board.map(function(tile) {return tile.coordinates})
+        game.hitboxes =
+                genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.map(function(tile) {return tile.coordinates})
+                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinate})
+                           //,game.gamestate.board.vertexBoard.map(function(tile) {return tile.coordinates})
                            ,50);
 }
 
@@ -108,9 +116,6 @@ function gameStep(game) {
         mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
-        if(game.mouse.clicked) {
-                console.log("click")
-        }
         if(game.mouse.dragging) {
                 game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
         }

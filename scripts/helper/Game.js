@@ -24,14 +24,16 @@ Reference = function(data) {
         return {data:data}
 }
 
-Board = function() {
-
+Board = function(hexBoard) {
+        this.hexBoard = hexBoard;
+        this.vertexBoard = buildVertexFramework(hexBoard);
+        this.roadList = [];
 }
 
-GameState = function() {
-        this.board = new Board();
+GameState = function(hexBoard, players) {
+        this.board = new Board(hexBoard);
         this.phase;
-        this.players;
+        this.players = players;
 }
 Graphics = function(){
         this.animations = new Reference([])
@@ -53,7 +55,7 @@ Server = function() {
                 return this.gamestate;
         }
         this.newGame = function(width) {
-            this.gamestate.board = buildRegularHexFramework(width);
+            this.gamestate.board = new Board(buildRegularHexFramework(width));
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {

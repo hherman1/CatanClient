@@ -13,6 +13,9 @@ function rollDice(){
 	}
   return rsum;
 }
+function getRollSum(){
+	return rsum;
+}
 
 function drawRoll(roll1, roll2,rsum){
   ctx.fillStyle = '#C2DFFF';

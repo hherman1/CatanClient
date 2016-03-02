@@ -22,7 +22,7 @@ function player(id){
   //Coordinates of vertices the player has settled (list of vectors)
   var settledVertices = [];
   //Player owned resources
-  var woodCount = 0;
+  var lumberCount = 0;
   var wheatCount = 0;
   var oreCount = 0;
   var brickCount = 0;
@@ -36,7 +36,7 @@ function player(id){
     settlement: settlementCount,
     road: roadCount,
     city: cityCount,
-    woodCount: woodCount,
+    lumberCount: lumberCount,
     wheatCount: wheatCount,
     oreCount: oreCount,
     brickCount: brickCount,

@@ -9,9 +9,9 @@
 //created by sduong
 function drawTitle(ctx){
      resetTransform(ctx);
-     ctx.font = "bold 36px Courier New";
+     ctx.font = "bold 24px Courier New";
      ctx.fillStyle = "coral";
-     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/10);
+     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
  }
 
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.

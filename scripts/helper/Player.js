@@ -25,10 +25,10 @@ function player(id){
   var settledVertices = [];
   //Player owned resources
   var lumberCount = 0;
-  var wheatCount = 0;
+  var grainCount = 0;
   var oreCount = 0;
   var brickCount = 0;
-  var sheepCount = 0;
+  var woolCount = 0;
   //Color assigned
   var playerColor = colList[id-1];
   //Player victory points
@@ -39,10 +39,10 @@ function player(id){
     road: roadCount,
     city: cityCount,
     lumberCount: lumberCount,
-    wheatCount: wheatCount,
+    grainCount: grainCount,
     oreCount: oreCount,
     brickCount: brickCount,
-    sheepCount: sheepCount,
+    woolCount: woolCount,
     playerColor: playerColor,
     vicPoints:vicPoints,
     roadList:roadList,
@@ -60,18 +60,18 @@ function getPlayer(id, playerList){
     return undefined;
 }
 
-function addResources(player, resource, amount){
+function modifyResources(player, resource, amount){
   switch(resource){
     case Resource.Brick:
           player.brickCount += amount;
     case Resource.Grain:
-          player.wheatCount += amount;
+          player.grainCount += amount;
     case Resource.Lumber:
-          player.woodCount += amount;
+          player.lumberCount += amount;
     case Resource.Ore:
           player.oreCount += amount;
     case Resource.Wool:
-          player.sheepCount += amount;
+          player.woolCount += amount;
   }
 
     //TODO: Complete

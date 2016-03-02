@@ -106,9 +106,6 @@ function gameStep(game) {
         mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
-        if(game.mouse.clicked) {
-                console.log("click")
-        }
         if(game.mouse.dragging) {
                 game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
         }

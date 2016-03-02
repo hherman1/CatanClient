@@ -41,14 +41,15 @@ validateAction = function(action,gamestate) {
 
 }
 
+
 applyAction = function(action,game) {
 
 }
 
 
-//May be unnecessary
+
 drawAction = function(action,ctx) {
 
+  drawBuilding(action.vert,action.player.playerColor,50,ctx);
+  
 }
-
-

@@ -2,14 +2,16 @@
 //team 0. The ID is used for the purposes of identification
 //and automatic color selection. All other values are initialized to zero.
 
-function player(id){
-
-  var colors = {
+colors = {
     red: 0,
     orange: 1,
     blue: 2,
     white: 3
   };
+  
+function player(id){
+
+
 
   var colList = [colors.red, colors.orange, colors.blue, colors.white];  //Player colors will be consistently assigned
                                                  //in accordance with their ID
@@ -74,4 +76,3 @@ function addResources(player, resource, amount){
 
     //TODO: Complete
 }
-

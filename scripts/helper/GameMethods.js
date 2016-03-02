@@ -113,7 +113,6 @@ function buildSettlement(vert, player) {
 			return;
 		}
 		player.settledVertices.push(makeVector(vert.x, vert.y));
-		// drawBuilding(vert, player.playerColor, 50, ctx);
 
 	}
 }

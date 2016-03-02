@@ -31,7 +31,6 @@ function drawTitle(ctx){
      ctx.stroke();
      drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
      drawToken(hexToWorld(board[i].coordinates,side),board[i].token,ctx); //draw number token
-
    }
  }
 
@@ -196,7 +195,7 @@ function makeHex(hexCoords,side,ctx) {
         ctx.fill();
 }
 
-//not called
+
 function drawHexPoints(hexCoords,side,ctx) {
     var mappingFunction = function(coord) {
         drawVertex(coord,side,ctx);
@@ -205,7 +204,7 @@ function drawHexPoints(hexCoords,side,ctx) {
     coordsList.map(mappingFunction)
 }
 
-//not called because drawhexpoints is not called
+
 function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 

@@ -25,6 +25,7 @@ Action = {
         }
 }
 
+
 validateAction = function(action,gamestate) {
     switch(action.type) {
             case Action.Type.BuildRoad:
@@ -37,6 +38,16 @@ validateAction = function(action,gamestate) {
                     console.log("City Built");
                     break;
     }
+
+}
+
+applyAction = function(action,game) {
+
+}
+
+
+//May be unnecessary
+drawAction = function(action,ctx) {
 
 }
 

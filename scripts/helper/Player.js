@@ -7,7 +7,7 @@ Colors = {
     orange: 1,
     blue: 2,
     white: 3
-    ColorList = [Colors.red, Colors.orange, Colors.blue, Colors.white];  //Player Colors will be consistently assigned
+    ColorList: [Colors.red, Colors.orange, Colors.blue, Colors.white];  //Player Colors will be consistently assigned
 }
 
 function Player(id){

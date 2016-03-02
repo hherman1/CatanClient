@@ -97,18 +97,14 @@ function flushMouseEvents(mousebuffer) {
 
 
 function initMouseBuffer(elem,buffer) {
-        elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
-        elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
-        elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
-        elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
+    elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
+    elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
+    elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
+    elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
 }
 
 function getCoords(evt) {
     return new Vector(evt.offsetX,evt.offsetY);
-}
-
-function makeActivatedBox(hitbox,evt){
-        return {hitbox:hitbox,evt:evt}
 }
 
 function collapseMousemoveEvents(evts) {

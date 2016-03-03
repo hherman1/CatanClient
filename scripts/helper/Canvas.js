@@ -60,9 +60,9 @@ function inverseTransform(v,trans) {
 }
 
 function drawHitboxes(boxes,hits,ctx) {
-        ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+        ctx.fillStyle = "rgba(90, 172, 86, 0.3)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
-        ctx.fillStyle = "rgba(255, 122, 0, 0.3)";
+        ctx.fillStyle = "rgba(141, 207, 138, 0.5)";
         hits.map(function(box){drawHitbox(box,ctx)});
 }
 function drawHitbox(box,ctx) {

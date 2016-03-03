@@ -52,7 +52,7 @@ function drawRoad(verta,vertb,color,ctx) {
 
 function drawBuilding(vert,playerColor,side,ctx){
   var img = new Image(); //create new image element
-  console.log("drawing "+ vert.settled + " " + playerColor);
+  //console.log("drawing "+ vert.settled + " " + playerColor);
   img.src = getBuildingImg(vert.settled, playerColor); //set source path
   ctx.drawImage(img, vert.coordinate.x, vert.coordinate.y);
 }
@@ -68,7 +68,7 @@ function getBuildingImg(settletype, playerColor){
 }
 
 function getResourceImage(resourceType) {
-        return Images.Resources[resourceType]
+  return Images.Resources[resourceType];
 }
 
 

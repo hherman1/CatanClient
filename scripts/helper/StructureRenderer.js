@@ -1,35 +1,31 @@
-<<<<<<< HEAD
-=======
-/* StructureRenderer.js
- * Functions and objects for rendering structures 
- */
->>>>>>> c864f3b116c2d57e8b0663a5311fd7c9bd7d8cdc
+//SETTLEMENT
+//
+//
 
 Images = {
-        Settlements                 : [],
+        Settlements:[],
 
-        Cities                      : [],
+        Cities:[],
 
-        Resources                   : [],
+        Resources:[],
 }
 
-Images.Settlements[Colors.red]      = 'graphics/reds.svg';
-Images.Settlements[Colors.orange]   = 'graphics/oranges.svg';
-Images.Settlements[Colors.blue]     = 'graphics/blues.svg';
-Images.Settlements[Colors.white]    = 'graphics/whites.svg';
+Images.Settlements[Colors.red]     = 'graphics/reds.svg';
+Images.Settlements[Colors.orange]  = 'graphics/oranges.svg';
+Images.Settlements[Colors.blue]    = 'graphics/blues.svg';
+Images.Settlements[Colors.white]   = 'graphics/whites.svg';
 
-Images.Cities[Colors.red]           = 'graphics/redc.svg';
-Images.Cities[Colors.orange]        = 'graphics/orangec.svg';
-Images.Cities[Colors.blue]          = 'graphics/bluec.svg';
-Images.Cities[Colors.white]         = 'graphics/whitec.svg';
+Images.Cities[Colors.red]      = 'graphics/redc.svg';
+Images.Cities[Colors.orange]   = 'graphics/orangec.svg';
+Images.Cities[Colors.blue]     = 'graphics/bluec.svg';
+Images.Cities[Colors.white]    = 'graphics/whitec.svg';
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
 //labeled for noncommercial reuse
-Images.Resources[Resource.Lumber]   = 'graphics/forest.svg';
+Images.Resources[Resource.Lumber] = 'graphics/forest.svg';
 //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';
 //labeled for noncommercial reuse
-<<<<<<< HEAD
 Images.Resources[Resource.Grain] = 'graphics/field.svg';
 //'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg';
 //labeled for noncommercial reuse
@@ -37,25 +33,12 @@ Images.Resources[Resource.Wool] = 'graphics/pasture.svg';
 //'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
 //labeled for noncommercial reuse
 Images.Resources[Resource.Ore] = 'graphics/mountains.svg';
-=======
-Images.Resources[Resource.Grain]    = 'graphics/field.svg'; 
-//'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg'; 
-//labeled for noncommercial reuse
-Images.Resources[Resource.Wool]     = 'graphics/pasture.svg'; 
-//'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
-//labeled for noncommercial reuse
-Images.Resources[Resource.Ore]      = 'graphics/mountains.svg'; 
->>>>>>> c864f3b116c2d57e8b0663a5311fd7c9bd7d8cdc
 //'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg'
 //labeled for noncommercial reuse
-Images.Resources[Resource.Brick]    = 'graphics/hills.svg';
+Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 //"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg
 //labeled for noncommercial reuse
-<<<<<<< HEAD
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
-=======
-Images.Resources[Resource.Desert]   = 'graphics/desert.svg'; 
->>>>>>> c864f3b116c2d57e8b0663a5311fd7c9bd7d8cdc
 
 
 function drawRoad(verta,vertb,color,ctx) {

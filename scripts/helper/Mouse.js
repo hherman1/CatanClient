@@ -97,10 +97,11 @@ function flushMouseEvents(mousebuffer) {
 
 
 function initMouseBuffer(elem,buffer) {
-    elem.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
+        // elem instead of document is more reliable, but is unpleasant.
+    document.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
     elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
-    elem.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
     elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
+    document.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
 }
 
 function getCoords(evt) {

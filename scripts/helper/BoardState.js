@@ -1,5 +1,12 @@
 //Global Variables
 
+Structure = {
+        Empty: 0,
+        Settlement: 1,
+        City: 2,
+        Road: 3
+};
+
 Resource = {
         Lumber : 0,
         Wool : 1,
@@ -9,11 +16,22 @@ Resource = {
         Desert : 5
 }
 
-baseResourceList = [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore, Resource.Brick, Resource.Brick, Resource.Brick];
-baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
+/* Road Object
+ * Roads will be stored in a list
+ * {coord1:vector object storing x and y coordinate,
+ * coord2:vector object storing x and y coordinate,
+ * player: integer from 1 to 4, according to player}
+ */
+
+Road = new function(coord1, coord2, player){
+    this.type = Structure.Road;
+	this.coord1=coord1;
+    this.coord2=coord2; 
+    this.player=player;
+}
 
 /* Vertex Object
- * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city),
+ * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city), see Structure
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
@@ -34,6 +52,17 @@ HexObject = function(resource, token, coordinate){
     this.token=token; 
     this.coordinate=coordinate;
 }
+
+baseResourceList = 
+    [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain, 
+     Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool, 
+     Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber, 
+     Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore, 
+     Resource.Brick, Resource.Brick, Resource.Brick];
+
+baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
+
+
 
 /* buildRegularHexFramework
  * Function builds a list of hex objects
@@ -98,18 +127,6 @@ function generateYShift(width, xcoord){
  	return vertexFrame;
  }
 
-/* Road Object
- * Roads will be stored in a list
- * {coord1:vector object storing x and y coordinate,
- * coord2:vector object storing x and y coordinate,
- * player: integer from 1 to 4, according to player}
- */
-
-Road = new function(coord1, coord2, player){
-	this.coord1=coord1;
-    this.coord2=coord2; 
-    this.player=player;
-}
 
 /* compareRoadPositions
  * returns true if the two roads occupy the same position.

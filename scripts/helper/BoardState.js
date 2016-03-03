@@ -1,5 +1,12 @@
 //Global Variables
 
+Structure = {
+        Empty: 0,
+        Settlement: 1,
+        City: 2,
+        Road: 3
+};
+
 Resource = {
         Lumber : 0,
         Wool : 1,
@@ -13,7 +20,7 @@ baseResourceList = [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Gr
 baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
 /* Vertex Object
- * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city),
+ * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city), see Structure
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 

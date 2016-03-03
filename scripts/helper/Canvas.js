@@ -34,22 +34,6 @@ function drawTitle(ctx){
    }
  }
 
-function transformHitlist(boxes,trans) {
-        return boxes.map(function(box){return transformHitbox(box,trans)})
-}
-function transformHitbox(box,trans) {
-        if(box.type == Box.box) {
-                return newHitbox(transform(box.center,trans)
-                           ,times(trans.scale,box.dimension)
-                           ,box.data
-                           ,box.rotation)
-        } else if (box.type == Box.circle) {
-                return newHitcircle(transform(box.center,trans)
-                                   ,trans.scale * box.radius
-                                   ,box.data)
-        }
-
-}
 
 function transform(v,trans) {
         return add(trans.translation,times(trans.scale,v))
@@ -67,9 +51,9 @@ function drawHitboxes(boxes,hits,ctx) {
 }
 function drawHitbox(box,ctx) {
         resetTransform(ctx);
-        if(box.type == Box.box) {
+        if(box.type == Hitbox.Type.Box) {
                 drawPath(boxCorners(box),ctx);
-        } else if (box.type == Box.circle) {
+        } else if (box.type == Hitbox.Type.Circle) {
                 ctx.beginPath();
                 ctx.arc(box.center.x,box.center.y,box.radius,0,2*Math.PI,0);
         }

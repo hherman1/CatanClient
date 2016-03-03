@@ -114,7 +114,7 @@ initGame = function(game,ctx) {
         game.hitboxes =
                 genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinate})
+                           ,game.gamestate.board.hexBoard
                            //,game.gamestate.board.vertexBoard.map(function(tile) {return tile.coordinates})
                            ,50);
 }

@@ -3,12 +3,12 @@
 //and automatic color selection. All other values are initialized to zero.
 
 Colors = {
-    red: 0,
-    orange: 1,
-    blue: 2,
-    white: 3,
+    Red: 0,
+    Orange: 1,
+    Blue: 2,
+    White: 3,
 }
-Colors.list = [Colors.red, Colors.orange, Colors.blue, Colors.white]  //Player Colors will be consistently assigned
+Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player Colors will be consistently assigned
 
 Player = function(id){
   //Player owned constructions
@@ -26,7 +26,7 @@ Player = function(id){
   this.brickCount = 0;
   this.sheepCount = 0;
   //Color assigned
-  this.playerColor = Colors.list[id-1];
+  this.playerColor = Colors.List[id-1];
   //Player victory points
   this.vicPoints = 0;
 }

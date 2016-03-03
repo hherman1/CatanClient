@@ -65,7 +65,7 @@
                             <h1 class="rollTittle">
                                 Roll=
                             </h1>
-                            <h1 class="rollValue">
+                            <h1 id="rollValue" class="rollValue">
                                 7
                             </h1>
                         </div>
@@ -84,31 +84,31 @@
                         <div class="resources">
                             <ul class="resourceList">
                                 <div class="resourcePicAndNumHolder">
-                                    <p id="woodValue" class="resourceValue">
+                                    <p resource="Lumber" id="lumberValue" class="resourceValue">
                                         0
                                     </p>
                                     <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
                                 </div>
                                 <div class="resourcePicAndNumHolder">
-                                    <p id="wheatValue" class="resourceValue">
+                                    <p resource="Grain" id="grainValue" class="resourceValue">
                                         0
                                     </p>
                                     <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
                                 </div>
                                 <div class="resourcePicAndNumHolder">
-                                    <p id="sheepValue" class="resourceValue">
+                                    <p resource="Wool" id="woolValue" class="resourceValue">
                                         0
                                     </p>
                                     <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
                                 </div>
                                 <div class="resourcePicAndNumHolder">
-                                    <p id="oreValue" class="resourceValue">
+                                    <p resource="Ore" id="oreValue" class="resourceValue">
                                         0
                                     </p>
                                     <img src="graphics/woodsymbol.svg" style="height: 30px;" alt="">
                                 </div>
                                 <div class="resourcePicAndNumHolder">
-                                    <p id="brickValue" class="resourceValue">
+                                    <p resource="Brick" id="brickValue" class="resourceValue">
                                         0
                                     </p>
                                     <img src="graphics/bricksymbol.svg" style="height: 30px;" alt="">
@@ -136,7 +136,7 @@
                                     <img style="height:30px;" src="graphics/bricksymbol.svg" alt="">
                                 </div>
                             </div>
-                            <div class="buildChoice">
+                            <div class="buildChoice hover">
                                 <div class="choiceInfo">
                                     <p class="choiceTitle">
                                         Settlement
@@ -193,26 +193,26 @@
                                 <p class="playerPointsText">
                                     Victory Points:
                                 </p>
-                                <p class="playerPoints">
+                                <p player="player1" class="playerPoints">
                                     0
                                 </p>
                             </div>
                             <div class="playerStructuresInfo">
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/blues.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player1" structure="Settlement" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/bluec.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player1" structure="City" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/bluer.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player1" structure="Road" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
@@ -231,26 +231,26 @@
                                 <p class="playerPointsText">
                                     Victory Points:
                                 </p>
-                                <p class="playerPoints">
+                                <p player="player2" class="playerPoints">
                                     0
                                 </p>
                             </div>
                             <div class="playerStructuresInfo">
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/whites.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player2" structure="Settlement" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/whitec.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player2" structure="City" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/whiter.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player2" structure="Road" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
@@ -269,26 +269,26 @@
                                 <p class="playerPointsText">
                                     Victory Points:
                                 </p>
-                                <p class="playerPoints">
+                                <p player="player3" class="playerPoints">
                                     0
                                 </p>
                             </div>
                             <div class="playerStructuresInfo">
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/reds.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player3" structure="Settlement" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/redc.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player3" structure="City" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/redr.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player3" structure="Road" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
@@ -307,26 +307,26 @@
                                 <p class="playerPointsText">
                                     Victory Points:
                                 </p>
-                                <p class="playerPoints">
+                                <p player="player4" class="playerPoints">
                                     0
                                 </p>
                             </div>
                             <div class="playerStructuresInfo">
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/oranges.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player4" structure="Settlement" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/orangec.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player4" structure="City" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
                                 <div class="playerStructure">
                                     <img class="playerStructurePic" src="graphics/oranger.svg" alt="">
-                                    <p class="playerStructureQuantity">
+                                    <p player="player4" structure="Road" class="playerStructureQuantity">
                                         0
                                     </p>
                                 </div>
@@ -337,12 +337,7 @@
                 <div class="slideHider"></div>
             </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-            <script src="UserInterfaceJScript.js"></script>
-
-
-
-
-
+            <script src="scripts/UserInterfaceJScript.js"></script>
 
 
         </body>

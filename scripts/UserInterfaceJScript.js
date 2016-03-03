@@ -50,18 +50,62 @@ function updateClock(){
 }
 updateClock();
 var timeinterval = setInterval(updateClock,1000);
+
 //Methods to change resource quantities---------------------------------------------------
-//This function takes in a resource to be changed, and a variable named change. 
-//The resource is changed by the amount of change. Valid options are 'wood' 'wheat'
-//'sheep' 'ore' 'brick'
-function updateResource(resource, change){
+$(document).ready(function(){
 
-}
+    //Sets the resource amount for the player. Takes in a resource ("Lumber","Wool", etc) and an amount to be set at
+    function setResourceVal(resource, amount){
+        $(".resourceValue[resource="+resource+"]").html(amount);
+    }
 
-//Function to update the wood value
-// $(document).ready(function(){
-//     $('#woodValue')
-// });
+    //Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount
+    function setStructuresVal(playerNum, structure, amount){
+        $(".playerStructureQuantity[player=player"+playerNum+"][structure="+structure+"]").html(amount);
+    }
+
+    //Sets the victory points for the player. Takes in a number
+    function setVictoryPointsVal(playerNum, amount){
+        $(".playerPoints[player=player"+playerNum+"]").html(amount);
+    }
+
+    //Sets the roll value display for the player. Takes in a number
+    function setRollVal(amount){
+        $("#rollValue").html(amount)
+    }
+
+    //Tests
+    //setResourceVal
+    setResourceVal("Lumber", 5);
+    setResourceVal("Grain", 2);
+    setResourceVal("Wool", 1);
+    setResourceVal("Ore", 1);
+    setResourceVal("Brick", 0);
+    //setStructuresVal
+    setStructuresVal(1, "Settlement", 3)
+    setStructuresVal(1, "Road", 8)
+    setStructuresVal(2, "Settlement", 1)
+    setStructuresVal(2, "City", 2)
+    setStructuresVal(3, "City", 4)
+    setStructuresVal(3, "Road", 3)
+    setStructuresVal(4, "Settlement", 2)
+    setStructuresVal(4, "City", 2)
+    setStructuresVal(4, "Road", 6)
+    //setVictoryPointsVal
+    setVictoryPointsVal(1, 5)
+    setVictoryPointsVal(2, 4)
+    setVictoryPointsVal(3, 8)
+    setVictoryPointsVal(4, 6)
+    setVictoryPointsVal(42, 6)//Doesnt find anything (which is good)
+    //SetRollVal
+    setRollVal(4)
+});
+
+// function setResourceVal(resource, amount){
+
+// }
+
+
 
 
 //functions i need

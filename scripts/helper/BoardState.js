@@ -23,7 +23,7 @@ Resource = {
  * player: integer from 1 to 4, according to player}
  */
 
-Road = new function(coord1, coord2, player){
+Road = function(coord1, coord2, player){
     this.type = Structure.Road;
 	this.coord1=coord1;
     this.coord2=coord2; 
@@ -115,18 +115,40 @@ function generateYShift(width, xcoord){
  * size 2 arrays.
  */
 
- function buildVertexFramework(tileFrame){
- 	var vertexFrame = {};                        //Switch to list - necessary?
- 	for(i=0;i<tileFrame.length;i++){
- 		coordList = vertices(tileFrame[i].coordinate);
- 		for(j=0;j<coordList.length;j++){
- 			vertex = coordList[j];
- 			vertexFrame[[vertex.x,vertex.y]] = new Vertex(0,0,vertex.x,vertex.y);
- 		}
- 	}
- 	return vertexFrame;
- }
 
+function buildVertexFramework(tileFrame){
+	var vertexFrame = [];
+	for(i=0;i<tileFrame.length;i++){
+		coordList = vertices(tileFrame[i].coordinate);
+		for(j=0;j<coordList.length;j++){
+			testVector = coordList[j];
+			if(checkForSameVector(vertexFrame,testVector)) {
+				console.log("works");
+				vertexFrame.push(new Vertex(0, 0, coordList[j]));
+			}
+		}
+	}
+	return vertexFrame;
+}
+function checkForSameVector(vertexList, vector){
+	for(count = 0; count<vertexList.length;count++){
+		if(compareVectors(vector,vertexList[count].coordinate)){
+			return false;
+		}
+	}
+	return true;
+}
+
+
+/* Given vector coordinates and a list of vertex objects, returns the vertex at said coordinates.
+*/
+function getVertex(tileFrame, coordinates){
+	for(i = 0; i<tileFrame.length;i++){
+		if (compareVectors(tileFrame[i].coordinate,coordinates)){
+			return tileFrame[i];
+		}
+	}
+}
 
 /* compareRoadPositions
  * returns true if the two roads occupy the same position.

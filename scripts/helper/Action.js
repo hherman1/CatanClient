@@ -1,6 +1,4 @@
 
-
-
 Action = {
         Type: {
                 BuildRoad: 0,
@@ -10,18 +8,18 @@ Action = {
         BuildRoad : function(player,vertA,vertB) {
                 this.type = Action.Type.BuildRoad;
                 this.player = player;
-                this.vertA = vertA;
-                this.vertB = vertB;
+                this.vertexA = vertexA;
+                this.vertexB = vertexB;
         },
-        BuildSettlement : function(player,vert) {
+        BuildSettlement : function(player,vertex) {
                 this.type = Action.Type.BuildSettlement;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         },
-        BuildCity : function(player,vert) {
+        BuildCity : function(player,vertex) {
                 this.type = Action.Type.BuildCity;
                 this.player = player;
-                this.vert = vert;
+                this.vertex = vertex;
         }
 }
 
@@ -29,26 +27,46 @@ Action = {
 validateAction = function(action,gamestate) {
     switch(action.type) {
             case Action.Type.BuildRoad:
-                    console.log("Road built");
-                    break;
+                    if(checkRoadLegality(gamestate.board.vertexBoard, action.vertA, action.vertB, action.player, gamestate.players)) {
+                            console.log("Road legal");
+                            return true;
+                    }
+                        console.log("Road illegal")
+                        return false;
             case Action.Type.BuildSettlement:
-                    console.log("Settlement built");
-                    break;
+                    if(checkSettlementLegality(action.vert,action.player,gamestate.board.vertexBoard)){
+                            console.log("Settlement legal");
+                            return true;
+                    }
+                    console.log("Settlement illegal");
+                    return false;
             case Action.Type.BuildCity:
-                    console.log("City Built");
-                    break;
+                    if(checkCityLegality(action.vert,action.player)){
+                            console.log("City legal");
+                            return true
+                    }
+                    console.log("City illegal");
+                    return false;
     }
 
 }
+
 
 applyAction = function(action,game) {
 
 }
 
 
-//May be unnecessary
-drawAction = function(action,ctx) {
+
+drawAction = function(action, side, ctx) {
+
+  switch(action.type){
+    case Action.Type.BuildRoad:
+            drawRoad(Action.BuildRoad.vertexA, Action.BuildRoad.vertB, Action.BuildRoad.player.playerColor, side, ctx); //assuming vertex are not world coordinates
+    case Action.Type.BuildSettlement:
+            drawBuilding(Action.BuildSettlement.vertex,Action.BuildSettlement.player.playerColor, side, ctx);
+    case Action.Type.BuildCity:
+            drawBuilding(Action.BuildCity.vertex,Action.BuildCity.player.playerColor, side, ctx);
+  }
 
 }
-
-

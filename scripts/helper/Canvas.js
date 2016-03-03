@@ -22,35 +22,18 @@ function drawTitle(ctx){
    //setting the side of hexagon to be a value
    var side = 50;
 
-   for (i in board){
-     var tiletype = getResImg(board[i].resource); //get the source path for the hexagon's terrain image
-     hexPath(board[i].coordinates,side,ctx);
+   for (i in board.hexBoard){
+     var tiletype = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
+     hexPath(board.hexBoard[i].coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawSVG(tiletype,hexToWorld(board[i].coordinates,side), ctx);
-     drawToken(hexToWorld(board[i].coordinates,side),board[i].token,ctx); //draw number token
-
+     drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
+     drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
    }
  }
 
-function transformHitlist(boxes,trans) {
-        return boxes.map(function(box){return transformHitbox(box,trans)})
-}
-function transformHitbox(box,trans) {
-        if(box.type == Box.box) {
-                return newHitbox(transform(box.center,trans)
-                           ,times(trans.scale,box.dimension)
-                           ,box.data
-                           ,box.rotation)
-        } else if (box.type == Box.circle) {
-                return newHitcircle(transform(box.center,trans)
-                                   ,trans.scale * box.radius
-                                   ,box.data)
-        }
-
-}
 
 function transform(v,trans) {
         return add(trans.translation,times(trans.scale,v))
@@ -61,16 +44,16 @@ function inverseTransform(v,trans) {
 }
 
 function drawHitboxes(boxes,hits,ctx) {
-        ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+        ctx.fillStyle = "rgba(90, 172, 86, 0.3)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
-        ctx.fillStyle = "rgba(255, 122, 0, 0.3)";
+        ctx.fillStyle = "rgba(141, 207, 138, 0.5)";
         hits.map(function(box){drawHitbox(box,ctx)});
 }
 function drawHitbox(box,ctx) {
         resetTransform(ctx);
-        if(box.type == Box.box) {
+        if(box.type == Hitbox.Type.Box) {
                 drawPath(boxCorners(box),ctx);
-        } else if (box.type == Box.circle) {
+        } else if (box.type == Hitbox.Type.Circle) {
                 ctx.beginPath();
                 ctx.arc(box.center.x,box.center.y,box.radius,0,2*Math.PI,0);
         }
@@ -100,22 +83,8 @@ function redraw(board,mouse,transform,animations,ctx) {
         drawBoard(board,transform,ctx);
         var test = mouse.pos.x.valueOf();
         var rest = mouse.pos.y.valueOf();
-        var vec = makeVector(test,rest);
+        var vec = new Vector(test,rest);
         vec = inverseTransform(vec,transform);
-
-        if(mouse.clicked) {
-                // draw a square where clicked in world
-                animations.data.push(multiFrame(function(context,frames) {
-                        setTransform(context,transform);
-                        context.fillStyle = "rgba(0, 255, 0, 0.5)";
-                        context.fillRect(vec.x,vec.y,2*Math.sqrt(frames),2*Math.sqrt(frames));
-                },1000))
-
-                // move the view to the right
-                animations.data.push(multiFrame(function(context,frames) {
-                        transform.translation.x += 1/(1 + Math.exp(-frames/100));
-                },100))
-        }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);
@@ -124,12 +93,12 @@ function redraw(board,mouse,transform,animations,ctx) {
 
 
 function drawToken(hc, token, ctx){
-  var temp = hc;
+  var hc = hc;
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
   ctx.beginPath();
   ctx.fillStyle="beige"; //fill color of the token
-  ctx.arc(temp.x,temp.y, 20, 0, 2*Math.PI); //draw the token circle
+  ctx.arc(hc.x,hc.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();
   ctx.stroke();
   if (token != 7) {
@@ -140,10 +109,10 @@ function drawToken(hc, token, ctx){
   		ctx.fillStyle="black";
     }
     ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),temp.x-6,temp.y+5);
+    ctx.fillText(String(token),hc.x-6,hc.y+5);
 
 	} else{
-      drawRobber(temp.x,temp.y,40,ctx);
+      drawRobber(hc.x,hc.y,40,ctx);
 	}
 }
 
@@ -190,13 +159,7 @@ function hexPath(hexCoords,side,ctx) {
         drawPath(verts,ctx);
 }
 
-//not called
-function makeHex(hexCoords,side,ctx) {
-        hexPath(hexCoords,side,ctx)
-        ctx.fill();
-}
 
-//not called
 function drawHexPoints(hexCoords,side,ctx) {
     var mappingFunction = function(coord) {
         drawVertex(coord,side,ctx);
@@ -205,7 +168,7 @@ function drawHexPoints(hexCoords,side,ctx) {
     coordsList.map(mappingFunction)
 }
 
-//not called because drawhexpoints is not called
+
 function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
 

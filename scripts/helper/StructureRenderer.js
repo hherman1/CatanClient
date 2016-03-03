@@ -1,0 +1,83 @@
+//SETTLEMENT
+//
+//
+
+Images = {
+        Settlements:[],
+
+        Cities:[],
+
+        Resources:[],
+}
+
+Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
+Images.Settlements[Colors.Orange]  = 'graphics/oranges.svg';
+Images.Settlements[Colors.Blue]    = 'graphics/blues.svg';
+Images.Settlements[Colors.White]   = 'graphics/whites.svg';
+
+Images.Cities[Colors.Red]      = 'graphics/redc.svg';
+Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
+Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
+Images.Cities[Colors.White]    = 'graphics/whitec.svg';
+
+
+//'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
+//labeled for noncommercial reuse
+Images.Resources[Resource.Lumber] = 'graphics/forest.svg';
+//'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';
+//labeled for noncommercial reuse
+Images.Resources[Resource.Grain] = 'graphics/field.svg';
+//'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg';
+//labeled for noncommercial reuse
+Images.Resources[Resource.Wool] = 'graphics/pasture.svg';
+//'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
+//labeled for noncommercial reuse
+Images.Resources[Resource.Ore] = 'graphics/mountains.svg';
+//'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg'
+//labeled for noncommercial reuse
+Images.Resources[Resource.Brick] = 'graphics/hills.svg';
+//"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg
+//labeled for noncommercial reuse
+Images.Resources[Resource.Desert] = 'graphics/desert.svg';
+
+
+function drawRoad(verta,vertb,color,side, ctx) {
+  var worldA = hexToWorld(verta.coordinate,side);
+  var worldB = hexToWorld(vertb.coordinate,side);
+  ctx.beginPath();
+  ctx.moveTo(worldA.x, worldA.y);
+  ctx.lineTo(worldB.x,worldB.y);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
+
+function drawBuilding(vert,playerColor,side,ctx){
+  var img = new Image(); //create new image element
+  //console.log("drawing "+ vert.settled + " " + playerColor);
+  var worldVert = hexToWorld(vert.coordinate,side);
+  //console.log("world vert: " + worldVert.x + " " + worldVert.y);
+  img.src = getBuildingImg(vert.settled, playerColor); //set source path
+  ctx.drawImage(img, worldVert.x, worldVert.y, side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
+}
+
+function getBuildingImg(settletype, playerColor){
+  //still needs work...i will have to spend some time resizing these photos somehow
+  switch(settletype) {
+        case Structure.Settlement:
+            return Images.Settlements[playerColor];
+        case Structure.City:
+            return Images.Cities[playerColor];
+  }
+}
+
+function getResourceImage(resourceType) {
+  return Images.Resources[resourceType];
+}
+
+
+//wood image src: https://static.pexels.com/photos/5766/wood-fireplace-horizontal.jpg
+//bricks image src: https://pixabay.com/static/uploads/photo/2013/07/25/12/07/bricks-167072_960_720.jpg
+//wool image src: http://s0.geograph.org.uk/geophotos/02/40/15/2401511_d55c4dac.jpg
+//grain image src: https://c1.staticflickr.com/5/4038/4525119513_1ec891529b_b.jpg
+//ore image src: https://upload.wikimedia.org/wikipedia/commons/5/52/Gold-Quartz-273364.jpg

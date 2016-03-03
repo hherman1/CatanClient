@@ -10,59 +10,73 @@
  *  data:any
  *  }
  */
-Type = {
-        Vertex: 0,
-        Line: 1,
-        Tile: 2
+Hitbox = {
+        Type: {
+                Box:0,
+                Circle:1
+        },
+        Box: function(center,dimension,data,rotation) {
+            this.type=Hitbox.Type.Box;
+            this.center=center;
+            this.dimension=dimension;
+            this.data=data;
+            this.rotation=rotation;
+            this.isHit=function(loc) {
+               var t = multiplyMatrix(rotationMatrix(-this.rotation),add(loc,times(-1,this.center)));
+               return (t.x <= this.dimension.x && t.y <= this.dimension.y
+                      && t.x >= -this.dimension.x && t.y >= -this.dimension.y)
+            }
+        },
+        Circle: function(center,radius,data) {
+            this.type=Hitbox.Type.Circle;
+            this.center=center;
+            this.radius=radius;
+            this.data=data;
+            this.isHit= function(loc) {
+                return (norm(add(times(-1,loc),center)) < radius)
+            }
+        }
 }
 
-Box = {
-        box:0,
-        circle:1
+testBox = new Hitbox.Box(hexToWorld(new Vector(1,1),50),new Vector(10,10),new Vector (0,1),Math.PI/3)
+
+testBox2 = new Hitbox.Box(new Vector(300,200),new Vector(50,200),new Vector (0,1),Math.PI/6)
+
+function transformHitlist(boxes,trans) {
+        return boxes.map(function(box){return transformHitbox(box,trans)})
+}
+function transformHitbox(box,trans) {
+        if(box.type == Hitbox.Type.Box) {
+                return new Hitbox.Box(transform(box.center,trans)
+                           ,times(trans.scale,box.dimension)
+                           ,box.data
+                           ,box.rotation)
+        } else if (box.type == Hitbox.Type.Circle) {
+                return new Hitbox.Circle(transform(box.center,trans)
+                                   ,trans.scale * box.radius
+                                   ,box.data)
+        }
+
 }
 
 
-testBox = newHitbox(hexToWorld(makeVector(1,1),50),makeVector(10,10),makeVector (0,1),Math.PI/3)
-
-testBox2 = newHitbox(makeVector(300,200),makeVector(50,200),makeVector (0,1),Math.PI/6)
-/* Use hitcircles instead
-function genTileBoxes(coords,side) {
-        return coords.map(function(hc) {
-                return newHitbox(hexToWorld(hc,side)
-                                ,ident((side + side*Math.sin(Math.PI/3))/(2 * Math.sqrt(2)))
-                                ,[Type.Tile,hc]
-                                ,Math.PI/4)
-        })
-}
-*/
-
-
-genHitboxes = function(vertices,roads,hexes,side) { 
-        return genVertexBoxes(vertices,side)
-                .concat(genTileBoxes(hexes,side))
-                .concat([genLineBox(makeVector(0,0),makeVector(0,1),50),genLineBox(makeVector(1,0),makeVector(0,1),50)]);
+genHitboxes = function(vertexCoordinates,roadCoordinatePairs,hexCoordinates,side) { 
+        return genVertexBoxes(vertexCoordinates,side)
+                .concat(genHexBoxes(hexCoordinates,side))
+                .concat();
 }
 
-function genTileBoxes(coords,side) {
-        return coords.map(function(hc) {
-                return newHitcircle(hexToWorld(hc,side)
+function genHexBoxes(hexes,side) {
+        return hexes.map(function(hc) {
+                return new Hitbox.Circle(hexToWorld(hc.coordinate,side)
                                    ,side/(2*Math.tan(Math.PI/6))
-                                   ,[Type.Tile,hc])
+                                   ,hc)
         })
 }
-/* Use hitcircles instead
+
 function genVertexBoxes(coords,side) {
         return coords.map(function(vc) {
-                return newHitbox(vertexToWorld(vc,side)
-                                ,ident(side/5)
-                                ,[Type.Vertex,vc]
-                                ,0)
-        })
-}
-*/
-function genVertexBoxes(coords,side) {
-        return coords.map(function(vc) {
-                return newHitcircle(vertexToWorld(vc,side)
+                return new Hitbox.Circle(vertexToWorld(vc,side)
                                 ,side/5
                                 ,[Type.Vertex,vc])
         })
@@ -71,7 +85,7 @@ function genVertexBoxes(coords,side) {
 function genLineBox(c1,c2,side) {
         var w1 = vertexToWorld(c1,side);
         var w2 = vertexToWorld(c2,side);
-        var cost = dotProduct(makeVector(1,0),add(w1,times(-1,w2)))/(side);
+        var cost = dotProduct(new Vector(1,0),add(w1,times(-1,w2)))/(side);
         if (cost < -1) {
                 cost = -1;
         } else if (cost > 1) {
@@ -79,36 +93,12 @@ function genLineBox(c1,c2,side) {
         }
         var rotation = Math.acos(cost);
         var center = times(0.5,add(w1,w2));
-        return newHitbox(center
-                        ,makeVector(side/2,side/5)
-                        ,[Type.Line,makeVector(c1,c2)]
+        return new Hitbox.Box(center
+                        ,new Vector(side/2,side/5)
+                        ,[Type.Line,new Vector(c1,c2)]
                         ,rotation)
 }
 
-function newHitbox(center,dimension,data,rotation) {
-    return {center:center
-           ,dimension:dimension
-           ,data:data
-           ,rotation:rotation
-           ,type: Box.box
-           ,isHit: (function(loc) {
-               var t = multiplyMatrix(rotationMatrix(-this.rotation),add(loc,times(-1,this.center)));
-               return (t.x <= this.dimension.x && t.y <= this.dimension.y
-                      && t.x >= -this.dimension.x && t.y >= -this.dimension.y)
-            })
-        }
-}
-
-function newHitcircle(center,radius,data) {
-        return {center:center,
-                radius:radius,
-                data:data,
-                type:Box.circle,
-                isHit: function(loc) {
-                    return (norm(add(times(-1,loc),center)) < radius)
-                }
-        }
-}
 
 
 
@@ -118,7 +108,7 @@ function updateCenter(box,f) {
 }
 
 function hexBox(hexCoords,side,dimension,activate){
-    return newHitbox(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
+    return new Hitbox.Box(hexToCanvas(hexCoords,side),dimension,hexCoords,activate)
 }
 
 
@@ -137,9 +127,9 @@ function bottomLeft(box) {
 
 function boxCorners(box) {
         var t =  [box.dimension
-                 ,piecewiseTimes(makeVector(1,-1),box.dimension)
-                 ,piecewiseTimes(makeVector(-1,-1),box.dimension)
-                 ,piecewiseTimes(makeVector(-1,1),box.dimension)
+                 ,piecewiseTimes(new Vector(1,-1),box.dimension)
+                 ,piecewiseTimes(new Vector(-1,-1),box.dimension)
+                 ,piecewiseTimes(new Vector(-1,1),box.dimension)
                  ]
         return t.map(function(p) {
             return add(box.center,multiplyMatrix(rotationMatrix(box.rotation),p));

@@ -1,5 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                    UTILITY FUNCTIONS                                             */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function last(list) {
         return list[list.length - 1]
+}
+
+//function to shuffle up the number tokens
+//Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
 }
 
 function newScale(delta,scale) {
@@ -20,12 +44,24 @@ function newScale(delta,scale) {
         }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                       GAME FUNCTIONS                                             */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Reference = function(data) {
         return {data:data}
 }
 
 Board = function() {
+        this.hexBoard;
+        this.vertexBoard;
+        this.roadList = [];
+}
 
+RegularHexBoard = function(width) {
+        Board();
+        this.hexBoard = buildRegularHexFramework(width);
+        this.vertexBoard = buildVertexFramework(this.hexBoard);
 }
 
 GameState = function() {
@@ -33,18 +69,13 @@ GameState = function() {
         this.phase;
         this.players;
 }
+
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
-               translation: makeVector(0,0)
+               translation: new Vector(0,0)
               ,scale: 1
         }
-}
-
-UI = function(canvas) {
-       this.build = 0
-       this.loading = 1
-       this.mode = this.build
 }
 
 Server = function() {
@@ -53,7 +84,7 @@ Server = function() {
                 return this.gamestate;
         }
         this.newGame = function(width) {
-            this.gamestate.board = buildRegularHexFramework(width);
+            this.gamestate.board = new RegularHexBoard(width);
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {
@@ -62,38 +93,36 @@ Server = function() {
 }
 
 Buffer = function() {
-    this.mouse = newMouseBuffer();
+    this.mouse = new MouseBuffer();
     this.ui = {};
 }
 
 
-Game = function(context) {
+Game = function() {
         this.ctx;
-        this.mouse = newMouse();
+        this.mouse = new Mouse();
         this.buffer = new Buffer();
         this.graphics = new Graphics();
         this.server = new Server();
+        this.actions = new Reference([]);
         this.gamestate;
-        this.hitboxes;  
-        this.ui
+        this.hitboxes;
 }
 
 initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
-        game.ui = new UI(canvas); //None?
-        game.graphics.transform.translation = center(makeVector(canvas.width,canvas.height));
+        game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
 
         //the below code may be better suited elsewhere
 
         initMouseBuffer(canvas,game.buffer.mouse);
-        document.addEventListener("mouseup",mouseEventSaver(game.buffer.mouse.mouseups)) //Pay attention to mouse releases from anywhere in the document
         game.server.newGame(5);
         game.gamestate = game.server.getState();
-        game.hitboxes = 
-                genHitboxes(game.gamestate.board.map(function(tile) {return tile.coordinates})
+        game.hitboxes =
+                genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.map(function(tile) {return tile.coordinates})
+                           ,game.gamestate.board.hexBoard
                            ,50);
 }
 
@@ -106,14 +135,14 @@ function gameStep(game) {
         mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
-        if(game.mouse.clicked) {
-                console.log("click")
-        }
         if(game.mouse.dragging) {
                 game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
         }
         if(game.mouse.scroll.y != 0) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
+        }
+        if(game.mouse.clicked) {
+
         }
 
         redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);

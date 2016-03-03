@@ -52,9 +52,9 @@ function drawRoad(verta,vertb,color,ctx) {
 
 function drawBuilding(vert,playerColor,side,ctx){
   var img = new Image(); //create new image element
-  console.log("drawing "+ vert.settled + " " + playerColor);
+  //console.log("drawing "+ vert.settled + " " + playerColor);
   var worldVert = hexToWorld(vert.coordinate,side);
-  console.log("world vert: " + worldVert.x + " " + worldVert.y);
+  //console.log("world vert: " + worldVert.x + " " + worldVert.y);
   img.src = getBuildingImg(vert.settled, playerColor); //set source path
   ctx.drawImage(img, worldVert.x, worldVert.y, side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
 }

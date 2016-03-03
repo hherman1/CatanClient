@@ -32,12 +32,6 @@ function drawTitle(ctx){
      drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
      drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
    }
-   //testrending of buildings
-    board.vertexBoard[19].settled = 1;
-    drawBuilding(board.vertexBoard[19],Colors.Blue, side, ctx);
-
-    board.vertexBoard[1].settled = 2;
-    drawBuilding(board.vertexBoard[1],Colors.Orange, side, ctx);
  }
 
 

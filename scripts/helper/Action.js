@@ -58,8 +58,15 @@ applyAction = function(action,game) {
 
 
 
-drawAction = function(action,ctx) {
+drawAction = function(action, side, ctx) {
 
-  drawBuilding(action.vertex,action.player.playerColor,50,ctx);
-  
+  switch(action.type){
+    case Action.Type.BuildRoad:
+            drawRoad(Action.BuildRoad.vertexA, Action.BuildRoad.vertB, Action.BuildRoad.player.playerColor, ctx);
+    case Action.Type.BuildSettlement:
+            drawBuilding(Action.BuildSettlement.vertex,Action.BuildSettlement.player.playerColor, side, ctx);
+    case Action.Type.BuildCity:
+            drawBuilding(Action.BuildCity.vertex,Action.BuildCity.player.playerColor, side, ctx);
+  }
+
 }

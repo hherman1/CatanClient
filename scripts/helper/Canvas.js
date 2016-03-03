@@ -23,7 +23,7 @@ function drawTitle(ctx){
    var side = 50;
 
    for (i in board.hexBoard){
-     var tiletype = getResImg(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
+     var tiletype = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
      hexPath(board.hexBoard[i].coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";

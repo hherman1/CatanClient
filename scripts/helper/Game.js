@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                    UTILITY FUNCTIONS                                             */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function last(list) {
         return list[list.length - 1]
 }
@@ -40,6 +44,10 @@ function newScale(delta,scale) {
         }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                       GAME FUNCTIONS                                             */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Reference = function(data) {
         return {data:data}
 }
@@ -51,9 +59,9 @@ Board = function() {
 }
 
 RegularHexBoard = function(width) {
-  Board();
-  this.hexBoard = buildRegularHexFramework(width);
-  this.vertexBoard = buildVertexFramework(this.hexBoard);
+        Board();
+        this.hexBoard = buildRegularHexFramework(width);
+        this.vertexBoard = buildVertexFramework(this.hexBoard);
 }
 
 GameState = function() {
@@ -114,8 +122,7 @@ initGame = function(game,ctx) {
         game.hitboxes =
                 genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.hexBoard.map(function(tile) {return tile.coordinate})
-                           //,game.gamestate.board.vertexBoard.map(function(tile) {return tile.coordinates})
+                           ,game.gamestate.board.hexBoard
                            ,50);
 }
 

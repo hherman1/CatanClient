@@ -29,7 +29,7 @@ Vertex = function(settled, player,coordinate){
  * coordiantes: vector object containing hex's coordinate.}
  */
 
-HexObject = function(resource, token, coordinate){   //TODO: Naming Conventions?
+HexObject = function(resource, token, coordinate){
     this.resource=resource; 
     this.token=token; 
     this.coordinate=coordinate;

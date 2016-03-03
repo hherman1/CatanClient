@@ -213,7 +213,7 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 			for(j=0;j<tileNeighbors.length;j++){
 				var currNeighbor = vertexFrame[[tileNeighbors[j].x,tileNeighbors[j].y]];
 				if(currNeighbor.settled>0){
-					var receivingPlayer = getPlayer(currNeighbor.player, playerList); // TODO: Clear up player assignment
+					var receivingPlayer = getPlayer(currNeighbor.player, playerList);
 					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.settled);
 				}
 			}

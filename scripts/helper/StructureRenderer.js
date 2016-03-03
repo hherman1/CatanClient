@@ -41,10 +41,12 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 
 
-function drawRoad(verta,vertb,color,ctx) {
+function drawRoad(verta,vertb,color,side, ctx) {
+  var worldA = hexToWorld(verta.coordinate,side);
+  var worldB = hexToWorld(vertb.coordinate,side);
   ctx.beginPath();
-  ctx.moveTo(verta.x,verta.y);
-  ctx.lineTo(vertb.x,vertb.y);
+  ctx.moveTo(worldA.x, worldA.y);
+  ctx.lineTo(worldB.x,worldB.y);
   ctx.lineWidth = 5;
   ctx.strokeStyle = color;
   ctx.stroke();

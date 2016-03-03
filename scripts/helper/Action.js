@@ -62,7 +62,7 @@ drawAction = function(action, side, ctx) {
 
   switch(action.type){
     case Action.Type.BuildRoad:
-            drawRoad(Action.BuildRoad.vertexA, Action.BuildRoad.vertB, Action.BuildRoad.player.playerColor, ctx);
+            drawRoad(Action.BuildRoad.vertexA, Action.BuildRoad.vertB, Action.BuildRoad.player.playerColor, side, ctx); //assuming vertex are not world coordinates
     case Action.Type.BuildSettlement:
             drawBuilding(Action.BuildSettlement.vertex,Action.BuildSettlement.player.playerColor, side, ctx);
     case Action.Type.BuildCity:

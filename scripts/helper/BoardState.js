@@ -26,7 +26,7 @@ Resource = {
 Road = function(coord1, coord2, player){
     this.type = Structure.Road;
 	this.coord1=coord1;
-    this.coord2=coord2; 
+    this.coord2=coord2;
     this.player=player;
 }
 
@@ -36,7 +36,7 @@ Road = function(coord1, coord2, player){
  */
 
 Vertex = function(settled, player,coordinate){
-	this.settled=settled; 
+	this.settled=settled;
     this.player=player;
     this.coordinate=coordinate;
 }
@@ -48,16 +48,16 @@ Vertex = function(settled, player,coordinate){
  */
 
 HexObject = function(resource, token, coordinate){
-    this.resource=resource; 
-    this.token=token; 
+    this.resource=resource;
+    this.token=token;
     this.coordinate=coordinate;
 }
 
-baseResourceList = 
-    [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain, 
-     Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool, 
-     Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber, 
-     Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore, 
+baseResourceList =
+    [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain,
+     Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
+     Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
+     Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
      Resource.Brick, Resource.Brick, Resource.Brick];
 
 baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
@@ -123,7 +123,7 @@ function buildVertexFramework(tileFrame){
 		for(j=0;j<coordList.length;j++){
 			testVector = coordList[j];
 			if(checkForSameVector(vertexFrame,testVector)) {
-				console.log("works");
+				//console.log("works");
 				vertexFrame.push(new Vertex(0, 0, coordList[j]));
 			}
 		}

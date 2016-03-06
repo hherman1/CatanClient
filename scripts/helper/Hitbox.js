@@ -21,20 +21,23 @@ Hitbox = {
             this.dimension=dimension;
             this.data=data;
             this.rotation=rotation;
-            this.isHit=function(loc) {
-               var t = multiplyMatrix(rotationMatrix(-this.rotation),add(loc,times(-1,this.center)));
-               return (t.x <= this.dimension.x && t.y <= this.dimension.y
-                      && t.x >= -this.dimension.x && t.y >= -this.dimension.y)
-            }
         },
         Circle: function(center,radius,data) {
             this.type=Hitbox.Type.Circle;
             this.center=center;
             this.radius=radius;
             this.data=data;
-            this.isHit= function(loc) {
-                return (norm(add(times(-1,loc),center)) < radius)
-            }
+        }
+}
+
+function isHit(hitbox,loc) {
+        switch(hitbox.type) {
+                case Hitbox.Type.Box:
+                       var t = multiplyMatrix(rotationMatrix(-hitbox.rotation),add(loc,times(-1,hitbox.center)));
+                       return (t.x <= hitbox.dimension.x && t.y <= hitbox.dimension.y
+                              && t.x >= -hitbox.dimension.x && t.y >= -hitbox.dimension.y)
+                case Hitbox.Type.Circle:
+                        return (norm(add(times(-1,loc),hitbox.center)) < hitbox.radius)
         }
 }
 
@@ -114,7 +117,7 @@ function hexBox(hexCoords,side,dimension,activate){
 
 function getHits(hitList,coord) {
     return hitList.filter(function(box) {
-            return box.isHit(coord)
+            return isHit(box,coord)
     })
 }
 

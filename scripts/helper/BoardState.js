@@ -3,7 +3,7 @@
 Board = function() {
         this.hexBoard;
         this.vertexBoard;
-        this.roadList = [];
+        this.roadBoard;
 }
 
 RegularHexBoard = function(width) {
@@ -47,7 +47,7 @@ Road = function(coord1, coord2, player){
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-Vertex = function(settled, player,coordinate){
+Vertex = function(settled, player,coordinate,permanent){
 	this.settled=settled;
     this.player=player;
     this.coordinate=coordinate;
@@ -74,6 +74,40 @@ baseResourceList =
 
 baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
+
+function cloneBoard(board) {
+        var newBoard = new Board();
+        newBoard.hexBoard = board.hexBoard.splice();
+        newBoard.vertexBoard = board.vertexBoard.splice();
+        newBoard.roadList = board.roadList.splice();
+        return newBoard;
+}
+
+function getPrice(structure) {
+        var resources = [];
+        resources[Resource.Lumber] = 0;
+        resources[Resource.Wool] = 0;
+        resources[Resource.Ore] = 0;
+        resources[Resource.Brick] = 0;
+        resources[Resource.Grain] = 0;
+        switch(structure) {
+                case Structure.Road:
+                        resources[Resource.Brick] = 1;
+                        resources[Resource.Lumber] = 1;
+                        break;
+                case Structure.Settlement: 
+                        resources[Resource.Brick] = 1;
+                        resources[Resource.Lumber] = 1;
+                        resources[Resource.Grain] = 1;
+                        resources[Resource.Wool] = 1;
+                        break;
+                case Structure.City:
+                        resources[Resource.Grain] = 2;
+                        resources[Resource.Ore] = 3;
+                        break;
+        }
+        return resources;
+}
 
 
 /* buildRegularHexFramework

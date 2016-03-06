@@ -2,8 +2,7 @@ define(function (require) {
     // Load any app-specific modules
     // with a relative require call,
     // like:
-    //var messages = require('./messages');
-
+    
     var game = require('./Game');
     var gameM = require('./GameMethods');
     var boardstate = require('./BoardState');
@@ -18,23 +17,5 @@ define(function (require) {
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
-    // Load library/vendor modules using
-    // full IDs, like:
-    //var print = require('print');
-
-    //print(messages.getHello());
-    // function test() {
-    //         return "lol"
-    // }
-    // function main() {
-    //         canvas = document.getElementById('board');
-    //         if(canvas.getContext) {
-    //                 ctx = canvas.getContext('2d');
-    //                 drawTitle(ctx);
-    //                 initGame(ctx);
-    //         } else {
-    //             console.log("browser unsupported")
-    //         }
-    // }
 
 });

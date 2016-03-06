@@ -4,22 +4,8 @@
                 <title>Catan Client </title>
                 <!-- We should eventualy use a compiler to pack these into a single minified javascript source -->
                 <!--using require.js-->
-                <!--<script data-main="www/main.js" src="www/require.js"></script>-->
+                <script data-main="www/apps/main.js" src="www/lib/require.js"></script>
                 <link rel="stylesheet" href="styles/UserInterfaceStyles.css">
-                <script type="text/javascript" src="www/apps/Grid.js" ></script>
-                <script type="text/javascript" src="www/apps/Animation.js"></script>
-                <script type="text/javascript" src="www/apps/Canvas.js"></script>
-                <script type="text/javascript" src="www/apps/Hitbox.js"></script>
-                <script type="text/javascript" src="www/apps/Mouse.js"></script>
-                <script type="text/javascript" src="www/apps/Game.js"></script>
-                <script type="text/javascript" src="www/apps/BoardState.js"></script>
-                <script type="text/javascript" src="www/apps/Player.js"></script>
-                <script type="text/javascript" src="www/apps/Action.js"></script>
-                <script type="text/javascript" src="www/apps/Dice.js"></script>
-                <script type="text/javascript" src="www/apps/Resource.js"></script>
-                <script type="text/javascript" src="www/apps/Robber.js"></script>
-                <script type="text/javascript" src="www/apps/GameMethods.js"></script>
-                <script type="text/javascript" src="www/apps/StructureRenderer.js"></script>
                 <script type="text/javascript">
                         function test() {
                                 return "lol"
@@ -42,7 +28,6 @@
                 </style>
         </head>
         <body onload="main();">
-        <!--<body>-->
           <style>#board { background-color: #B0E2F2; }</style>
           <canvas draggable="false" id="board" width="1000" height="500"></canvas>
           <br>

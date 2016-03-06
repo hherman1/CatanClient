@@ -3,6 +3,11 @@
 //
 
 Images = {
+        Loaded:{
+                Settlements:[],
+                Cities:[],
+                Resources:[]
+        },
         Settlements:[],
 
         Cities:[],
@@ -14,11 +19,13 @@ Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
 Images.Settlements[Colors.Orange]  = 'graphics/oranges.svg';
 Images.Settlements[Colors.Blue]    = 'graphics/blues.svg';
 Images.Settlements[Colors.White]   = 'graphics/whites.svg';
+Images.Resources = Images.Settlements.map(loadImage);
 
 Images.Cities[Colors.Red]      = 'graphics/redc.svg';
 Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
 Images.Cities[Colors.White]    = 'graphics/whitec.svg';
+Images.Resources = Images.Cities.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
@@ -39,7 +46,13 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 //"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg
 //labeled for noncommercial reuse
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
+Images.Resources = Images.Resources.map(loadImage);
 
+function loadImage(src) {
+        var out = new Image();
+        out.src = src;
+        return out;
+}
 
 function drawRoad(verta,vertb,color,side, ctx) {
   var worldA = hexToWorld(verta.coordinate,side);

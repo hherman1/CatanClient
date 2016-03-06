@@ -23,13 +23,13 @@ function drawTitle(ctx){
    var side = 50;
 
    for (i in board.hexBoard){
-     var tiletype = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
+     var tileImage = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
      hexPath(board.hexBoard[i].coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawSVG(tiletype,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
+     drawHexImage(tileImage,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
      drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
    }
  }
@@ -118,25 +118,24 @@ function drawToken(hc, token, ctx){
 
 
 
+
+
 //draws the image of the terrain on the board
 //created by sduong
-function drawSVG(path, hc,ctx){
-  var img = new Image(); //create new image element
-  img.src = path; //set source path
+function drawHexImage(image, hc,ctx){
   var side = 50;
   var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2));
   var x = hc.x-w;
   var y = hc.y-side;
   var scale = side*2;
-  ctx.drawImage(img, x, y, scale-12, scale);
-  //console.log("image is being drawn");
+  ctx.drawImage(image, x, y, scale-12, scale);
 }
 
 
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//not called?
+
 function drawRect(coords,side,ctx) {
         ctx.fillRect(coords.x,coords.y,side,side)
 }

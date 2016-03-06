@@ -96,6 +96,7 @@ Game = function() {
         this.actions = new Reference([]);
         this.gamestate;
         this.hitboxes;
+        this.images;
 }
 
 initGame = function(game,ctx) {

@@ -160,6 +160,8 @@ function getVertex(tileFrame, coordinates){
 			return tileFrame[i];
 		}
 	}
+	console.log("Vertex does not exist");
+	return undefined;
 }
 
 /* compareRoadPositions

@@ -15,8 +15,6 @@ Player = function(id){
   this.settlementCount = 2; //each player starts out with 2 settlements
   this.roadCount = 2; //each player starts out with 2 roads
   this.cityCount = 0;
-  //Player roads
-  this.roadList = [];
   //Coordinates of vertices the player has settled (list of vectors)
   this.settledVertices = [];
   //Player owned resources

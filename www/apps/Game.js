@@ -52,17 +52,6 @@ Reference = function(data) {
         return {data:data}
 }
 
-Board = function() {
-        this.hexBoard;
-        this.vertexBoard;
-        this.roadList = [];
-}
-
-RegularHexBoard = function(width) {
-        Board();
-        this.hexBoard = buildRegularHexFramework(width);
-        this.vertexBoard = buildVertexFramework(this.hexBoard);
-}
 
 GameState = function() {
         this.board = new Board();
@@ -107,6 +96,7 @@ Game = function() {
         this.actions = new Reference([]);
         this.gamestate;
         this.hitboxes;
+        this.images;
 }
 
 initGame = function(game,ctx) {

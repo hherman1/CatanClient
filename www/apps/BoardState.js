@@ -1,4 +1,16 @@
-//Global Variables
+//Data Types
+
+Board = function() {
+        this.hexBoard;
+        this.vertexBoard;
+        this.roadList = [];
+}
+
+RegularHexBoard = function(width) {
+        Board();
+        this.hexBoard = buildRegularHexFramework(width);
+        this.vertexBoard = buildVertexFramework(this.hexBoard);
+}
 
 Structure = {
         Empty: 0,

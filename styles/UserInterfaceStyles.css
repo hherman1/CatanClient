@@ -48,12 +48,12 @@
 
 
 /*Bottom Left Display*/
-.animateUp{
-	-webkit-transform:translate(0px,0px);
+[panel=Up]{
+	transform:translate(0px,0px);
 }
 
-.animateDown{
-	-webkit-transform:translate(0px,-171.5px);
+[panel=Down]{
+	transform:translate(0px,-171.5px);
 }
 
 .bottomLeftDisplay{
@@ -62,7 +62,7 @@
 	position: absolute;
 	top: 464.5px;
 	left:8px;
-	-webkit-transition: -webkit-transform .9s ease-in;
+	transition: transform .9s ease-in;
 }
 
 .slideHider{

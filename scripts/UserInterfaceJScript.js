@@ -2,12 +2,10 @@
 $(document).ready(function(){
 	$("#bottomLeftDisplay").click(function(){
 		var rBar = $('#bottomLeftDisplay');
-		if(rBar.hasClass('animateDown')){
-			rBar.removeClass('animateDown');
-			rBar.addClass('animateUp');
+		if(rBar.attr("panel") == "Down"){
+			rBar.attr("panel","Up");
 		}else{
-			rBar.removeClass('animateUp');
-			rBar.addClass('animateDown');
+			rBar.attr("panel","Down");
 		}
 	});
 });

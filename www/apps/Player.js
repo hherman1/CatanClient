@@ -16,8 +16,6 @@ Player = function(id){
   this.settlementCount = 2; //each player starts out with 2 settlements
   this.roadCount = 2; //each player starts out with 2 roads
   this.cityCount = 0;
-  //Coordinates of vertices the player has settled (list of vectors)
-  this.settledVertices = [];
   //Player owned resources
   this.resources = [];
   this.resources[Resource.Lumber] = 0;
@@ -29,6 +27,28 @@ Player = function(id){
   this.playerColor = Colors.List[id-1];
   //Player victory points
   this.vicPoints = 0;
+}
+
+
+function clonePlayer(player) {
+        var out = new Player(player.id);
+        out.resources = cloneResources(player.resources);
+        out.playerColor = player.playerColor;
+        out.vicPoints = player.vicPoints;
+        out.settlementCount = player.settlementCount;
+        out.roadCount = player.roadCount;
+        out.cityCount = player.cityCount;
+        return out;
+}
+
+function cloneResources(resources) {
+        var out = [];
+        out[Resource.Lumber] = resources[Resource.Lumber];
+        out[Resource.Wool] = resources[Resource.Wool];
+        out[Resource.Ore] = resources[Resource.Ore];
+        out[Resource.Brick] = resources[Resource.Brick];
+        out[Resource.Grain] = resources[Resource.Grain];
+        return out;
 }
 
 function getPlayers(id, playerList){

@@ -99,6 +99,13 @@ Game = function() {
         this.images;
 }
 
+cloneGameState = function(gameState) {
+        var out = new GameState();
+        out.board = cloneBoard(gameState.board);
+        out.players = gameState.players.map(clonePlayer);
+        return out;
+}
+
 initGame = function(game,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
@@ -112,7 +119,7 @@ initGame = function(game,ctx) {
         game.hitboxes =
                 genHitboxes([]
                            ,[]
-                           ,game.gamestate.board.hexBoard
+                           ,game.gamestate.board.hexes
                            ,50);
 }
 

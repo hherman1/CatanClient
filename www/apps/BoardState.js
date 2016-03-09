@@ -1,15 +1,15 @@
 //Data Types
 
 Board = function() {
-        this.hexBoard;
-        this.vertexBoard;
-        this.roadBoard;
+        this.hexes = [];
+        this.vertices = [];
+        this.roads = [];
 }
 
 RegularHexBoard = function(width) {
-        Board();
-        this.hexBoard = buildRegularHexFramework(width);
-        this.vertexBoard = buildVertexFramework(this.hexBoard);
+        Board.call(this);
+        this.hexes = buildRegularHexFramework(width);
+        this.vertices = buildVertexFramework(this.hexes);
 }
 
 Structure = {
@@ -35,11 +35,11 @@ Resource = {
  * player: integer from 1 to 4, according to player}
  */
 
-Road = function(coord1, coord2, player){
+Road = function(coord1, coord2, playerID){
     this.type = Structure.Road;
 	this.coord1=coord1;
     this.coord2=coord2;
-    this.player=player;
+    this.playerID=playerID;
 }
 
 /* Vertex Object
@@ -47,9 +47,9 @@ Road = function(coord1, coord2, player){
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-Vertex = function(settled, player,coordinate,permanent){
+Vertex = function(settled, playerID,coordinate){
 	this.settled=settled;
-    this.player=player;
+    this.playerID=playerID;
     this.coordinate=coordinate;
 }
 
@@ -77,11 +77,24 @@ baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
 function cloneBoard(board) {
         var newBoard = new Board();
-        newBoard.hexBoard = board.hexBoard.splice();
-        newBoard.vertexBoard = board.vertexBoard.splice();
-        newBoard.roadList = board.roadList.splice();
+        newBoard.hexes = board.hexes.map(cloneHexObject);
+        newBoard.vertices = board.vertices.map(cloneVertex);
+        newBoard.roads = board.roads.map(cloneRoad);
         return newBoard;
 }
+
+function cloneRoad(road) {
+        return new Road(road.coord1,road.coord2,road.playerID);
+}
+
+function cloneVertex(vertex){
+        return new Vertex(vertex.settled,vertex.playerID,vertex.coordinate);
+}
+
+function cloneHexObject(hex)  {
+        return new HexObject(hex.resource,hex.token,hex.coordinate);
+}
+
 
 function getPrice(structure) {
         var resources = [];

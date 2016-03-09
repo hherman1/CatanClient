@@ -22,15 +22,15 @@ function drawTitle(ctx){
    //setting the side of hexagon to be a value
    var side = 50;
 
-   for (i in board.hexBoard){
-     var tileImage = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
-     hexPath(board.hexBoard[i].coordinate,side,ctx);
+   for (i in board.hexes){
+     var tileImage = getResourceImage(board.hexes[i].resource); //get the source path for the hexagon's terrain image
+     hexPath(board.hexes[i].coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawHexImage(tileImage,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
-     drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
+     drawHexImage(tileImage,hexToWorld(board.hexes[i].coordinate,side), ctx);
+     drawToken(hexToWorld(board.hexes[i].coordinate,side),board.hexes[i].token,ctx); //draw number token
    }
  }
 

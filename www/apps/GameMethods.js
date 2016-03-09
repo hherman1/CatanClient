@@ -53,8 +53,8 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 	if(checkConflictingRoads(coords1,coords2,roadList)){
 		return false;
 	}
-	vertex1 = getVertex(vertexFrame,coords1);
-	vertex2 = getVertex(vertexFrame,coords2);
+	vertex1 = getVertices(vertexFrame,coords1)[0];
+	vertex2 = getVertices(vertexFrame,coords2)[0];
 	if((vertex1.settled>0 && vertex1.player==player.id)||
 		(vertex2.settled>0 && vertex2.player==player.id)){
 		return true;
@@ -167,7 +167,7 @@ function buildCity(coords, player, vertexFrame){
  */
 
 function checkCityLegality(coords, player, vertexFrame){
-	vert = getVertex(vertexFrame,coords);
+	vert = getVertices(vertexFrame,coords)[0];
 	if(vert.settled != 1 || vert.player != player.id) {
 		return false;
 	}

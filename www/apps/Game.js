@@ -56,7 +56,8 @@ Reference = function(data) {
 GameState = function() {
         this.board = new Board();
         this.phase;
-        this.players;
+        this.players = [];
+        this.currentPlayerID = null;
 }
 
 Graphics = function(){
@@ -99,10 +100,15 @@ Game = function() {
         this.images;
 }
 
+getPlayers = function(players,playerID) {
+        return players.filter(function(p) {return p.id == playerID});
+}
+
 cloneGameState = function(gameState) {
         var out = new GameState();
         out.board = cloneBoard(gameState.board);
         out.players = gameState.players.map(clonePlayer);
+        out.currentPlayerID = gameState.currentPlayerID;
         return out;
 }
 

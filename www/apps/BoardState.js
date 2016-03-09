@@ -95,6 +95,15 @@ function cloneHexObject(hex)  {
         return new HexObject(hex.resource,hex.token,hex.coordinate);
 }
 
+function subtractResources(pos,neg) {
+        var out = [];
+        out[Resource.Lumber] = pos[Resource.Lumber] - neg[Resource.Lumber];
+        out[Resource.Wool] = pos[Resource.Wool] - neg[Resource.Wool];
+        out[Resource.Ore] = pos[Resource.Ore] - neg[Resource.Ore];
+        out[Resource.Brick] = pos[Resource.Brick] - neg[Resource.Brick];
+        out[Resource.Grain] = pos[Resource.Grain] - neg[Resource.Grain];
+        return out;
+}
 
 function getPrice(structure) {
         var resources = [];
@@ -201,14 +210,8 @@ function checkForSameVector(vertexList, vector){
 
 /* Given vector coordinates and a list of vertex objects, returns the vertex at said coordinates.
 */
-function getVertex(tileFrame, coordinates){
-	for(i = 0; i<tileFrame.length;i++){
-		if (compareVectors(tileFrame[i].coordinate,coordinates)){
-			return tileFrame[i];
-		}
-	}
-	console.log("Vertex does not exist");
-	return undefined;
+function getVertices(vertices,coordinate) {
+        return vertices.filter(function(v) {return compareVectors(v.coordinate,coordinate)});
 }
 
 /* compareRoadPositions

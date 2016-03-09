@@ -5,43 +5,53 @@ Action = {
                 BuildSettlement: 1,
                 BuildCity: 2
         },
-        BuildRoad : function(player,vertA,vertB) {
+        BuildRoad : function(coordinateA,coordinateB) {
                 this.type = Action.Type.BuildRoad;
-                this.player = player;
-                this.vertexA = vertexA;
-                this.vertexB = vertexB;
+                this.coordinateA = coordinateA;
+                this.coordinateB = coordinateB;
         },
-        BuildSettlement : function(player,vertex) {
+        BuildSettlement : function(coordinate) {
                 this.type = Action.Type.BuildSettlement;
-                this.player = player;
-                this.vertex = vertex;
+                this.coordinate = coordinate;
         },
-        BuildCity : function(player,vertex) {
+        BuildCity : function(coordinate) {
                 this.type = Action.Type.BuildCity;
-                this.player = player;
-                this.vertex = vertex;
+                this.coordinate = coordinate;
         }
 }
 
+function validateActions(actions,gamestate) {
+        var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+        var temp = cloneGameState(gamestate);
+        actions.forEach(function(action) {
+                if(validateAction(action,temp,currentPlayer)) {
+                        applyAction(action,temp,currentPlayer);
+                } else {
+                        return false;
+                }
+        })
+        return true;
+}
 
-validateAction = function(action,gamestate) {
+
+function validateAction (action,gamestate,player) {
     switch(action.type) {
             case Action.Type.BuildRoad:
-                    if(checkRoadLegality(gamestate.board.vertexBoard, action.vertA, action.vertB, action.player, gamestate.board.roadList)) {
+                    if(checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
                             console.log("Road legal");
                             return true;
                     }
                         console.log("Road illegal")
                         return false;
             case Action.Type.BuildSettlement:
-                    if(checkSettlementLegality(action.vert,action.player,gamestate.board.vertexBoard, gamestate.board.roadList)){
+                    if(checkSettlementLegality(action.coordinate,player,gamestate.board.vertices, gamestate.board.roads)){
                             console.log("Settlement legal");
                             return true;
                     }
                     console.log("Settlement illegal");
                     return false;
             case Action.Type.BuildCity:
-                    if(checkCityLegality(action.vert,action.player)){
+                    if(checkCityLegality(action.coordinate,player)){
                             console.log("City legal");
                             return true
                     }
@@ -51,8 +61,37 @@ validateAction = function(action,gamestate) {
 
 }
 
+function applyAction(action,gamestate) {
+        var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+        applyActionForPlayer(action,gamestate,currentPlayer);
+}
 
-applyAction = function(action,game) {
+
+function applyActionForPlayer(action,gamestate,player) {
+        switch(action.type) {
+                case Action.Type.BuildSettlement:
+                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = Structure.Settlement;
+                                v.playerID = gamestate.currentPlayerID;
+                        })
+                        player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
+                        break;
+                case Action.Type.BuildCity:
+                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = Structure.City;
+                                v.playerID = gamestate.currentPlayerID;
+                        })
+                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
+                        break;
+                case Action.Type.BuildRoad:
+                // not functional
+                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
+                                v.structure = Structure.City;
+                                v.playerID = gamestate.currentPlayerID;
+                        })
+                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
+                        break;
+        }
 
 }
 

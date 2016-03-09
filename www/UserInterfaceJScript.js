@@ -2,12 +2,10 @@
 $(document).ready(function(){
 	$("#bottomLeftDisplay").click(function(){
 		var rBar = $('#bottomLeftDisplay');
-		if(rBar.hasClass('animateDown')){
-			rBar.removeClass('animateDown');
-			rBar.addClass('animateUp');
+		if(rBar.attr("panel") == "Down"){
+			rBar.attr("panel","Up");
 		}else{
-			rBar.removeClass('animateUp');
-			rBar.addClass('animateDown');
+			rBar.attr("panel","Down");
 		}
 	});
 });
@@ -128,7 +126,7 @@ function endTurn()
 /*
 function startTime(){
 	var base = new Date().getTime();
-	
+
 }
 
 function formatTime(time) {
@@ -166,11 +164,11 @@ function timer(){
 
 
 /*THIS DOESNT WORK EITHER. AHH!
-$(function () { 
+$(function () {
 
     $('#buildCard').tabSlideOut({
         tabHandle: '#resourceBar', //class of the element that will become your tab
-        
+
         tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
         speed: 300, //speed of animation
         action: 'click', //options: 'click' or 'hover', action to trigger animation

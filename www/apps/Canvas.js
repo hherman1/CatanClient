@@ -83,12 +83,12 @@ function setTransform(ctx,transform) {
   ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(board,actions,transform,animations,side,ctx) {
+function redraw(gamestate,actions,transform,animations,side,ctx) {
         clearCanvas(ctx,transform);
         drawTitle(ctx);
-        drawHexes(board.hexes,transform,side,ctx);
-        drawStructures(board.vertices,transform,side,ctx);
-        drawActions(actions,side,ctx);
+        drawHexes(gamestate.board.hexes,transform,side,ctx);
+        drawStructures(gamestate.board.vertices,transform,side,ctx);
+        drawActions(actions,Colors.Blue,side,ctx);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);

@@ -88,17 +88,46 @@ Buffer = function() {
 }
 
 
-Game = function() {
-        this.ctx;
-        this.mouse = new Mouse();
-        this.buffer = new Buffer();
-        this.graphics = new Graphics();
-        this.server = new Server();
-        this.actions = new Reference([]);
-        this.gamestate;
-        this.hitboxes;
-        this.images;
-        this.side;
+Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
+        this.ctx = ctx;
+        this.mouse = mouse; //new Mouse();
+        this.buffer = buffer; //new Buffer();
+        this.graphics = graphics; //new Graphics();
+        this.server = server; //new Server();
+        this.actions = actions; //new Reference([]);
+        this.gamestate = gamestate;
+        this.hitboxes = hitboxes;
+        this.images = images;
+        this.side = side;
+}
+CatanGame = function(side,ctx) {
+        Game.call(this
+                 ,ctx
+                 ,new Mouse()
+                 ,new Buffer()
+                 ,new Graphics()
+                 ,new Server()
+                 ,new Reference([])
+                 ,null,null,null,side)
+        var canvas = ctx.canvas;
+        this.ctx = ctx;
+        this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+        this.side = side;
+
+        //the below code may be better suited elsewhere
+
+        initMouseBuffer(canvas,this.buffer.mouse);
+        this.server.newGame(5);
+        this.gamestate = this.server.getState();
+        this.hitboxes =
+                genHitboxes(this.gamestate.board.vertices
+                           ,[]
+                           ,this.gamestate.board.hexes
+                           ,this.side);
+
+        //TEMPORARY
+        this.gamestate.players.push(new Player(1));
+        this.gamestate.currentPlayerID = 1;
 }
 
 getPlayers = function(players,playerID) {
@@ -113,27 +142,6 @@ cloneGameState = function(gameState) {
         return out;
 }
 
-initGame = function(game,side,ctx) {
-        var canvas = ctx.canvas;
-        game.ctx = ctx;
-        game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
-        game.side = side;
-
-        //the below code may be better suited elsewhere
-
-        initMouseBuffer(canvas,game.buffer.mouse);
-        game.server.newGame(5);
-        game.gamestate = game.server.getState();
-        game.hitboxes =
-                genHitboxes(game.gamestate.board.vertices
-                           ,[]
-                           ,game.gamestate.board.hexes
-                           ,game.side);
-
-        //TEMPORARY
-        game.gamestate.players.push(new Player(1));
-        game.gamestate.currentPlayerID = 1;
-}
 
 function runGame(game,frameDuration) {
         window.setInterval(gameStep,frameDuration,game);
@@ -162,7 +170,7 @@ function gameStep(game) {
 
         var side=50;
 
-        redraw(game.gamestate.board
+        redraw(game.gamestate
               ,game.actions.data
               ,game.graphics.transform
               ,game.graphics.animations

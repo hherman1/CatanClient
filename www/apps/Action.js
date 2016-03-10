@@ -20,22 +20,22 @@ Action = {
         }
 }
 
-function drawActions(actions,side,ctx) {
+function drawActions(actions,color,side,ctx) {
         actions.forEach(function(action) {
-                drawAction(action,side,ctx);
+                drawAction(action,color,side,ctx);
         });
 }
 
-function drawAction(action,side,ctx) {
+function drawAction(action,color,side,ctx) {
         switch(action.type) {
                 case Action.Type.BuildRoad:
-                        drawRoad(action.coordinateA,action.coordinateB,Colors.Red,side,ctx);
+                        drawRoad(action.coordinateA,action.coordinateB,color,side,ctx);
                         break;
                 case Action.Type.BuildSettlement:
-                        drawBuilding(action.coordinate,Structure.Settlement,Colors.Red,side,ctx);
+                        drawBuilding(action.coordinate,Structure.Settlement,color,side,ctx);
                         break;
                 case Action.Type.BuildCity:
-                        drawBuilding(action.coordinate,Structure.City,Colors.Red,side,ctx);
+                        drawBuilding(action.coordinate,Structure.City,color,side,ctx);
                         break;
         }
 }

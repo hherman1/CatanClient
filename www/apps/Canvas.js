@@ -31,9 +31,9 @@ function drawTitle(ctx){
    })
  }
 
-function drawStructures(vertices,side,ctx) {
+function drawStructures(vertices,colorMap,side,ctx) {
     vertices.forEach(function(vertex) {
-            drawBuilding(vertex.coordinate,vertex.structure,Colors.Red,side,ctx);
+            drawBuilding(vertex.coordinate,vertex.structure,colorMap[vertex.playerID],side,ctx);
     })
 }
 
@@ -93,7 +93,7 @@ function redraw(gamestate,actions,transform,animations,side,ctx) {
 
         //BUG: Currently don't draw colors correctly
         drawHexes(gamestate.board.hexes,side,ctx);
-        drawStructures(gamestate.board.vertices,side,ctx);
+        drawStructures(gamestate.board.vertices,colorMap,side,ctx);
         //drawRoads
 
         drawActions(actions,actionColor,side,ctx);

@@ -63,7 +63,7 @@ function transformHitbox(box,trans) {
 }
 
 
-genHitboxes = function(vertices,roads,hexes,side) { 
+function genHitboxes(vertices,roads,hexes,side) { 
         return genVertexBoxes(vertices,side)
                 .concat(genHexBoxes(hexes,side))
                 .concat();

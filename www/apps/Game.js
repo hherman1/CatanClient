@@ -152,6 +152,10 @@ function gameStep(game) {
 
         }
 
+        hits.forEach(function(hit) {
+//                if(hit.data.type == 
+        })
+
         redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);
         flushMouseEvents(game.buffer.mouse);
         drawHitboxes(hitlist,hits,game.ctx);

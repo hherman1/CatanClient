@@ -73,7 +73,7 @@ function getResource(player,resource) {
         return player.resources[resource]
 }
 
-function addResources(resources, resource, amount){
+function addResource(resources, resource, amount){
         resources[resource] += amount;
         return resources;
 }

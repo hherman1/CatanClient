@@ -24,10 +24,12 @@ Player = function(id){
   this.resources[Resource.Brick] = 0;
   this.resources[Resource.Grain] = 0;
   //Color assigned
-  this.playerColor = Colors.List[id-1];
+  this.color = Colors.List[id-1];
   //Player victory points
   this.vicPoints = 0;
 }
+
+
 
 
 function clonePlayer(player) {
@@ -51,6 +53,10 @@ function cloneResources(resources) {
         return out;
 }
 
+function getColor(id,playerList) {
+        return getPlayers(id,playerList)[0].color;
+}
+
 function getPlayers(id, playerList){
         return playerList.filter(function(player) {return player.id == id});
 }
@@ -59,7 +65,14 @@ function getResource(player,resource) {
         return player.resources[resource]
 }
 
-function addResources(player, resource, amount){
-        player.resources[resource] += amount;
-    //TODO: Complete
+function addResources(resources, resource, amount){
+        resources[resource] += amount;
+        return resources;
+}
+
+function subtractResources(pos,neg) {
+        for(resource in neg) {
+                addResource(pos,resource,-neg[resource]);
+        }
+        return pos;
 }

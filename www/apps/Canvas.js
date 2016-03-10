@@ -84,11 +84,12 @@ function setTransform(ctx,transform) {
 }
 
 function redraw(gamestate,actions,transform,animations,side,ctx) {
+        var actionColor = getColor(gamestate.currentPlayerID,gamestate.players);
         clearCanvas(ctx,transform);
         drawTitle(ctx);
         drawHexes(gamestate.board.hexes,transform,side,ctx);
         drawStructures(gamestate.board.vertices,transform,side,ctx);
-        drawActions(actions,Colors.Blue,side,ctx);
+        drawActions(actions,actionColor,side,ctx);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);

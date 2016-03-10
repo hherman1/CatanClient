@@ -130,9 +130,6 @@ CatanGame = function(side,ctx) {
         this.gamestate.currentPlayerID = 1;
 }
 
-getPlayers = function(players,playerID) {
-        return players.filter(function(p) {return p.id == playerID});
-}
 
 cloneGameState = function(gameState) {
         var out = new GameState();

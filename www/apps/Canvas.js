@@ -8,7 +8,6 @@
 //Draws title of the canvas
 //created by sduong
 function drawTitle(ctx){
-     resetTransform(ctx);
      ctx.font = "bold 24px Courier New";
      ctx.fillStyle = "coral";
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
@@ -16,23 +15,27 @@ function drawTitle(ctx){
 
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
  //created by hherman, edited by sduong [IN PROGRESS]
- function drawBoard(board,transform,ctx) {
+ function drawHexes(hexes,side,ctx) {
          //Set transformation
-   setTransform(ctx,transform);
    //setting the side of hexagon to be a value
-   var side = 50;
 
-   for (i in board.hexBoard){
-     var tileImage = getResourceImage(board.hexBoard[i].resource); //get the source path for the hexagon's terrain image
-     hexPath(board.hexBoard[i].coordinate,side,ctx);
+   hexes.forEach(function(hex){
+     var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
+     hexPath(hex.coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawHexImage(tileImage,hexToWorld(board.hexBoard[i].coordinate,side), ctx);
-     drawToken(hexToWorld(board.hexBoard[i].coordinate,side),board.hexBoard[i].token,ctx); //draw number token
-   }
+     drawHexImage(tileImage,hexToWorld(hex.coordinate,side), ctx);
+     drawToken(hexToWorld(hex.coordinate,side),hex.token,ctx); //draw number token
+   })
  }
+
+function drawStructures(vertices,side,ctx) {
+    vertices.forEach(function(vertex) {
+            drawBuilding(vertex.coordinate,vertex.structure,Colors.Red,side,ctx);
+    })
+}
 
 
 function transform(v,trans) {
@@ -70,21 +73,30 @@ function clearCanvas(ctx,transform) {
         var canvas = ctx.canvas;
         resetTransform(ctx);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setTransform(ctx,transform);
+        setTransform(transform,ctx);
 }
 
-function setTransform(ctx,transform) {
-  ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
+function setTransform(transform,ctx) {
+        ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(board,mouse,transform,animations,ctx) {
+function redraw(gamestate,actions,transform,animations,side,ctx) {
+        var colorMap = getPlayerColors(gamestate.players);
+        var actionColor = colorMap[gamestate.currentPlayerID];
+
         clearCanvas(ctx,transform);
+
+        resetTransform(ctx);
         drawTitle(ctx);
-        drawBoard(board,transform,ctx);
-        var test = mouse.pos.x.valueOf();
-        var rest = mouse.pos.y.valueOf();
-        var vec = new Vector(test,rest);
-        vec = inverseTransform(vec,transform);
+
+        setTransform(transform,ctx);
+
+        //BUG: Currently don't draw colors correctly
+        drawHexes(gamestate.board.hexes,side,ctx);
+        drawStructures(gamestate.board.vertices,side,ctx);
+        //drawRoads
+
+        drawActions(actions,actionColor,side,ctx);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);
@@ -169,7 +181,6 @@ function drawHexPoints(hexCoords,side,ctx) {
 
 
 function drawVertex(vertexCoords,side,ctx) {
-        coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
-
+        coords = vertexToWorld(vertexCoords,side);
         ctx.fillRect(coords.x,coords.y,10,10)
 }

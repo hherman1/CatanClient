@@ -56,7 +56,8 @@ Reference = function(data) {
 GameState = function() {
         this.board = new Board();
         this.phase;
-        this.players;
+        this.players = [];
+        this.currentPlayerID = null;
 }
 
 Graphics = function(){
@@ -87,34 +88,57 @@ Buffer = function() {
 }
 
 
-Game = function() {
-        this.ctx;
-        this.mouse = new Mouse();
-        this.buffer = new Buffer();
-        this.graphics = new Graphics();
-        this.server = new Server();
-        this.actions = new Reference([]);
-        this.gamestate;
-        this.hitboxes;
-        this.images;
+Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
+        this.ctx = ctx;
+        this.mouse = mouse; //new Mouse();
+        this.buffer = buffer; //new Buffer();
+        this.graphics = graphics; //new Graphics();
+        this.server = server; //new Server();
+        this.actions = actions; //new Reference([]);
+        this.gamestate = gamestate;
+        this.hitboxes = hitboxes;
+        this.images = images;
+        this.side = side;
 }
-
-initGame = function(game,ctx) {
+CatanGame = function(side,ctx) {
+        Game.call(this
+                 ,ctx
+                 ,new Mouse()
+                 ,new Buffer()
+                 ,new Graphics()
+                 ,new Server()
+                 ,new Reference([])
+                 ,null,null,null,side)
         var canvas = ctx.canvas;
-        game.ctx = ctx;
-        game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+        this.ctx = ctx;
+        this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+        this.side = side;
 
         //the below code may be better suited elsewhere
 
-        initMouseBuffer(canvas,game.buffer.mouse);
-        game.server.newGame(5);
-        game.gamestate = game.server.getState();
-        game.hitboxes =
-                genHitboxes([]
+        initMouseBuffer(canvas,this.buffer.mouse);
+        this.server.newGame(5);
+        this.gamestate = this.server.getState();
+        this.hitboxes =
+                genHitboxes(this.gamestate.board.vertices
                            ,[]
-                           ,game.gamestate.board.hexBoard
-                           ,50);
+                           ,this.gamestate.board.hexes
+                           ,this.side);
+
+        //TEMPORARY
+        this.gamestate.players.push(new Player(1));
+        this.gamestate.currentPlayerID = 1;
 }
+
+
+cloneGameState = function(gameState) {
+        var out = new GameState();
+        out.board = cloneBoard(gameState.board);
+        out.players = gameState.players.map(clonePlayer);
+        out.currentPlayerID = gameState.currentPlayerID;
+        return out;
+}
+
 
 function runGame(game,frameDuration) {
         window.setInterval(gameStep,frameDuration,game);
@@ -132,10 +156,26 @@ function gameStep(game) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
         }
         if(game.mouse.clicked) {
-
+                hits.forEach(function(hit) {
+                        if(hit.data.type == Position.Type.Vertex) {
+                                game.actions.data.push(new Action.BuildSettlement(hit.data.coordinate));
+                                if(!validateActions(game.actions.data,game.gamestate)) {
+                                        game.actions.data.pop();
+                                }
+                        }
+                })
         }
 
-        redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);
+        //console.log(game.actions.data);
+
+        var side=50;
+
+        redraw(game.gamestate
+              ,game.actions.data
+              ,game.graphics.transform
+              ,game.graphics.animations
+              ,side
+              ,game.ctx);
         flushMouseEvents(game.buffer.mouse);
         drawHitboxes(hitlist,hits,game.ctx);
 

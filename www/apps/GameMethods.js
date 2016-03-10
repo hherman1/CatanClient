@@ -38,9 +38,9 @@ function testGameMethodFunctions(){
  * at the given coordinates, and adds it to the player's road list.
  */
 
-function buildRoad(vert1, vert2, player){
+function buildRoad(vert1, vert2, player, roadList){
 	newRoad = new Road(vert1, vert2, player.id);
-	player.roadList.push(newRoad);
+	roadList.push(newRoad);
 }
 
 /* checkRoadLegality
@@ -49,18 +49,18 @@ function buildRoad(vert1, vert2, player){
  * will return a boolean indicating the legality of the construction.
  */
 
-function checkRoadLegality(vertexFrame, coords1, coords2, player, playerList){
-	if(checkConflictingRoads(coords1,coords2,playerList)){
+function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
+	if(checkConflictingRoads(coords1,coords2,roadList)){
 		return false;
 	}
-	vertex1 = getVertex(vertexFrame,coords1);
-	vertex2 = getVertex(vertexFrame,coords2);
+	vertex1 = getVertices(vertexFrame,coords1)[0];
+	vertex2 = getVertices(vertexFrame,coords2)[0];
 	if((vertex1.settled>0 && vertex1.player==player.id)||
 		(vertex2.settled>0 && vertex2.player==player.id)){
 		return true;
 	}
 	else{
-		return checkAdjacentPlayerRoads(coords1,coords2,player);
+		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList);
 	}
 }
 
@@ -69,14 +69,16 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, playerList){
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player){
-	for(i=0;i<player.roadList.length;i++){
-			other1 = player.roadList[i].coord1;
-			other2 = player.roadList[i].coord2;
-			if(compareVectors(coords1,other1)||compareVectors(coords1,other2)
-				||compareVectors(coords2,other1)||compareVectors(coords2,other2)){
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList){
+	for(i=0;i<roadList.length;i++){
+		if(roadList[i].player == player.id) {
+			other1 = roadList[i].coord1;
+			other2 = roadList[i].coord2;
+			if (compareVectors(coords1, other1) || compareVectors(coords1, other2)
+				|| compareVectors(coords2, other1) || compareVectors(coords2, other2)) {
 				return true;
 			}
+		}
 		}
 		return false;
 }
@@ -86,16 +88,13 @@ function checkAdjacentPlayerRoads(coords1, coords2, player){
  * Returns true if so, false otherwise.
  */
 
-function checkConflictingRoads(coords1, coords2, playerList){
+function checkConflictingRoads(coords1, coords2, roadList){
 	testRoad = new Road(coords1, coords2, 0);
-	for(i = 0; i<playerList.length;i++){
-		for(j=0; j<playerList[i].roadList.length;j++){
-
-			if(compareRoadPositions(testRoad,playerList[i].roadList[j])){
+	for(i = 0; i<roadList.length;i++){
+			if(compareRoadPositions(testRoad,roadList[i])){
 				return true;
 			}
 		}
-	}
 	return false;
 }
 
@@ -124,9 +123,9 @@ function buildSettlement(coords, player, vertexFrame) {
 /* Given a vector, a player, and a vertex frame, checks if a settlement can be built on said vertex by that player.
  */
 
-function checkSettlementLegality(coords, player, vertexFrame){
+function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	var vert = getVertex(vertexFrame,coords);
-	if(!checkAdjacentPlayerRoads(coords, coords, player)){
+	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList)){
 		return false;
 	}
 	if(vert.settled>0){
@@ -168,7 +167,7 @@ function buildCity(coords, player, vertexFrame){
  */
 
 function checkCityLegality(coords, player, vertexFrame){
-	vert = getVertex(vertexFrame,coords);
+	vert = getVertices(vertexFrame,coords)[0];
 	if(vert.settled != 1 || vert.player != player.id) {
 		return false;
 	}

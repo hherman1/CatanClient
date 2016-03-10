@@ -41,9 +41,9 @@ function isHit(hitbox,loc) {
         }
 }
 
-testBox = new Hitbox.Box(hexToWorld(new Vector(1,1),50),new Vector(10,10),new Vector (0,1),Math.PI/3)
+//testBox = new Hitbox.Box(hexToWorld(new Vector(1,1),50),new Vector(10,10),new Vector (0,1),Math.PI/3)
 
-testBox2 = new Hitbox.Box(new Vector(300,200),new Vector(50,200),new Vector (0,1),Math.PI/6)
+//testBox2 = new Hitbox.Box(new Vector(300,200),new Vector(50,200),new Vector (0,1),Math.PI/6)
 
 function transformHitlist(boxes,trans) {
         return boxes.map(function(box){return transformHitbox(box,trans)})
@@ -63,9 +63,9 @@ function transformHitbox(box,trans) {
 }
 
 
-genHitboxes = function(vertexCoordinates,roadCoordinatePairs,hexCoordinates,side) { 
-        return genVertexBoxes(vertexCoordinates,side)
-                .concat(genHexBoxes(hexCoordinates,side))
+function genHitboxes(vertices,roads,hexes,side) { 
+        return genVertexBoxes(vertices,side)
+                .concat(genHexBoxes(hexes,side))
                 .concat();
 }
 
@@ -77,11 +77,11 @@ function genHexBoxes(hexes,side) {
         })
 }
 
-function genVertexBoxes(coords,side) {
-        return coords.map(function(vc) {
-                return new Hitbox.Circle(vertexToWorld(vc,side)
+function genVertexBoxes(vertices,side) {
+        return vertices.map(function(vertex) {
+                return new Hitbox.Circle(vertexToWorld(vertex.coordinate,side)
                                 ,side/5
-                                ,[Type.Vertex,vc])
+                                ,vertex)
         })
 }
 

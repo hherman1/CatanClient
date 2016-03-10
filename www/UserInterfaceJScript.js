@@ -11,6 +11,7 @@ $(document).ready(function(){
 });
 
 //This function adds the drop down functionality for the playerTabs class--------------
+
 $(document).ready(function(){
     $(".playerInfo").hide();
     $(".playerTabs").click(function(e){
@@ -126,7 +127,7 @@ function endTurn()
 /*
 function startTime(){
 	var base = new Date().getTime();
-
+	
 }
 
 function formatTime(time) {
@@ -164,11 +165,11 @@ function timer(){
 
 
 /*THIS DOESNT WORK EITHER. AHH!
-$(function () {
+$(function () { 
 
     $('#buildCard').tabSlideOut({
         tabHandle: '#resourceBar', //class of the element that will become your tab
-
+        
         tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
         speed: 300, //speed of animation
         action: 'click', //options: 'click' or 'hover', action to trigger animation

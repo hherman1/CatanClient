@@ -62,7 +62,7 @@
 	position: absolute;
 	top: 464.5px;
 	left:8px;
-	transition: transform .9s ease-in;
+	transition: transform .9s;
 }
 
 .slideHider{
@@ -76,7 +76,7 @@
 }
 /*Resource Bar*/
 .resourceBar{
-	-webkit-transition: -webkit-transform .9s ease-in;
+	transition: transform .9s ease-in;
 }
 
 .resourceList{
@@ -118,10 +118,10 @@
 	border-bottom: black dashed 1px;
 }
 
-.buildChoice:hover{
+/*.buildChoice:hover{
 	background: #e6e6e6;
 	box-shadow: 1px 1px 5px #888888;
-}
+}*/
 
 .buildChoices{
 	border: solid black 1px;

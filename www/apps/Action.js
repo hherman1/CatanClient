@@ -42,15 +42,15 @@ function drawAction(action,color,side,ctx) {
 
 function validateActions(actions,gamestate) {
         var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
-        var temp = cloneGameState(gamestate);
-        actions.forEach(function(action) {
-                if(validateAction(action,temp,currentPlayer)) {
-                        applyAction(action,temp,currentPlayer);
+        var clonedGameState = cloneGameState(gamestate);
+        return actions.every(function(action) {
+                if(validateAction(action,clonedGameState,currentPlayer)) {
+                        applyAction(action,clonedGameState);
+                        return true;
                 } else {
                         return false;
                 }
         })
-        return true;
 }
 
 

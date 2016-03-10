@@ -57,6 +57,14 @@ function getColor(id,playerList) {
         return getPlayers(id,playerList)[0].color;
 }
 
+function getPlayerColors(playerList) {
+        var out = {}
+        playerList.forEach(function(player) {
+                out[player.id] = player.color;
+        })
+        return out;
+}
+
 function getPlayers(id, playerList){
         return playerList.filter(function(player) {return player.id == id});
 }

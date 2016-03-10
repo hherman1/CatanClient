@@ -159,6 +159,9 @@ function gameStep(game) {
                 hits.forEach(function(hit) {
                         if(hit.data.type == Position.Type.Vertex) {
                                 game.actions.data.push(new Action.BuildSettlement(hit.data.coordinate));
+                                if(!validateActions(game.actions.data,game.gamestate)) {
+                                        game.actions.data.pop();
+                                }
                         }
                 })
         }

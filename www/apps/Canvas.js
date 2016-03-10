@@ -8,7 +8,6 @@
 //Draws title of the canvas
 //created by sduong
 function drawTitle(ctx){
-     resetTransform(ctx);
      ctx.font = "bold 24px Courier New";
      ctx.fillStyle = "coral";
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
@@ -16,9 +15,8 @@ function drawTitle(ctx){
 
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
  //created by hherman, edited by sduong [IN PROGRESS]
- function drawHexes(hexes,transform,side,ctx) {
+ function drawHexes(hexes,side,ctx) {
          //Set transformation
-   setTransform(ctx,transform);
    //setting the side of hexagon to be a value
 
    hexes.forEach(function(hex){
@@ -33,8 +31,7 @@ function drawTitle(ctx){
    })
  }
 
-function drawStructures(vertices,transform,side,ctx) {
-    setTransform(ctx,transform);
+function drawStructures(vertices,side,ctx) {
     vertices.forEach(function(vertex) {
             drawBuilding(vertex,Colors.Red,side,ctx);
     })
@@ -76,19 +73,28 @@ function clearCanvas(ctx,transform) {
         var canvas = ctx.canvas;
         resetTransform(ctx);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setTransform(ctx,transform);
+        setTransform(transform,ctx);
 }
 
-function setTransform(ctx,transform) {
-  ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
+function setTransform(transform,ctx) {
+        ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
 function redraw(gamestate,actions,transform,animations,side,ctx) {
-        var actionColor = getColor(gamestate.currentPlayerID,gamestate.players);
+        var colorMap = getPlayerColors(gamestate.players);
+        var actionColor = colorMap[gamestate.currentPlayerID];
+
         clearCanvas(ctx,transform);
+
+        resetTransform(ctx);
         drawTitle(ctx);
-        drawHexes(gamestate.board.hexes,transform,side,ctx);
-        drawStructures(gamestate.board.vertices,transform,side,ctx);
+
+        setTransform(transform,ctx);
+
+        //BUG: Currently don't draw colors correctly
+        drawHexes(gamestate.board.hexes,side,ctx);
+        drawStructures(gamestate.board.vertices,side,ctx);
+
         drawActions(actions,actionColor,side,ctx);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {

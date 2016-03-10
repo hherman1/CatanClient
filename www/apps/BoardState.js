@@ -212,6 +212,9 @@ function checkForSameVector(vertexList, vector){
 
 /* Given vector coordinates and a list of vertex objects, returns the vertex at said coordinates.
 */
+function getVertex(vertices,coordinate) {
+        return getVertices(vertices,coordinate)[0];
+}
 function getVertices(vertices,coordinate) {
         return vertices.filter(function(v) {return compareVectors(v.coordinate,coordinate)});
 }

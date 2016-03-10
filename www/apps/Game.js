@@ -98,6 +98,7 @@ Game = function() {
         this.gamestate;
         this.hitboxes;
         this.images;
+        this.side;
 }
 
 getPlayers = function(players,playerID) {
@@ -112,10 +113,11 @@ cloneGameState = function(gameState) {
         return out;
 }
 
-initGame = function(game,ctx) {
+initGame = function(game,side,ctx) {
         var canvas = ctx.canvas;
         game.ctx = ctx;
         game.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+        game.side = side;
 
         //the below code may be better suited elsewhere
 
@@ -126,7 +128,7 @@ initGame = function(game,ctx) {
                 genHitboxes(game.gamestate.board.vertices
                            ,[]
                            ,game.gamestate.board.hexes
-                           ,50);
+                           ,game.side);
 
         //TEMPORARY
         game.gamestate.players.push(new Player(1));
@@ -149,14 +151,23 @@ function gameStep(game) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
         }
         if(game.mouse.clicked) {
-
+                hits.forEach(function(hit) {
+                        if(hit.data.type == Position.Type.Vertex) {
+                                game.actions.data.push(new Action.BuildSettlement(hit.data.coordinate));
+                        }
+                })
         }
 
-        hits.forEach(function(hit) {
-//                if(hit.data.type == 
-        })
+        //console.log(game.actions.data);
 
-        redraw(game.gamestate.board,game.mouse,game.graphics.transform,game.graphics.animations,game.ctx);
+        var side=50;
+
+        redraw(game.gamestate.board
+              ,game.actions.data
+              ,game.graphics.transform
+              ,game.graphics.animations
+              ,side
+              ,game.ctx);
         flushMouseEvents(game.buffer.mouse);
         drawHitboxes(hitlist,hits,game.ctx);
 

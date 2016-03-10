@@ -16,11 +16,10 @@ function drawTitle(ctx){
 
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
  //created by hherman, edited by sduong [IN PROGRESS]
- function drawHexes(hexes,transform,ctx) {
+ function drawHexes(hexes,transform,side,ctx) {
          //Set transformation
    setTransform(ctx,transform);
    //setting the side of hexagon to be a value
-   var side = 50;
 
    hexes.forEach(function(hex){
      var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
@@ -84,15 +83,12 @@ function setTransform(ctx,transform) {
   ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(board,mouse,transform,animations,ctx) {
+function redraw(board,actions,transform,animations,side,ctx) {
         clearCanvas(ctx,transform);
         drawTitle(ctx);
-        drawHexes(board.hexes,transform,ctx);
-        drawStructures(board.vertices,transform,50,ctx);
-        var test = mouse.pos.x.valueOf();
-        var rest = mouse.pos.y.valueOf();
-        var vec = new Vector(test,rest);
-        vec = inverseTransform(vec,transform);
+        drawHexes(board.hexes,transform,side,ctx);
+        drawStructures(board.vertices,transform,side,ctx);
+        drawActions(actions,side,ctx);
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);

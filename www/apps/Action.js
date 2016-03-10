@@ -20,6 +20,26 @@ Action = {
         }
 }
 
+function drawActions(actions,side,ctx) {
+        actions.forEach(function(action) {
+                drawAction(action,side,ctx);
+        });
+}
+
+function drawAction(action,side,ctx) {
+        switch(action.type) {
+                case Action.Type.BuildRoad:
+                        drawRoad(action.coordinateA,action.coordinateB,Colors.Red,side,ctx);
+                        break;
+                case Action.Type.BuildSettlement:
+                        drawBuilding(action.coordinate,Structure.Settlement,Colors.Red,side,ctx);
+                        break;
+                case Action.Type.BuildCity:
+                        drawBuilding(action.coordinate,Structure.City,Colors.Red,side,ctx);
+                        break;
+        }
+}
+
 function validateActions(actions,gamestate) {
         var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
         var temp = cloneGameState(gamestate);
@@ -97,15 +117,3 @@ function applyActionForPlayer(action,gamestate,player) {
 
 
 
-drawAction = function(action, side, ctx) {
-
-  switch(action.type){
-    case Action.Type.BuildRoad:
-            drawRoad(Action.BuildRoad.vertexA, Action.BuildRoad.vertB, Action.BuildRoad.player.playerColor, side, ctx); //assuming vertex are not world coordinates
-    case Action.Type.BuildSettlement:
-            drawBuilding(Action.BuildSettlement.vertex,Action.BuildSettlement.player.playerColor, side, ctx);
-    case Action.Type.BuildCity:
-            drawBuilding(Action.BuildCity.vertex,Action.BuildCity.player.playerColor, side, ctx);
-  }
-
-}

@@ -54,9 +54,9 @@ function loadImage(src) {
         return out;
 }
 
-function drawRoad(verta,vertb,color,side, ctx) {
-  var worldA = hexToWorld(verta.coordinate,side);
-  var worldB = hexToWorld(vertb.coordinate,side);
+function drawRoad(coordinateA,coordinateB,color,side, ctx) {
+  var worldA = hexToWorld(coordinateA,side);
+  var worldB = hexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
@@ -65,11 +65,11 @@ function drawRoad(verta,vertb,color,side, ctx) {
   ctx.stroke();
 }
 
-function drawBuilding(vert,playerColor,side,ctx){
-        if(vert.structure != Structure.Empty) {
-          var worldVert = vertexToWorld(vert.coordinate,side);
-          ctx.drawImage(getBuildingImg(vert.structure, playerColor)
-                       , worldVert.x, worldVert.y
+function drawBuilding(coordinate,structure,color,side,ctx){
+        if(structure != Structure.Empty) {
+          var worldCoord = vertexToWorld(coordinate,side);
+          ctx.drawImage(getBuildingImg(structure, color)
+                       , worldCoord.x, worldCoord.y
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
         }
 }

@@ -123,10 +123,14 @@ initGame = function(game,ctx) {
         game.server.newGame(5);
         game.gamestate = game.server.getState();
         game.hitboxes =
-                genHitboxes([]
+                genHitboxes(game.gamestate.board.vertices
                            ,[]
                            ,game.gamestate.board.hexes
                            ,50);
+
+        //TEMPORARY
+        game.gamestate.players.push(new Player(1));
+        game.gamestate.currentPlayerID = 1;
 }
 
 function runGame(game,frameDuration) {

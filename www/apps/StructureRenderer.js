@@ -19,13 +19,13 @@ Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
 Images.Settlements[Colors.Orange]  = 'graphics/oranges.svg';
 Images.Settlements[Colors.Blue]    = 'graphics/blues.svg';
 Images.Settlements[Colors.White]   = 'graphics/whites.svg';
-Images.Resources = Images.Settlements.map(loadImage);
+Images.Settlements = Images.Settlements.map(loadImage);
 
 Images.Cities[Colors.Red]      = 'graphics/redc.svg';
 Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
 Images.Cities[Colors.White]    = 'graphics/whitec.svg';
-Images.Resources = Images.Cities.map(loadImage);
+Images.Cities = Images.Cities.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
@@ -66,12 +66,12 @@ function drawRoad(verta,vertb,color,side, ctx) {
 }
 
 function drawBuilding(vert,playerColor,side,ctx){
-  var img = new Image(); //create new image element
-  //console.log("drawing "+ vert.settled + " " + playerColor);
-  var worldVert = hexToWorld(vert.coordinate,side);
-  //console.log("world vert: " + worldVert.x + " " + worldVert.y);
-  img.src = getBuildingImg(vert.settled, playerColor); //set source path
-  ctx.drawImage(img, worldVert.x, worldVert.y, side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
+        if(vert.structure != Structure.Empty) {
+          var worldVert = vertexToWorld(vert.coordinate,side);
+          ctx.drawImage(getBuildingImg(vert.structure, playerColor)
+                       , worldVert.x, worldVert.y
+                       , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
+        }
 }
 
 function getBuildingImg(settletype, playerColor){

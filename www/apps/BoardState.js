@@ -47,8 +47,8 @@ Road = function(coord1, coord2, playerID){
  * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
  */
 
-Vertex = function(settled, playerID,coordinate){
-	this.settled=settled;
+Vertex = function(structure, playerID,coordinate){
+	this.structure=structure;
     this.playerID=playerID;
     this.coordinate=coordinate;
 }
@@ -88,7 +88,7 @@ function cloneRoad(road) {
 }
 
 function cloneVertex(vertex){
-        return new Vertex(vertex.settled,vertex.playerID,vertex.coordinate);
+        return new Vertex(vertex.structure,vertex.playerID,vertex.coordinate);
 }
 
 function cloneHexObject(hex)  {

@@ -16,23 +16,30 @@ function drawTitle(ctx){
 
  //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
  //created by hherman, edited by sduong [IN PROGRESS]
- function drawBoard(board,transform,ctx) {
+ function drawHexes(hexes,transform,ctx) {
          //Set transformation
    setTransform(ctx,transform);
    //setting the side of hexagon to be a value
    var side = 50;
 
-   for (i in board.hexes){
-     var tileImage = getResourceImage(board.hexes[i].resource); //get the source path for the hexagon's terrain image
-     hexPath(board.hexes[i].coordinate,side,ctx);
+   hexes.forEach(function(hex){
+     var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
+     hexPath(hex.coordinate,side,ctx);
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawHexImage(tileImage,hexToWorld(board.hexes[i].coordinate,side), ctx);
-     drawToken(hexToWorld(board.hexes[i].coordinate,side),board.hexes[i].token,ctx); //draw number token
-   }
+     drawHexImage(tileImage,hexToWorld(hex.coordinate,side), ctx);
+     drawToken(hexToWorld(hex.coordinate,side),hex.token,ctx); //draw number token
+   })
  }
+
+function drawStructures(vertices,transform,side,ctx) {
+    setTransform(ctx,transform);
+    vertices.forEach(function(vertex) {
+            drawBuilding(vertex,Colors.Red,side,ctx);
+    })
+}
 
 
 function transform(v,trans) {
@@ -80,7 +87,8 @@ function setTransform(ctx,transform) {
 function redraw(board,mouse,transform,animations,ctx) {
         clearCanvas(ctx,transform);
         drawTitle(ctx);
-        drawBoard(board,transform,ctx);
+        drawHexes(board.hexes,transform,ctx);
+        drawStructures(board.vertices,transform,50,ctx);
         var test = mouse.pos.x.valueOf();
         var rest = mouse.pos.y.valueOf();
         var vec = new Vector(test,rest);
@@ -169,7 +177,6 @@ function drawHexPoints(hexCoords,side,ctx) {
 
 
 function drawVertex(vertexCoords,side,ctx) {
-        coords = vertexToCanvas(vertexCoords,side),ctx.canvas;
-
+        coords = vertexToWorld(vertexCoords,side);
         ctx.fillRect(coords.x,coords.y,10,10)
 }

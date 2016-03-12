@@ -9,7 +9,7 @@
 //created by sduong
 function drawTitle(ctx){
      ctx.font = "bold 24px Courier New";
-     ctx.fillStyle = "coral";
+     ctx.fillStyle = "#17324F";
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
  }
 

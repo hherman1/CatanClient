@@ -1,0 +1,26 @@
+body {
+  padding-left: 20em;
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  color: #17324f;
+  background-color: #B0E2F2 }
+ul.navbar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 3em;
+  left: 7em;
+  width: 9em }
+h1 {
+font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
+ul.navbar li {
+  background: coral;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border-right: 1em solid #17324f}
+ul.navbar a {
+  text-decoration: none }
+a:link {
+  color: #17324f }
+a:visited {
+  color: #17324f } //#f6bc73

@@ -4,17 +4,17 @@
 	border: solid black 1px;
 	border-radius: 8px 0 0 0;
 	position: absolute;
-	left: 708px; /*the board is 1000 and the button is ~300*/
-	top: 394px;
+	left: 687px; /*the board is 1000 and the button is ~300*/
+	top: 395px;
 }
 
 .endTurnButton{
 	background: #FFF0BD;
 	color: #696558;
-	width: 300px;
+	width: 320px;
 	height: 75px;
 	font-size: 50px;
-	font-family: Verdana;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
 }
 
 .timer{
@@ -23,7 +23,7 @@
 	position: relative;
 	margin: 0 0 0 2px;
 	color: #696558;
-	font-family: Verdana;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
 }
 
 .timerDiv{
@@ -108,7 +108,7 @@
 .buildCardTitle{
 	border-right: solid black 1px;
 	border-left: solid black 1px;
-	font-family: Verdana;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
 	font-size: 30px;
 	margin: 0;
 	text-align: center;
@@ -226,3 +226,6 @@
 #player4Name{
 	background-color: #ff7f2a
 }
+
+h1 {
+font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }

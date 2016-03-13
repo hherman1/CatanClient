@@ -13,8 +13,6 @@ function drawTitle(ctx){
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
  }
 
- //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
- //created by hherman, edited by sduong [IN PROGRESS]
  function drawHexes(hexes,side,ctx) {
          //Set transformation
    //setting the side of hexagon to be a value
@@ -120,17 +118,18 @@ function drawToken(hc, token, ctx){
     else{
   		ctx.fillStyle="black";
     }
-    ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),hc.x-6,hc.y+5);
 
+    ctx.font = "24px Times New Roman";
+    if (token > 9){
+      ctx.fillText(String(token),hc.x-11,hc.y+6);
+    }
+    else{
+      ctx.fillText(String(token),hc.x-6,hc.y+6);
+    }
 	} else{
       drawRobber(hc.x,hc.y,40,ctx);
 	}
 }
-
-
-
-
 
 //draws the image of the terrain on the board
 //created by sduong
@@ -142,9 +141,6 @@ function drawHexImage(image, hc,ctx){
   var scale = side*2;
   ctx.drawImage(image, x, y, scale-12, scale);
 }
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

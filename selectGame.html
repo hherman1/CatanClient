@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="styles/landingstyle.css">
+  <script data-main="www/apps/main.js" src="www/lib/require.js"></script>
   <title>select game - macsettlers</title>
 </head>
 
@@ -10,7 +11,10 @@
 <!-- Main content -->
 <h1>select game</h1>
 
-<p> 3-player game or 4-player game </p>
+<p> select a 3-player game or 4-player game to play</p>
+
+<input type="button" value="3-PLAYER" onclick="setPlayers(3)">
+<input type="button" value="4-PLAYER" onclick="setPlayers(4)">
 
 <br>
 <a href="selectColors.html">select colors</a>

@@ -180,3 +180,11 @@ function gameStep(game) {
         drawHitboxes(hitlist,hits,game.ctx);
 
 }
+
+//initialize players array. this function is used when users select which game to play (3 or 4 player game)
+// setPlayers = function(num){
+//   for(var i = 0; i < num; i++) {
+//     this.gamestate.players.push(new Player(i));
+//     console.log("a player was added to players");
+// }
+// }

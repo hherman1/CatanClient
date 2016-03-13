@@ -1,3 +1,4 @@
+
 body {
   padding-left: 20em;
   font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
@@ -14,7 +15,7 @@ ul.navbar {
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
 ul.navbar li {
-  background: coral;
+  background: #f6bc73;
   margin: 0.5em 0;
   padding: 0.5em;
   border-right: 1em solid #17324f}
@@ -24,3 +25,5 @@ a:link {
   color: #17324f }
 a:visited {
   color: #17324f } //#f6bc73
+
+//http://www.color-hex.com/color-palette/16273

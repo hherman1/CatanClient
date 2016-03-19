@@ -1,46 +1,13 @@
 //File contains requisite methods for modifying the state of the game, e.g. construction,
 //road connectivity checking, legality checking, etc.
 
-function testGameMethodFunctions(){
-	testBoard = buildRegularHexFramework(5);
-	console.log(testBoard);
-	testVertices = buildVertexFramework(testBoard);
-	console.log(testVertices);
-	p1 = new Player(1);
-	p2 = new Player(2);
-	playList = [p1,p2];
-	buildSettlement(new Vector(2,-1),p1,testVertices);
-	buildRoad(new Vector(0,0),new Vector(0,1),p1);
-	buildRoad(new Vector(0,0),new Vector(1,0),p1);
-	buildRoad(new Vector(0,2),new Vector(0,1),p2);
-	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(0,1),p1, playList));
-	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(0,1),p2, playList));
-	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,new Vector(0,2),new Vector(1,1),p1, playList));
-	console.log("should be false");
-	console.log(checkRoadLegality(testVertices,new Vector(1,1),new Vector(0,1),p1, playList));
-	console.log("should be true");
-	console.log(checkRoadLegality(testVertices,new Vector(2,-1),new Vector(2,0),p1, playList));
-	console.log("should be true");
-	buildRoad(new Vector(2,-1),new Vector(2,0),p1);
-	console.log(checkSettlementLegality(new Vector(2,0),p1,testVertices));
-	console.log("should be false");
-	buildRoad(new Vector(2,0), new Vector(3,0),p1);
-	console.log(checkSettlementLegality(new Vector(3,0),p1,testVertices));
-	console.log("should be true");
-	buildSettlement(new Vector(2,-1),p1, testVertices);
-}
-//WORK ON THIS!!
-
 /* buildRoad
  * Given a pair of vector coordinates and a player, creates a road object
  * at the given coordinates, and adds it to the player's road list.
  */
 
 function buildRoad(vert1, vert2, player, roadList){
-	newRoad = new Road(vert1, vert2, player.id);
-	roadList.push(newRoad);
+	getRoad(roadList,vert1.coordinate, vert2.coordinate).playerID = player.id;
 }
 
 /* checkRoadLegality
@@ -50,13 +17,12 @@ function buildRoad(vert1, vert2, player, roadList){
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	if(checkConflictingRoads(coords1,coords2,roadList)){
+	if(getRoad(roadList,coords1,coords2).playerID!=0){
 		return false;
 	}
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
-	if((vertex1.settled>0 && vertex1.player==player.id)||
-		(vertex2.settled>0 && vertex2.player==player.id)){
+	if(vertex1.player==player.id || vertex2.player==player.id){
 		return true;
 	}
 	else{
@@ -70,33 +36,23 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
  */
 
 function checkAdjacentPlayerRoads(coords1, coords2, player, roadList){
-	for(i=0;i<roadList.length;i++){
-		if(roadList[i].player == player.id) {
-			other1 = roadList[i].coord1;
-			other2 = roadList[i].coord2;
-			if (compareVectors(coords1, other1) || compareVectors(coords1, other2)
-				|| compareVectors(coords2, other1) || compareVectors(coords2, other2)) {
+	var testCoords = getVertexNeighbors(coords1);
+	for(i=0;i<testCoords.length;i++){
+		if(!compareVectors(coords2, testCoords[i])){
+			if(getRoad(roadList,coords1,testCoords[i]).playerID==player.id){
 				return true;
 			}
 		}
-		}
-		return false;
-}
-
-/* Given a pair of coordinates and a list of the in game players,
- * checks if there already exists a road between the given coordinates.
- * Returns true if so, false otherwise.
- */
-
-function checkConflictingRoads(coords1, coords2, roadList){
-	testRoad = new Road(coords1, coords2, 0);
-	for(i = 0; i<roadList.length;i++){
-			if(compareRoadPositions(testRoad,roadList[i])){
+	}
+	testCoords = getVertexNeighbors(coords2);
+	for(i=0;i<testCoords.length;i++){
+		if(!compareVectors(coords1, testCoords[i])){
+			if(getRoad(roadList,coords2,testCoords[i]).playerID==player.id){
 				return true;
 			}
 		}
+	}
 	return false;
-}
 
 /* Given a vector and a player, identifies said vertex as having a settlement belonging to that player,
  * and adds it to the player's settledVertices list.
@@ -219,4 +175,5 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 			}
 		}
 	}
+}
 }

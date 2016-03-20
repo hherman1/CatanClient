@@ -55,7 +55,7 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase;
+        this.phase = Phase.Init;
         this.players = [];
         this.currentPlayerID = null;
 }
@@ -121,7 +121,7 @@ CatanGame = function(side,ctx) {
         this.gamestate = this.server.getState();
         this.hitboxes =
                 genHitboxes(this.gamestate.board.vertices
-                           ,[]
+                           ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
                            ,this.side);
 

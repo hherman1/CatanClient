@@ -13,19 +13,24 @@ Images = {
         Cities:[],
 
         Resources:[],
+
+        Robber:'',
 }
+
+Images.Robber = 'graphics/robber.svg'; 
+Images.Loaded.Robber = loadImage(Images.Robber);
 
 Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
 Images.Settlements[Colors.Orange]  = 'graphics/oranges.svg';
 Images.Settlements[Colors.Blue]    = 'graphics/blues.svg';
 Images.Settlements[Colors.White]   = 'graphics/whites.svg';
-Images.Settlements = Images.Settlements.map(loadImage);
+Images.Loaded.Settlements = Images.Settlements.map(loadImage);
 
 Images.Cities[Colors.Red]      = 'graphics/redc.svg';
 Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
 Images.Cities[Colors.White]    = 'graphics/whitec.svg';
-Images.Cities = Images.Cities.map(loadImage);
+Images.Loaded.Cities = Images.Cities.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
@@ -46,7 +51,7 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 //"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg
 //labeled for noncommercial reuse
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
-Images.Resources = Images.Resources.map(loadImage);
+Images.Loaded.Resources = Images.Resources.map(loadImage);
 
 function loadImage(src) {
         var out = new Image();
@@ -74,18 +79,22 @@ function drawBuilding(coordinate,structure,color,side,ctx){
         }
 }
 
+function getRobberImg() {
+        return Images.Loaded.Robber;
+}
+
 function getBuildingImg(settletype, playerColor){
   //still needs work...i will have to spend some time resizing these photos somehow
   switch(settletype) {
         case Structure.Settlement:
-            return Images.Settlements[playerColor];
+            return Images.Loaded.Settlements[playerColor];
         case Structure.City:
-            return Images.Cities[playerColor];
+            return Images.Loaded.Cities[playerColor];
   }
 }
 
 function getResourceImage(resourceType) {
-  return Images.Resources[resourceType];
+  return Images.Loaded.Resources[resourceType];
 }
 
 

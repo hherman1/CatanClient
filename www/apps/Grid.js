@@ -75,6 +75,22 @@ function multiplyMatrix(mat,vec) {
         return new Vector(dotProduct(mat.x,vec),dotProduct(mat.y,vec))
 }
 
+function even(n) {
+        return n%2 == 0
+}
+
+function vertexNeighbors(vertex) {
+        if(even(vertex.y)) {
+            return [add(new Vector(0,1),vertex),
+                    add(new Vector(-1,1),vertex),
+                    add(new Vector(0,-1),vertex)]
+        } else {
+            return [add(new Vector(0,1),vertex),
+                    add(new Vector(0,-1),vertex),
+                    add(new Vector(1,-1),vertex)]
+        }
+}
+
 function vertices(hexCoords) {
         return [piecewiseTimes(new Vector(1,2),hexCoords)
                 ,add(identY(1),piecewiseTimes(new Vector(1,2),hexCoords))

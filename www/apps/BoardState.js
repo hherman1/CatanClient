@@ -96,7 +96,7 @@ function cloneBoard(board) {
 }
 
 function cloneRoad(road) {
-        return new Position.Road(road.coord1,road.coord2,road.playerID);
+        return new Position.Road(road.structure,road.coord1,road.coord2,road.playerID);
 }
 
 function cloneVertex(vertex){
@@ -195,7 +195,7 @@ function buildVertexFramework(tileFrame){
 			testVector = coordList[j];
 			if(checkForSameVector(vertexFrame,testVector)) {
 				//console.log("works");
-				vertexFrame.push(new Position.Vertex(0, 0, coordList[j]));
+				vertexFrame.push(new Position.Vertex(Structure.Empty, null, coordList[j]));
 			}
 		}
 	}
@@ -219,12 +219,19 @@ function getVertices(vertices,coordinate) {
         return vertices.filter(function(v) {return compareVectors(v.coordinate,coordinate)});
 }
 
+function getVertexNeighbors(coordinate,frame) {
+        return vertexNeighbors(coordinate)
+                .map(function(v) {return getVertex(frame,v)})
+                .filter(function(v) {return v != undefined})
+                .map(function(v) {return v.coordinate})
+}
+
 function buildRoadFramework(vertexFrame){
     var roadFrame = [];
     for (i=0;i<vertexFrame.length;i++){
         var coordList = getVertexNeighbors(vertexFrame[i].coordinate,vertexFrame);
         for (j=0;j<coordList.length;j++){
-            var testRoad = new Position.Road(vertexFrame[i].coordinate,coordList[j], 0);
+            var testRoad = new Position.Road(Structure.Empty,vertexFrame[i].coordinate,coordList[j], null);
             if(!checkForSameRoad(roadFrame,testRoad)){
                 roadFrame.push(testRoad);
             }
@@ -236,15 +243,15 @@ function buildRoadFramework(vertexFrame){
 function checkForSameRoad(roadList, road){
     for(count = 0; count<roadList.length;count++){
         if(compareRoadPositions(road,roadList[count])){
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 function getRoad(roadList, coord1, coord2){
     for(i = 0; i<roadList.length;i++){
-        if(compareRoadPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
+        if(compareTwoCoordPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
             return roadList[i];
         }
     }
@@ -256,10 +263,10 @@ function getRoad(roadList, coord1, coord2){
  */
 
 function compareRoadPositions(road1, road2){
-    return compareRoadPositions(road1.coord1, road1.coord2,road2.coord1,road2.coord2);
+    return compareTwoCoordPositions(road1.coord1, road1.coord2,road2.coord1,road2.coord2);
 }
 
-function compareRoadPositions(road1coord1, road1coord2, road2coord1, road2coord2){
+function compareTwoCoordPositions(road1coord1, road1coord2, road2coord1, road2coord2){
     if((compareVectors(road1coord1,road2coord1)&&compareVectors(road1coord2,road2coord2))||
         (compareVectors(road1coord1,road2coord2)&&compareVectors(road1coord2,road2coord1))){
         return true;

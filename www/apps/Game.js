@@ -163,8 +163,14 @@ function gameStep(game) {
         }
         if(game.mouse.clicked) {
                 hits.forEach(function(hit) {
+                        var push = null;
                         if(hit.data.type == Position.Type.Vertex) {
-                                game.actions.data.push(new Action.BuildSettlement(hit.data.coordinate));
+                                push = new Action.BuildSettlement(hit.data.coordinate);
+                        } else if(hit.data.type == Position.Type.Road) {
+                                push = new Action.BuildRoad(hit.data.coord1,hit.data.coord2);
+                        }
+                        if(push != null) {
+                                game.actions.data.push(push);
                                 if(!validateActions(game.actions.data,game.gamestate)) {
                                         game.actions.data.pop();
                                 }

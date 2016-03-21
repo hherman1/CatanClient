@@ -80,6 +80,12 @@ Server = function() {
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
         }
+        this.endTurn = function(){
+            //Switch player method
+            // -Takes in a list of actions, validate them, apply changes and end turn
+            // -Spit out new resources
+            //Carsten wrote a function to allcocalte resources
+        }
 }
 
 Buffer = function() {

@@ -118,10 +118,10 @@
 	border-bottom: black dashed 1px;
 }
 
-/*.buildChoice:hover{
+.buildChoice:hover{
 	background: #e6e6e6;
 	box-shadow: 1px 1px 5px #888888;
-}*/
+}
 
 .buildChoices{
 	border: solid black 1px;

@@ -96,7 +96,7 @@ function cloneBoard(board) {
 }
 
 function cloneRoad(road) {
-        return new Position.Road(road.coord1,road.coord2,road.playerID);
+        return new Position.Road(road.structure,road.coord1,road.coord2,road.playerID);
 }
 
 function cloneVertex(vertex){
@@ -251,7 +251,7 @@ function checkForSameRoad(roadList, road){
 
 function getRoad(roadList, coord1, coord2){
     for(i = 0; i<roadList.length;i++){
-        if(compareRoadPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
+        if(compareTwoCoordPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
             return roadList[i];
         }
     }

@@ -17,6 +17,11 @@
 	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
 }
 
+.endTurnButton:hover:enabled{
+	background: #ffe799;
+	box-shadow: 1px 1px 5px #888888;
+}
+
 .timer{
 	display: inline-block;
 	margin: 0px;

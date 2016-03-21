@@ -10,6 +10,7 @@ Colors = {
 }
 Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player Colors will be consistently assigned
 
+
 Player = function(id){
   //Player owned constructions
   this.id = id;
@@ -29,8 +30,13 @@ Player = function(id){
   this.vicPoints = 0;
 }
 
-
-
+/*WIPWIPWIP
+function initPlayers(numPlayers){
+  for (var i = 0; i < numPlayers; i++) {
+    Players.
+  };
+}
+*/
 
 function clonePlayer(player) {
         var out = new Player(player.id);

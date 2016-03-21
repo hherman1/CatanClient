@@ -20,30 +20,32 @@
 .timer{
 	display: inline-block;
 	margin: 0px;
-	position: relative;
-	margin: 0 0 0 2px;
+	margin: 0 0 0 4px;
 	color: #696558;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
 .timerDiv{
 	background-color: #FFFFFF;
 	border-radius: 8px 0px 0px 0px;
+	width: 320px;
 }
 
 .rollHolder{
 	display: inline-block;
 	border-right: solid black 1px;
+	float: left;
+	padding: 0 0px 0 4px;
+	width: 154px;
 }
 
 .rollTittle{
 	display: inline;
-	margin: 0 0 0 5px;
 }
 
 .rollValue{
 	display: inline;
-	margin: 0 20px 0 0px;
+	margin: 0 0px 0 0px;
 }
 
 

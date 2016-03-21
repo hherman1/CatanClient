@@ -55,7 +55,7 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase;
+        this.phase = Phase.Init;
         this.players = [];
         this.currentPlayerID = null;
 }
@@ -127,7 +127,7 @@ CatanGame = function(side,ctx) {
         this.gamestate = this.server.getState();
         this.hitboxes =
                 genHitboxes(this.gamestate.board.vertices
-                           ,[]
+                           ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
                            ,this.side);
 
@@ -186,3 +186,11 @@ function gameStep(game) {
         drawHitboxes(hitlist,hits,game.ctx);
 
 }
+
+//initialize players array. this function is used when users select which game to play (3 or 4 player game)
+// setPlayers = function(num){
+//   for(var i = 0; i < num; i++) {
+//     this.gamestate.players.push(new Player(i));
+//     console.log("a player was added to players");
+// }
+// }

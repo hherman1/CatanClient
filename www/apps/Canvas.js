@@ -9,12 +9,10 @@
 //created by sduong
 function drawTitle(ctx){
      ctx.font = "bold 24px Courier New";
-     ctx.fillStyle = "coral";
+     ctx.fillStyle = "#17324F";
      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
  }
 
- //draws the board by calling on helper functions to generate hex coords, a dictionary of two lists that store 19 x and y coordinates.
- //created by hherman, edited by sduong [IN PROGRESS]
  function drawHexes(hexes,side,ctx) {
          //Set transformation
    //setting the side of hexagon to be a value
@@ -31,9 +29,9 @@ function drawTitle(ctx){
    })
  }
 
-function drawStructures(vertices,side,ctx) {
+function drawStructures(vertices,colorMap,side,ctx) {
     vertices.forEach(function(vertex) {
-            drawBuilding(vertex.coordinate,vertex.structure,Colors.Red,side,ctx);
+            drawBuilding(vertex.coordinate,vertex.structure,colorMap[vertex.playerID],side,ctx);
     })
 }
 
@@ -93,7 +91,7 @@ function redraw(gamestate,actions,transform,animations,side,ctx) {
 
         //BUG: Currently don't draw colors correctly
         drawHexes(gamestate.board.hexes,side,ctx);
-        drawStructures(gamestate.board.vertices,side,ctx);
+        drawStructures(gamestate.board.vertices,colorMap,side,ctx);
         //drawRoads
 
         drawActions(actions,actionColor,side,ctx);
@@ -120,17 +118,18 @@ function drawToken(hc, token, ctx){
     else{
   		ctx.fillStyle="black";
     }
-    ctx.font = "24px Times New Roman";
-    ctx.fillText(String(token),hc.x-6,hc.y+5);
 
+    ctx.font = "24px Times New Roman";
+    if (token > 9){
+      ctx.fillText(String(token),hc.x-11,hc.y+6);
+    }
+    else{
+      ctx.fillText(String(token),hc.x-6,hc.y+6);
+    }
 	} else{
       drawRobber(hc.x,hc.y,40,ctx);
 	}
 }
-
-
-
-
 
 //draws the image of the terrain on the board
 //created by sduong
@@ -142,9 +141,6 @@ function drawHexImage(image, hc,ctx){
   var scale = side*2;
   ctx.drawImage(image, x, y, scale-12, scale);
 }
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

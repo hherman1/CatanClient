@@ -1,0 +1,49 @@
+body {
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  color: #17324f;
+  background-color: #B0E2F2 }
+
+.part1 {
+    border-radius: 5px;
+  	border: 2px solid #6495ED;
+    width:20%;
+    height: 100%;
+    float: left;
+    background: #f6bc73;
+    margin-right: 10px;
+    text-align: center;
+}
+.part2 {
+    border-radius: 5px;
+    border: 2px solid #6495ED;
+    width:20%;
+    height: 100%;
+    float: left;
+    background: #f6bc73;
+    margin-right: 10px;
+    text-align: center;
+}
+.part3 {
+    border-radius: 5px;
+    border: 2px solid #6495ED;
+    width:20%;
+    height: 100%;
+    float: left;
+    background: #f6bc73;
+    margin-right: 10px;
+    text-align: center;
+}
+.part4 {
+    border-radius: 5px;
+    border: 2px solid #6495ED;
+    width:20%;
+    height: 100%;
+    float: left;
+    background: #f6bc73;
+    text-align: center;
+}
+
+.content{
+    width: 100%;
+    position: relative;
+}

@@ -9,9 +9,7 @@ function moveRobber(){
 }
 
 function drawRobber(x, y, z, ctx){
-  var rob = new Image();
-  rob.src = 'graphics/robber.svg'; //image src: http://firearmtrainingstore.com/wp/wp-content/uploads/2015/05/robber.png
-  ctx.drawImage(rob, x-15, y-(z*0.75), z, z*1.25);
+  ctx.drawImage(getRobberImg(), x-15, y-(z*0.75), z, z*1.25);
 
 }
 

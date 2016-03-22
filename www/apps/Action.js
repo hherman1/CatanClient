@@ -71,7 +71,7 @@ function validateAction (action,gamestate,player) {
                                         console.log("Road illegal")
                                         return false;
                                 case Action.Type.BuildSettlement:
-                                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices, gamestate.board.roads)) {
+                                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices)) {
                                                 console.log("Settlement legal");
                                                 return true;
                                         }
@@ -122,6 +122,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                         getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
                                                 v.structure = Structure.Settlement;
                                                 v.playerID = gamestate.currentPlayerID;
+                                                player.settlementCount++;
                                         })
                                         break;
                                 case Action.Type.BuildRoad:
@@ -129,6 +130,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                         getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
                                                 v.structure = Structure.City;
                                                 v.playerID = gamestate.currentPlayerID;
+                                                player.roadCount++;
                                         })
                                         break;
                                 case Phase.Normal:
@@ -137,6 +139,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                                         getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
                                                                 v.structure = Structure.Settlement;
                                                                 v.playerID = gamestate.currentPlayerID;
+                                                                player.settlementCount++;
                                                         })
                                                         player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
                                                         break;
@@ -144,6 +147,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                                         getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
                                                                 v.structure = Structure.City;
                                                                 v.playerID = gamestate.currentPlayerID;
+                                                                player.cityCount++;
                                                         })
                                                         player.resources = subtractResources(player.resources,getPrice(Structure.City));
                                                         break;
@@ -152,6 +156,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                                         getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
                                                                 v.structure = Structure.City;
                                                                 v.playerID = gamestate.currentPlayerID;
+                                                                player.roadCount++;
                                                         })
                                                         player.resources = subtractResources(player.resources,getPrice(Structure.City));
                                                         break;

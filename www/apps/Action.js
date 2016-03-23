@@ -55,9 +55,33 @@ function drawAction(action,color,side,ctx) {
     }
 }
 
+function oneRoadOneSettlement(actions) {
+    var settlements = 0;
+    var roads = 0;
+    var other = 0;
+    actions.map(function(a) {
+            switch(getActionBuildStructure(a)) {
+                    case Structure.Settlement:
+                            settlements += 1;
+                            break;
+                    case Structure.Road:
+                            roads += 1;
+                            break;
+                    default:
+                            other += 1;
+                            break;
+            }
+    });
+    return settlements <= 1 && roads <= 1 && actions.length <= 2 && other == 0;
+}
 function validateActions(actions,gamestate) {
     var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
     var clonedGameState = cloneGameState(gamestate);
+
+    if(gamestate.phase == Phase.Init && !oneRoadOneSettlement(actions)) {
+            return false;
+    }
+
     return actions.every(function(action) {
         if(validateAction(action,clonedGameState,currentPlayer)) {
             applyAction(action,clonedGameState);

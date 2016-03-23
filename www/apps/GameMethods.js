@@ -33,10 +33,10 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	var vert = getVertex(vertexFrame,coords);
-	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
-		return false;
-	}
-	if(vert.settled>0){
+//	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
+//		return false;
+//	}
+	if(vert.structure>0){
 		return false;
 	}
 	if(player.grainCount == 0 || player.woolCount == 0 || player.brickCount == 0 || player.lumberCount ==0){
@@ -45,7 +45,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].settled>0){
+		if(neighborList[i].playerID>0){
 			return false;
 		}
 	}
@@ -57,7 +57,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 
 function checkCityLegality(coords, player, vertexFrame){
 	vert = getVertices(vertexFrame,coords)[0];
-	if(vert.settled != 1 || vert.player != player.id) {
+	if(vert.structure != 1 || vert.player != player.id) {
 		return false;
 	}
 	if(player.oreCount<3 && player.grainCount<2){
@@ -75,12 +75,12 @@ function checkInitSettlementLegality(coords, vertexFrame,player){
 		return false;
 	}  //TODO: Needs turn implementation for final legality checking
 	var vert = getVertex(vertexFrame, coords);
-	if(vert.settled>0){
+	if(vert.structure>0){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].settled>0){
+		if(neighborList[i].structure>0){
 			return false;
 		}
 	}
@@ -171,9 +171,9 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 			var tileNeighbors = neighbours(tileFrame[i].coordinates);
 			for(j=0;j<tileNeighbors.length;j++){
 				var currNeighbor = vertexFrame[[tileNeighbors[j].x,tileNeighbors[j].y]];
-				if(currNeighbor.settled>0){
+				if(currNeighbor.structure>0){
 					var receivingPlayer = getPlayer(currNeighbor.player, playerList);
-					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.settled);
+					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.structure);
 				}
 			}
 		}

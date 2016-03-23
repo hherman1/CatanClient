@@ -211,5 +211,6 @@ addPlayers = function(server){
     server.addPlayer(new Player(i+1));
     console.log("player was added to the list of players");
   }
+
   console.log(server.getState().players);
 }

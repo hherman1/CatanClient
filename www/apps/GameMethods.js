@@ -119,7 +119,10 @@ function checkCityLegality(coords, player, vertexFrame){
 /*                  INITIALIZATION LEGALITY FUNCTIONS                 */
 ////////////////////////////////////////////////////////////////////////
 
-function checkInitSettlementLegality(coords, vertexFrame, roadList){
+function checkInitSettlementLegality(coords, vertexFrame,player){
+	if(player.settlementCount==2){
+		return false;
+	}  //TODO: Needs turn implementation for final legality checking
 	var vert = getVertex(vertexFrame, coords);
 	if(vert.settled>0){
 		return false;
@@ -134,6 +137,14 @@ function checkInitSettlementLegality(coords, vertexFrame, roadList){
 }
 
 function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
+	if(player.settlementCount==1){
+		if(player.roadCount==1){
+			return false;
+		}
+	}
+	if(player.roadCount==2){
+		return false;
+	}
 	if(getRoad(roadList,coords1,coords2).playerID!=0){
 		return false;
 	}

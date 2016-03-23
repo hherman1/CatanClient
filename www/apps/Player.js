@@ -14,8 +14,8 @@ Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player C
 Player = function(id){
   //Player owned constructions
   this.id = id;
-  this.settlementCount = 2; //each player starts out with 2 settlements
-  this.roadCount = 2; //each player starts out with 2 roads
+  this.settlementCount = 0;
+  this.roadCount = 0;
   this.cityCount = 0;
   //Player owned resources
   this.resources = [];

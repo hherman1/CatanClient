@@ -79,11 +79,12 @@ Server = function() {
         }
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
+                this.gamestate.currentPlayerID = player.id;
         }
         this.endTurn = function(actionsToBeValidated){
             //Switch player method
             // -Takes in a list of actions, validate them, apply changes
-            
+
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
@@ -143,7 +144,7 @@ CatanGame = function(side,ctx) {
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;
-        addPlayers(this);
+        addPlayers(this.server);
 }
 
 
@@ -204,11 +205,11 @@ function gameStep(game) {
 }
 
 //initialize players array. this function is used when users select which game to play (3 or 4 player game)
-addPlayers = function(catanGame){
+addPlayers = function(server){
   console.log("add players function in")
   for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
-    catanGame.server.addPlayer(new Player(i+1));
+    server.addPlayer(new Player(i+1));
     console.log("player was added to the list of players");
   }
-  console.log(catanGame.gamestate.players);
+  console.log(server.getState().players);
 }

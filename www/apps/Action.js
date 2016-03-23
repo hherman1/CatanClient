@@ -1,61 +1,61 @@
 
 Action = {
-        Type: {
-                BuildRoad: 0,
-                BuildSettlement: 1,
-                BuildCity: 2
-        },
-        BuildRoad : function(coordinateA,coordinateB) {
-                this.type = Action.Type.BuildRoad;
-                this.coordinateA = coordinateA;
-                this.coordinateB = coordinateB;
-        },
-        BuildSettlement : function(coordinate) {
-                this.type = Action.Type.BuildSettlement;
-                this.coordinate = coordinate;
-        },
-        BuildCity : function(coordinate) {
-                this.type = Action.Type.BuildCity;
-                this.coordinate = coordinate;
-        }
+    Type: {
+        BuildRoad: 0,
+        BuildSettlement: 1,
+        BuildCity: 2
+    },
+    BuildRoad : function(coordinateA,coordinateB) {
+        this.type = Action.Type.BuildRoad;
+        this.coordinateA = coordinateA;
+        this.coordinateB = coordinateB;
+    },
+    BuildSettlement : function(coordinate) {
+        this.type = Action.Type.BuildSettlement;
+        this.coordinate = coordinate;
+    },
+    BuildCity : function(coordinate) {
+        this.type = Action.Type.BuildCity;
+        this.coordinate = coordinate;
+    }
 }
 
 Phase = {               //Wasn't sure where this fit best
-        Init: 0,
-        Normal: 1
+    Init: 0,
+    Normal: 1
 }
 
 function drawActions(actions,color,side,ctx) {
-        actions.forEach(function(action) {
-                drawAction(action,color,side,ctx);
-        });
+    actions.forEach(function(action) {
+        drawAction(action,color,side,ctx);
+    });
 }
 
 function drawAction(action,color,side,ctx) {
-        switch(action.type) {
-                case Action.Type.BuildRoad:
-                        drawRoad(action.coordinateA,action.coordinateB,color,side,ctx);
-                        break;
-                case Action.Type.BuildSettlement:
-                        drawBuilding(action.coordinate,Structure.Settlement,color,side,ctx);
-                        break;
-                case Action.Type.BuildCity:
-                        drawBuilding(action.coordinate,Structure.City,color,side,ctx);
-                        break;
-        }
+    switch(action.type) {
+        case Action.Type.BuildRoad:
+            drawRoad(action.coordinateA,action.coordinateB,color,side,ctx);
+            break;
+        case Action.Type.BuildSettlement:
+            drawBuilding(action.coordinate,Structure.Settlement,color,side,ctx);
+            break;
+        case Action.Type.BuildCity:
+            drawBuilding(action.coordinate,Structure.City,color,side,ctx);
+            break;
+    }
 }
 
 function validateActions(actions,gamestate) {
-        var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
-        var clonedGameState = cloneGameState(gamestate);
-        return actions.every(function(action) {
-                if(validateAction(action,clonedGameState,currentPlayer)) {
-                        applyAction(action,clonedGameState);
-                        return true;
-                } else {
-                        return false;
-                }
-        })
+    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+    var clonedGameState = cloneGameState(gamestate);
+    return actions.every(function(action) {
+        if(validateAction(action,clonedGameState,currentPlayer)) {
+            applyAction(action,clonedGameState);
+            return true;
+        } else {
+            return false;
+        }
+    })
 }
 
 
@@ -109,8 +109,8 @@ function validateAction (action,gamestate,player) {
 }
 
 function applyAction(action,gamestate) {
-        var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
-        applyActionForPlayer(action,gamestate,currentPlayer);
+    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+    applyActionForPlayer(action,gamestate,currentPlayer);
 }
 
 

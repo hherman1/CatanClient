@@ -66,7 +66,7 @@ function transformHitbox(box,trans) {
 function genHitboxes(vertices,roads,hexes,side) { 
         return genVertexBoxes(vertices,side)
                 .concat(genHexBoxes(hexes,side))
-                .concat();
+                .concat(genRoadBoxes(roads,side));
 }
 
 function genHexBoxes(hexes,side) {
@@ -84,21 +84,25 @@ function genVertexBoxes(vertices,side) {
                                 ,vertex)
         })
 }
+function genRoadBoxes(roads,side) {
+        return roads.map(function(r) {return genRoadBox(r,side)});
+}
 
-function genLineBox(c1,c2,side) {
-        var w1 = vertexToWorld(c1,side);
-        var w2 = vertexToWorld(c2,side);
+function genRoadBox(road,side) {
+        var w1 = vertexToWorld(road.coord1,side);
+        var w2 = vertexToWorld(road.coord2,side);
         var cost = dotProduct(new Vector(1,0),add(w1,times(-1,w2)))/(side);
         if (cost < -1) {
                 cost = -1;
         } else if (cost > 1) {
                 cost = 1;
         }
-        var rotation = Math.acos(cost);
+        var diff = add(w1,times(-1,w2));
+        var rotation = Math.atan(diff.y/diff.x);
         var center = times(0.5,add(w1,w2));
         return new Hitbox.Box(center
                         ,new Vector(side/2,side/5)
-                        ,[Type.Line,new Vector(c1,c2)]
+                        ,road
                         ,rotation)
 }
 

@@ -10,6 +10,7 @@ RegularHexBoard = function(width) {
         Board.call(this);
         this.hexes = buildRegularHexFramework(width);
         this.vertices = buildVertexFramework(this.hexes);
+        this.roads = buildRoadFramework(this.vertices);
 }
 
 Structure = {
@@ -95,7 +96,7 @@ function cloneBoard(board) {
 }
 
 function cloneRoad(road) {
-        return new Position.Road(road.coord1,road.coord2,road.playerID);
+        return new Position.Road(road.structure,road.coord1,road.coord2,road.playerID);
 }
 
 function cloneVertex(vertex){
@@ -189,12 +190,12 @@ function generateYShift(width, xcoord){
 function buildVertexFramework(tileFrame){
 	var vertexFrame = [];
 	for(i=0;i<tileFrame.length;i++){
-		coordList = vertices(tileFrame[i].coordinate);
+		var coordList = vertices(tileFrame[i].coordinate);
 		for(j=0;j<coordList.length;j++){
 			testVector = coordList[j];
 			if(checkForSameVector(vertexFrame,testVector)) {
 				//console.log("works");
-				vertexFrame.push(new Position.Vertex(0, 0, coordList[j]));
+				vertexFrame.push(new Position.Vertex(Structure.Empty, null, coordList[j]));
 			}
 		}
 	}
@@ -209,7 +210,6 @@ function checkForSameVector(vertexList, vector){
 	return true;
 }
 
-
 /* Given vector coordinates and a list of vertex objects, returns the vertex at said coordinates.
 */
 function getVertex(vertices,coordinate) {
@@ -219,15 +219,57 @@ function getVertices(vertices,coordinate) {
         return vertices.filter(function(v) {return compareVectors(v.coordinate,coordinate)});
 }
 
+function getVertexNeighbors(coordinate,frame) {
+        return vertexNeighbors(coordinate)
+                .map(function(v) {return getVertex(frame,v)})
+                .filter(function(v) {return v != undefined})
+                .map(function(v) {return v.coordinate})
+}
+
+function buildRoadFramework(vertexFrame){
+    var roadFrame = [];
+    for (i=0;i<vertexFrame.length;i++){
+        var coordList = getVertexNeighbors(vertexFrame[i].coordinate,vertexFrame);
+        for (j=0;j<coordList.length;j++){
+            var testRoad = new Position.Road(Structure.Empty,vertexFrame[i].coordinate,coordList[j], null);
+            if(!checkForSameRoad(roadFrame,testRoad)){
+                roadFrame.push(testRoad);
+            }
+        }
+    }
+    return roadFrame;
+}
+
+function checkForSameRoad(roadList, road){
+    for(count = 0; count<roadList.length;count++){
+        if(compareRoadPositions(road,roadList[count])){
+            return true;
+        }
+    }
+    return false;
+}
+
+function getRoad(roadList, coord1, coord2){
+    for(i = 0; i<roadList.length;i++){
+        if(compareTwoCoordPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
+            return roadList[i];
+        }
+    }
+    return undefined;
+} //TODO: Scope out above getVertex/getVertices functions, alter syntax accordingly
+
 /* compareRoadPositions
  * returns true if the two roads occupy the same position.
  */
 
 function compareRoadPositions(road1, road2){
-	if((compareVectors(road1.coord1,road2.coord1)&&compareVectors(road1.coord2,road2.coord2))||
-		(compareVectors(road1.coord1,road2.coord2)&&compareVectors(road1.coord2,road2.coord1))){
-		return true;
-	}
-	return false;
+    return compareTwoCoordPositions(road1.coord1, road1.coord2,road2.coord1,road2.coord2);
+}
 
+function compareTwoCoordPositions(road1coord1, road1coord2, road2coord1, road2coord2){
+    if((compareVectors(road1coord1,road2coord1)&&compareVectors(road1coord2,road2coord2))||
+        (compareVectors(road1coord1,road2coord2)&&compareVectors(road1coord2,road2coord1))){
+        return true;
+    }
+    return false;
 }

@@ -20,6 +20,11 @@ Action = {
         }
 }
 
+Phase = {               //Wasn't sure where this fit best
+        Init: 0,
+        Normal: 1
+}
+
 function drawActions(actions,color,side,ctx) {
         actions.forEach(function(action) {
                 drawAction(action,color,side,ctx);
@@ -55,30 +60,52 @@ function validateActions(actions,gamestate) {
 
 
 function validateAction (action,gamestate,player) {
-    switch(action.type) {
-            case Action.Type.BuildRoad:
-                    if(checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
-                            console.log("Road legal");
-                            return true;
-                    }
-                        console.log("Road illegal")
-                        return false;
-            case Action.Type.BuildSettlement:
-                    if(checkSettlementLegality(action.coordinate,player,gamestate.board.vertices, gamestate.board.roads)){
-                            console.log("Settlement legal");
-                            return true;
-                    }
-                    console.log("Settlement illegal");
-                    return false;
-            case Action.Type.BuildCity:
-                    if(checkCityLegality(action.coordinate,player)){
-                            console.log("City legal");
-                            return true
-                    }
-                    console.log("City illegal");
-                    return false;
-    }
-
+        switch(gamestate.phase) {
+                case Phase.Init:
+                        switch (action.type) {
+                                case Action.Type.BuildRoad:
+                                        if (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads)) {
+                                                console.log("Road legal");
+                                                return true;
+                                        }
+                                        console.log("Road illegal")
+                                        return false;
+                                case Action.Type.BuildSettlement:
+                                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices)) {
+                                                console.log("Settlement legal");
+                                                return true;
+                                        }
+                                        console.log("Settlement illegal");
+                                        return false;
+                                case Action.Type.BuildCity:
+                                        console.log("City illegal");
+                                        return false;
+                        }
+                case Phase.Normal:
+                        switch (action.type) {
+                                case Action.Type.BuildRoad:
+                                        if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
+                                                console.log("Road legal");
+                                                return true;
+                                        }
+                                        console.log("Road illegal")
+                                        return false;
+                                case Action.Type.BuildSettlement:
+                                        if (checkSettlementLegality(action.coordinate, player, gamestate.board.vertices, gamestate.board.roads)) {
+                                                console.log("Settlement legal");
+                                                return true;
+                                        }
+                                        console.log("Settlement illegal");
+                                        return false;
+                                case Action.Type.BuildCity:
+                                        if (checkCityLegality(action.coordinate, player)) {
+                                                console.log("City legal");
+                                                return true
+                                        }
+                                        console.log("City illegal");
+                                        return false;
+                        }
+        }
 }
 
 function applyAction(action,gamestate) {
@@ -88,31 +115,56 @@ function applyAction(action,gamestate) {
 
 
 function applyActionForPlayer(action,gamestate,player) {
-        switch(action.type) {
-                case Action.Type.BuildSettlement:
-                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                v.structure = Structure.Settlement;
-                                v.playerID = gamestate.currentPlayerID;
-                        })
-                        player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
-                        break;
-                case Action.Type.BuildCity:
-                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                v.structure = Structure.City;
-                                v.playerID = gamestate.currentPlayerID;
-                        })
-                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
-                        break;
-                case Action.Type.BuildRoad:
-                // not functional
-                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
-                                v.structure = Structure.City;
-                                v.playerID = gamestate.currentPlayerID;
-                        })
-                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
-                        break;
-        }
+        switch(gamestate.phase){
+                case Phase.Init:
+                        switch(action.type) {
+                                case Action.Type.BuildSettlement:
+                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                                v.structure = Structure.Settlement;
+                                                v.playerID = gamestate.currentPlayerID;
+                                                player.settlementCount++;
+                                        })
+                                        break;
+                                case Action.Type.BuildRoad:
+                                        // not functional
+                                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
+                                                v.structure = Structure.City;
+                                                v.playerID = gamestate.currentPlayerID;
+                                                player.roadCount++;
+                                        })
+                                        break;
+                                case Phase.Normal:
+                                        switch(action.type) {
+                                                case Action.Type.BuildSettlement:
+                                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                                                v.structure = Structure.Settlement;
+                                                                v.playerID = gamestate.currentPlayerID;
+                                                                player.settlementCount++;
+                                                        })
+                                                        player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
+                                                        break;
+                                                case Action.Type.BuildCity:
+                                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                                                v.structure = Structure.City;
+                                                                v.playerID = gamestate.currentPlayerID;
+                                                                player.cityCount++;
+                                                        })
+                                                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
+                                                        break;
+                                                case Action.Type.BuildRoad:
+                                                        // not functional
+                                                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
+                                                                v.structure = Structure.City;
+                                                                v.playerID = gamestate.currentPlayerID;
+                                                                player.roadCount++;
+                                                        })
+                                                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
+                                                        break;
+                                        }
 
+                        }
+
+        }
 }
 
 

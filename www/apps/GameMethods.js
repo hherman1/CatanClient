@@ -119,7 +119,7 @@ function checkCityLegality(coords, player, vertexFrame){
 /*                  INITIALIZATION LEGALITY FUNCTIONS                 */
 ////////////////////////////////////////////////////////////////////////
 
-function checkInitSettlementLegality(coords, vertexFrame){
+function checkInitSettlementLegality(coords, vertexFrame,player){
 	if(player.settlementCount==2){
 		return false;
 	}  //TODO: Needs turn implementation for final legality checking

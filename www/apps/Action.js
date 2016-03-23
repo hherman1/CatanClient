@@ -116,54 +116,30 @@ function applyAction(action,gamestate) {
 
 function applyActionForPlayer(action,gamestate,player) {
         switch(gamestate.phase){
-                case Phase.Init:
-                        switch(action.type) {
-                                case Action.Type.BuildSettlement:
-                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                                v.structure = Structure.Settlement;
-                                                v.playerID = gamestate.currentPlayerID;
-                                                player.settlementCount++;
-                                        })
-                                        break;
-                                case Action.Type.BuildRoad:
-                                        // not functional
-                                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
-                                                v.structure = Structure.City;
-                                                v.playerID = gamestate.currentPlayerID;
-                                                player.roadCount++;
-                                        })
-                                        break;
-                                case Phase.Normal:
-                                        switch(action.type) {
-                                                case Action.Type.BuildSettlement:
-                                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                                                v.structure = Structure.Settlement;
-                                                                v.playerID = gamestate.currentPlayerID;
-                                                                player.settlementCount++;
-                                                        })
-                                                        player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
-                                                        break;
-                                                case Action.Type.BuildCity:
-                                                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                                                v.structure = Structure.City;
-                                                                v.playerID = gamestate.currentPlayerID;
-                                                                player.cityCount++;
-                                                        })
-                                                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
-                                                        break;
-                                                case Action.Type.BuildRoad:
-                                                        // not functional
-                                                        getVertices(gamestate.board.vertices,action.vertex.coordinate).forEach(function(v) {
-                                                                v.structure = Structure.City;
-                                                                v.playerID = gamestate.currentPlayerID;
-                                                                player.roadCount++;
-                                                        })
-                                                        player.resources = subtractResources(player.resources,getPrice(Structure.City));
-                                                        break;
-                                        }
-
-                        }
-
+                case Phase.Normal:
+                    player.resources = subtractResources(player.resources,getPrice(Structure.Settlement));
+        }
+        switch(action.type) {
+                case Action.Type.BuildSettlement:
+                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = Structure.Settlement;
+                                v.playerID = gamestate.currentPlayerID;
+                                player.settlementCount++;
+                        })
+                        break;
+                case Action.Type.BuildCity:
+                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = Structure.City;
+                                v.playerID = gamestate.currentPlayerID;
+                                player.cityCount++;
+                        })
+                        break;
+                case Action.Type.BuildRoad:
+                        var r = getRoad(gamestate.board.roads,action.coordinateA,action.coordinateB);
+                        r.structure = Structure.Road;
+                        r.playerID = gamestate.currentPlayerID;
+                        player.roadCount++;
+                        break;
         }
 }
 

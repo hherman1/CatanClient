@@ -2,56 +2,6 @@
 //road connectivity checking, legality checking, etc.
 
 ////////////////////////////////////////////////////////////////////////
-/*                              BUILD FUNCTIONS                       */ //TODO: Confirm no longer necessary?
-////////////////////////////////////////////////////////////////////////
-
-/* buildRoad
- * Given a pair of vector coordinates and a player, creates a road object
- * at the given coordinates, and adds it to the player's road list.
- */
-
-function buildRoad(vert1, vert2, player, roadList){
-	getRoad(roadList,vert1.coordinate, vert2.coordinate).playerID = player.id;
-}
-
-/* Given a vector and a player, identifies said vertex as having a settlement belonging to that player,
- * and adds it to the player's settledVertices list.
- */
-
-function buildSettlement(coords, player, vertexFrame) {
-	vert = getVertex(vertexFrame,coords);
-	vert.settled = 1;
-	vert.player = player.id;
-	for (i = 0; i < player.settledVertices.length; i++) {
-		testVert = player.settledVertices[i];
-		if (testVert.x == newVert.x && testVert.y == newVert.y) {
-			return;
-		}
-		player.settledVertices.push(new Vector(vert.x, vert.y));
-
-	}
-}
-
-
-/* Given a vector and a player, identifies said vertex as having a city belonging to that player,
- * and adds it to the player's settledVertices list if it isn't there.
- */
-
-function buildCity(coords, player, vertexFrame){
-	vert = getVertex(vertexFrame,coords);
-	vert.settled = 2;
-	vert.player=player.id;
-	newVert = new Vector(vert.x,vert.y);
-	for(i = 0;i<player.settledVertices.length;i++){
-		testVert = player.settledVertices[i];
-		if(testVert.x == newVert.x && testVert.y == newVert.y) {
-			return;
-		}
-	}
-	player.settledVertices.push(new Vector(vert.x,vert.y));
-}
-
-////////////////////////////////////////////////////////////////////////
 /*                       NORMAL LEGALITY FUNCTIONS                    */
 ////////////////////////////////////////////////////////////////////////
 
@@ -145,7 +95,8 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 	console.log(vertex1);
 	vertex2 = getVertices(vertexFrame,coords2)[0];
 	console.log(vertex2);
-	if(vertex1.player==player.id || vertex2.player==player.id){
+	console.log(player.id);
+	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
 		return true;
 	}
 	return false;

@@ -74,7 +74,7 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 		return true;
 	}
 	else{
-		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList);
+		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList, vertexFrame);
 	}
 }
 
@@ -83,13 +83,14 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	var vert = getVertex(vertexFrame,coords);
-	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList)){
+	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
 		return false;
 	}
 	if(vert.settled>0){
 		return false;
 	}
 	if(player.grainCount == 0 || player.woolCount == 0 || player.brickCount == 0 || player.lumberCount ==0){
+		console.log("insufficient resources");
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
@@ -137,19 +138,13 @@ function checkInitSettlementLegality(coords, vertexFrame,player){
 }
 
 function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
-	if(player.settlementCount==1){
-		if(player.roadCount==1){
-			return false;
-		}
-	}
-	if(player.roadCount==2){
-		return false;
-	}
 	if(getRoad(roadList,coords1,coords2).playerID!=0){
 		return false;
 	}
 	vertex1 = getVertices(vertexFrame,coords1)[0];
+	console.log(vertex1);
 	vertex2 = getVertices(vertexFrame,coords2)[0];
+	console.log(vertex2);
 	if(vertex1.player==player.id || vertex2.player==player.id){
 		return true;
 	}
@@ -165,25 +160,31 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player, roadList){
-	var testCoords = getVertexNeighbors(coords1);
-	for(i=0;i<testCoords.length;i++){
-		if(!compareVectors(coords2, testCoords[i])){
-			if(getRoad(roadList,coords1,testCoords[i]).playerID==player.id){
-				return true;
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
+	var testCoords = getVertexNeighbors(coords1, vertices);
+	for (i = 0; i < testCoords.length; i++) {
+		if (!compareVectors(coords2, testCoords[i])) {
+			var road = getRoad(roadList, coords1, testCoords[i])
+			if (road != undefined) {
+				if (road.playerID == player.id) {
+					return true;
+				}
 			}
 		}
 	}
-	testCoords = getVertexNeighbors(coords2);
-	for(i=0;i<testCoords.length;i++){
-		if(!compareVectors(coords1, testCoords[i])){
-			if(getRoad(roadList,coords2,testCoords[i]).playerID==player.id){
-				return true;
+	testCoords = getVertexNeighbors(coords2, vertices);
+	for (i = 0; i < testCoords.length; i++) {
+		if (!compareVectors(coords1, testCoords[i])) {
+			var road = getRoad(roadList, coords2, testCoords[i])
+			if (road != undefined) {
+				if (road.playerID == player.id) {
+					return true;
+				}
 			}
 		}
+		return false;
 	}
-	return false;
-
+}
 /* Given a vector and it's board, returns a list of its three neighbors.
  */
 
@@ -227,4 +228,4 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 		}
 	}
 }
-}
+

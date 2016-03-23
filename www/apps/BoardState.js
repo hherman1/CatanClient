@@ -255,7 +255,6 @@ function getRoad(roadList, coord1, coord2){
             return roadList[i];
         }
     }
-    return undefined;
 } //TODO: Scope out above getVertex/getVertices functions, alter syntax accordingly
 
 /* compareRoadPositions

@@ -13,6 +13,20 @@
 
 <p> select a 3-player game or 4-player game to play</p>
 
+<script type="text/javascript">
+      function supports_local_storage() {
+        try {
+          return 'localStorage' in window && window['localStorage'] !== null;
+        } catch(e){
+          return false;
+        }
+      }
+
+      function setPlayers(num){
+        localStorage.setItem("numPlayers", num);
+        console.log(localStorage.getItem("numPlayers"));
+      }
+</script>
 <input type="button" value="3-PLAYER" onclick="setPlayers(3)">
 <input type="button" value="4-PLAYER" onclick="setPlayers(4)">
 
@@ -20,7 +34,7 @@
 <a href="selectColors.html">select colors</a>
 
 <!-- Sign and date the page, it's only polite! -->
-<address>&copy; 2016<br>
+<address>&copy; 2016 Macalester College<br>
   MaCaHuSt</address>
 
 </body>

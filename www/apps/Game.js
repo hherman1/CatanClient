@@ -80,15 +80,19 @@ Server = function() {
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
         }
-        this.endTurn = function(){
+        this.endTurn = function(actionsToBeValidated){
             //Switch player method
-            // -Takes in a list of actions, validate them, apply changes and end turn
-
+            // -Takes in a list of actions, validate them, apply changes
+            
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
             var diceRoll = getRsum();
+            var playerList = gamestate.players;
+            var vertexFrame = gamestate.vertexFrame;
+            var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
+            //Shift player context (Who is making the moves/calls)
             //UI method to show the new resources that players recieved at the start of their new turn
         }
 }
@@ -137,8 +141,9 @@ CatanGame = function(side,ctx) {
                            ,this.side);
 
         //TEMPORARY
-        this.gamestate.players.push(new Player(1));
-        this.gamestate.currentPlayerID = 1;
+        // this.gamestate.players.push(new Player(1));
+        // this.gamestate.currentPlayerID = 1;
+        addPlayers(this);
 }
 
 
@@ -199,9 +204,11 @@ function gameStep(game) {
 }
 
 //initialize players array. this function is used when users select which game to play (3 or 4 player game)
-// setPlayers = function(num){
-//   for(var i = 0; i < num; i++) {
-//     this.gamestate.players.push(new Player(i));
-//     console.log("a player was added to players");
-// }
-// }
+addPlayers = function(catanGame){
+  console.log("add players function in")
+  for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
+    catanGame.server.addPlayer(new Player(i+1));
+    console.log("player was added to the list of players");
+  }
+  console.log(catanGame.gamestate.players);
+}

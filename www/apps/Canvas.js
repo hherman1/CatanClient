@@ -45,6 +45,8 @@ function inverseTransform(v,trans) {
 }
 
 function drawHitboxes(boxes,hits,ctx) {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(45,45,45,0.8)";
         ctx.fillStyle = "rgba(90, 172, 86, 0.3)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
         ctx.fillStyle = "rgba(141, 207, 138, 0.5)";

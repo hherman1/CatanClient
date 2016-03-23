@@ -61,8 +61,8 @@ function loadImage(src) {
 }
 
 function drawRoad(coordinateA,coordinateB,color,side, ctx) {
-  var worldA = hexToWorld(coordinateA,side);
-  var worldB = hexToWorld(coordinateB,side);
+  var worldA = vertexToWorld(coordinateA,side);
+  var worldB = vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);

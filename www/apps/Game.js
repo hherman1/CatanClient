@@ -45,6 +45,29 @@ function newScale(delta,scale) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                  FUNCTIONS THAT DON'T FIT                                        */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function isPositionGreater(pos1,pos2) {
+        return pos1 < pos2;
+}
+
+
+function getMaxPositionHit(hits) {
+        var max = null;
+        hits.map(function(h) {
+            if (max == null) {
+                    max = h
+            }
+            if (isPositionGreater(h.data.type,max.data.type)) {
+                    max = h
+            }
+        })
+        return max;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 /*                                       GAME FUNCTIONS                                             */
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -173,12 +196,14 @@ function gameStep(game) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
         }
         if(game.mouse.clicked) {
-                hits.forEach(function(hit) {
+                var mostImportantClick = getMaxPositionHit(hits);
+                //hits.forEach(function(hit) {
+                if(mostImportantClick != null) {
                         var push = null;
-                        if(hit.data.type == Position.Type.Vertex) {
-                                push = new Action.BuildSettlement(hit.data.coordinate);
-                        } else if(hit.data.type == Position.Type.Road) {
-                                push = new Action.BuildRoad(hit.data.coord1,hit.data.coord2);
+                        if(mostImportantClick.data.type == Position.Type.Vertex) {
+                                push = new Action.BuildSettlement(mostImportantClick.data.coordinate);
+                        } else if(mostImportantClick.data.type == Position.Type.Road) {
+                                push = new Action.BuildRoad(mostImportantClick.data.coord1,mostImportantClick.data.coord2);
                         }
                         if(push != null) {
                                 game.actions.data.push(push);
@@ -186,7 +211,8 @@ function gameStep(game) {
                                         game.actions.data.pop();
                                 }
                         }
-                })
+                //})
+                }
         }
 
         //console.log(game.actions.data);

@@ -80,15 +80,19 @@ Server = function() {
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
         }
-        this.endTurn = function(){
+        this.endTurn = function(actionsToBeValidated){
             //Switch player method
-            // -Takes in a list of actions, validate them, apply changes and end turn
-
+            // -Takes in a list of actions, validate them, apply changes
+            
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
             var diceRoll = getRsum();
+            var playerList = gamestate.players;
+            var vertexFrame = gamestate.vertexFrame;
+            var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
+            //Shift player context (Who is making the moves/calls)
             //UI method to show the new resources that players recieved at the start of their new turn
         }
 }

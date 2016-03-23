@@ -6,7 +6,8 @@ Images = {
         Loaded:{
                 Settlements:[],
                 Cities:[],
-                Resources:[]
+                Resources:[],
+                Robber:{},
         },
         Settlements:[],
 

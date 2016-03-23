@@ -71,7 +71,7 @@ function validateAction (action,gamestate,player) {
                                         console.log("Road illegal")
                                         return false;
                                 case Action.Type.BuildSettlement:
-                                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices)) {
+                                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player)) {
                                                 console.log("Settlement legal");
                                                 return true;
                                         }

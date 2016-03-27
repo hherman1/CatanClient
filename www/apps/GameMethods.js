@@ -12,18 +12,22 @@
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	if(getRoad(roadList,coords1,coords2).playerID!=0){
+	console.log("Checking current road");
+	if(getRoad(roadList,coords1,coords2).playerID>0){
 		return false;
 	}
-	if(player.lumberCount == 0 || player.brickCount ==0){
+	console.log("Checking Resources");
+	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
+	console.log("Checking adjacent vertices");
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
-	if(vertex1.player==player.id || vertex2.player==player.id){
+	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
 		return true;
 	}
 	else{
+		console.log("Checking adjacent roads");
 		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList, vertexFrame);
 	}
 }
@@ -39,13 +43,13 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	if(vert.structure>0){
 		return false;
 	}
-	if(player.grainCount == 0 || player.woolCount == 0 || player.brickCount == 0 || player.lumberCount ==0){
-		console.log("insufficient resources");
+	console.log("Grain " + player.resources[Resource.Grain]);
+	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Grain] == 0 || player.resources[Resource.Wool] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].playerID>0){
+		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;
 		}
 	}
@@ -71,16 +75,14 @@ function checkCityLegality(coords, player, vertexFrame){
 ////////////////////////////////////////////////////////////////////////
 
 function checkInitSettlementLegality(coords, vertexFrame,player){
-	if(player.settlementCount==2){
-		return false;
-	}  //TODO: Needs turn implementation for final legality checking
 	var vert = getVertex(vertexFrame, coords);
 	if(vert.structure>0){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
+	console.out(neighborList);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].structure>0){
+		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;
 		}
 	}
@@ -111,7 +113,7 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Fix
 	var testCoords = getVertexNeighbors(coords1, vertices);
 	for (i = 0; i < testCoords.length; i++) {
 		if (!compareVectors(coords2, testCoords[i])) {
@@ -133,8 +135,8 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 				}
 			}
 		}
-		return false;
 	}
+	return false;
 }
 /* Given a vector and it's board, returns a list of its three neighbors.
  */

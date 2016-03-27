@@ -78,7 +78,7 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase = Phase.Init;
+        this.phase = Phase.Normal;
         this.players = [];
         this.currentPlayerID = null;
 }

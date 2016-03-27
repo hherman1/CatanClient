@@ -8,8 +8,21 @@ Colors = {
     Blue: 2,
     White: 3,
 }
+
 Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player Colors will be consistently assigned
 
+getColor = function(colorNum){
+  switch(colorNum) {
+      case Colors.Blue:
+          return "rgb(85, 153, 255)";
+      case Colors.White:
+          return 'rgb(255, 255, 255)';
+      case Colors.Red:
+          return 'rgb(255, 0, 0)';
+      case Colors.Orange:
+          return 'rgb(255, 127, 42)';
+}
+}
 
 Player = function(id){
   //Player owned constructions

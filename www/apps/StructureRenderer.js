@@ -67,7 +67,7 @@ function drawRoad(coordinateA,coordinateB,color,side, ctx) {
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
   ctx.lineWidth = 5;
-  ctx.strokeStyle = color;
+  ctx.strokeStyle = getColor(color);
   ctx.stroke();
 }
 

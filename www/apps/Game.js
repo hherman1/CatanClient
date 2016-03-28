@@ -185,15 +185,22 @@ function runGame(game,frameDuration) {
 }
 
 function gameStep(game) {
+        var shouldRedraw = false;
+
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
+        if(hits.length != 0) {
+                shouldRedraw = true;
+        }
         if(game.mouse.dragging) {
                 game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
+                shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
+                shouldRedraw = true;
         }
         if(game.mouse.clicked) {
                 var mostImportantClick = getMaxPositionHit(hits);
@@ -210,23 +217,26 @@ function gameStep(game) {
                                 if(!validateActions(game.actions.data,game.gamestate)) {
                                         game.actions.data.pop();
                                 }
+                                shouldRedraw = true;
                         }
                 //})
                 }
         }
 
         //console.log(game.actions.data);
+        flushMouseEvents(game.buffer.mouse);
 
         var side=50;
 
-        redraw(game.gamestate
-              ,game.actions.data
-              ,game.graphics.transform
-              ,game.graphics.animations
-              ,side
-              ,game.ctx);
-        flushMouseEvents(game.buffer.mouse);
-        drawHitboxes(hitlist,hits,game.ctx);
+        if(shouldRedraw) {
+                redraw(game.gamestate
+                      ,game.actions.data
+                      ,game.graphics.transform
+                      ,game.graphics.animations
+                      ,side
+                      ,game.ctx);
+                drawHitboxes(hitlist,hits,game.ctx);
+        }
 
 }
 

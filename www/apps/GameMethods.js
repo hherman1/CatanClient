@@ -12,18 +12,22 @@
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	if(getRoad(roadList,coords1,coords2).playerID!=0){
+	console.log("Checking current road");
+	if(getRoad(roadList,coords1,coords2).playerID>0){
 		return false;
 	}
-	if(player.lumberCount == 0 || player.brickCount ==0){
+	console.log("Checking Resources");
+	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
+	console.log("Checking adjacent vertices");
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
-	if(vertex1.player==player.id || vertex2.player==player.id){
+	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
 		return true;
 	}
 	else{
+		console.log("Checking adjacent roads");
 		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList, vertexFrame);
 	}
 }
@@ -33,19 +37,19 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	var vert = getVertex(vertexFrame,coords);
-	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
+//	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
+//		return false;
+//	}
+	if(vert.structure>0){
 		return false;
 	}
-	if(vert.settled>0){
-		return false;
-	}
-	if(player.grainCount == 0 || player.woolCount == 0 || player.brickCount == 0 || player.lumberCount ==0){
-		console.log("insufficient resources");
+	console.log("Grain " + player.resources[Resource.Grain]);
+	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Grain] == 0 || player.resources[Resource.Wool] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].settled>0){
+		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;
 		}
 	}
@@ -57,7 +61,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 
 function checkCityLegality(coords, player, vertexFrame){
 	vert = getVertices(vertexFrame,coords)[0];
-	if(vert.settled != 1 || vert.player != player.id) {
+	if(vert.structure != 1 || vert.player != player.id) {
 		return false;
 	}
 	if(player.oreCount<3 && player.grainCount<2){
@@ -71,16 +75,14 @@ function checkCityLegality(coords, player, vertexFrame){
 ////////////////////////////////////////////////////////////////////////
 
 function checkInitSettlementLegality(coords, vertexFrame,player){
-	if(player.settlementCount==2){
-		return false;
-	}  //TODO: Needs turn implementation for final legality checking
 	var vert = getVertex(vertexFrame, coords);
-	if(vert.settled>0){
+	if(vert.structure>0){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
+	console.out(neighborList);
 	for(i=0;i<neighborList.length;i++){
-		if(neighborList[i].settled>0){
+		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;
 		}
 	}
@@ -111,30 +113,31 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
-	var testCoords = getVertexNeighbors(coords1, vertices);
-	for (i = 0; i < testCoords.length; i++) {
-		if (!compareVectors(coords2, testCoords[i])) {
-			var road = getRoad(roadList, coords1, testCoords[i])
-			if (road != undefined) {
-				if (road.playerID == player.id) {
-					return true;
-				}
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Fix
+	var testCoords1 = getVertexNeighbors(coords1, vertices);
+	console.log(testCoords1);
+	for (var i = 0; i < testCoords1.length; i++) {
+		console.log(i);
+		var road1 = getRoad(roadList, coords1, testCoords1[i]);
+		console.log(road1);
+		if (road1 != undefined) {
+			if (road1.playerID == player.id) {
+				return true;
 			}
 		}
 	}
-	testCoords = getVertexNeighbors(coords2, vertices);
-	for (i = 0; i < testCoords.length; i++) {
-		if (!compareVectors(coords1, testCoords[i])) {
-			var road = getRoad(roadList, coords2, testCoords[i])
-			if (road != undefined) {
-				if (road.playerID == player.id) {
-					return true;
-				}
+	var testCoords2 = getVertexNeighbors(coords2, vertices);
+	console.log(testCoords2);
+	for (i = 0; i < testCoords2.length; i++) {
+		var road2 = getRoad(roadList, coords2, testCoords2[i]);
+		console.log(road2);
+		if (road2 != undefined) {
+			if (road2.playerID == player.id) {
+				return true;
 			}
 		}
-		return false;
 	}
+	return false;
 }
 /* Given a vector and it's board, returns a list of its three neighbors.
  */
@@ -171,9 +174,9 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 			var tileNeighbors = neighbours(tileFrame[i].coordinates);
 			for(j=0;j<tileNeighbors.length;j++){
 				var currNeighbor = vertexFrame[[tileNeighbors[j].x,tileNeighbors[j].y]];
-				if(currNeighbor.settled>0){
+				if(currNeighbor.structure>0){
 					var receivingPlayer = getPlayer(currNeighbor.player, playerList);
-					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.settled);
+					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.structure);
 				}
 			}
 		}

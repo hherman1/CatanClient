@@ -255,8 +255,7 @@ function getRoad(roadList, coord1, coord2){
             return roadList[i];
         }
     }
-} //TODO: Scope out above getVertex/getVertices functions, alter syntax accordingly
-
+}
 /* compareRoadPositions
  * returns true if the two roads occupy the same position.
  */

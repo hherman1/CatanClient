@@ -88,8 +88,12 @@ function getPlayers(id, playerList){
         return playerList.filter(function(player) {return player.id == id});
 }
 
-function getResource(player,resource) {
-        return player.resources[resource]
+function getPlayersResources(player) {
+        return player.resources;
+}
+
+function getResource(resources,resource) {
+        return resources[resource]
 }
 
 function addResource(resources, resource, amount){
@@ -99,7 +103,7 @@ function addResource(resources, resource, amount){
 
 function subtractResources(pos,neg) {
         for(resource in neg) {
-                addResource(pos,resource,-neg[resource]);
+                addResource(pos,resource,-1 * getResource(neg,resource));
         }
         return pos;
 }

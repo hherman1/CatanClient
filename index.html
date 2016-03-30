@@ -17,18 +17,25 @@
                                 if(canvas.getContext) {
                                         ctx = canvas.getContext('2d');
                                         var game = new CatanGame(50,ctx);
+                                        //setUpUi(game.buffer.ui)//FIX THIS TODO
+                                        // game.setupUIBuffer(game.Buffer.UI);
+                                        setupUIBuffer(game.buffer.UI);
                                         runGame(game,13);
                                 } else {
                                     console.log("browser unsupported")
                                 }
                         }
+                        window.addEventListener('load',main,false);
                 </script>
+
 
                 <style type="text/css">
                     canvas { border: 1px solid black; width: 1000px; height:500px}
                 </style>
         </head>
-        <body onload="main();">
+
+        <body>
+          <h1>MacSettlers</h1>
           <style>#board { background-color: #B0E2F2; }</style>
           <canvas draggable="false" id="board" width="1000" height="500"></canvas>
           <br>
@@ -106,7 +113,7 @@
                     <div id="buildCard" class="buildCard">
                         <p class="buildCardTitle">Build Menu</p>
                         <ul class="buildChoices">
-                            <div class="buildChoice">
+                            <div class="buildChoice" id="buildCardRoadButton">
                                 <div class="choiceInfo">
                                     <p class="choiceTitle">
                                         Road
@@ -123,7 +130,7 @@
                                     <img style="height:30px;" src="graphics/bricksymbol.svg" alt="">
                                 </div>
                             </div>
-                            <div class="buildChoice hover">
+                            <div class="buildChoice" id="buildCardSettlementButton">
                                 <div class="choiceInfo">
                                     <p class="choiceTitle">
                                         Settlement
@@ -142,7 +149,7 @@
                                     <img style="height:30px;" src="graphics/wheatsymbol.svg" alt="">
                                 </div>
                             </div>
-                            <div class="buildChoice">
+                            <div class="buildChoice" id="buildCardCityButton">
                                 <div class="choiceInfo">
                                     <p class="choiceTitle">
                                         City
@@ -324,8 +331,6 @@
                 <div class="slideHider"></div>
             </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-            <script src="www/UserInterfaceJScript.js"></script>
-
 
         </body>
 </html>

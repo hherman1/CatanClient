@@ -32,11 +32,11 @@ Player = function(id){
   this.cityCount = 0;
   //Player owned resources
   this.resources = [];
-  this.resources[Resource.Lumber] = 5;
-  this.resources[Resource.Wool] = 5;
-  this.resources[Resource.Ore] = 5;
-  this.resources[Resource.Brick] = 5;
-  this.resources[Resource.Grain] = 5;
+  this.resources[Resource.Lumber] = 0;
+  this.resources[Resource.Wool] = 0;
+  this.resources[Resource.Ore] = 0;
+  this.resources[Resource.Brick] = 0;
+  this.resources[Resource.Grain] = 0;
   //Color assigned
   this.color = Colors.List[id-1];
   //Player victory points

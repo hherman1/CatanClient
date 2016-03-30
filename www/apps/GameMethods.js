@@ -12,15 +12,9 @@
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	////console.log("Checking current road");
 	if(getRoad(roadList,coords1,coords2).playerID>0){
 		return false;
 	}
-	//console.log("Checking Resources");
-	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Brick] ==0){
-		return false;
-	}
-	//console.log("Checking adjacent vertices");
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
 	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
@@ -43,10 +37,6 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	if(vert.structure>0){
 		return false;
 	}
-	//console.log("Grain " + player.resources[Resource.Grain]);
-	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Grain] == 0 || player.resources[Resource.Wool] == 0 || player.resources[Resource.Brick] ==0){
-		return false;
-	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
 		if(getVertex(vertexFrame, neighborList[i]).structure>0){
@@ -60,11 +50,8 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
  */
 
 function checkCityLegality(coords, player, vertexFrame){
-	vert = getVertices(vertexFrame,coords)[0];
-	if(vert.structure != 1 || vert.player != player.id) {
-		return false;
-	}
-	if(player.oreCount<3 && player.grainCount<2){
+	var vert = getVertices(vertexFrame,coords)[0];
+	if(vert.structure != 1 || vert.playerID != player.id) {
 		return false;
 	}
 	return true;
@@ -117,9 +104,13 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
 	//console.log(testCoords1);
 	for (var i = 0; i < testCoords1.length; i++) {
+<<<<<<< HEAD
 		//console.log(i);
 		var road1 = getRoad(roadList, coords1, testCoords1[i]);
 		//console.log(road1);
+=======
+		var road1 = getRoad(roadList, coords1, testCoords1[i]);
+>>>>>>> 476d8c30e00725ab0d19a6bfe7590cf729a8d0da
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
@@ -130,7 +121,10 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 	//console.log(testCoords2);
 	for (i = 0; i < testCoords2.length; i++) {
 		var road2 = getRoad(roadList, coords2, testCoords2[i]);
+<<<<<<< HEAD
 		//console.log(road2);
+=======
+>>>>>>> 476d8c30e00725ab0d19a6bfe7590cf729a8d0da
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;

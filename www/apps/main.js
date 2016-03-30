@@ -17,5 +17,6 @@ define(function (require) {
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
+    var uiControler = require('./UserInterfaceJScript')
 
 });

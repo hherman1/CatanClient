@@ -10,7 +10,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 a:link {
   color: #17324f;
   background-color: #f6bc73;
-  font-size: 40px;
+  font-size: 24px;
   text-decoration: none;
  }
 a:visited {
@@ -18,6 +18,6 @@ a:visited {
 }
 a:hover{
   background-color: #ffecbc;
-  font-size: 50px;
+  font-size: 40px;
   text-decoration: none;
 }

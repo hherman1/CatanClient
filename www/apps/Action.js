@@ -117,11 +117,6 @@ function validateInit(action,gamestate,player) {
 }
 
 function validateNormal(action,gamestate,player) {
-        var cost = getPrice(getActionBuildStructure(action));
-        if(!player.resources.every(function(e,i) {
-                return e >= cost[i]
-        })) {return false};
-
         switch (action.type) {
                 case Action.Type.BuildRoad:
                         if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
@@ -138,9 +133,9 @@ function validateNormal(action,gamestate,player) {
                         //console.log("Settlement illegal");
                         return false;
                 case Action.Type.BuildCity:
-                        if (checkCityLegality(action.coordinate, player)) {
-                                //console.log("City legal");
-                                return true
+                        if (checkCityLegality(action.coordinate, player, gamestate.board.vertices)) {
+                        //        console.log("City legal");
+                                return true;
                         }
                         //console.log("City illegal");
                         return false;

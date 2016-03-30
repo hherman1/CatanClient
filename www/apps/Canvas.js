@@ -7,11 +7,11 @@
 
 //Draws title of the canvas
 //created by sduong
-function drawTitle(ctx){
-     ctx.font = "bold 24px Courier New";
-     ctx.fillStyle = "#17324F";
-     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
- }
+// function drawTitle(ctx){
+//      ctx.font = "bold 24px Courier New";
+//      ctx.fillStyle = "#17324F";
+//      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
+//  }
 
  function drawHexes(hexes,side,ctx) {
          //Set transformation
@@ -87,7 +87,7 @@ function redraw(gamestate,actions,transform,animations,side,ctx) {
         clearCanvas(ctx,transform);
 
         resetTransform(ctx);
-        drawTitle(ctx);
+        //drawTitle(ctx);
 
         setTransform(transform,ctx);
 

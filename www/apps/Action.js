@@ -195,6 +195,9 @@ function applyActionForPlayer(action,gamestate,player) {
 
 
 function genActionFromHitbox(vertices,roads,box) {
+        if(box == null) {
+                return null;
+        }
         switch(getHitboxStructure(vertices,roads,box)) {
                 case Structure.Empty:
                         switch(box.data.type) {

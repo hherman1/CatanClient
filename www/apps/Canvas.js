@@ -80,9 +80,9 @@ function setTransform(transform,ctx) {
         ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(gamestate,highlight,actions,transform,animations,side,ctx) {
+function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
-        var actionColor = colorMap[gamestate.currentPlayerID];
+        var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
         clearCanvas(ctx,transform);
 
@@ -96,7 +96,10 @@ function redraw(gamestate,highlight,actions,transform,animations,side,ctx) {
         drawStructures(gamestate.board.vertices,colorMap,side,ctx);
         //drawRoads
 
-        drawActions(actions,actionColor,side,ctx);
+        drawActions(actions,currentPlayerColor,side,ctx); // Pending actions
+        if(potentialAction != null) {
+                drawAction(potentialAction,currentPlayerColor,side,ctx);
+        }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);

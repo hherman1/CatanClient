@@ -193,7 +193,9 @@ function gameStep(game) {
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
-        var mostImportantHit = getMaxPositionHit(hits);
+        var potentialAction = genActionFromHitbox(game.gamestate.board.vertices
+                                                 ,game.gamestate.board.roads
+                                                 ,getMaxPositionHit(hits));
 
         if(hits.length != 0) {
                 shouldRedraw = true;
@@ -208,18 +210,12 @@ function gameStep(game) {
         }
         if(game.mouse.clicked) {
                 //hits.forEach(function(hit) {
-                if(mostImportantHit != null) {
-                        var push = genActionFromHitbox(game.gamestate.board.vertices,
-                                                       game.gamestate.board.roads,
-                                                       mostImportantHit);
-                        if(push != null) {
-                                game.actions.data.push(push);
-                                if(!validateActions(game.actions.data,game.gamestate)) {
-                                        game.actions.data.pop();
-                                }
-                                shouldRedraw = true;
+                if(potentialAction != null) {
+                        game.actions.data.push(potentialAction);
+                        if(!validateActions(game.actions.data,game.gamestate)) {
+                                game.actions.data.pop();
                         }
-                //})
+                        shouldRedraw = true;
                 }
         }
 
@@ -230,13 +226,13 @@ function gameStep(game) {
 
         if(shouldRedraw) {
                 redraw(game.gamestate
-                      ,mostImportantHit
+                      ,potentialAction
                       ,game.actions.data
                       ,game.graphics.transform
                       ,game.graphics.animations
                       ,side
                       ,game.ctx);
-                drawHitboxes(hitlist,hits,game.ctx);
+                //drawHitboxes(hitlist,hits,game.ctx);
         }
 
 }

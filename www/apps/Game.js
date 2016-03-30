@@ -209,22 +209,9 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 //hits.forEach(function(hit) {
                 if(mostImportantHit != null) {
-                        var push = null;
-                        switch(getHitboxStructure(game.gamestate.board.vertices,game.gamestate.board.roads,mostImportantHit)) {
-                                case Structure.Empty:
-                                        switch(mostImportantHit.data.type) {
-                                                case Position.Type.Vertex:
-                                                        push = new Action.BuildSettlement(mostImportantHit.data.coordinate);
-                                                        break;
-                                                case Position.Type.Road:
-                                                        push = new Action.BuildRoad(mostImportantHit.data.coord1,mostImportantClick.data.coord2);
-                                                        break;
-                                        }
-                                        break;
-                                case Structure.Settlement:
-                                        push = new Action.BuildCity(mostImportantHit.data.coordinate);
-                                        break;
-                        }
+                        var push = genActionFromHitbox(game.gamestate.board.vertices,
+                                                       game.gamestate.board.roads,
+                                                       mostImportantHit);
                         if(push != null) {
                                 game.actions.data.push(push);
                                 if(!validateActions(game.actions.data,game.gamestate)) {

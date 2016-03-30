@@ -194,3 +194,17 @@ function applyActionForPlayer(action,gamestate,player) {
 
 
 
+function genActionFromHitbox(vertices,roads,box) {
+        switch(getHitboxStructure(vertices,roads,box)) {
+                case Structure.Empty:
+                        switch(box.data.type) {
+                                case Position.Type.Vertex:
+                                        return new Action.BuildSettlement(box.data.coordinate);
+                                case Position.Type.Road:
+                                        return new Action.BuildRoad(box.data.coord1,box.data.coord2);
+                        }
+                        break;
+                case Structure.Settlement:
+                       return new Action.BuildCity(box.data.coordinate);
+        }
+}

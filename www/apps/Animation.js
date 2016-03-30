@@ -112,6 +112,8 @@ DiceRoll = function(coordinate,target,max,min,radius,vert,frames) {
                 gradient.addColorStop(1,"#FFF0BD");
                 gradient.addColorStop(0,"#FFFFCD");
                 ctx.fillStyle = gradient;
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = "black";
 
                 ctx.beginPath()
                 ctx.arc(0,0,fillRadius,0,2*Math.PI,false);

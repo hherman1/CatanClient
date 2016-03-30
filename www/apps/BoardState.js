@@ -4,6 +4,7 @@ Board = function() {
         this.hexes = [];
         this.vertices = [];
         this.roads = [];
+        this.robber = undefined;
 }
 
 RegularHexBoard = function(width) {
@@ -11,6 +12,13 @@ RegularHexBoard = function(width) {
         this.hexes = buildRegularHexFramework(width);
         this.vertices = buildVertexFramework(this.hexes);
         this.roads = buildRoadFramework(this.vertices);
+        var desertIndex = undefined;
+        for(var i=0;i<this.hexes.size;i++){
+            if(this.hexes[i].resource == Resource.Desert){
+                desertIndex = i;
+            }
+        }
+        this.robber = new Robber(this.hexes[desertIndex]);
 }
 
 Structure = {
@@ -93,6 +101,7 @@ function cloneBoard(board) {
         newBoard.hexes = board.hexes.map(cloneHex);
         newBoard.vertices = board.vertices.map(cloneVertex);
         newBoard.roads = board.roads.map(cloneRoad);
+        newBoard.robber = cloneRobber(board.robber);
         return newBoard;
 }
 
@@ -106,6 +115,10 @@ function cloneVertex(vertex){
 
 function cloneHex(hex)  {
         return new Position.Hex(hex.resource,hex.token,hex.coordinate,hex.robber);
+}
+
+function cloneRobber(robber){
+    return new Robber(robber.hex);
 }
 
 

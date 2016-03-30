@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d276c79e-f752-4da1-8565-34face886a44" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\www\apps\Resource.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/BoardState.js" afterPath="$PROJECT_DIR$/www/apps/BoardState.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Robber.js" afterPath="$PROJECT_DIR$/www/apps/Robber.js" />
     </list>
     <ignored path="CatanClient.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BoardState.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BoardState.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="177" column="37" selection-start-line="177" selection-start-column="37" selection-end-line="177" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.039719626">
+              <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -49,8 +47,8 @@
       <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="238" column="25" selection-start-line="238" selection-start-column="25" selection-end-line="238" selection-end-column="25" />
+            <state vertical-scroll-proportion="-8.382353">
+              <caret line="187" column="30" selection-start-line="187" selection-start-column="20" selection-end-line="187" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -68,10 +66,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Robber.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Robber.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/Robber.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9168539">
+            <state vertical-scroll-proportion="0.0">
               <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
               <folding />
             </state>
@@ -145,8 +143,8 @@
         <option value="$PROJECT_DIR$/www/apps/Player.js" />
         <option value="$PROJECT_DIR$/www/apps/GameMethods.js" />
         <option value="$PROJECT_DIR$/www/apps/Game.js" />
-        <option value="$PROJECT_DIR$/www/apps/BoardState.js" />
         <option value="$PROJECT_DIR$/www/apps/Robber.js" />
+        <option value="$PROJECT_DIR$/www/apps/BoardState.js" />
       </list>
     </option>
   </component>
@@ -575,12 +573,12 @@
       <workItem from="1459195378350" duration="1208000" />
       <workItem from="1459281108474" duration="17000" />
       <workItem from="1459306554298" duration="1708000" />
-      <workItem from="1459365623686" duration="3314000" />
+      <workItem from="1459365623686" duration="3905000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56559000" />
+    <option name="totallyTimeSpent" value="57150000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -970,36 +968,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Hitbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="10" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/Dice.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="238" column="25" selection-start-line="238" selection-start-column="25" selection-end-line="238" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -1030,18 +1002,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
+    <entry file="file://$PROJECT_DIR$/www/apps/Hitbox.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="37" selection-start-line="177" selection-start-column="37" selection-end-line="177" selection-end-column="37" />
+          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="10" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/Robber.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9168539">
+        <state vertical-scroll-proportion="0.0">
           <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.382353">
+          <caret line="187" column="30" selection-start-line="187" selection-start-column="20" selection-end-line="187" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.039719626">
+          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
           <folding />
         </state>
       </provider>

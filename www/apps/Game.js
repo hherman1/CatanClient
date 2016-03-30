@@ -217,7 +217,7 @@ function gameStep(game) {
                 });
                 flushBufferMessages(game.buffer.UI);
         }
-        if(hits.length != 0) {
+        if(hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
@@ -229,6 +229,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
+                game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
                 //hits.forEach(function(hit) {
                 if(potentialAction != null) {
                         game.actions.data.push(potentialAction);

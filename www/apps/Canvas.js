@@ -117,7 +117,7 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
-                drawAnims(animations.data,ctx);
+                drawAnims(animations.data,transform,ctx);
         }
 }
 

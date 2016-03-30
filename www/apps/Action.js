@@ -148,6 +148,10 @@ function validateAction (action,gamestate,player) {
                 case Phase.Init:
                         return validateInit(action,gamestate,player);
                 case Phase.Normal:
+                        var cost = getPrice(getActionBuildStructure(action));
+                        if(!player.resources.every(function(e,i) {
+                                return e >= cost[i]
+                        })) {return false};
                         return validateNormal(action,gamestate,player);
         }
 }

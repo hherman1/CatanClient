@@ -104,13 +104,7 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
 	//console.log(testCoords1);
 	for (var i = 0; i < testCoords1.length; i++) {
-<<<<<<< HEAD
-		//console.log(i);
 		var road1 = getRoad(roadList, coords1, testCoords1[i]);
-		//console.log(road1);
-=======
-		var road1 = getRoad(roadList, coords1, testCoords1[i]);
->>>>>>> 476d8c30e00725ab0d19a6bfe7590cf729a8d0da
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
@@ -121,10 +115,6 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 	//console.log(testCoords2);
 	for (i = 0; i < testCoords2.length; i++) {
 		var road2 = getRoad(roadList, coords2, testCoords2[i]);
-<<<<<<< HEAD
-		//console.log(road2);
-=======
->>>>>>> 476d8c30e00725ab0d19a6bfe7590cf729a8d0da
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;

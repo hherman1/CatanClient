@@ -83,6 +83,7 @@ GameState = function() {
         this.currentPlayerID = null;
 }
 
+
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
@@ -198,9 +199,11 @@ function runGame(game,frameDuration) {
 
 function gameStep(game) {
         var shouldRedraw = false;
+        
+        var mouse = processBuffer(game.mouse,game.buffer.mouse);
+        flushMouseEvents(game.buffer.mouse);
 
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
-        var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
         var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
@@ -211,6 +214,10 @@ function gameStep(game) {
                 game.buffer.UI.messages.map(function(message) {
                         switch(message) {
                                 case UI.Messages.EndTurn:
+                                        var coord = new Vector(game.ctx.canvas.width-150
+                                                              ,game.ctx.canvas.height+20);
+                                        game.graphics.animations.data.push(new DiceRoll(coord
+                                                                           ,7,1,12,100,50,1000))//new Vector(850,510)
                                         game.server.endTurn(game.actions.data);
                                         game.actions.data.length = 0;
                         }
@@ -241,7 +248,6 @@ function gameStep(game) {
         }
 
         //console.log(game.actions.data);
-        flushMouseEvents(game.buffer.mouse);
 
         var side=50;
 

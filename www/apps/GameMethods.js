@@ -30,6 +30,7 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
  */
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
+	console.log("checking settlements");
 	var vert = getVertex(vertexFrame,coords);
 //	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
 //		return false;
@@ -50,10 +51,17 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
  */
 
 function checkCityLegality(coords, player, vertexFrame){
+	console.log("checking city");
 	var vert = getVertices(vertexFrame,coords)[0];
-	if(vert.structure != 1 || vert.playerID != player.id) {
+	if(vert.structure != 1){
+		console.log("structure is " + vert.structure);
 		return false;
 	}
+	if(vert.playerID != player.id){
+		console.log("player id is "+ player.id + " but vert id is "+ vert.playerID);
+		return false;
+	}
+
 	return true;
 }
 

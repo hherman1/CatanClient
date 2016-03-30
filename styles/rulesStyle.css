@@ -20,3 +20,32 @@ a:hover{
   font-size: 24px;
   text-decoration: none;
 }
+
+ul.navbar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 3em;
+  left: 7em;
+  width: 10em }
+ul.navbar li {
+  background: #f6bc73;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border-right: 1em solid #17324f}
+ul.navbar a {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 20px;
+}
+ul.navbar a:hover {
+  background-color: #ffecbc;
+  text-decoration: none;
+  font-size: 22px;
+}
+address {
+    display: block;
+    font-style: italic;
+    text-align: center;
+}

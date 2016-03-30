@@ -4,6 +4,7 @@ Board = function() {
         this.hexes = [];
         this.vertices = [];
         this.roads = [];
+        this.robber = undefined;
 }
 
 RegularHexBoard = function(width) {
@@ -11,6 +12,13 @@ RegularHexBoard = function(width) {
         this.hexes = buildRegularHexFramework(width);
         this.vertices = buildVertexFramework(this.hexes);
         this.roads = buildRoadFramework(this.vertices);
+        var desertIndex = undefined;
+        for(var i=0;i<this.hexes.size;i++){
+            if(this.hexes[i].resource == Resource.Desert){
+                desertIndex = i;
+            }
+        }
+        this.robber = new Robber(this.hexes[desertIndex]);
 }
 
 Structure = {
@@ -68,11 +76,12 @@ Position = {
          * coordiantes: vector object containing hex's coordinate.}
          */
 
-        Hex : function(resource, token, coordinate){
+        Hex : function(resource, token, coordinate, robber){
             this.type = Position.Type.Hex;
             this.resource=resource;
             this.token=token;
             this.coordinate=coordinate;
+            this.robber = robber
         },
 }
 
@@ -92,6 +101,7 @@ function cloneBoard(board) {
         newBoard.hexes = board.hexes.map(cloneHex);
         newBoard.vertices = board.vertices.map(cloneVertex);
         newBoard.roads = board.roads.map(cloneRoad);
+        newBoard.robber = cloneRobber(board.robber);
         return newBoard;
 }
 
@@ -104,7 +114,11 @@ function cloneVertex(vertex){
 }
 
 function cloneHex(hex)  {
-        return new Position.Hex(hex.resource,hex.token,hex.coordinate);
+        return new Position.Hex(hex.resource,hex.token,hex.coordinate,hex.robber);
+}
+
+function cloneRobber(robber){
+    return new Robber(robber.hex);
 }
 
 
@@ -150,15 +164,17 @@ function buildRegularHexFramework(width){
 	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){
 		yShift = generateYShift(width,i);
 		for(j=0;j<width-Math.abs(i);j++){
-			res = resList.pop();
+			var res = resList.pop();
 			if(res==Resource.Desert){
-				tok = 7;
+				var tok = 7;
+                var robber = true;
 			}
 			else{
-				tok = tokList.pop();
+				var tok = tokList.pop();
+                var robber = false;
 			}
-			coords = new Vector(i, j+yShift);
-			tileFrame.push(new Position.Hex(res,tok,coords));
+			var coords = new Vector(i, j+yShift);
+			tileFrame.push(new Position.Hex(res,tok,coords,robber));
 		}
 	}
 	return tileFrame;

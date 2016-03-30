@@ -210,6 +210,8 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
+        processUIBuffer(game.buffer.UI)
+
         if(game.buffer.UI.messages.length !=  0) {
                 game.buffer.UI.messages.map(function(message) {
                         switch(message) {
@@ -238,6 +240,7 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
                 //hits.forEach(function(hit) {
+
                 if(potentialAction != null) {
                         game.actions.data.push(potentialAction);
                         if(!validateActions(game.actions.data,game.gamestate)) {

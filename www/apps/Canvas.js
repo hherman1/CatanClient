@@ -16,7 +16,7 @@
      ctx.fillStyle = "#FFDAB9";
      ctx.fill();
      ctx.stroke();
-     drawHexImage(tileImage,hexToWorld(hex.coordinate,side), ctx);
+     drawHexImage(tileImage,hexToWorld(hex.coordinate,side), side, ctx);
      drawToken(hexToWorld(hex.coordinate,side),hex.token,ctx); //draw number token
    })
  }
@@ -153,8 +153,7 @@ function drawToken(hc, token, ctx){
 
 //draws the image of the terrain on the board
 //created by sduong
-function drawHexImage(image, hc,ctx){
-  var side = 50;
+function drawHexImage(image, hc, side, ctx){
   var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2));
   var x = hc.x-w;
   var y = hc.y-side;

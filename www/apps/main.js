@@ -2,7 +2,7 @@ define(function (require) {
     // Load any app-specific modules
     // with a relative require call,
     // like:
-    
+
     var game = require('./Game');
     var gameM = require('./GameMethods');
     var boardstate = require('./BoardState');

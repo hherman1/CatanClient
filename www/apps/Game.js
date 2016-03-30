@@ -233,6 +233,7 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
                 //hits.forEach(function(hit) {
+
                 if(potentialAction != null) {
                         game.actions.data.push(potentialAction);
                         if(!validateActions(game.actions.data,game.gamestate)) {

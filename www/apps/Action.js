@@ -75,8 +75,8 @@ function oneRoadOneSettlement(actions) {
     return settlements <= 1 && roads <= 1 && actions.length <= 2 && other == 0;
 }
 function validateActions(actions,gamestate) {
-    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
     var clonedGameState = cloneGameState(gamestate);
+    var currentPlayer = getPlayers(clonedGameState.currentPlayerID,clonedGameState.players)[0];
 
     if(gamestate.phase == Phase.Init && !oneRoadOneSettlement(actions)) {
             return false;
@@ -85,8 +85,10 @@ function validateActions(actions,gamestate) {
     return actions.every(function(action) {
         if(validateAction(action,clonedGameState,currentPlayer)) {
             applyAction(action,clonedGameState);
+            console.log("true");
             return true;
         } else {
+            console.log("false");
             return false;
         }
     })
@@ -96,20 +98,20 @@ function validateInit(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
                         if (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads)) {
-                                console.log("Road legal");
+//                                console.log("Road legal");
                                 return true;
                         }
-                        console.log("Road illegal")
+                        //console.log("Road illegal")
                         return false;
                 case Action.Type.BuildSettlement:
                         if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player)) {
-                                console.log("Settlement legal");
+                                //console.log("Settlement legal");
                                 return true;
                         }
-                        console.log("Settlement illegal");
+                        //console.log("Settlement illegal");
                         return false;
                 case Action.Type.BuildCity:
-                        console.log("City illegal");
+                        //console.log("City illegal");
                         return false;
         }
 }
@@ -123,24 +125,24 @@ function validateNormal(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
                         if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
-                                console.log("Road legal");
+                                //console.log("Road legal");
                                 return true;
                         }
-                        console.log("Road illegal")
+                        //console.log("Road illegal")
                         return false;
                 case Action.Type.BuildSettlement:
                         if (checkSettlementLegality(action.coordinate, player, gamestate.board.vertices, gamestate.board.roads)) {
-                                console.log("Settlement legal");
+                                //console.log("Settlement legal");
                                 return true;
                         }
-                        console.log("Settlement illegal");
+                        //console.log("Settlement illegal");
                         return false;
                 case Action.Type.BuildCity:
                         if (checkCityLegality(action.coordinate, player)) {
-                                console.log("City legal");
+                                //console.log("City legal");
                                 return true
                         }
-                        console.log("City illegal");
+                        //console.log("City illegal");
                         return false;
         }
 }

@@ -12,22 +12,22 @@
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	console.log("Checking current road");
+	////console.log("Checking current road");
 	if(getRoad(roadList,coords1,coords2).playerID>0){
 		return false;
 	}
-	console.log("Checking Resources");
+	//console.log("Checking Resources");
 	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
-	console.log("Checking adjacent vertices");
+	//console.log("Checking adjacent vertices");
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
 	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
 		return true;
 	}
 	else{
-		console.log("Checking adjacent roads");
+		//console.log("Checking adjacent roads");
 		return checkAdjacentPlayerRoads(coords1,coords2,player,roadList, vertexFrame);
 	}
 }
@@ -43,7 +43,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	if(vert.structure>0){
 		return false;
 	}
-	console.log("Grain " + player.resources[Resource.Grain]);
+	//console.log("Grain " + player.resources[Resource.Grain]);
 	if(player.resources[Resource.Lumber] == 0 || player.resources[Resource.Grain] == 0 || player.resources[Resource.Wool] == 0 || player.resources[Resource.Brick] ==0){
 		return false;
 	}
@@ -94,10 +94,10 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 		return false;
 	}
 	vertex1 = getVertices(vertexFrame,coords1)[0];
-	console.log(vertex1);
+	//console.log(vertex1);
 	vertex2 = getVertices(vertexFrame,coords2)[0];
-	console.log(vertex2);
-	console.log(player.id);
+	//console.log(vertex2);
+	//console.log(player.id);
 	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
 		return true;
 	}
@@ -115,11 +115,11 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 
 function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Fix
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
-	console.log(testCoords1);
+	//console.log(testCoords1);
 	for (var i = 0; i < testCoords1.length; i++) {
-		console.log(i);
+		//console.log(i);
 		var road1 = getRoad(roadList, coords1, testCoords1[i]);
-		console.log(road1);
+		//console.log(road1);
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
@@ -127,10 +127,10 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 		}
 	}
 	var testCoords2 = getVertexNeighbors(coords2, vertices);
-	console.log(testCoords2);
+	//console.log(testCoords2);
 	for (i = 0; i < testCoords2.length; i++) {
 		var road2 = getRoad(roadList, coords2, testCoords2[i]);
-		console.log(road2);
+		//console.log(road2);
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;

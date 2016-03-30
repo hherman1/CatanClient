@@ -203,7 +203,7 @@ function buildVertexFramework(tileFrame){
 }
 function checkForSameVector(vertexList, vector){
 	for(count = 0; count<vertexList.length;count++){
-		if(compareVectors(vector,vertexList[count].coordinate)){
+		if(vectorEquals(vector,vertexList[count].coordinate)){
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ function getVertex(vertices,coordinate) {
         return getVertices(vertices,coordinate)[0];
 }
 function getVertices(vertices,coordinate) {
-        return vertices.filter(function(v) {return compareVectors(v.coordinate,coordinate)});
+        return vertices.filter(function(v) {return vectorEquals(v.coordinate,coordinate)});
 }
 
 function getVertexNeighbors(coordinate,frame) {
@@ -265,8 +265,8 @@ function compareRoadPositions(road1, road2){
 }
 
 function compareTwoCoordPositions(road1coord1, road1coord2, road2coord1, road2coord2){
-    if((compareVectors(road1coord1,road2coord1)&&compareVectors(road1coord2,road2coord2))||
-        (compareVectors(road1coord1,road2coord2)&&compareVectors(road1coord2,road2coord1))){
+    if((vectorEquals(road1coord1,road2coord1)&&vectorEquals(road1coord2,road2coord2))||
+        (vectorEquals(road1coord1,road2coord2)&&vectorEquals(road1coord2,road2coord1))){
         return true;
     }
     return false;

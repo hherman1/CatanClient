@@ -193,8 +193,9 @@ function gameStep(game) {
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
-        var potentialAction = genActionFromHitbox(game.gamestate.board.vertices
+        var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
+                                                 ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
         if(hits.length != 0) {

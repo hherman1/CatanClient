@@ -2,7 +2,7 @@ Action = {
     Type: {
         BuildRoad: 0,
         BuildSettlement: 1,
-        BuildCity: 2
+        BuildCity: 2,
     },
     BuildRoad : function(coordinateA,coordinateB) {
         this.type = Action.Type.BuildRoad;
@@ -193,8 +193,14 @@ function applyActionForPlayer(action,gamestate,player) {
 }
 
 
+function willActAt(actions,type,coord) {
+        return actions.filter(function(a) {
+                return a.type == Action.Type.BuildSettlement
+                    && vectorEquals(a.coordinate,coord);
+        }).length > 0;
+}
 
-function genActionFromHitbox(vertices,roads,box) {
+function genPotentialAction(vertices,roads,actions,box) {
         if(box == null) {
                 return null;
         }
@@ -202,6 +208,9 @@ function genActionFromHitbox(vertices,roads,box) {
                 case Structure.Empty:
                         switch(box.data.type) {
                                 case Position.Type.Vertex:
+                                        if(willActAt(actions,Action.Type.BuildSettlement,box.data.coordinate)) {
+                                                return new Action.BuildCity(box.data.coordinate);
+                                        }
                                         return new Action.BuildSettlement(box.data.coordinate);
                                 case Position.Type.Road:
                                         return new Action.BuildRoad(box.data.coord1,box.data.coord2);

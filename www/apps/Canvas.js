@@ -5,14 +5,6 @@
 
 //requirejs(['Grid','Hitbox','Animation'],function(){})
 
-//Draws title of the canvas
-//created by sduong
-// function drawTitle(ctx){
-//      ctx.font = "bold 24px Courier New";
-//      ctx.fillStyle = "#17324F";
-//      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
-//  }
-
  function drawHexes(hexes,side,ctx) {
          //Set transformation
    //setting the side of hexagon to be a value
@@ -91,7 +83,7 @@ function setTransform(transform,ctx) {
 function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
-        
+
         var renderedActions;
         if(potentialAction != null) {
                renderedActions = removeRedundantSettlements(actions.concat(potentialAction));
@@ -102,7 +94,6 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         clearCanvas(ctx,transform);
 
         resetTransform(ctx);
-        //drawTitle(ctx);
 
         setTransform(transform,ctx);
 

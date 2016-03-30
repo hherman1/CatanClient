@@ -7,11 +7,11 @@
 
 //Draws title of the canvas
 //created by sduong
-function drawTitle(ctx){
-     ctx.font = "bold 24px Courier New";
-     ctx.fillStyle = "#17324F";
-     ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
- }
+// function drawTitle(ctx){
+//      ctx.font = "bold 24px Courier New";
+//      ctx.fillStyle = "#17324F";
+//      ctx.fillText("MacSettlers",ctx.canvas.width/100,ctx.canvas.height/20);
+//  }
 
  function drawHexes(hexes,side,ctx) {
          //Set transformation
@@ -45,6 +45,8 @@ function inverseTransform(v,trans) {
 }
 
 function drawHitboxes(boxes,hits,ctx) {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(45,45,45,0.8)";
         ctx.fillStyle = "rgba(90, 172, 86, 0.3)";
         boxes.map(function(box) {drawHitbox(box,ctx)});
         ctx.fillStyle = "rgba(141, 207, 138, 0.5)";
@@ -85,7 +87,7 @@ function redraw(gamestate,actions,transform,animations,side,ctx) {
         clearCanvas(ctx,transform);
 
         resetTransform(ctx);
-        drawTitle(ctx);
+        //drawTitle(ctx);
 
         setTransform(transform,ctx);
 

@@ -45,6 +45,29 @@ function newScale(delta,scale) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+/*                                  FUNCTIONS THAT DON'T FIT                                        */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function isPositionGreater(pos1,pos2) {
+        return pos1 < pos2;
+}
+
+
+function getMaxPositionHit(hits) {
+        var max = null;
+        hits.map(function(h) {
+            if (max == null) {
+                    max = h
+            }
+            if (isPositionGreater(h.data.type,max.data.type)) {
+                    max = h
+            }
+        })
+        return max;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 /*                                       GAME FUNCTIONS                                             */
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +78,7 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase = Phase.Init;
+        this.phase = Phase.Normal;
         this.players = [];
         this.currentPlayerID = null;
 }
@@ -79,6 +102,7 @@ Server = function() {
         }
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
+                this.gamestate.currentPlayerID = player.id;
         }
         this.endTurn = function(actionsToBeValidated){
             //Switch player method
@@ -143,8 +167,9 @@ CatanGame = function(side,ctx) {
                            ,this.side);
 
         //TEMPORARY
-        this.gamestate.players.push(new Player(1));
-        this.gamestate.currentPlayerID = 1;
+        // this.gamestate.players.push(new Player(1));
+        // this.gamestate.currentPlayerID = 1;
+        addPlayers(this.server);
 }
 
 
@@ -162,52 +187,68 @@ function runGame(game,frameDuration) {
 }
 
 function gameStep(game) {
+        var shouldRedraw = false;
+
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
+        if(hits.length != 0) {
+                shouldRedraw = true;
+        }
         if(game.mouse.dragging) {
                 game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
+                shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
                 game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
+                shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                hits.forEach(function(hit) {
+                var mostImportantClick = getMaxPositionHit(hits);
+                //hits.forEach(function(hit) {
+                if(mostImportantClick != null) {
                         var push = null;
-                        if(hit.data.type == Position.Type.Vertex) {
-                                push = new Action.BuildSettlement(hit.data.coordinate);
-                        } else if(hit.data.type == Position.Type.Road) {
-                                push = new Action.BuildRoad(hit.data.coord1,hit.data.coord2);
+                        if(mostImportantClick.data.type == Position.Type.Vertex) {
+                                push = new Action.BuildSettlement(mostImportantClick.data.coordinate);
+                        } else if(mostImportantClick.data.type == Position.Type.Road) {
+                                push = new Action.BuildRoad(mostImportantClick.data.coord1,mostImportantClick.data.coord2);
                         }
                         if(push != null) {
                                 game.actions.data.push(push);
                                 if(!validateActions(game.actions.data,game.gamestate)) {
                                         game.actions.data.pop();
                                 }
+                                shouldRedraw = true;
                         }
-                })
+                //})
+                }
         }
 
         //console.log(game.actions.data);
+        flushMouseEvents(game.buffer.mouse);
 
         var side=50;
 
-        redraw(game.gamestate
-              ,game.actions.data
-              ,game.graphics.transform
-              ,game.graphics.animations
-              ,side
-              ,game.ctx);
-        flushMouseEvents(game.buffer.mouse);
-        drawHitboxes(hitlist,hits,game.ctx);
+        if(shouldRedraw) {
+                redraw(game.gamestate
+                      ,game.actions.data
+                      ,game.graphics.transform
+                      ,game.graphics.animations
+                      ,side
+                      ,game.ctx);
+                drawHitboxes(hitlist,hits,game.ctx);
+        }
 
 }
 
 //initialize players array. this function is used when users select which game to play (3 or 4 player game)
-// setPlayers = function(num){
-//   for(var i = 0; i < num; i++) {
-//     this.gamestate.players.push(new Player(i));
-//     console.log("a player was added to players");
-// }
-// }
+addPlayers = function(server){
+  console.log("add players function in")
+  for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
+    server.addPlayer(new Player(i+1));
+    console.log("player was added to the list of players");
+  }
+
+  console.log(server.getState().players);
+}

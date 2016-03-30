@@ -11,7 +11,7 @@ ul.navbar {
   position: absolute;
   top: 3em;
   left: 7em;
-  width: 9em }
+  width: 10em }
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
 ul.navbar li {
@@ -24,6 +24,11 @@ ul.navbar a {
 a:link {
   color: #17324f }
 a:visited {
-  color: #17324f } //#f6bc73
+  color: #17324f }
+a:hover{
+  background-color: #ffecbc;
+  text-decoration: none;
+  font-size: 24px;
+}
 
 //http://www.color-hex.com/color-palette/16273

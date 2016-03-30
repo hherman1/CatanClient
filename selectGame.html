@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="styles/landingstyle.css">
+  <link rel="shortcut icon" href="graphics/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="graphics/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="styles/selectStyle.css">
   <script data-main="www/apps/main.js" src="www/lib/require.js"></script>
   <title>select game - macsettlers</title>
 </head>
@@ -11,16 +13,23 @@
 <!-- Main content -->
 <h1>select game</h1>
 
-<p> select a 3-player game or 4-player game to play</p>
 
-<input type="button" value="3-PLAYER" onclick="setPlayers(3)">
-<input type="button" value="4-PLAYER" onclick="setPlayers(4)">
 
+<script type="text/javascript">
+      function setPlayers(num){
+        localStorage.setItem("numPlayers", num);
+        console.log(localStorage.getItem("numPlayers"));
+      }
+
+</script>
+
+<a href="index.html" onclick="setPlayers(3)"> Begin 3-PLAYER Game</a>
+<a href="index.html" onclick="setPlayers(4)"> Begin 4-PLAYER Game</a>
 <br>
-<a href="selectColors.html">select colors</a>
-
+<p> select a 3-player or 4-player game to play</p>
+<br>
 <!-- Sign and date the page, it's only polite! -->
-<address>&copy; 2016<br>
+<address>&copy; 2016 Macalester College<br>
   MaCaHuSt</address>
 
 </body>

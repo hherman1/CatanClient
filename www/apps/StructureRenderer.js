@@ -18,7 +18,7 @@ Images = {
         Robber:'',
 }
 
-Images.Robber = 'graphics/robber.svg'; 
+Images.Robber = 'graphics/robber.svg';
 Images.Loaded.Robber = loadImage(Images.Robber);
 
 Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
@@ -61,13 +61,13 @@ function loadImage(src) {
 }
 
 function drawRoad(coordinateA,coordinateB,color,side, ctx) {
-  var worldA = hexToWorld(coordinateA,side);
-  var worldB = hexToWorld(coordinateB,side);
+  var worldA = vertexToWorld(coordinateA,side);
+  var worldB = vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
   ctx.lineWidth = 5;
-  ctx.strokeStyle = color;
+  ctx.strokeStyle = getColor(color);
   ctx.stroke();
 }
 
@@ -75,7 +75,7 @@ function drawBuilding(coordinate,structure,color,side,ctx){
         if(structure != Structure.Empty) {
           var worldCoord = vertexToWorld(coordinate,side);
           ctx.drawImage(getBuildingImg(structure, color)
-                       , worldCoord.x, worldCoord.y
+                       , worldCoord.x-side/2, worldCoord.y-side/2
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
         }
 }

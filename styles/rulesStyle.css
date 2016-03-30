@@ -1,0 +1,22 @@
+body {
+  padding-left: 20em;
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  color: #17324f;
+  background-color: #B0E2F2 }
+
+h1 {
+font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
+
+a:link {
+  color: #17324f;
+  text-decoration: none;
+  font-weight: bold;
+ }
+a:visited {
+  color: #17324f
+}
+a:hover{
+  background-color: #ffecbc;
+  font-size: 24px;
+  text-decoration: none;
+}

@@ -195,7 +195,7 @@ function buildVertexFramework(tileFrame){
 			testVector = coordList[j];
 			if(checkForSameVector(vertexFrame,testVector)) {
 				//console.log("works");
-				vertexFrame.push(new Position.Vertex(Structure.Empty, null, coordList[j]));
+				vertexFrame.push(new Position.Vertex(Structure.Empty, 0, coordList[j]));
 			}
 		}
 	}
@@ -231,7 +231,7 @@ function buildRoadFramework(vertexFrame){
     for (i=0;i<vertexFrame.length;i++){
         var coordList = getVertexNeighbors(vertexFrame[i].coordinate,vertexFrame);
         for (j=0;j<coordList.length;j++){
-            var testRoad = new Position.Road(Structure.Empty,vertexFrame[i].coordinate,coordList[j], null);
+            var testRoad = new Position.Road(Structure.Empty,vertexFrame[i].coordinate,coordList[j], 0);
             if(!checkForSameRoad(roadFrame,testRoad)){
                 roadFrame.push(testRoad);
             }
@@ -255,9 +255,7 @@ function getRoad(roadList, coord1, coord2){
             return roadList[i];
         }
     }
-    return undefined;
-} //TODO: Scope out above getVertex/getVertices functions, alter syntax accordingly
-
+}
 /* compareRoadPositions
  * returns true if the two roads occupy the same position.
  */

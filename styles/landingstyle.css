@@ -31,4 +31,18 @@ a:hover{
   font-size: 24px;
 }
 
+input[type=button]{
+  background-color: #f6bc73;
+  color: #17324f;
+  font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-size: 16px;
+  border: none;
+  padding: 5px 5px 5px 0px;
+}
+
+input[type=button]:hover{
+  background-color: #ffecbc;
+  text-decoration: none;
+  font-size: 24px;
+}
 //http://www.color-hex.com/color-palette/16273

@@ -207,6 +207,8 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
+        processUIBuffer(game.buffer.UI)
+
         if(game.buffer.UI.messages.length !=  0) {
                 game.buffer.UI.messages.map(function(message) {
                         switch(message) {

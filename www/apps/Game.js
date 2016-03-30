@@ -83,13 +83,13 @@ Server = function() {
         this.endTurn = function(actionsToBeValidated){
             //Switch player method
             // -Takes in a list of actions, validate them, apply changes
-            
+
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
             var diceRoll = getRsum();
             var playerList = gamestate.players;
-            var vertexFrame = gamestate.vertexFrame;
+            var vertexFrame = gamestate.board.vertexFrame;
             var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //Shift player context (Who is making the moves/calls)
@@ -99,7 +99,8 @@ Server = function() {
 
 Buffer = function() {
     this.mouse = new MouseBuffer();
-    this.ui = {};
+    this.UI = new UI.Buffer();
+    //when click end turn put something in here so the game can see it the next turn
 }
 
 
@@ -115,6 +116,7 @@ Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,imag
         this.images = images;
         this.side = side;
 }
+
 CatanGame = function(side,ctx) {
         Game.call(this
                  ,ctx
@@ -161,7 +163,7 @@ function runGame(game,frameDuration) {
 
 function gameStep(game) {
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
-        mouse = processBuffer(game.mouse,game.buffer.mouse);
+        var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
 
         if(game.mouse.dragging) {

@@ -195,7 +195,7 @@ function applyActionForPlayer(action,gamestate,player) {
 
 function willActAt(actions,type,coord) {
         return actions.filter(function(a) {
-                return a.type == Action.Type.BuildSettlement
+                return a.type == type
                     && vectorEquals(a.coordinate,coord);
         }).length > 0;
 }

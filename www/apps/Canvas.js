@@ -83,6 +83,13 @@ function setTransform(transform,ctx) {
 function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
+        
+        var renderedActions;
+        if(potentialAction != null) {
+               renderedActions = removeRedundantSettlements(actions.concat(potentialAction));
+        } else {
+               renderedActions = removeRedundantSettlements(actions);
+        }
 
         clearCanvas(ctx,transform);
 
@@ -96,7 +103,7 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         drawStructures(gamestate.board.vertices,colorMap,side,ctx);
         //drawRoads
 
-        drawActions(actions,currentPlayerColor,side,ctx); // Pending actions
+        drawActions(renderedActions,currentPlayerColor,side,ctx); // Pending actions
         if(potentialAction != null) {
                 drawAction(potentialAction,currentPlayerColor,side,ctx);
         }
@@ -104,6 +111,15 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,ctx);
         }
+}
+
+function removeRedundantSettlements(actions) {
+        return actions.filter(function(a) {
+                if(a.type == Action.Type.BuildSettlement) {
+                        return !willActAt(actions,Action.Type.BuildCity,a.coordinate);
+                }
+                return true;
+        });
 }
 
 

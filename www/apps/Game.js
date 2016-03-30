@@ -112,13 +112,22 @@ Server = function() {
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
+            /*
             var diceRoll = getRsum();
             var playerList = gamestate.players;
             var vertexFrame = gamestate.board.vertexFrame;
             var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
+            */
             //Shift player context (Who is making the moves/calls)
             //UI method to show the new resources that players recieved at the start of their new turn
+            //
+            ////////////////////////////////////////////////////
+            //             TESTING CODE                       //
+            ////////////////////////////////////////////////////
+
+            applyActions(actionsToBeValidated,this.gamestate);
+            this.gamestate.currentPlayerID = (this.gamestate.currentPlayerID + 1)%3+1;
         }
 }
 
@@ -198,6 +207,16 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
+        if(game.buffer.UI.messages.length !=  0) {
+                game.buffer.UI.messages.map(function(message) {
+                        switch(message) {
+                                case UI.Messages.EndTurn:
+                                        game.server.endTurn(game.actions.data);
+                                        game.actions.data.length = 0;
+                        }
+                });
+                flushBufferMessages(game.buffer.UI);
+        }
         if(hits.length != 0) {
                 shouldRedraw = true;
         }

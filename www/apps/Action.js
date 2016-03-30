@@ -156,6 +156,12 @@ function validateAction (action,gamestate,player) {
         }
 }
 
+function applyActions(actions,gamestate) {
+        actions.map(function(a) {
+                applyAction(a,gamestate);
+        })
+}
+
 function applyAction(action,gamestate) {
     var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
     applyActionForPlayer(action,gamestate,currentPlayer);

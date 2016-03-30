@@ -35,6 +35,14 @@ function drawStructures(vertices,colorMap,side,ctx) {
     })
 }
 
+function drawRoads(roads,colorMap,side,ctx) {
+    roads.forEach(function(road) {
+            if(road.structure == Structure.Road) {
+                    drawRoad(road.coord1,road.coord2,colorMap[road.playerID],side,ctx);
+            }
+    })
+}
+
 
 function transform(v,trans) {
         return add(trans.translation,times(trans.scale,v))
@@ -100,8 +108,8 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
 
         //BUG: Currently don't draw colors correctly
         drawHexes(gamestate.board.hexes,side,ctx);
+        drawRoads(gamestate.board.roads,colorMap,side,ctx);
         drawStructures(gamestate.board.vertices,colorMap,side,ctx);
-        //drawRoads
 
         drawActions(renderedActions,currentPlayerColor,side,ctx); // Pending actions
         if(potentialAction != null) {

@@ -17,6 +17,20 @@ define(function (require) {
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
-    var uiControler = require('./UserInterfaceJScript')
+    var uiController = require('./UserInterfaceJScript')
+    function main() {
+        canvas = document.getElementById('board');
+        if(canvas.getContext) {
+                ctx = canvas.getContext('2d');
+                var myGame = new CatanGame(50,ctx);
+                //setUpUi(game.buffer.ui)//FIX THIS TODO
+                // game.setupUIBuffer(game.Buffer.UI);
+                setupUIBuffer(myGame.buffer.UI);
+                runGame(myGame,13);
+        } else {
+            console.log("browser unsupported")
+        }
+    }
+    main();
 
 });

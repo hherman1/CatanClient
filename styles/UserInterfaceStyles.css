@@ -236,3 +236,7 @@
 
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
+
+canvas { border: 1px solid black; width: 1000px; height:500px}
+
+#board { background-color: #B0E2F2; }

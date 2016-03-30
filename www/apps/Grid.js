@@ -37,7 +37,7 @@ function setY(c,y) {
 }
 
 
-function compareVectors(vector1, vector2){
+function vectorEquals(vector1, vector2){
     if((vector1.x == vector2.x)&&(vector1.y==vector2.y)){
         return true;
     }

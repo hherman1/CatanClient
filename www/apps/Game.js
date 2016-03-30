@@ -112,13 +112,22 @@ Server = function() {
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
+            /*
             var diceRoll = getRsum();
             var playerList = gamestate.players;
             var vertexFrame = gamestate.board.vertexFrame;
             var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
+            */
             //Shift player context (Who is making the moves/calls)
             //UI method to show the new resources that players recieved at the start of their new turn
+            //
+            ////////////////////////////////////////////////////
+            //             TESTING CODE                       //
+            ////////////////////////////////////////////////////
+
+            applyActions(actionsToBeValidated,this.gamestate);
+            this.gamestate.currentPlayerID = (this.gamestate.currentPlayerID + 1)%3+1;
         }
 }
 
@@ -193,9 +202,22 @@ function gameStep(game) {
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
-        var mostImportantHit = getMaxPositionHit(hits);
+        var potentialAction = genPotentialAction(game.gamestate.board.vertices
+                                                 ,game.gamestate.board.roads
+                                                 ,game.actions.data
+                                                 ,getMaxPositionHit(hits));
 
-        if(hits.length != 0) {
+        if(game.buffer.UI.messages.length !=  0) {
+                game.buffer.UI.messages.map(function(message) {
+                        switch(message) {
+                                case UI.Messages.EndTurn:
+                                        game.server.endTurn(game.actions.data);
+                                        game.actions.data.length = 0;
+                        }
+                });
+                flushBufferMessages(game.buffer.UI);
+        }
+        if(hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
@@ -207,22 +229,15 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
+                game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
                 //hits.forEach(function(hit) {
-                if(mostImportantHit != null) {
 
-
-                        var push = genActionFromHitbox(game.gamestate.board.vertices,
-                                                       game.gamestate.board.roads,
-                                                       mostImportantHit);
-
-                        if(push != null) {
-                                game.actions.data.push(push);
-                                if(!validateActions(game.actions.data,game.gamestate)) {
-                                        game.actions.data.pop();
-                                }
-                                shouldRedraw = true;
+                if(potentialAction != null) {
+                        game.actions.data.push(potentialAction);
+                        if(!validateActions(game.actions.data,game.gamestate)) {
+                                game.actions.data.pop();
                         }
-                //})
+                        shouldRedraw = true;
                 }
         }
 
@@ -233,13 +248,13 @@ function gameStep(game) {
 
         if(shouldRedraw) {
                 redraw(game.gamestate
-                      ,mostImportantHit
+                      ,potentialAction
                       ,game.actions.data
                       ,game.graphics.transform
                       ,game.graphics.animations
                       ,side
                       ,game.ctx);
-                drawHitboxes(hitlist,hits,game.ctx);
+                //drawHitboxes(hitlist,hits,game.ctx);
         }
 
 }

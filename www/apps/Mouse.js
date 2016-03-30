@@ -24,7 +24,7 @@
  *  }
  */
 
-maxClickMove = 0
+maxClickMove = 2
 Mouse = function() {
         this.pos = new Vector(-1,-1);
         this.button = -1;

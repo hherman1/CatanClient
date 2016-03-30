@@ -41,6 +41,15 @@ function isHit(hitbox,loc) {
         }
 }
 
+function getHitboxStructure(vertices,roads,box) {
+        switch(box.data.type) {
+                case Position.Type.Vertex:
+                        return getVertex(vertices,box.data.coordinate).structure;
+                case Position.Type.Road:
+                        return getRoad(roads,box.data.coordinateA,box.data.coordinateB);
+        }
+}
+
 //testBox = new Hitbox.Box(hexToWorld(new Vector(1,1),50),new Vector(10,10),new Vector (0,1),Math.PI/3)
 
 //testBox2 = new Hitbox.Box(new Vector(300,200),new Vector(50,200),new Vector (0,1),Math.PI/6)

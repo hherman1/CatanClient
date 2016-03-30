@@ -101,6 +101,7 @@ Server = function() {
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {
+                player.resources = player.resources.map(function(){return 5})
                 this.gamestate.players.push(player);
                 this.gamestate.currentPlayerID = player.id;
         }
@@ -192,6 +193,7 @@ function gameStep(game) {
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
+        var mostImportantHit = getMaxPositionHit(hits);
 
         if(hits.length != 0) {
                 shouldRedraw = true;
@@ -205,14 +207,23 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                var mostImportantClick = getMaxPositionHit(hits);
                 //hits.forEach(function(hit) {
-                if(mostImportantClick != null) {
+                if(mostImportantHit != null) {
                         var push = null;
-                        if(mostImportantClick.data.type == Position.Type.Vertex) {
-                                push = new Action.BuildSettlement(mostImportantClick.data.coordinate);
-                        } else if(mostImportantClick.data.type == Position.Type.Road) {
-                                push = new Action.BuildRoad(mostImportantClick.data.coord1,mostImportantClick.data.coord2);
+                        switch(getHitboxStructure(game.gamestate.board.vertices,game.gamestate.board.roads,mostImportantHit)) {
+                                case Structure.Empty:
+                                        switch(mostImportantHit.data.type) {
+                                                case Position.Type.Vertex:
+                                                        push = new Action.BuildSettlement(mostImportantHit.data.coordinate);
+                                                        break;
+                                                case Position.Type.Road:
+                                                        push = new Action.BuildRoad(mostImportantHit.data.coord1,mostImportantClick.data.coord2);
+                                                        break;
+                                        }
+                                        break;
+                                case Structure.Settlement:
+                                        push = new Action.BuildCity(mostImportantHit.data.coordinate);
+                                        break;
                         }
                         if(push != null) {
                                 game.actions.data.push(push);
@@ -232,6 +243,7 @@ function gameStep(game) {
 
         if(shouldRedraw) {
                 redraw(game.gamestate
+                      ,mostImportantHit
                       ,game.actions.data
                       ,game.graphics.transform
                       ,game.graphics.animations

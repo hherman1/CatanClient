@@ -21,7 +21,19 @@ getColor = function(colorNum){
           return 'rgb(255, 0, 0)';
       case Colors.Orange:
           return 'rgb(255, 127, 42)';
+    }
 }
+getHighlight = function(colorNum){
+  switch(colorNum) {
+      case Colors.Blue:
+          return "rgba(85, 153, 255,0.5)";
+      case Colors.White:
+          return 'rgba(255, 255, 255,0.5)';
+      case Colors.Red:
+          return 'rgba(255, 0, 0,0.5)';
+      case Colors.Orange:
+          return 'rgba(255, 127, 42,0.5)';
+    }
 }
 
 Player = function(id){

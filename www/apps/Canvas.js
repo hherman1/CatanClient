@@ -80,7 +80,7 @@ function setTransform(transform,ctx) {
         ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(gamestate,actions,transform,animations,side,ctx) {
+function redraw(gamestate,highlight,actions,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var actionColor = colorMap[gamestate.currentPlayerID];
 

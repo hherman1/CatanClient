@@ -210,16 +210,16 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
-        processUIBuffer(game.buffer.UI)
+        //processUIBuffer(game.buffer.UI)
 
         if(game.buffer.UI.messages.length !=  0) {
                 game.buffer.UI.messages.map(function(message) {
                         switch(message) {
                                 case UI.Messages.EndTurn:
                                         var coord = new Vector(game.ctx.canvas.width-150
-                                                              ,game.ctx.canvas.height+20);
+                                                              ,game.ctx.canvas.height+30);
                                         game.graphics.animations.data.push(new DiceRoll(coord
-                                                                           ,7,1,12,100,50,1000))//new Vector(850,510)
+                                                                           ,7,1,12,100,60,1000))//new Vector(850,510)
                                         game.server.endTurn(game.actions.data);
                                         game.actions.data.length = 0;
                         }

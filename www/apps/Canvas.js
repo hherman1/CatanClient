@@ -11,9 +11,10 @@
 
    hexes.forEach(function(hex){
      var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
-     hexPath(hex.coordinate,side,ctx);
+     ctx.lineWidth = 1;
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
+     hexPath(hex.coordinate,side,ctx);
      ctx.fill();
      ctx.stroke();
      drawHexImage(tileImage,hexToWorld(hex.coordinate,side), side, ctx);
@@ -124,9 +125,9 @@ function removeRedundantSettlements(actions) {
 
 function drawToken(hc, token, ctx){
   var hc = hc;
+  ctx.beginPath();
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
-  ctx.beginPath();
   ctx.fillStyle="beige"; //fill color of the token
   ctx.arc(hc.x,hc.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();

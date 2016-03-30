@@ -46,7 +46,7 @@ function getHitboxStructure(vertices,roads,box) {
                 case Position.Type.Vertex:
                         return getVertex(vertices,box.data.coordinate).structure;
                 case Position.Type.Road:
-                        return getRoad(roads,box.data.coordinateA,box.data.coordinateB);
+                        return getRoad(roads,box.data.coord1,box.data.coord2).structure;
         }
 }
 

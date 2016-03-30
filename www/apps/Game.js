@@ -212,8 +212,10 @@ function gameStep(game) {
                         var push = null;
                         switch(getHitboxStructure(game.gamestate.board.vertices,game.gamestate.board.roads,mostImportantHit)) {
                                 case Structure.Empty:
+                                    console.log("Empty Structure Detected");
                                         switch(mostImportantHit.data.type) {
                                                 case Position.Type.Vertex:
+
                                                         push = new Action.BuildSettlement(mostImportantHit.data.coordinate);
                                                         break;
                                                 case Position.Type.Road:
@@ -222,6 +224,7 @@ function gameStep(game) {
                                         }
                                         break;
                                 case Structure.Settlement:
+                                    console.log("Settlement detected");
                                         push = new Action.BuildCity(mostImportantHit.data.coordinate);
                                         break;
                         }

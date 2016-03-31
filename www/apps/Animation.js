@@ -149,7 +149,8 @@ InfoBox = function(coordinate,text,height,width,transitionFrames) {
         }
         Animation.MultiPhase.call(this
                         ,[new Animation.MultiFrame(self.drawResize(height),transitionFrames)
-                         ,new Animation.MultiFrame(self.drawResize(0),100)]);
+                         ,new Animation.MultiFrame(self.drawResize(0),100)
+                         ,new Animation.MultiFrame(self.drawResize(-height),transitionFrames)])
 
 }
 

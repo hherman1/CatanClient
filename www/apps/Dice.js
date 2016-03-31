@@ -65,8 +65,7 @@ DiceRoll = function(coordinate,target,min,max,radius,vert,frames) {
                 return self.totalRotation * Timing.quadraticFixedDiscreteSum(frame/n,n);
         }
         
-        self.randomOffset = Math.random() * 2 * Math.PI
-        self.rotation = self.randomOffset;
+        self.rotation = Math.random() * 2 * Math.PI
         self.totalRotation = self.getTargetRotationWithSpins(numSpins,0,self.rotation);
         self.vertical = 0;
 

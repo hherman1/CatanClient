@@ -61,11 +61,16 @@ Animation = {
 
 Timing = {
 
+        //f(0) = 0, f(1) = 1;
+        linear: function(t) {
+            return t;
+        },
+
         // A cubic function f with f' = 0 at the start and end of the period t in [0,1]
         cubic: function(t) {
                 return (-2*Math.pow(t,3) + 3*Math.pow(t,2));
         },
-        //A cubic function which sums to 1 for any discrete sum
+        //A cubic function which sums to 1 for any discrete sum from k=0 to n
         //t = k/n
         cubicFixedDiscreteSum(t,n) {
                 return (2/(1+n))*Timing.cubic(t);
@@ -84,14 +89,15 @@ Timing = {
 
 }
 
-ClickCircle = function(coordinate,radius,frames,style) {
+ClickCircle = function(coordinate,radius,frames) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 //setTransform(transform,ctx);
                                 resetTransform(ctx);
                                 ctx.beginPath();
-                                var outerRadius = radius/2 + radius/2 * frame/totalFrames;
-                                var innerRadius = radius * (frame/totalFrames)^2;
+                                var outerRadius = radius * Timing.linear(frame/totalFrames);
+                                var innerRadius = radius * Timing.cubic(frame/totalFrames);
+                                ctx.fillStyle = "rgba(0,0,0,0.8)";
                                 ctx.arc(coordinate.x,coordinate.y,outerRadius,0,2*Math.PI,false)
                                 ctx.arc(coordinate.x,coordinate.y,innerRadius,0,2*Math.PI,true)
                                 ctx.fill();

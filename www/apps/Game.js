@@ -219,7 +219,7 @@ function gameStep(game) {
                                         var coord = new Vector(game.ctx.canvas.width-150
                                                               ,game.ctx.canvas.height+30);
                                         game.graphics.animations.data.push(new DiceRoll(coord
-                                                                           ,7,1,12,100,60,1000))//new Vector(850,510)
+                                                                           ,-1,1,12,100,60,1000))//new Vector(850,510)
                                         game.server.endTurn(game.actions.data);
                                         game.actions.data.length = 0;
                         }

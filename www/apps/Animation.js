@@ -71,6 +71,7 @@ DiceRoll = function(coordinate,target,max,min,radius,vert,frames) {
         self.nums = Array.apply(null,Array(self.numCount)).map(self.nextNum);
         self.nums[0] = target;
 
+        var textWidth = 28;
         var spinFramesFraction = 7/10;
         var angleDiff = 2 * Math.PI / self.nums.length;
 
@@ -79,14 +80,17 @@ DiceRoll = function(coordinate,target,max,min,radius,vert,frames) {
                 for(var i = 0; i < totalFrames;i++) {
                         totalRotation += self.getSpeed(i,totalFrames);
                 }
-                return (angleDiff*totalFrames/(7*2)) % (Math.PI*2) //Math.PI * 2 - totalRotation%(Math.PI * 2);
+                return (angleDiff*(totalFrames-1)/(7*2)) % (Math.PI*2) //Math.PI * 2 - totalRotation%(Math.PI * 2);
         }
 
         self.getSpeed = function(frame,totalFrames) {
-                return 1 - 1 * (2*Math.abs(frame - totalFrames/2)/totalFrames);
+                var n = totalFrames - 1;
+                return (angleDiff/7) * (1 - (2*Math.abs(frame - n/2)/n)) 
+                        + (self.randomOffset/(totalFrames-1));
         }
         
-        self.rotation = self.rotationOffset(spinFramesFraction*frames);
+        self.randomOffset = Math.random() * 2 * Math.PI
+        self.rotation = self.rotationOffset(spinFramesFraction*frames) + self.randomOffset;
         self.vertical = 0;
 
         self.tween = function(verticalDiff) {
@@ -135,7 +139,7 @@ DiceRoll = function(coordinate,target,max,min,radius,vert,frames) {
 
                 ctx.beginPath();
                 self.nums.map(function(n) {
-                        ctx.fillText("" + n,0,-radius);
+                        ctx.fillText("" + n,-textWidth/2,-radius,textWidth);
                         ctx.rotate(angleDiff);
                 })
         }
@@ -143,8 +147,7 @@ DiceRoll = function(coordinate,target,max,min,radius,vert,frames) {
         self.drawSpin = function(ctx,transform,frame,totalFrames) {
                 resetTransform(ctx);
                 var angleDiff = 2 * Math.PI / self.nums.length;
-                var speed = self.getSpeed(frame,totalFrames);
-                self.rotation = self.rotation - speed*angleDiff/7;
+                self.rotation = self.rotation - self.getSpeed(frame,totalFrames);
                 self.drawWheel(ctx);
         }
         Animation.MultiPhase.call(self

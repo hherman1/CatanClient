@@ -71,16 +71,7 @@ DiceRoll = function(coordinate,target,min,max,radius,vert,frames) {
 
         self.tween = function(verticalDiff) {
                 return function(ctx,transform,frame,totalFrames) {
-                        var n = totalFrames/2;
-                        var constant = 2/(n * (1 + n));
                         self.vertical += verticalDiff * Timing.quadraticFixedDiscreteSum(frame/totalFrames,totalFrames);
-                        /*
-                        if(frame < n) {
-                                self.vertical += 1/2 * verticalDiff  * constant * frame;
-                        } else {
-                                self.vertical += 1/2 * verticalDiff  * constant * (2*n - frame);
-                        }
-                        */
                         self.drawWheel(ctx);
                 }
         }

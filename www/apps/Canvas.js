@@ -3,8 +3,27 @@
  *Canvas.js contains functions to draw/render objects onto the window.
  */
 
-//requirejs(['Grid','Hitbox','Animation'],function(){})
+// wrapText function from: http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+        y+= lineHeight;
 
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
  function drawHexes(hexes,side,ctx) {
          //Set transformation
    //setting the side of hexagon to be a value

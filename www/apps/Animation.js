@@ -55,7 +55,8 @@ Animation = {
                                         }
                                 }
                                 ,main.isOver);
-        }
+        },
+
 
 }
 
@@ -106,6 +107,51 @@ ClickCircle = function(coordinate,radius,frames) {
 }
 
 
+InfoBox = function(coordinate,text,height,width,transitionFrames) {
+        var self = this;
+
+        var padding = 10;
+
+        self.height = 0;
+
+        self.incrementResize = function(target,frame,frames) {
+                self.height += target*Timing.quadraticFixedDiscreteSum(frame/frames,frames);
+        }
+        self.drawBox = function(text,ctx) {
+                resetTransform(ctx);
+                ctx.save();
+
+                ctx.beginPath();
+                ctx.rect(coordinate.x,coordinate.y,width,self.height);
+
+                ctx.fillStyle = "rgba(50,50,50,0.99)";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.rect(coordinate.x,coordinate.y,width,self.height - padding);
+                ctx.clip();
+
+                ctx.fillStyle = "white";
+                ctx.font = "11px sans-serif";
+                wrapText(ctx,text,coordinate.x+padding,coordinate.y+padding,width-padding,11);
+
+                ctx.restore();
+        }
+        self.drawResize = function(target) {
+                return function(ctx,transform,frame,frames) {
+                        self.incrementResize(target,frame,frames);
+                        self.drawBox(text,ctx);
+                }
+        }
+        Animation.MultiPhase.call(this
+                        ,[new Animation.MultiFrame(self.drawResize(height),transitionFrames)
+                         ,new Animation.MultiFrame(self.drawResize(0),100)]);
+
+}
 
 
 function pruneAnimations(anims) {
@@ -115,3 +161,5 @@ function pruneAnimations(anims) {
 function drawAnims(anims,transform,ctx) {
         anims.forEach(function(anim){anim.draw(ctx,transform)})
 }
+
+

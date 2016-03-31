@@ -196,6 +196,11 @@ cloneGameState = function(gameState) {
 function runGame(game,frameDuration) {
         window.setInterval(gameStep,frameDuration,game);
 }
+
+function pushAnimation(animation,game) {
+        game.graphics.animations.data.push(animation);
+}
+
 function processUIBuffer(game){
     game.buffer.UI.messages.map(function(elem) {
             switch(elem) {
@@ -203,8 +208,9 @@ function processUIBuffer(game){
             //END TURN METHOD HERE
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
-                        game.graphics.animations.data.push(new DiceRoll(coord
-                                                           ,-1,1,12,100,60,1000))//new Vector(850,510)
+                        pushAnimation(new DiceRoll(coord
+                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
+                                      ,game);
                         game.server.endTurn(game.actions.data);
                         game.actions.data.length = 0;
                         console.log("Test case 1");
@@ -235,10 +241,11 @@ function gameStep(game) {
 
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
         var hits = getHits(hitlist,game.mouse.pos);
+        var maxHit = getMaxPositionHit(hits);
         var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
                                                  ,game.actions.data
-                                                 ,getMaxPositionHit(hits));
+                                                 ,maxHit);
 
         //processUIBuffer(game.buffer.UI)
 
@@ -257,8 +264,13 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
+                pushAnimation(new ClickCircle(mouse.pos,10,10),game);
                 //hits.forEach(function(hit) {
+                //
+                if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
+                        pushAnimation(new InfoBox(mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
+
+                }
 
                 if(potentialAction != null) {
                         game.actions.data.push(potentialAction);

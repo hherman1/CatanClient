@@ -112,7 +112,7 @@ var timeinterval = setInterval(updateClock,1000);
 
 
     UI = {
-        Messages : {
+        Message : {
             EndTurn : 0,
             BuildRoad : 1,
             BuildSettlement : 2,
@@ -124,17 +124,17 @@ var timeinterval = setInterval(updateClock,1000);
     }
 
     function endTurnButtonClick(buffer){
-        buffer.messages.push(UI.Messages.EndTurn);//adds an endTurn call to the UI buffer
+        buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
         console.log("endTurn clidked");
     }
     function roadBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildRoad);//adds a road build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildRoad);//adds a road build call to the UI buffer
     }
     function settlementBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildSettlement);//adds a settlement build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildSettlement);//adds a settlement build call to the UI buffer
     }
     function cityBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildCity);//adds a city build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildCity);//adds a city build call to the UI buffer
     }
     function flushBufferMessages(buffer){
         buffer.messages.length = 0;
@@ -155,27 +155,6 @@ var timeinterval = setInterval(updateClock,1000);
         })
     }
 
-function processUIBuffer(buffer){
-    buffer.messages.map(function(elem) {
-        if (elem == 0){
-            //END TURN METHOD HERE
-            console.log("Test case 1");
-        }else if (elem == 1){
-            //Build road method here
-            console.log(elem);
-            console.log("Test case 2");
-        }else if (elem == 2){
-            //Build settlement method here
-            console.log("Test case 3");
-        }else if (elem == 3){
-            //Build city method here
-            console.log("Test case 4");
-        }else{
-            console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
-        }
-    })
-    flushBufferMessages(buffer);
-}
     
 
 

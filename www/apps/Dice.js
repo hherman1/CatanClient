@@ -52,36 +52,36 @@ DiceRoll = function(coordinate,target,min,max,radius,vert,frames) {
         self.nums[0] = target;
 
         var textWidth = 28;
+        var numSpins = 10;
         var spinFramesFraction = 7/10;
         var angleDiff = 2 * Math.PI / self.nums.length;
 
-        self.rotationOffset = function(totalFrames) {
-                var totalRotation = 0;
-                for(var i = 0; i < totalFrames;i++) {
-                        totalRotation += self.getSpeed(i,totalFrames);
-                }
-                return (angleDiff*(totalFrames-1)/(7*2)) % (Math.PI*2) //Math.PI * 2 - totalRotation%(Math.PI * 2);
+        self.getTargetRotationWithSpins = function(spins,target,offset) {
+                return spins*2*Math.PI + ((offset - target) % (2 * Math.PI))
         }
 
         self.getSpeed = function(frame,totalFrames) {
                 var n = totalFrames - 1;
-                return (angleDiff/7) * (1 - (2*Math.abs(frame - n/2)/n)) 
-                        + (self.randomOffset/(totalFrames-1));
+                return self.totalRotation * Timing.quadraticFixedDiscreteSum(frame/n,n);
         }
         
         self.randomOffset = Math.random() * 2 * Math.PI
-        self.rotation = self.rotationOffset(spinFramesFraction*frames) + self.randomOffset;
+        self.rotation = self.randomOffset;
+        self.totalRotation = self.getTargetRotationWithSpins(numSpins,0,self.rotation);
         self.vertical = 0;
 
         self.tween = function(verticalDiff) {
                 return function(ctx,transform,frame,totalFrames) {
                         var n = totalFrames/2;
                         var constant = 2/(n * (1 + n));
+                        self.vertical += verticalDiff * Timing.quadraticFixedDiscreteSum(frame/totalFrames,totalFrames);
+                        /*
                         if(frame < n) {
                                 self.vertical += 1/2 * verticalDiff  * constant * frame;
                         } else {
                                 self.vertical += 1/2 * verticalDiff  * constant * (2*n - frame);
                         }
+                        */
                         self.drawWheel(ctx);
                 }
         }

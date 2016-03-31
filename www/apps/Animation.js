@@ -59,6 +59,31 @@ Animation = {
 
 }
 
+Timing = {
+
+        // A cubic function f with f' = 0 at the start and end of the period t in [0,1]
+        cubic: function(t) {
+                return (-2*Math.pow(t,3) + 3*Math.pow(t,2));
+        },
+        //A cubic function which sums to 1 for any discrete sum
+        //t = k/n
+        cubicFixedDiscreteSum(t,n) {
+                return (2/(1+n))*Timing.cubic(t);
+        },
+
+        // a quadratic f with f' = 0 and f = {0,1,0} at {0,1/2,1} 
+        quadratic(t) {
+                return 16*(Math.pow(t,4)) - 32 * Math.pow(t,3) + 16 * Math.pow(t,2);
+        },
+
+        //see cubicFixedDiscreteSum
+        quadraticFixedDiscreteSum(t,n) {
+                var c = 15*Math.pow(n,3)/(8*(1+n)*(-1+n-Math.pow(n,2)+Math.pow(n,3)));
+                return c * Timing.quadratic(t); 
+        },
+
+}
+
 ClickCircle = function(coordinate,radius,frames,style) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {

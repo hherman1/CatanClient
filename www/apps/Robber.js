@@ -5,8 +5,6 @@ Robber = function(hex) {
   this.hex = hex;
 }
 
-
-
 function moveRobber(robber, hex, player){
   robber.hex.robber = false;
   robber.hex = hex;

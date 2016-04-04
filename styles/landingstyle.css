@@ -22,13 +22,34 @@ ul.navbar li {
 ul.navbar a {
   text-decoration: none }
 a:link {
-  color: #17324f }
+  color: #17324f;
+  font-size: 24px;
+}
 a:visited {
   color: #17324f }
 a:hover{
   background-color: #ffecbc;
   text-decoration: none;
-  font-size: 24px;
+  font-size: 26px;
 }
 
+input[type=button]{
+  background-color: #f6bc73;
+  color: #17324f;
+  font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-size: 24px;
+  border: none;
+  padding: 5px 5px 5px 0px;
+}
+
+input[type=button]:hover{
+  background-color: #ffecbc;
+  text-decoration: none;
+  font-size: 26px;
+}
+address {
+    display: block;
+    font-style: italic;
+    text-align: center;
+}
 //http://www.color-hex.com/color-palette/16273

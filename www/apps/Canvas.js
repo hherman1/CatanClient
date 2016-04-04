@@ -3,17 +3,37 @@
  *Canvas.js contains functions to draw/render objects onto the window.
  */
 
-//requirejs(['Grid','Hitbox','Animation'],function(){})
+// wrapText function from: http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+        y+= lineHeight;
 
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
  function drawHexes(hexes,side,ctx) {
          //Set transformation
    //setting the side of hexagon to be a value
 
    hexes.forEach(function(hex){
      var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
-     hexPath(hex.coordinate,side,ctx);
+     ctx.lineWidth = 1;
      ctx.strokeStyle = "black";
      ctx.fillStyle = "#FFDAB9";
+     hexPath(hex.coordinate,side,ctx);
      ctx.fill();
      ctx.stroke();
      drawHexImage(tileImage,hexToWorld(hex.coordinate,side), side, ctx);
@@ -124,9 +144,9 @@ function removeRedundantSettlements(actions) {
 
 function drawToken(hc, token, ctx){
   var hc = hc;
+  ctx.beginPath();
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
-  ctx.beginPath();
   ctx.fillStyle="beige"; //fill color of the token
   ctx.arc(hc.x,hc.y, 20, 0, 2*Math.PI); //draw the token circle
   ctx.fill();

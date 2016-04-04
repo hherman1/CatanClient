@@ -102,7 +102,7 @@ var timeinterval = setInterval(updateClock,1000);
     })
 
     UI = {
-        Messages : {
+        Message : {
             EndTurn : 0,
             BuildRoad : 1,
             BuildSettlement : 2,
@@ -114,17 +114,17 @@ var timeinterval = setInterval(updateClock,1000);
     }
 
     function endTurnButtonClick(buffer){
-        buffer.messages.push(UI.Messages.EndTurn);//adds an endTurn call to the UI buffer
+        buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
         console.log("endTurn clicked");
     }
     function roadBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildRoad);//adds a road build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildRoad);//adds a road build call to the UI buffer
     }
     function settlementBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildSettlement);//adds a settlement build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildSettlement);//adds a settlement build call to the UI buffer
     }
     function cityBuildCardClick(buffer){
-        buffer.messages.push(UI.Messages.BuildCity);//adds a city build call to the UI buffer
+        buffer.messages.push(UI.Message.BuildCity);//adds a city build call to the UI buffer
     }
     function flushBufferMessages(buffer){
         buffer.messages.length = 0;

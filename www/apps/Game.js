@@ -83,6 +83,7 @@ GameState = function() {
         this.currentPlayerID = null;
 }
 
+
 Graphics = function(){
         this.animations = new Reference([])
         this.transform = {
@@ -196,28 +197,69 @@ function runGame(game,frameDuration) {
         window.setInterval(gameStep,frameDuration,game);
 }
 
+function pushAnimation(animation,game) {
+        game.graphics.animations.data.push(animation);
+}
+
+function processUIBuffer(game){
+    game.buffer.UI.messages.map(function(elem) {
+            switch(elem) {
+                    case UI.Message.EndTurn:
+            //END TURN METHOD HERE
+                        var coord = new Vector(game.ctx.canvas.width-150
+                                              ,game.ctx.canvas.height+30);
+                        pushAnimation(new DiceRoll(coord
+                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
+                                      ,game);
+                        game.server.endTurn(game.actions.data);
+                        game.actions.data.length = 0;
+                        console.log("Test case 1");
+                        break;
+                    case UI.Message.BuildRoad:
+                            console.log(elem);
+                            console.log("Test case 2");
+                        break;
+                    case UI.Message.BuildSettlement:
+                            console.log("Test case 3");
+                        break;
+                    case UI.Message.BuildCity:
+                            console.log("Test case 4");
+                        break;
+                    default:
+                            console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
+                        break;
+            }
+    })
+    flushBufferMessages(game.buffer.UI);
+}
+
 function gameStep(game) {
         var shouldRedraw = false;
+        
+        var mouse = processBuffer(game.mouse,game.buffer.mouse);
+        flushMouseEvents(game.buffer.mouse);
 
         var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
-        var mouse = processBuffer(game.mouse,game.buffer.mouse);
         var hits = getHits(hitlist,game.mouse.pos);
+        var maxHit = getMaxPositionHit(hits);
         var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
                                                  ,game.actions.data
-                                                 ,getMaxPositionHit(hits));
-
-        processUIBuffer(game.buffer.UI, game)
+                                                 ,maxHit);
 
         if(game.buffer.UI.messages.length !=  0) {
-                game.buffer.UI.messages.map(function(message) {
-                        switch(message) {
-                                case UI.Messages.EndTurn:
-                                        game.server.endTurn(game.actions.data);
-                                        flushActions(game.actions);
-                        }
-                });
-                flushBufferMessages(game.buffer.UI);
+
+            processUIBuffer(game.buffer.UI, game)
+            
+            game.buffer.UI.messages.map(function(message) {
+                    switch(message) {
+                            case UI.Messages.EndTurn:
+                                    game.server.endTurn(game.actions.data);
+                                    flushActions(game.actions);
+                    }
+            });
+            flushBufferMessages(game.buffer.UI);
+
         }
         if(hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
@@ -231,8 +273,14 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                game.graphics.animations.data.push(new ClickCircle(mouse.pos,10,10));
+                pushAnimation(new ClickCircle(mouse.pos,10,10),game);
                 //hits.forEach(function(hit) {
+                //
+                if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
+                        pushAnimation(new InfoBox(mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
+
+                }
+
                 if(potentialAction != null) {
                         game.actions.data.push(potentialAction);
                         if(!validateActions(game.actions.data,game.gamestate)) {
@@ -243,7 +291,6 @@ function gameStep(game) {
         }
 
         //console.log(game.actions.data);
-        flushMouseEvents(game.buffer.mouse);
 
         var side=50;
 

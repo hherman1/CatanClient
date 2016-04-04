@@ -183,6 +183,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.structure = Structure.Settlement;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
+                                player.vicPoints++;
                         })
                         break;
                 case Action.Type.BuildCity:
@@ -190,6 +191,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.structure = Structure.City;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
+                                player.vicPoints+=2;
                         })
                         break;
                 case Action.Type.BuildRoad:

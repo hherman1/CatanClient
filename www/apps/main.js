@@ -25,7 +25,7 @@ define(function (require) {
                 var myGame = new CatanGame(50,ctx);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
-                setupUIBuffer(myGame.buffer.UI);
+                setupUIBuffer(myGame.buffer.UI, myGame);
                 runGame(myGame,13);
         } else {
             console.log("browser unsupported")

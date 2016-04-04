@@ -105,29 +105,31 @@ Server = function() {
                 this.gamestate.players.push(player);
                 this.gamestate.currentPlayerID = player.id;
         }
-        this.endTurn = function(actionsToBeValidated){
-            //Switch player method
-            // -Takes in a list of actions, validate them, apply changes
+        this.testCall = function(){
+            console.log("Test");
+        }
+        this.endTurn = function(game, actionsToBeValidated, players){
+            //applyActions(actionsToBeValidated, game.gamestate); //Grand error here
+            //Change player ID
+            nextPlayer(game);
+            //UI method to show the new resources that players recieved at the start of their new turn
+        }
+        this.beginTurn = function(){
+            //Generate resources
+            //Roll Dice
+            //UpdateUI with proper resource count and stats count
+
 
             //need to get playerList
             //need to get vertexFrame
             //ned to get tileFrame
-            /*
+                        /*
             var diceRoll = getRsum();
             var playerList = gamestate.players;
             var vertexFrame = gamestate.board.vertexFrame;
             var tileFrame = gamestate.tileFrame;
             resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             */
-            //Shift player context (Who is making the moves/calls)
-            //UI method to show the new resources that players recieved at the start of their new turn
-            //
-            ////////////////////////////////////////////////////
-            //             TESTING CODE                       //
-            ////////////////////////////////////////////////////
-
-            applyActions(actionsToBeValidated,this.gamestate);
-            this.gamestate.currentPlayerID = (this.gamestate.currentPlayerID + 1)%3+1;
         }
 }
 
@@ -136,7 +138,6 @@ Buffer = function() {
     this.UI = new UI.Buffer();
     //when click end turn put something in here so the game can see it the next turn
 }
-
 
 Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
         this.ctx = ctx;
@@ -182,7 +183,6 @@ CatanGame = function(side,ctx) {
         addPlayers(this.server);
 }
 
-
 cloneGameState = function(gameState) {
         var out = new GameState();
         out.board = cloneBoard(gameState.board);
@@ -207,14 +207,14 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,getMaxPositionHit(hits));
 
-        processUIBuffer(game.buffer.UI)
+        processUIBuffer(game.buffer.UI, game)
 
         if(game.buffer.UI.messages.length !=  0) {
                 game.buffer.UI.messages.map(function(message) {
                         switch(message) {
                                 case UI.Messages.EndTurn:
                                         game.server.endTurn(game.actions.data);
-                                        game.actions.data.length = 0;
+                                        flushActions(game.actions);
                         }
                 });
                 flushBufferMessages(game.buffer.UI);

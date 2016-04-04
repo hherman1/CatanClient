@@ -106,38 +106,20 @@ Server = function() {
                 this.gamestate.players.push(player);
                 this.gamestate.currentPlayerID = player.id;
         }
-        this.testCall = function(){
-            console.log("Test");
-        }
-        this.endTurn = function(game, actionsToBeValidated, players){
-            //applyActions(actionsToBeValidated, game.gamestate); //Grand error here
-            //Change player ID
-            nextPlayer(game);
+        this.endTurn = function(actionsToBeValidated){
+            applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
+            flushActions(actionsToBeValidated);//Flushes the pendng actions
+            nextPlayer(this.gamestate);//Change current player ID
             //UI method to show the new resources that players recieved at the start of their new turn
-        }
-        this.beginTurn = function(){
             //Generate resources
             //Roll Dice
             //UpdateUI with proper resource count and stats count
-
-
-            //need to get playerList
-            //need to get vertexFrame
-            //ned to get tileFrame
-                        /*
-            var diceRoll = getRsum();
-            var playerList = gamestate.players;
-            var vertexFrame = gamestate.board.vertexFrame;
-            var tileFrame = gamestate.tileFrame;
-            resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
-            */
         }
 }
 
 Buffer = function() {
     this.mouse = new MouseBuffer();
     this.UI = new UI.Buffer();
-    //when click end turn put something in here so the game can see it the next turn
 }
 
 Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
@@ -201,19 +183,17 @@ function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
 
-function processUIBuffer(game){
-    game.buffer.UI.messages.map(function(elem) {
+function processUIBuffer(buffer, game){
+    buffer.messages.map(function(elem) {
             switch(elem) {
                     case UI.Message.EndTurn:
-            //END TURN METHOD HERE
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
                         pushAnimation(new DiceRoll(coord
                                       ,-1,1,12,100,60,1000)//new Vector(850,510)
                                       ,game);
-                        game.server.endTurn(game.actions.data);
-                        game.actions.data.length = 0;
-                        console.log("Test case 1");
+                        game.server.endTurn(game.actions);
+                        game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;
                     case UI.Message.BuildRoad:
                             console.log(elem);
@@ -230,7 +210,7 @@ function processUIBuffer(game){
                         break;
             }
     })
-    flushBufferMessages(game.buffer.UI);
+    flushBufferMessages(buffer);
 }
 
 function gameStep(game) {
@@ -249,8 +229,8 @@ function gameStep(game) {
 
         if(game.buffer.UI.messages.length !=  0) {
 
-            processUIBuffer(game.buffer.UI, game)
-            
+            processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
+
             game.buffer.UI.messages.map(function(message) {
                     switch(message) {
                             case UI.Messages.EndTurn:
@@ -258,7 +238,7 @@ function gameStep(game) {
                                     flushActions(game.actions);
                     }
             });
-            flushBufferMessages(game.buffer.UI);
+            flushBufferMessages(game.buffer.UI);//Flushes processed messages
 
         }
         if(hits.length != 0 || game.graphics.animations.data.length != 0) {
@@ -289,8 +269,6 @@ function gameStep(game) {
                         shouldRedraw = true;
                 }
         }
-
-        //console.log(game.actions.data);
 
         var side=50;
 

@@ -119,6 +119,7 @@ function validateInit(action,gamestate,player) {
 function validateNormal(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
+
                         if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
                                 //console.log("Road legal");
                                 return true;
@@ -199,6 +200,7 @@ function applyActionForPlayer(action,gamestate,player) {
                         r.structure = Structure.Road;
                         r.playerID = gamestate.currentPlayerID;
                         player.roadCount++;
+
                         break;
         }
 }

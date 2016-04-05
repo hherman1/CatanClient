@@ -75,41 +75,31 @@ var timeinterval = setInterval(updateClock,1000);
     }
     //Tests
     //setResourceVal
-    setResourceVal("Lumber", 5);
-    setResourceVal("Grain", 2);
-    setResourceVal("Wool", 1);
-    setResourceVal("Ore", 1);
-    setResourceVal("Brick", 0);
-    //setStructuresVal
-    setStructuresVal(1, "Settlement", 3);
-    setStructuresVal(1, "Road", 8);
-    setStructuresVal(2, "Settlement", 1);
-    setStructuresVal(2, "City", 2);
-    setStructuresVal(3, "City", 4);
-    setStructuresVal(3, "Road", 3);
-    setStructuresVal(4, "Settlement", 2);
-    setStructuresVal(4, "City", 2);
-    setStructuresVal(4, "Road", 6);
-    //setVictoryPointsVal
-    setVictoryPointsVal(1, 5);
-    setVictoryPointsVal(2, 4);
-    setVictoryPointsVal(3, 8);
-    setVictoryPointsVal(4, 6);
-    setVictoryPointsVal(42, 6);//Doesnt find anything (which is good)
-    //SetRollVal
-    setRollVal(4);
-
-
-    // buffer.ui[UImess.EndTurn, UIMessage.BuildRoad]
-    // UIMessage = {
-    //     EndTurn : 0
-    // }
-
-    //takes in messages from the UI
-    //Hold the message/event
-    //Game can take action out of here
-    //Returns nohing
-
+    $(document).ready(function(){
+        setResourceVal("Lumber", 5);
+        setResourceVal("Grain", 2);
+        setResourceVal("Wool", 1);
+        setResourceVal("Ore", 1);
+        setResourceVal("Brick", 0);
+        //setStructuresVal
+        setStructuresVal(1, "Settlement", 3);
+        setStructuresVal(1, "Road", 8);
+        setStructuresVal(2, "Settlement", 1);
+        setStructuresVal(2, "City", 2);
+        setStructuresVal(3, "City", 4);
+        setStructuresVal(3, "Road", 3);
+        setStructuresVal(4, "Settlement", 2);
+        setStructuresVal(4, "City", 2);
+        setStructuresVal(4, "Road", 6);
+        //setVictoryPointsVal
+        setVictoryPointsVal(1, 5);
+        setVictoryPointsVal(2, 4);
+        setVictoryPointsVal(3, 8);
+        setVictoryPointsVal(4, 6);
+        setVictoryPointsVal(42, 6);//Doesnt find anything (which is good)
+        //SetRollVal
+        setRollVal(4);
+    })
 
     UI = {
         Message : {
@@ -125,7 +115,7 @@ var timeinterval = setInterval(updateClock,1000);
 
     function endTurnButtonClick(buffer){
         buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
-        console.log("endTurn clidked");
+        console.log("endTurn clicked");
     }
     function roadBuildCardClick(buffer){
         buffer.messages.push(UI.Message.BuildRoad);//adds a road build call to the UI buffer
@@ -155,6 +145,27 @@ var timeinterval = setInterval(updateClock,1000);
         })
     }
 
+// function processUIBuffer(buffer, game){
+//     buffer.messages.map(function(elem) {
+//         if (elem == 0){//Turn ending functionallity
+//             game.server.endTurn(game.gamestate, game.actions);//FIX THIS LINE
+//             console.log("Test case 1");
+//         }else if (elem == 1){//Functionallity to build roads
+//             //Build road method here
+//             console.log(elem);
+//             console.log("Test case 2");
+//         }else if (elem == 2){//Build settlements
+//             //Build settlement method here
+//             console.log("Test case 3");
+//         }else if (elem == 3){//Build cities
+//             //Build city method here
+//             console.log("Test case 4");
+//         }else{//Error message
+//             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
+//         }
+//     })
+//     flushBufferMessages(buffer);
+// }
     
 
 

@@ -167,6 +167,9 @@ function applyAction(action,gamestate) {
     applyActionForPlayer(action,gamestate,currentPlayer);
 }
 
+function flushActions(actions){
+    actions.data.length = 0;
+}
 
 function applyActionForPlayer(action,gamestate,player) {
         switch(gamestate.phase){

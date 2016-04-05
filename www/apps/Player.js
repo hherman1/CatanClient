@@ -119,3 +119,21 @@ function subtractResources(pos,neg) {
         }
         return pos;
 }
+
+//Takes in game and returns what the index is of the current player in players
+function currentPlayerListIndex(gamestate){
+              for (var i = 0; i<gamestate.players.length; i++){
+                if (gamestate.players[i].id == gamestate.currentPlayerID){
+                  return gamestate.players[i].id;//index of current player in players
+                }
+              }
+              return 'Err | currentPlayersListIndex';
+}
+
+function nextPlayer(gamestate){
+//get current player index and then increase it by one and set the global player to this calculated player
+              var currentPlayerIndex = currentPlayerListIndex(gamestate);
+              var nextPlayer = (currentPlayerIndex) % (gamestate.players.length) + 1;
+              gamestate.currentPlayerID = nextPlayer;//Moves to next player
+              console.log("current player id now: " + nextPlayer);
+}

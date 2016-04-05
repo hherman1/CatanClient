@@ -29,7 +29,7 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
  */
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
-	console.log("checking settlements");
+	console.log(getAdjacentPlayerRoads(coords, player, roadList, vertexFrame));
 	var vert = getVertex(vertexFrame,coords);
 //	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
 //		return false;
@@ -96,6 +96,14 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 }
 
 ////////////////////////////////////////////////////////////////////////
+/*                     VICTORY POINT FUNCTIONS                        */
+////////////////////////////////////////////////////////////////////////
+
+function longestRoad(checkedRoadList, vert){
+
+}
+
+////////////////////////////////////////////////////////////////////////
 /*                            HELPER FUNCTIONS                        */
 ////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +112,49 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Fix
+function getAdjacentPlayerRoads(coords, player, roadList, vertices){ //TODO: Test
+	var adjacentRoadList = [];
+	var testCoords = getVertexNeighbors(coords, vertices);
+	for (var i = 0; i < testCoords.length; i++) {
+		var road = getRoad(roadList, coords, testCoords[i]);
+		if (road != undefined) {
+			if (road.playerID == player.id) {
+				adjacentRoadList.push(road);
+			}
+		}
+	}
+	return adjacentRoadList;
+}
+/*
+function getAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Simplify
+	var adjacentRoadList = [];
+	var testCoords1 = getVertexNeighbors(coords1, vertices);
+	for (var i = 0; i < testCoords1.length; i++) {
+		var road1 = getRoad(roadList, coords1, testCoords1[i]);
+		if (road1 != undefined) {
+			if (road1.playerID == player.id) {
+				adjacentRoadList.push(road1);
+			}
+		}
+	}
+	var testCoords2 = getVertexNeighbors(coords2, vertices);
+	for (i = 0; i < testCoords2.length; i++) {
+		var road2 = getRoad(roadList, coords2, testCoords2[i]);
+		if (road2 != undefined) {
+			if (road2.playerID == player.id) {
+				adjacentRoadList.push(road2);
+			}
+		}
+	}
+	return adjacentRoadList;
+}
+
+function checkAdjacentPlayerRoads(coords, player, roadList, vertices){
+	return checkAdjacentPlayerRoads(coords, coords, player, roadList, vertices);
+}
+*/
+
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
 	for (var i = 0; i < testCoords1.length; i++) {
 		var road1 = getRoad(roadList, coords1, testCoords1[i]);

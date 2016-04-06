@@ -22,6 +22,7 @@ function rollDice(target,time){
 }
 
 
+
 function rollDiceValue(max) {
       var roll1 = Math.round(Math.random() * Math.floor((max-1)/2))+1;
       var roll2 = Math.round(Math.random() * Math.floor((max-1)/2))+1;

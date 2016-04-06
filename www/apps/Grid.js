@@ -107,7 +107,7 @@ function neighbours(hexcoords) {
             add(new Vector(1,-1),hexcoords),
             add(new Vector(0,-1),hexcoords),
             add(new Vector(-1,0),hexcoords),
-            add(new Vector(-1,1),hexCoords)]
+            add(new Vector(-1,1),hexcoords)]
 }
 
 

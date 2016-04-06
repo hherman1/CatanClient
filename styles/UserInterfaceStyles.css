@@ -37,6 +37,7 @@
 }
 
 .rollHolder{
+        text-align:center;
 	display: inline-block;
 	border-right: solid black 1px;
 	float: left;
@@ -49,8 +50,15 @@
 }
 
 .rollValue{
-	display: inline;
-	margin: 0 0px 0 0px;
+	display: inline-block;
+    width: 40px;
+    height: 30px;
+    margin: 1px;
+    text-align:center;
+    border: 2px solid black;
+}
+.rollValue+.rollValue {
+        margin-left:25px;
 }
 
 

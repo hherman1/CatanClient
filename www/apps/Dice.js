@@ -33,14 +33,14 @@ DiceRollUI = function(target,max,frames) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 setDice(rollHolder,rollDiceValue(max));
-                                if(totalFrames - frame <= 1) {
+                                if((totalFrames - frame) <= 1) {
                                         setDice(rollHolder,target);
                                 }
                         }
                         ,frames);
 }
 
-DiceRollWindow = function(box,target,frames) {
+DiceRollWindow = function(box,target,max,min,frames) {
         var self = this;
         
         self.nextNum = function() {
@@ -48,9 +48,12 @@ DiceRollWindow = function(box,target,frames) {
         }
         self.numCount = 12;
         
-        self.draw = function(ctx,transform,frames,totalFrames) {
-                if(frames % Math.ceil(Timing.cubic(frames/totalFrames)) == 0) {
+        self.draw = function(ctx,transform,frame,totalFrames) {
+                if(frames % Math.ceil(Timing.cubic(frame/totalFrames)) == 0) {
                         box.innerHTML = "" + self.nextNum();
+                } 
+                if ((totalFrames - frame) <= 1) {
+                        box.innerHTML = "" + target;
                 }
         }
 

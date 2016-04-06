@@ -208,9 +208,8 @@ function processUIBuffer(game){
             //END TURN METHOD HERE
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
-                        pushAnimation(new DiceRoll(coord
-                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
-                                      ,game);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
                         game.server.endTurn(game.actions.data);
                         game.actions.data.length = 0;
                         console.log("Test case 1");

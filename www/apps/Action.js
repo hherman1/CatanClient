@@ -119,6 +119,7 @@ function validateInit(action,gamestate,player) {
 function validateNormal(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
+
                         if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
                                 //console.log("Road legal");
                                 return true;
@@ -167,6 +168,9 @@ function applyAction(action,gamestate) {
     applyActionForPlayer(action,gamestate,currentPlayer);
 }
 
+function flushActions(actions){
+    actions.data.length = 0;
+}
 
 function applyActionForPlayer(action,gamestate,player) {
         switch(gamestate.phase){
@@ -180,6 +184,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.structure = Structure.Settlement;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
+                                player.vicPoints++;
                         })
                         break;
                 case Action.Type.BuildCity:
@@ -187,6 +192,7 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.structure = Structure.City;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
+                                player.vicPoints+=2;
                         })
                         break;
                 case Action.Type.BuildRoad:
@@ -194,6 +200,7 @@ function applyActionForPlayer(action,gamestate,player) {
                         r.structure = Structure.Road;
                         r.playerID = gamestate.currentPlayerID;
                         player.roadCount++;
+
                         break;
         }
 }

@@ -107,37 +107,20 @@ Server = function() {
                 this.gamestate.currentPlayerID = player.id;
         }
         this.endTurn = function(actionsToBeValidated){
-            //Switch player method
-            // -Takes in a list of actions, validate them, apply changes
-
-            //need to get playerList
-            //need to get vertexFrame
-            //ned to get tileFrame
-            /*
-            var diceRoll = getRsum();
-            var playerList = gamestate.players;
-            var vertexFrame = gamestate.board.vertexFrame;
-            var tileFrame = gamestate.tileFrame;
-            resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
-            */
-            //Shift player context (Who is making the moves/calls)
+            applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
+            flushActions(actionsToBeValidated);//Flushes the pendng actions
+            nextPlayer(this.gamestate);//Change current player ID
             //UI method to show the new resources that players recieved at the start of their new turn
-            //
-            ////////////////////////////////////////////////////
-            //             TESTING CODE                       //
-            ////////////////////////////////////////////////////
-
-            applyActions(actionsToBeValidated,this.gamestate);
-            this.gamestate.currentPlayerID = (this.gamestate.currentPlayerID + 1)%3+1;
+            //Generate resources
+            //Roll Dice
+            //UpdateUI with proper resource count and stats count
         }
 }
 
 Buffer = function() {
     this.mouse = new MouseBuffer();
     this.UI = new UI.Buffer();
-    //when click end turn put something in here so the game can see it the next turn
 }
-
 
 Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
         this.ctx = ctx;
@@ -183,7 +166,6 @@ CatanGame = function(side,ctx) {
         addPlayers(this.server);
 }
 
-
 cloneGameState = function(gameState) {
         var out = new GameState();
         out.board = cloneBoard(gameState.board);
@@ -201,18 +183,18 @@ function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
 
-function processUIBuffer(game){
-    game.buffer.UI.messages.map(function(elem) {
+function processUIBuffer(buffer, game){
+    buffer.messages.map(function(elem) {
             switch(elem) {
                     case UI.Message.EndTurn:
-            //END TURN METHOD HERE
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
-                        game.server.endTurn(game.actions.data);
-                        game.actions.data.length = 0;
-                        console.log("Test case 1");
+                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
+                                      ,game);
+                        game.server.endTurn(game.actions);
+                        game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;
                     case UI.Message.BuildRoad:
                             console.log(elem);
@@ -229,7 +211,7 @@ function processUIBuffer(game){
                         break;
             }
     })
-    flushBufferMessages(game.buffer.UI);
+    flushBufferMessages(buffer);
 }
 
 function gameStep(game) {
@@ -246,10 +228,19 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,maxHit);
 
-        //processUIBuffer(game.buffer.UI)
-
         if(game.buffer.UI.messages.length !=  0) {
-                processUIBuffer(game);
+
+            processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
+
+            game.buffer.UI.messages.map(function(message) {
+                    switch(message) {
+                            case UI.Messages.EndTurn:
+                                    game.server.endTurn(game.actions.data);
+                                    flushActions(game.actions);
+                    }
+            });
+            flushBufferMessages(game.buffer.UI);//Flushes processed messages
+
         }
         if(hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
@@ -279,8 +270,6 @@ function gameStep(game) {
                         shouldRedraw = true;
                 }
         }
-
-        //console.log(game.actions.data);
 
         var side=50;
 

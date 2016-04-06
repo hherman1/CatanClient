@@ -13,7 +13,7 @@ define(function (require) {
     var hitbox = require('./Hitbox');
     var mouse = require('./Mouse');
     var player = require('./Player');
-    var resource = require('./Resource');
+    //var resource = require('./Resource');
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');

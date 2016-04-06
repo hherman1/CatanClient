@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d276c79e-f752-4da1-8565-34face886a44" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\www\apps\Resource.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Dice.js" afterPath="$PROJECT_DIR$/www/apps/Dice.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Game.js" afterPath="$PROJECT_DIR$/www/apps/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/GameMethods.js" afterPath="$PROJECT_DIR$/www/apps/GameMethods.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Grid.js" afterPath="$PROJECT_DIR$/www/apps/Grid.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Player.js" afterPath="$PROJECT_DIR$/www/apps/Player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/UserInterfaceStyles.css" afterPath="$PROJECT_DIR$/styles/UserInterfaceStyles.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/main.js" afterPath="$PROJECT_DIR$/www/apps/main.js" />
     </list>
     <ignored path="CatanClient.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,21 +39,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.176471">
-              <caret line="191" column="50" selection-start-line="191" selection-start-column="50" selection-end-line="191" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.34462616">
+              <caret line="190" column="74" selection-start-line="190" selection-start-column="74" selection-end-line="190" selection-end-column="74" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dice.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Dice.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/Dice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40112358">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,8 +130,8 @@
         <option value="$PROJECT_DIR$/www/apps/Grid.js" />
         <option value="$PROJECT_DIR$/www/apps/Player.js" />
         <option value="$PROJECT_DIR$/www/apps/GameMethods.js" />
-        <option value="$PROJECT_DIR$/www/apps/Game.js" />
         <option value="$PROJECT_DIR$/www/apps/Dice.js" />
+        <option value="$PROJECT_DIR$/www/apps/Game.js" />
       </list>
     </option>
   </component>
@@ -566,12 +566,12 @@
       <workItem from="1459797714179" duration="2411000" />
       <workItem from="1459867544664" duration="12490000" />
       <workItem from="1459973303438" duration="4262000" />
-      <workItem from="1459978667935" duration="241000" />
+      <workItem from="1459978667935" duration="311000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76840000" />
+    <option name="totallyTimeSpent" value="76910000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -1026,18 +1026,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
+    <entry file="file://$PROJECT_DIR$/www/apps/Dice.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.176471">
-          <caret line="191" column="50" selection-start-line="191" selection-start-column="50" selection-end-line="191" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Dice.js">
+    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40112358">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.34462616">
+          <caret line="190" column="74" selection-start-line="190" selection-start-column="74" selection-end-line="190" selection-end-column="74" />
           <folding />
         </state>
       </provider>

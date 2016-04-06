@@ -40,6 +40,23 @@ DiceRollUI = function(target,max,frames) {
                         ,frames);
 }
 
+DiceRollWindow = function(box,target,frames) {
+        var self = this;
+        
+        self.nextNum = function() {
+                return Math.round(Math.random() * (max - min) + min);
+        }
+        self.numCount = 12;
+        
+        self.draw = function(ctx,transform,frames,totalFrames) {
+                if(frames % Math.ceil(Timing.cubic(frames/totalFrames)) == 0) {
+                        box.innerHTML = "" + self.nextNum();
+                }
+        }
+
+        Animation.MultiFrame.call(self,self.draw,frames);
+}
+
 DiceRoll = function(coordinate,target,min,max,radius,vert,frames) {
 
         var self = this;

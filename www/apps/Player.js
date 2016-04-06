@@ -133,7 +133,7 @@ function currentPlayerListIndex(gamestate){
 function nextPlayer(gamestate){
 //get current player index and then increase it by one and set the global player to this calculated player
               var currentPlayerIndex = currentPlayerListIndex(gamestate);
-              var nextPlayer = (currentPlayerIndex) % (gamestate.players.length) + 1;
+              var nextPlayer = currentPlayerIndex % (gamestate.players.length) + 1;
               gamestate.currentPlayerID = nextPlayer;//Moves to next player
               console.log("current player id now: " + nextPlayer);
 }

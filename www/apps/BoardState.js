@@ -218,7 +218,7 @@ function buildVertexFramework(tileFrame){
 	return vertexFrame;
 }
 function checkForSameVector(vertexList, vector){
-	for(count = 0; count<vertexList.length;count++){
+	for(var count = 0; count<vertexList.length;count++){
 		if(vectorEquals(vector,vertexList[count].coordinate)){
 			return false;
 		}

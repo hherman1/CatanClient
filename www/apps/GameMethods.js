@@ -29,7 +29,6 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
  */
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
-	console.log("checking settlements");
 	var vert = getVertex(vertexFrame,coords);
 //	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
 //		return false;
@@ -96,15 +95,58 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 }
 
 ////////////////////////////////////////////////////////////////////////
+/*                     VICTORY POINT FUNCTIONS                        */
+////////////////////////////////////////////////////////////////////////
+
+function longestRoad(vert, vertices, roadList, player, visitedVertices){
+	visitedVertices.push(vert);
+	var newVertices = [];
+	var connectedVertices = getConnectedVertices(vert.coordinate, player, roadList, vertices);
+	for(var i = 0; i<connectedVertices.length;i++){
+		console.log(connectedVertices[i]);
+		if(checkForSameVector(visitedVertices,connectedVertices[i].coordinate)){  //TODO: Current problem
+			newVertices.push(connectedVertices[i]);
+			console.log("vertex added");
+		}
+	}
+	if(newVertices.length==0){
+		return 0;
+	}
+	var maxSubRoad = 0;
+	for(var j = 0 ;j<newVertices.length;j++){
+		var testLength = longestRoad(newVertices[j], vertices, roadList, player, visitedVertices);
+		if(testLength>maxSubRoad){
+			maxSubRoad = testLength;
+		}
+	}
+	return 1 + maxSubRoad;
+}
+
+////////////////////////////////////////////////////////////////////////
 /*                            HELPER FUNCTIONS                        */
 ////////////////////////////////////////////////////////////////////////
+
+
+function getConnectedVertices(coords, player, roadList, vertices){
+	var connectedVertices = [];
+	var neighbors = getVertexNeighbors(coords, vertices);
+	for (var i = 0; i<neighbors.length;i++){
+		var testRoad = getRoad(roadList, neighbors[i], coords);
+		if(testRoad.playerID == player.id){
+			connectedVertices.push(getVertex(vertices,neighbors[i]));
+		}
+	}
+	return connectedVertices;
+}
 
 /* Given a pair of vector coordinates and a player,
  * checks if that player has roads adjacent to one of the coordinates.
  * Returns true if so, false otherwise.
  */
 
-function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) { //TODO: Fix
+
+
+function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
 	for (var i = 0; i < testCoords1.length; i++) {
 		var road1 = getRoad(roadList, coords1, testCoords1[i]);
@@ -149,6 +191,8 @@ function getVertexNeighbors(coords, vertexFrame){
 
 	return realNeighbors;
 }
+
+
 
 /* Given a diceRoll integer, the list of players, and both the tile and vertex boards, allocates resources to the appropriate players
  * from a dice roll.

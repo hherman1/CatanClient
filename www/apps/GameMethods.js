@@ -210,7 +210,7 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 				var currNeighbor = tileVertices[l];
 				if(currNeighbor.structure>0){
 					var receivingPlayer = getPlayers(currNeighbor.playerID, playerList)[0];
-					addResource(getPlayersResources(receivingPlayer), tileFrame[i].resource, currNeighbor.structure);
+					addResource(receivingPlayer.resources, tileFrame[i].resource, currNeighbor.structure);
 				}
 			}
 		}

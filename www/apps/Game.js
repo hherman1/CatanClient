@@ -189,30 +189,14 @@ function processUIBuffer(buffer, game){
                     case UI.Message.EndTurn:
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
+                        var roll = rollDice();
+                        console.log(getPlayers(3, game.gamestate.players)[0].resources);
+                        console.log(roll);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
-                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
+    //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
+      //                                ,game);
                         resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
-                        console.log("Player " + game.gamestate.players[0].id);
-                        console.log("Brick" + game.gamestate.players[0].resources[Resource.Brick]);
-                        console.log("Grain" + game.gamestate.players[0].resources[Resource.Grain]);
-                        console.log("Lumber" + game.gamestate.players[0].resources[Resource.Lumber]);
-                        console.log("Ore" + game.gamestate.players[0].resources[Resource.Ore]);
-                        console.log("Wool" + game.gamestate.players[0].resources[Resource.Wool]);
-
-                        console.log("Player " + game.gamestate.players[1].id);
-                        console.log("Brick" + game.gamestate.players[1].resources[Resource.Brick]);
-                        console.log("Grain" + game.gamestate.players[1].resources[Resource.Grain]);
-                        console.log("Lumber" + game.gamestate.players[1].resources[Resource.Lumber]);
-                        console.log("Ore" + game.gamestate.players[1].resources[Resource.Ore]);
-                        console.log("Wool" + game.gamestate.players[1].resources[Resource.Wool]);
-
-                        console.log("Player " + game.gamestate.players[2].id);
-                        console.log("Brick" + game.gamestate.players[2].resources[Resource.Brick]);
-                        console.log("Grain" + game.gamestate.players[2].resources[Resource.Grain]);
-                        console.log("Lumber" + game.gamestate.players[2].resources[Resource.Lumber]);
-                        console.log("Ore" + game.gamestate.players[2].resources[Resource.Ore]);
-                        console.log("Wool" + game.gamestate.players[2].resources[Resource.Wool]);
                         game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;

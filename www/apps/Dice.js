@@ -8,7 +8,7 @@ rollDice generates the "rolling" for two dice and stores the sum of the two roll
 function setDice(rollHolder,val) {
       rollHolder.innerHTML = val;
 }
-
+/*
 function rollDice(target,time){
   //disableRollButton();
   for (var i = 30000; i >= 0; i--) {//TODO make the scroll part more "conventional" and less "MVP"
@@ -20,8 +20,13 @@ function rollDice(target,time){
 	// 	moveRobber();
 	// }
 }
+*/
 
-
+function rollDice(){
+    var roll1 = Math.floor(Math.random()* 6) + 1;
+    var roll2 = Math.floor(Math.random()* 6) + 1;
+    return roll1 + roll2
+}
 
 function rollDiceValue(max) {
       var roll1 = Math.round(Math.random() * Math.floor((max-1)/2))+1;

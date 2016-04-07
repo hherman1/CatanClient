@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d276c79e-f752-4da1-8565-34face886a44" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Dice.js" afterPath="$PROJECT_DIR$/www/apps/Dice.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Game.js" afterPath="$PROJECT_DIR$/www/apps/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/GameMethods.js" afterPath="$PROJECT_DIR$/www/apps/GameMethods.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/rules.html" afterPath="$PROJECT_DIR$/www/rules.html" />
     </list>
     <ignored path="CatanClient.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +34,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39719626">
+            <state vertical-scroll-proportion="-10.0">
               <caret line="198" column="132" selection-start-line="198" selection-start-column="132" selection-end-line="198" selection-end-column="132" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rules.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/rules.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.38822114">
+              <caret line="19" column="88" selection-start-line="19" selection-start-column="88" selection-end-line="19" selection-end-column="88" />
               <folding />
             </state>
           </provider>
@@ -129,6 +137,7 @@
         <option value="$PROJECT_DIR$/www/apps/Dice.js" />
         <option value="$PROJECT_DIR$/www/apps/GameMethods.js" />
         <option value="$PROJECT_DIR$/www/apps/Game.js" />
+        <option value="$PROJECT_DIR$/www/rules.html" />
       </list>
     </option>
   </component>
@@ -563,12 +572,12 @@
       <workItem from="1459797714179" duration="2411000" />
       <workItem from="1459867544664" duration="12490000" />
       <workItem from="1459973303438" duration="4262000" />
-      <workItem from="1459978667935" duration="3208000" />
+      <workItem from="1459978667935" duration="3382000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79807000" />
+    <option name="totallyTimeSpent" value="79981000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -957,14 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/rules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09837963">
-          <caret line="5" column="73" selection-start-line="5" selection-start-column="73" selection-end-line="5" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1037,8 +1038,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39719626">
+        <state vertical-scroll-proportion="-10.0">
           <caret line="198" column="132" selection-start-line="198" selection-start-column="132" selection-end-line="198" selection-end-column="132" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/rules.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38822114">
+          <caret line="19" column="88" selection-start-line="19" selection-start-column="88" selection-end-line="19" selection-end-column="88" />
           <folding />
         </state>
       </provider>

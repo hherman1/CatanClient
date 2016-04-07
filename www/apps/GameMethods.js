@@ -192,7 +192,9 @@ function getVertexNeighbors(coords, vertexFrame){
 	return realNeighbors;
 }
 
-
+////////////////////////////////////////////////////////////////////////
+/*                          RESOURCE FUNCTIONS                        */
+////////////////////////////////////////////////////////////////////////
 
 /* Given a diceRoll integer, the list of players, and both the tile and vertex boards, allocates resources to the appropriate players
  * from a dice roll.
@@ -213,6 +215,16 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 					addResource(receivingPlayer.resources, tileFrame[i].resource, currNeighbor.structure);
 				}
 			}
+		}
+	}
+}
+
+function initSettlementResources(settlementCoords, tileFrame, player){
+	var resourceHexCoords = adjacentHexes(settlementCoords);
+	for(var i = 0; i<resourceHexCoords.length;i++){
+		var hex = getHex(resourceHexCoords[i], tileFrame);
+		if(hex != undefined){
+			addResource(player.resources, hex.resource, 1);
 		}
 	}
 }

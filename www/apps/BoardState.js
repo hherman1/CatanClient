@@ -180,6 +180,14 @@ function buildRegularHexFramework(width){
 	return tileFrame;
 }
 
+function getHex(coords, hexFrame){
+    for(var i = 0; i<hexFrame.length; i++){
+        if(vectorEquals(hexFrame[i].coordinate, coords)){
+            return hexFrame[i];
+        }
+    }
+}
+
 
 /* Helper function to be used in building a regular Hex Framwork. Determines where
  * each diagonal y-column should begin.

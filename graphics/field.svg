@@ -133,10 +133,10 @@
      id="namedview3543"
      showgrid="false"
      inkscape:zoom="0.775"
-     inkscape:cx="400"
+     inkscape:cx="212.90323"
      inkscape:cy="266.27814"
-     inkscape:window-x="130"
-     inkscape:window-y="0"
+     inkscape:window-x="181"
+     inkscape:window-y="42"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3541" />
   <image
@@ -149,5 +149,5 @@
      y="0"
      clip-path="url(#clipPath3584)"
      transform="matrix(0.96153843,0,0,0.96153843,-241.24441,19.494428)"
-     style="filter:url(#filter7311)" />
+     style="filter:url(#filter7311);opacity:0.9" />
 </svg>

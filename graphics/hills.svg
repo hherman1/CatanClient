@@ -24,15 +24,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="640"
+     inkscape:window-width="664"
      inkscape:window-height="480"
      id="namedview7360"
      showgrid="false"
      inkscape:zoom="0.42909091"
      inkscape:cx="275"
      inkscape:cy="275"
-     inkscape:window-x="20"
-     inkscape:window-y="43"
+     inkscape:window-x="322"
+     inkscape:window-y="51"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3447" />
   <metadata
@@ -116,5 +116,5 @@
      preserveAspectRatio="none"
      height="851.25"
      width="1280"
-     style="filter:url(#filter7634)" />
+     style="filter:url(#filter7634);opacity:0.9" />
 </svg>

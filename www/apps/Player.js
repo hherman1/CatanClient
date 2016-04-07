@@ -14,11 +14,11 @@ Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player C
 getColor = function(colorNum){
   switch(colorNum) {
       case Colors.Blue:
-          return "rgb(85, 153, 255)";
+          return "rgb(0,147,208)";
       case Colors.White:
-          return 'rgb(255, 255, 255)';
+          return 'rgb(251,176,52)';
       case Colors.Red:
-          return 'rgb(255, 0, 0)';
+          return 'rgb(186, 36, 65)';
       case Colors.Orange:
           return 'rgb(255, 127, 42)';
     }

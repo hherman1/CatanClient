@@ -32,7 +32,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
      var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
      ctx.lineWidth = 1;
      ctx.strokeStyle = "black";
-     ctx.fillStyle = "#FFDAB9";
+     ctx.fillStyle = "#D9B5A0";
      hexPath(hex.coordinate,side,ctx);
      ctx.fill();
      ctx.stroke();

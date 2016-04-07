@@ -76,11 +76,11 @@ var timeinterval = setInterval(updateClock,1000);
     //Tests
     //setResourceVal
     $(document).ready(function(){
-        setResourceVal("Lumber", 5);
-        setResourceVal("Grain", 2);
-        setResourceVal("Wool", 1);
-        setResourceVal("Ore", 1);
-        setResourceVal("Brick", 0);
+        setResourceVal("Lumber", 10);
+        setResourceVal("Grain", 10);
+        setResourceVal("Wool", 10);
+        setResourceVal("Ore", 10);
+        setResourceVal("Brick", 10);
         //setStructuresVal
         setStructuresVal(1, "Settlement", 3);
         setStructuresVal(1, "Road", 8);
@@ -110,7 +110,7 @@ var timeinterval = setInterval(updateClock,1000);
         },
         Buffer : function() {
             this.messages = [];
-        } 
+        }
     }
 
     function endTurnButtonClick(buffer){
@@ -166,7 +166,7 @@ var timeinterval = setInterval(updateClock,1000);
 //     })
 //     flushBufferMessages(buffer);
 // }
-    
+
 
 
 
@@ -198,7 +198,7 @@ function endTurn()
 /*
 function startTime(){
     var base = new Date().getTime();
-    
+
 }
 
 function formatTime(time) {
@@ -236,11 +236,11 @@ function timer(){
 
 
 /*THIS DOESNT WORK EITHER. AHH!
-$(function () { 
+$(function () {
 
     $('#buildCard').tabSlideOut({
         tabHandle: '#resourceBar', //class of the element that will become your tab
-        
+
         tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
         speed: 300, //speed of animation
         action: 'click', //options: 'click' or 'hover', action to trigger animation

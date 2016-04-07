@@ -73,9 +73,9 @@
 
 .bottomLeftDisplay{
 	height: 50px;
-	width: 380px;
+	width: 475px;
 	position: absolute;
-	top: 520px;
+	top: 510px;
 	left:8px;
 	transition: transform .9s;
 }
@@ -85,7 +85,7 @@
 	top:568px;
 	background-color: white;
 	height: 180px;
-	width: 390px;
+	width: 500px;
 	z-index: 10;
 
 }
@@ -247,4 +247,4 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 
 canvas { border: 1px solid black; width: 1000px; height:500px}
 
-#board { background-color: #B0E2F2; }
+#board { background-color: #77B2EB; }

@@ -192,8 +192,8 @@ function processUIBuffer(buffer, game){
                         var roll = rollDice();
                         console.log(getPlayers(3, game.gamestate.players)[0].resources);
                         console.log(roll);
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),1,6,1,100),game);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),1,6,1,100),game);
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
       //                                ,game);
                         resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
@@ -220,7 +220,7 @@ function processUIBuffer(buffer, game){
 
 function gameStep(game) {
         var shouldRedraw = false;
-        
+
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         flushMouseEvents(game.buffer.mouse);
 

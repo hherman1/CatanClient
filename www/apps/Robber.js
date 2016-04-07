@@ -13,7 +13,7 @@ function moveRobber(robber, hex, player){
 }
 
 function drawRobber(x, y, z, ctx){
-  ctx.drawImage(getRobberImg(), x-15, y-(z*0.75), z, z*1.25);
+  ctx.drawImage(getRobberImg(), x-25, y-(z*0.75), z, z*1.25);
 }
 
 function robHex(hex,player){

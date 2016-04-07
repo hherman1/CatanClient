@@ -167,7 +167,7 @@ function drawToken(hc, token, ctx){
       ctx.fillText(String(token),hc.x-6,hc.y+6);
     }
 	} else{
-      drawRobber(hc.x,hc.y,40,ctx);
+      drawRobber(hc.x,hc.y,50,ctx);
 	}
 }
 

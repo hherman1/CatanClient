@@ -3,13 +3,13 @@
 //and automatic color selection. All other values are initialized to zero.
 
 Colors = {
-    Red: 0,
-    Orange: 1,
-    Blue: 2,
-    White: 3,
+    Red: 2,
+    Orange: 3,
+    Blue: 0,
+    White: 1,
 }
 
-Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player Colors will be consistently assigned
+Colors.List = [Colors.Blue, Colors.White, Colors.Red, Colors.Orange]  //Player Colors will be consistently assigned
 
 getColor = function(colorNum){
   switch(colorNum) {
@@ -94,6 +94,14 @@ function getPlayerColors(playerList) {
                 out[player.id] = player.color;
         })
         return out;
+}
+
+function getCurrentPlayer(players, currentPlayerID){
+  for (player in players){
+    if (currentPlayerID == players[player].id){
+      return players[player];
+    }
+  }
 }
 
 function getPlayers(id, playerList){

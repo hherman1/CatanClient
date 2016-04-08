@@ -145,31 +145,40 @@ var timeinterval = setInterval(updateClock,1000);
         })
     }
 
-// function processUIBuffer(buffer, game){
-//     buffer.messages.map(function(elem) {
-//         if (elem == 0){//Turn ending functionallity
-//             game.server.endTurn(game.gamestate, game.actions);//FIX THIS LINE
-//             console.log("Test case 1");
-//         }else if (elem == 1){//Functionallity to build roads
-//             //Build road method here
-//             console.log(elem);
-//             console.log("Test case 2");
-//         }else if (elem == 2){//Build settlements
-//             //Build settlement method here
-//             console.log("Test case 3");
-//         }else if (elem == 3){//Build cities
-//             //Build city method here
-//             console.log("Test case 4");
-//         }else{//Error message
-//             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
-//         }
-//     })
-//     flushBufferMessages(buffer);
-// }
+// function 
     
+    function updateUIInfo(players, currentPlayerID){
+        updateUIInfoTopBar(players);
+        var player = getCurrentPlayer(players, currentPlayerID);
+        updateResourceBar(player);
+    }
 
+    function updateUIInfoTopBar(players){
+        players.map(function(player) {
+            console.log(player);
+            console.log(player.id);
 
+            playerVP = player.vicPoints;
+            setVictoryPointsVal(player.id, playerVP);
 
+            playerRoads = player.roadCount;
+            setStructuresVal(player.id, "Road", playerRoads);
+
+            playerSettlements = player.settlementCount;
+            setStructuresVal(player.id, "Settlement", playerSettlements);
+
+            playerCities = player.cityCount;
+            setStructuresVal(player.id, "City", playerCities);
+        })
+    }
+
+    function updateResourceBar(player){
+        setResourceVal("Lumber", player.resources[Resource.Lumber]);
+        setResourceVal("Grain", player.resources[Resource.Grain]);
+        setResourceVal("Wool", player.resources[Resource.Wool]);
+        setResourceVal("Ore", player.resources[Resource.Ore]);
+        setResourceVal("Brick", player.resources[Resource.Brick]);
+    }
 
 // function setResourceVal(resource, amount){
 

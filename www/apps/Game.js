@@ -110,6 +110,7 @@ Server = function() {
             applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
             nextPlayer(this.gamestate);//Change current player ID
+            
             //UI method to show the new resources that players recieved at the start of their new turn
             //Generate resources
             //Roll Dice
@@ -211,6 +212,7 @@ function processUIBuffer(buffer, game){
             }
     })
     flushBufferMessages(buffer);
+    updateUIInfo(game.gamestate.players, game.gamestate.currentPlayerID);
 }
 
 function gameStep(game) {
@@ -292,6 +294,9 @@ addPlayers = function(server){
     server.addPlayer(new Player(i+1));
     console.log("player was added to the list of players");
   }
+
+
+  server.gamestate.currentPlayerID = 1;
 
   console.log(server.getState().players);
 }

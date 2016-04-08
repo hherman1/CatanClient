@@ -76,11 +76,11 @@ var timeinterval = setInterval(updateClock,1000);
     //Tests
     //setResourceVal
     $(document).ready(function(){
-        setResourceVal("Lumber", 5);
-        setResourceVal("Grain", 2);
-        setResourceVal("Wool", 1);
-        setResourceVal("Ore", 1);
-        setResourceVal("Brick", 0);
+        setResourceVal("Lumber", 10);
+        setResourceVal("Grain", 10);
+        setResourceVal("Wool", 10);
+        setResourceVal("Ore", 10);
+        setResourceVal("Brick", 10);
         //setStructuresVal
         setStructuresVal(1, "Settlement", 3);
         setStructuresVal(1, "Road", 8);
@@ -110,7 +110,7 @@ var timeinterval = setInterval(updateClock,1000);
         },
         Buffer : function() {
             this.messages = [];
-        } 
+        }
     }
 
     function endTurnButtonClick(buffer){
@@ -180,6 +180,33 @@ var timeinterval = setInterval(updateClock,1000);
         setResourceVal("Brick", player.resources[Resource.Brick]);
     }
 
+
+// function processUIBuffer(buffer, game){
+//     buffer.messages.map(function(elem) {
+//         if (elem == 0){//Turn ending functionallity
+//             game.server.endTurn(game.gamestate, game.actions);//FIX THIS LINE
+//             console.log("Test case 1");
+//         }else if (elem == 1){//Functionallity to build roads
+//             //Build road method here
+//             console.log(elem);
+//             console.log("Test case 2");
+//         }else if (elem == 2){//Build settlements
+//             //Build settlement method here
+//             console.log("Test case 3");
+//         }else if (elem == 3){//Build cities
+//             //Build city method here
+//             console.log("Test case 4");
+//         }else{//Error message
+//             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
+//         }
+//     })
+//     flushBufferMessages(buffer);
+// }
+
+
+
+
+
 // function setResourceVal(resource, amount){
 
 // }
@@ -207,7 +234,7 @@ function endTurn()
 /*
 function startTime(){
     var base = new Date().getTime();
-    
+
 }
 
 function formatTime(time) {
@@ -245,11 +272,11 @@ function timer(){
 
 
 /*THIS DOESNT WORK EITHER. AHH!
-$(function () { 
+$(function () {
 
     $('#buildCard').tabSlideOut({
         tabHandle: '#resourceBar', //class of the element that will become your tab
-        
+
         tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
         speed: 300, //speed of animation
         action: 'click', //options: 'click' or 'hover', action to trigger animation

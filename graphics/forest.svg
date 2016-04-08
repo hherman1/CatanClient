@@ -221,10 +221,10 @@
      id="namedview3392"
      showgrid="false"
      inkscape:zoom="0.30193459"
-     inkscape:cx="165.11911"
+     inkscape:cx="-315.11735"
      inkscape:cy="267.0977"
-     inkscape:window-x="216"
-     inkscape:window-y="25"
+     inkscape:window-x="-68"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3390"
      showborder="true" />
@@ -237,5 +237,6 @@
      x="128.23572"
      y="-1530.1017"
      clip-path="url(#clipPath4571)"
-     transform="matrix(0.5,0,0,0.5,-381.91446,130.76887)" />
+     transform="matrix(0.5,0,0,0.5,-381.91446,130.76887)"
+     style="opacity:0.9" />
 </svg>

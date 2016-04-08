@@ -5,11 +5,35 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg5016"
    viewBox="0 0 149.94173 100.03921"
    height="28.233288mm"
-   width="42.316887mm">
+   width="42.316887mm"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="reds.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="956"
+     inkscape:window-height="659"
+     id="namedview3400"
+     showgrid="false"
+     inkscape:zoom="1.7140619"
+     inkscape:cx="27.144787"
+     inkscape:cy="82.680685"
+     inkscape:window-x="67"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
   <defs
      id="defs5018" />
   <metadata
@@ -20,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -34,19 +58,19 @@
        height="59.481621"
        width="88.447426"
        id="rect4557-5-6"
-       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1.72325552;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#ba2341;fill-opacity:1;stroke:#000000;stroke-width:1.72325552;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        id="path4559-9-7"
        d="m 269.95847,381.03979 -31.68672,-13.6046 1.68587,56.18854 33.21661,17.20821 z"
-       style="fill:#aa0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.0661881;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#ba2341;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.0661881;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        id="path4563-5-5"
        d="m 252.5948,347.26031 21.97519,45.32004 97.98585,-3.83421 -26.9466,-45.16257 -94.50052,1.53256 -24.60388,32.91759 10.65302,-0.33743 -0.41599,-13.86471"
-       style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.0661881;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#ba2441;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.0661881;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        transform="matrix(0.67973032,0.14883405,0.00931379,0.66596744,209.56146,243.98845)"
        d="M 85.054123,192.41753 29.617896,188.17108 61.013548,142.28512 Z"
        id="path4567-9-0"
-       style="opacity:1;fill:#800000;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#642341;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

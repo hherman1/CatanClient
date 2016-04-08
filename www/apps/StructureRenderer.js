@@ -18,7 +18,7 @@ Images = {
         Robber:'',
 }
 
-Images.Robber = 'graphics/robber.svg';
+Images.Robber = 'graphics/swiper.svg';
 Images.Loaded.Robber = loadImage(Images.Robber);
 
 Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
@@ -66,7 +66,7 @@ function drawRoad(coordinateA,coordinateB,color,side, ctx) {
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 7;
   ctx.strokeStyle = getColor(color);
   ctx.stroke();
 }

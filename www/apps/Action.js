@@ -177,6 +177,7 @@ function applyActionForPlayer(action,gamestate,player) {
                 case Phase.Normal:
                     player.resources = subtractResources(player.resources,getPrice(getActionBuildStructure(action)));
                     break;
+
         }
         switch(action.type) {
                 case Action.Type.BuildSettlement:
@@ -185,6 +186,9 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
                                 player.vicPoints++;
+                                if(gamestate.phase == Phase.Init){
+                                    initSettlementResources(action.coordinate,gamestate.board.hexes, player);
+                                }
                         })
                         break;
                 case Action.Type.BuildCity:

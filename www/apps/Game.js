@@ -190,9 +190,16 @@ function processUIBuffer(buffer, game){
                     case UI.Message.EndTurn:
                         var coord = new Vector(game.ctx.canvas.width-150
                                               ,game.ctx.canvas.height+30);
-                        pushAnimation(new DiceRoll(coord
-                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
-                                      ,game);
+                        var roll1 = rollDice();
+                        var roll2 = rollDice();
+                        var roll = roll1 + roll2;
+                        console.log(getPlayers(3, game.gamestate.players)[0].resources);
+                        console.log(roll);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll1,6,1,100),game);
+                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll2,6,1,100),game);
+    //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
+      //                                ,game);
+                        resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;
@@ -217,7 +224,7 @@ function processUIBuffer(buffer, game){
 
 function gameStep(game) {
         var shouldRedraw = false;
-        
+
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         flushMouseEvents(game.buffer.mouse);
 

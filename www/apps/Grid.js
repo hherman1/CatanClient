@@ -100,6 +100,22 @@ function vertices(hexCoords) {
                 ,add(identY(-1),piecewiseTimes(new Vector(1,2),hexCoords))]
 }
 
+function adjacentHexes(vertCoords){
+    var hexCoords = [];
+    if(vertCoords.y%2==0){
+        hexCoords.push(new Vector(vertCoords.x,vertCoords.y/2));
+        hexCoords.push(new Vector(vertCoords.x-1, vertCoords.y/2));
+        hexCoords.push(new Vector(vertCoords.x-1, vertCoords.y/2+1));
+    }
+    else{
+        hexCoords.push(new Vector(vertCoords.x,Math.floor(vertCoords.y/2)));
+        hexCoords.push(new Vector(vertCoords.x,(vertCoords.y+1)/2));
+        hexCoords.push(new Vector(vertCoords.x,(vertCoords.y+1)/2));
+    }
+    return hexCoords;
+
+
+}
 
 function neighbours(hexcoords) {
     return[ add(new Vector(0,1),hexcoords),
@@ -107,7 +123,7 @@ function neighbours(hexcoords) {
             add(new Vector(1,-1),hexcoords),
             add(new Vector(0,-1),hexcoords),
             add(new Vector(-1,0),hexcoords),
-            add(new Vector(-1,1),hexCoords)]
+            add(new Vector(-1,1),hexcoords)]
 }
 
 
@@ -134,6 +150,7 @@ function vertexToWorld(vcoords,side) {
     return add(new Vector(-side*Math.sin(Math.PI/3),-side/2),piecewiseTimes(new Vector(side,-side),fromVertex(vcoords)))
 
 }
+
 
 
 unitY = unitVector(Math.PI/3)

@@ -8,7 +8,7 @@ rollDice generates the "rolling" for two dice and stores the sum of the two roll
 function setDice(rollHolder,val) {
       rollHolder.innerHTML = val;
 }
-
+/*
 function rollDice(target,time){
   //disableRollButton();
   for (var i = 30000; i >= 0; i--) {//TODO make the scroll part more "conventional" and less "MVP"
@@ -20,7 +20,12 @@ function rollDice(target,time){
 	// 	moveRobber();
 	// }
 }
+*/
 
+function rollDice(){
+    var roll = Math.floor(Math.random()* 6) + 1;
+    return roll
+}
 
 function rollDiceValue(max) {
       var roll1 = Math.round(Math.random() * Math.floor((max-1)/2))+1;
@@ -33,11 +38,31 @@ DiceRollUI = function(target,max,frames) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 setDice(rollHolder,rollDiceValue(max));
-                                if(totalFrames - frame <= 1) {
+                                if((totalFrames - frame) <= 1) {
                                         setDice(rollHolder,target);
                                 }
                         }
                         ,frames);
+}
+
+DiceRollWindow = function(box,target,max,min,frames) {
+        var self = this;
+        
+        self.nextNum = function() {
+                return Math.round(Math.random() * (max - min) + min);
+        }
+        self.numCount = 12;
+        
+        self.draw = function(ctx,transform,frame,totalFrames) {
+                if(frames % Math.ceil(Timing.cubic(frame/totalFrames)) == 0) {
+                        box.innerHTML = "" + self.nextNum();
+                } 
+                if ((totalFrames - frame) <= 1) {
+                        box.innerHTML = "" + target;
+                }
+        }
+
+        Animation.MultiFrame.call(self,self.draw,frames);
 }
 
 DiceRoll = function(coordinate,target,min,max,radius,vert,frames) {

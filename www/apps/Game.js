@@ -106,15 +106,15 @@ Server = function() {
                 this.gamestate.players.push(player);
                 this.gamestate.currentPlayerID = player.id;
         }
-        this.endTurn = function(actionsToBeValidated){
+        this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
             applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
             nextPlayer(this.gamestate);//Change current player ID
-            
+            resourceGeneration(diceRoll, players, vertices, hexes)
+
+            //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
             //Generate resources
-            //Roll Dice
-            //UpdateUI with proper resource count and stats count
         }
 }
 
@@ -199,8 +199,8 @@ function processUIBuffer(buffer, game){
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll2,6,1,100),game);
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
       //                                ,game);
-                        resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
-                        game.server.endTurn(game.actions);
+                        //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
+                        game.server.endTurn(game.actions, roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;
                     case UI.Message.BuildRoad:
@@ -239,14 +239,13 @@ function gameStep(game) {
         if(game.buffer.UI.messages.length !=  0) {
 
             processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
-
-            game.buffer.UI.messages.map(function(message) {
-                    switch(message) {
-                            case UI.Messages.EndTurn:
-                                    game.server.endTurn(game.actions.data);
-                                    flushActions(game.actions);
-                    }
-            });
+            // game.buffer.UI.messages.map(function(message) {
+            //         switch(message) {
+            //                 case UI.Messages.EndTurn:
+            //                         game.server.endTurn(game.actions.data);//TODO: DO WE NEED THIS SECTION
+            //                         flushActions(game.actions);
+            //         }
+            // });
             flushBufferMessages(game.buffer.UI);//Flushes processed messages
 
         }

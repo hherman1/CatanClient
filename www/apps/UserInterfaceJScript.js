@@ -76,27 +76,27 @@ var timeinterval = setInterval(updateClock,1000);
     //Tests
     //setResourceVal
     $(document).ready(function(){
-        setResourceVal("Lumber", 10);
-        setResourceVal("Grain", 10);
-        setResourceVal("Wool", 10);
-        setResourceVal("Ore", 10);
-        setResourceVal("Brick", 10);
+        setResourceVal("Lumber", 5);
+        setResourceVal("Grain", 5);
+        setResourceVal("Wool", 5);
+        setResourceVal("Ore", 5);
+        setResourceVal("Brick", 5);
         //setStructuresVal
-        setStructuresVal(1, "Settlement", 3);
-        setStructuresVal(1, "Road", 8);
-        setStructuresVal(2, "Settlement", 1);
-        setStructuresVal(2, "City", 2);
-        setStructuresVal(3, "City", 4);
-        setStructuresVal(3, "Road", 3);
-        setStructuresVal(4, "Settlement", 2);
-        setStructuresVal(4, "City", 2);
-        setStructuresVal(4, "Road", 6);
+        setStructuresVal(1, "Settlement", 0);//TODOTODOTODOTODO put this in an init ui stats function
+        setStructuresVal(1, "Road", 0);
+        setStructuresVal(2, "Settlement", 0);
+        setStructuresVal(2, "City", 0);
+        setStructuresVal(3, "City", 0);
+        setStructuresVal(3, "Road", 0);
+        setStructuresVal(4, "Settlement", 0);
+        setStructuresVal(4, "City", 0);
+        setStructuresVal(4, "Road", 0);
         //setVictoryPointsVal
-        setVictoryPointsVal(1, 5);
-        setVictoryPointsVal(2, 4);
-        setVictoryPointsVal(3, 8);
-        setVictoryPointsVal(4, 6);
-        setVictoryPointsVal(42, 6);//Doesnt find anything (which is good)
+        setVictoryPointsVal(1, 0);
+        setVictoryPointsVal(2, 0);
+        setVictoryPointsVal(3, 0);
+        setVictoryPointsVal(4, 0);
+        setVictoryPointsVal(42, 0);//Doesnt find anything (which is good)
         //SetRollVal
         setRollVal(4);
     })

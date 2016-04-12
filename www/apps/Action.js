@@ -176,6 +176,7 @@ function applyActionForPlayer(action,gamestate,player) {
         switch(gamestate.phase){
                 case Phase.Normal:
                     player.resources = subtractResources(player.resources,getPrice(getActionBuildStructure(action)));
+                    updateResourceBar(player);
                     break;
 
         }
@@ -196,7 +197,8 @@ function applyActionForPlayer(action,gamestate,player) {
                                 v.structure = Structure.City;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
-                                player.vicPoints+=2;
+                                player.settlementCount--;
+                                player.vicPoints++;
                         })
                         break;
                 case Action.Type.BuildRoad:

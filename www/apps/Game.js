@@ -102,7 +102,7 @@ Server = function() {
             this.gamestate.players = []
         }
         this.addPlayer = function(player) {
-                player.resources = player.resources.map(function(){return 5})
+                player.resources = player.resources.map(function(){return 100})
                 this.gamestate.players.push(player);
                 this.gamestate.currentPlayerID = player.id;
         }
@@ -110,7 +110,7 @@ Server = function() {
             applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
             nextPlayer(this.gamestate);//Change current player ID
-            resourceGeneration(diceRoll, players, vertices, hexes)
+            resourceGeneration(diceRoll, players, vertices, hexes);
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
@@ -193,8 +193,6 @@ function processUIBuffer(buffer, game){
                         var roll1 = rollDice();
                         var roll2 = rollDice();
                         var roll = roll1 + roll2;
-                        console.log(getPlayers(3, game.gamestate.players)[0].resources);
-                        console.log(roll);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll1,6,1,100),game);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll2,6,1,100),game);
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
@@ -202,6 +200,13 @@ function processUIBuffer(buffer, game){
                         //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.server.endTurn(game.actions, roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+
+                        for(var i = 0; i<game.gamestate.players.length;i++) {
+                            console.log(game.gamestate.players[i]);
+                            if (checkPlayerWin(game.gamestate.players[i])) {
+                                console.log(game.gamestate.players[i] + "wins");
+                            }
+                        }
                         break;
                     case UI.Message.BuildRoad:
                             console.log(elem);
@@ -305,4 +310,11 @@ addPlayers = function(server){
   server.gamestate.currentPlayerID = 1;
 
   console.log(server.getState().players);
+}
+
+function checkPlayerWin(player){
+    if(player.vicPoints>=10){
+        return true;
+    }
+    return false;
 }

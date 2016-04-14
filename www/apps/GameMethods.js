@@ -192,23 +192,39 @@ function getVertexNeighbors(coords, vertexFrame){
 	return realNeighbors;
 }
 
-
+////////////////////////////////////////////////////////////////////////
+/*                          RESOURCE FUNCTIONS                        */
+////////////////////////////////////////////////////////////////////////
 
 /* Given a diceRoll integer, the list of players, and both the tile and vertex boards, allocates resources to the appropriate players
  * from a dice roll.
  */
 
 function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
-	for(i = 0;i<tileFrame.length;i++){
+	for(var i = 0;i<tileFrame.length;i++){
 		if(tileFrame[i].token == diceRoll){
-			var tileNeighbors = neighbours(tileFrame[i].coordinates);
-			for(j=0;j<tileNeighbors.length;j++){
-				var currNeighbor = vertexFrame[[tileNeighbors[j].x,tileNeighbors[j].y]];
+			var tileVerticesCoordinates = vertices(tileFrame[i].coordinate);
+			var tileVertices = [];
+			for(var j = 0; j<tileVerticesCoordinates.length;j++){
+				tileVertices.push(getVertex(vertexFrame,tileVerticesCoordinates[j]));
+			}
+			for(var l=0;l<tileVertices.length;l++){
+				var currNeighbor = tileVertices[l];
 				if(currNeighbor.structure>0){
-					var receivingPlayer = getPlayer(currNeighbor.player, playerList);
-					addResources(receivingPlayer, tileFrame[i].resource, currNeighbor.structure);
+					var receivingPlayer = getPlayers(currNeighbor.playerID, playerList)[0];
+					addResource(receivingPlayer.resources, tileFrame[i].resource, currNeighbor.structure);
 				}
 			}
+		}
+	}
+}
+
+function initSettlementResources(settlementCoords, tileFrame, player){
+	var resourceHexCoords = adjacentHexes(settlementCoords);
+	for(var i = 0; i<resourceHexCoords.length;i++){
+		var hex = getHex(resourceHexCoords[i], tileFrame);
+		if(hex != undefined){
+			addResource(player.resources, hex.resource, 1);
 		}
 	}
 }

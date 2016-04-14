@@ -73,9 +73,9 @@
 
 .bottomLeftDisplay{
 	height: 50px;
-	width: 380px;
+	width: 475px;
 	position: absolute;
-	top: 520px;
+	top: 510px;
 	left:8px;
 	transition: transform .9s;
 }
@@ -85,7 +85,7 @@
 	top:568px;
 	background-color: white;
 	height: 180px;
-	width: 390px;
+	width: 500px;
 	z-index: 10;
 
 }
@@ -155,7 +155,7 @@
 .choiceReqs{
 	display: inline-block;
 	float: right;
-	width: 200px;
+	width: 300px;
 }
 
 /*Player Personal Tabs*/
@@ -227,17 +227,19 @@
 }
 
 #player1Name{
-	background-color: #5599ff
+	background-color: #0093d0
 }
 
 #player2Name{
-	background-color: #ffffff
+	background-color: #fbb034
 }
 
+/*red/plum player*/
 #player3Name{
-	background-color: #ff0000
+	background-color: #ba2441
 }
 
+/*orange player*/
 #player4Name{
 	background-color: #ff7f2a
 }
@@ -247,4 +249,4 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 
 canvas { border: 1px solid black; width: 1000px; height:500px}
 
-#board { background-color: #B0E2F2; }
+#board { background-color: #77B2EB; }

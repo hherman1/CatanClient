@@ -94,9 +94,16 @@ Graphics = function(){
 }
 
 Server = function() {
+        this.roll = {
+                first:undefined,
+                second:undefined
+        };
         this.gamestate = new GameState();
         this.getState = function() {
                 return this.gamestate;
+        }
+        this.getRoll = function() {
+                return this.roll;
         }
         this.newGame = function(width,players) {
             this.gamestate.board = new RegularHexBoard(width);
@@ -104,18 +111,22 @@ Server = function() {
             this.gamestate.currentPlayerID = players[0].id;
         }
         this.addPlayer = function(player) {
-                //player.resources = player.resources.map(function(){return 5})
                 this.gamestate.players.push(player);
         }
-        this.endTurn = function(actionsToBeValidated){
+        this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
             applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
+            if(this.gamestate.phase == Phase.Normal) {
+                    this.roll.first = rollDice();
+                    this.roll.second = rollDice();
+                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
+            }
+
+            //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
             //Generate resources
-            //Roll Dice
-            //UpdateUI with proper resource count and stats count
         }
 }
 
@@ -172,6 +183,7 @@ cloneGameState = function(gameState) {
         out.board = cloneBoard(gameState.board);
         out.players = gameState.players.map(clonePlayer);
         out.currentPlayerID = gameState.currentPlayerID;
+        out.phase = gameState.phase;
         return out;
 }
 
@@ -188,14 +200,23 @@ function processUIBuffer(buffer, game){
     buffer.messages.map(function(elem) {
             switch(elem) {
                     case UI.Message.EndTurn:
-                        var coord = new Vector(game.ctx.canvas.width-150
-                                              ,game.ctx.canvas.height+30);
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
-                                     // ,-1,1,12,100,60,1000)//new Vector(850,510)
-                                      //,game);
+    //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
+      //                                ,game);
+                        //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+                        if(game.gamestate.phase == Phase.Normal) {
+                                var roll = game.server.getRoll();
+                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
+                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
+                        }
+
+                        for(var i = 0; i<game.gamestate.players.length;i++) {
+                            console.log(game.gamestate.players[i]);
+                            if (checkPlayerWin(game.gamestate.players[i])) {
+                                console.log(game.gamestate.players[i] + "wins");
+                            }
+                        }
                         break;
                     case UI.Message.BuildRoad:
                             console.log(elem);
@@ -213,11 +234,12 @@ function processUIBuffer(buffer, game){
             }
     })
     flushBufferMessages(buffer);
+    updateUIInfo(game.gamestate.players, game.gamestate.currentPlayerID);
 }
 
 function gameStep(game) {
         var shouldRedraw = false;
-        
+
         var mouse = processBuffer(game.mouse,game.buffer.mouse);
         flushMouseEvents(game.buffer.mouse);
 
@@ -232,14 +254,13 @@ function gameStep(game) {
         if(game.buffer.UI.messages.length !=  0) {
 
             processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
-
-            game.buffer.UI.messages.map(function(message) {
-                    switch(message) {
-                            case UI.Messages.EndTurn:
-                                    game.server.endTurn(game.actions.data);
-                                    flushActions(game.actions);
-                    }
-            });
+            // game.buffer.UI.messages.map(function(message) {
+            //         switch(message) {
+            //                 case UI.Messages.EndTurn:
+            //                         game.server.endTurn(game.actions.data);//TODO: DO WE NEED THIS SECTION
+            //                         flushActions(game.actions);
+            //         }
+            // });
             flushBufferMessages(game.buffer.UI);//Flushes processed messages
 
         }
@@ -287,3 +308,9 @@ function gameStep(game) {
 
 }
 
+function checkPlayerWin(player){
+    if(player.vicPoints>=10){
+        return true;
+    }
+    return false;
+}

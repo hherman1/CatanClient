@@ -5,11 +5,35 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg4530"
    viewBox="0 0 99.936908 100.04166"
    height="28.23398mm"
-   width="28.204416mm">
+   width="28.204416mm"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="whiter.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="875"
+     inkscape:window-height="598"
+     id="namedview6027"
+     showgrid="false"
+     inkscape:zoom="2.3590172"
+     inkscape:cx="-6.4109572"
+     inkscape:cy="50.020831"
+     inkscape:window-x="20"
+     inkscape:window-y="42"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g4222-6" />
   <defs
      id="defs4532" />
   <metadata
@@ -20,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -28,24 +52,24 @@
      transform="translate(-232.9423,-393.2086)"
      id="layer1">
     <g
-       style="fill:#ffffff"
+       style="fill:#fbb034;fill-opacity:1"
        id="g4247-6"
        transform="matrix(0.94628994,0,0,1.0742393,-344.03914,108.8359)">
       <path
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#fbb034;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
          d="m 611.65885,336.3428 80.87113,-71.11082 22.30928,1.39433 0,23.70361 -83.65979,66.92784 -20.91495,0 z"
          id="path4216-1" />
       <g
-         style="fill:#ffffff"
+         style="fill:#fbb034;fill-opacity:1"
          id="g4222-6">
         <path
            id="path4218-62"
            d="m 611.65885,336.3428 19.52062,0 80.87113,-69.71649"
-           style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+           style="fill:#fbb034;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
         <path
            id="path4220-3"
            d="m 628.39081,357.25775 0,-20.91495 -15.33763,-1.39432 -1.39433,19.52062 z"
-           style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+           style="fill:#fb8334;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
       </g>
     </g>
   </g>

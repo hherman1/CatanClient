@@ -3,22 +3,22 @@
 //and automatic color selection. All other values are initialized to zero.
 
 Colors = {
-    Red: 0,
-    Orange: 1,
-    Blue: 2,
-    White: 3,
+    Red: 2,
+    Orange: 3,
+    Blue: 0,
+    White: 1,
 }
 
-Colors.List = [Colors.Red, Colors.Orange, Colors.Blue, Colors.White]  //Player Colors will be consistently assigned
+Colors.List = [Colors.Blue, Colors.White, Colors.Red, Colors.Orange]  //Player Colors will be consistently assigned
 
 getColor = function(colorNum){
   switch(colorNum) {
       case Colors.Blue:
-          return "rgb(85, 153, 255)";
+          return "rgb(0,147,208)";
       case Colors.White:
-          return 'rgb(255, 255, 255)';
+          return 'rgb(251,176,52)';
       case Colors.Red:
-          return 'rgb(255, 0, 0)';
+          return 'rgb(186, 36, 65)';
       case Colors.Orange:
           return 'rgb(255, 127, 42)';
     }
@@ -44,11 +44,11 @@ Player = function(id){
   this.cityCount = 0;
   //Player owned resources
   this.resources = [];
-  this.resources[Resource.Lumber] = 5;
-  this.resources[Resource.Wool] = 5;
-  this.resources[Resource.Ore] = 5;
-  this.resources[Resource.Brick] = 5;
-  this.resources[Resource.Grain] = 5;
+  this.resources[Resource.Lumber] = 0;
+  this.resources[Resource.Wool] = 0;
+  this.resources[Resource.Ore] = 0;
+  this.resources[Resource.Brick] = 0;
+  this.resources[Resource.Grain] = 0;
   //Color assigned
   this.color = Colors.List[id-1];
   //Player victory points
@@ -94,6 +94,14 @@ function getPlayerColors(playerList) {
                 out[player.id] = player.color;
         })
         return out;
+}
+
+function getCurrentPlayer(players, currentPlayerID){
+  for (player in players){
+    if (currentPlayerID == players[player].id){
+      return players[player];
+    }
+  }
 }
 
 function getPlayers(id, playerList){

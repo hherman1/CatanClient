@@ -77,26 +77,26 @@ var timeinterval = setInterval(updateClock,1000);
     //setResourceVal
     $(document).ready(function(){
         setResourceVal("Lumber", 5);
-        setResourceVal("Grain", 2);
-        setResourceVal("Wool", 1);
-        setResourceVal("Ore", 1);
-        setResourceVal("Brick", 0);
+        setResourceVal("Grain", 5);
+        setResourceVal("Wool", 5);
+        setResourceVal("Ore", 5);
+        setResourceVal("Brick", 5);
         //setStructuresVal
-        setStructuresVal(1, "Settlement", 3);
-        setStructuresVal(1, "Road", 8);
-        setStructuresVal(2, "Settlement", 1);
-        setStructuresVal(2, "City", 2);
-        setStructuresVal(3, "City", 4);
-        setStructuresVal(3, "Road", 3);
-        setStructuresVal(4, "Settlement", 2);
-        setStructuresVal(4, "City", 2);
-        setStructuresVal(4, "Road", 6);
+        setStructuresVal(1, "Settlement", 0);//TODOTODOTODOTODO put this in an init ui stats function
+        setStructuresVal(1, "Road", 0);
+        setStructuresVal(2, "Settlement", 0);
+        setStructuresVal(2, "City", 0);
+        setStructuresVal(3, "City", 0);
+        setStructuresVal(3, "Road", 0);
+        setStructuresVal(4, "Settlement", 0);
+        setStructuresVal(4, "City", 0);
+        setStructuresVal(4, "Road", 0);
         //setVictoryPointsVal
-        setVictoryPointsVal(1, 5);
-        setVictoryPointsVal(2, 4);
-        setVictoryPointsVal(3, 8);
-        setVictoryPointsVal(4, 6);
-        setVictoryPointsVal(42, 6);//Doesnt find anything (which is good)
+        setVictoryPointsVal(1, 0);
+        setVictoryPointsVal(2, 0);
+        setVictoryPointsVal(3, 0);
+        setVictoryPointsVal(4, 0);
+        setVictoryPointsVal(42, 0);//Doesnt find anything (which is good)
         //SetRollVal
         setRollVal(4);
     })
@@ -110,7 +110,7 @@ var timeinterval = setInterval(updateClock,1000);
         },
         Buffer : function() {
             this.messages = [];
-        } 
+        }
     }
 
     function endTurnButtonClick(buffer){
@@ -145,6 +145,42 @@ var timeinterval = setInterval(updateClock,1000);
         })
     }
 
+// function 
+    
+    function updateUIInfo(players, currentPlayerID){
+        updateUIInfoTopBar(players);
+        var player = getCurrentPlayer(players, currentPlayerID);
+        updateResourceBar(player);
+    }
+
+    function updateUIInfoTopBar(players){
+        players.map(function(player) {
+            console.log(player);
+            console.log(player.id);
+
+            playerVP = player.vicPoints;
+            setVictoryPointsVal(player.id, playerVP);
+
+            playerRoads = player.roadCount;
+            setStructuresVal(player.id, "Road", playerRoads);
+
+            playerSettlements = player.settlementCount;
+            setStructuresVal(player.id, "Settlement", playerSettlements);
+
+            playerCities = player.cityCount;
+            setStructuresVal(player.id, "City", playerCities);
+        })
+    }
+
+    function updateResourceBar(player){
+        setResourceVal("Lumber", player.resources[Resource.Lumber]);
+        setResourceVal("Grain", player.resources[Resource.Grain]);
+        setResourceVal("Wool", player.resources[Resource.Wool]);
+        setResourceVal("Ore", player.resources[Resource.Ore]);
+        setResourceVal("Brick", player.resources[Resource.Brick]);
+    }
+
+
 // function processUIBuffer(buffer, game){
 //     buffer.messages.map(function(elem) {
 //         if (elem == 0){//Turn ending functionallity
@@ -166,7 +202,7 @@ var timeinterval = setInterval(updateClock,1000);
 //     })
 //     flushBufferMessages(buffer);
 // }
-    
+
 
 
 
@@ -198,7 +234,7 @@ function endTurn()
 /*
 function startTime(){
     var base = new Date().getTime();
-    
+
 }
 
 function formatTime(time) {
@@ -236,11 +272,11 @@ function timer(){
 
 
 /*THIS DOESNT WORK EITHER. AHH!
-$(function () { 
+$(function () {
 
     $('#buildCard').tabSlideOut({
         tabHandle: '#resourceBar', //class of the element that will become your tab
-        
+
         tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
         speed: 300, //speed of animation
         action: 'click', //options: 'click' or 'hover', action to trigger animation

@@ -5,7 +5,8 @@ Phase = {
 }
 Rotation = {
         Forwards: 0,
-        Backwards: 1
+        Backwards: 1,
+        None: 2,
 }
 
 Board = function() {
@@ -188,6 +189,14 @@ function buildRegularHexFramework(width){
 	return tileFrame;
 }
 
+function getHex(coords, hexFrame){
+    for(var i = 0; i<hexFrame.length; i++){
+        if(vectorEquals(hexFrame[i].coordinate, coords)){
+            return hexFrame[i];
+        }
+    }
+}
+
 
 /* Helper function to be used in building a regular Hex Framwork. Determines where
  * each diagonal y-column should begin.
@@ -303,8 +312,10 @@ function updateGamePhase(gamestate) {
                                 gamestate.rotation = Rotation.Forwards;
                                 gamestate.phase = Phase.Normal;
                         }
-                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
+                } else if(gamestate.rotation == Rotation.None) {
                         gamestate.rotation = Rotation.Backwards;
+                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
+                        gamestate.rotation = Rotation.None;
                 }
         }
 }

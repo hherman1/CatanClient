@@ -19,9 +19,11 @@ Action = {
     }
 }
 
-Phase = {               //Wasn't sure where this fit best
-    Init: 0,
-    Normal: 1
+
+function nextPlayerInit(gamestate) {
+        if(currentPlayerListIndex(gamestate) == (gamestate.players.length - 1)) {
+
+        }
 }
 
 function getActionBuildStructure(action) {

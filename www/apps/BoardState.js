@@ -1,4 +1,12 @@
 //Data Types
+Phase = {               
+    Init: 0,
+    Normal: 1
+}
+Rotation = {
+        Forwards: 0,
+        Backwards: 1
+}
 
 Board = function() {
         this.hexes = [];
@@ -286,4 +294,17 @@ function compareTwoCoordPositions(road1coord1, road1coord2, road2coord1, road2co
         return true;
     }
     return false;
+}
+
+function updateGamePhase(gamestate) {
+        if(gamestate.phase == Phase.Init) {
+                if(gamestate.rotation == Rotation.Backwards) {
+                        if(gamestate.players[0].id == gamestate.currentPlayerID) {
+                                gamestate.rotation = Rotation.Forwards;
+                                gamestate.phase = Phase.Normal;
+                        }
+                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
+                        gamestate.rotation = Rotation.Backwards;
+                }
+        }
 }

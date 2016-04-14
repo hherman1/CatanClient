@@ -73,7 +73,7 @@ function checkInitSettlementLegality(coords, vertexFrame,player){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
-	console.out(neighborList);
+	console.log(neighborList);
 	for(i=0;i<neighborList.length;i++){
 		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;

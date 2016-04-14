@@ -78,7 +78,8 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase = Phase.Normal;
+        this.phase = Phase.Init;
+        this.rotation = Rotation.Forwards;
         this.players = [];
         this.currentPlayerID = null;
 }
@@ -97,18 +98,19 @@ Server = function() {
         this.getState = function() {
                 return this.gamestate;
         }
-        this.newGame = function(width) {
+        this.newGame = function(width,players) {
             this.gamestate.board = new RegularHexBoard(width);
-            this.gamestate.players = []
+            this.gamestate.players = players;
+            this.gamestate.currentPlayerID = players[0].id;
         }
         this.addPlayer = function(player) {
-                player.resources = player.resources.map(function(){return 5})
+                //player.resources = player.resources.map(function(){return 5})
                 this.gamestate.players.push(player);
-                this.gamestate.currentPlayerID = player.id;
         }
         this.endTurn = function(actionsToBeValidated){
             applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
+            updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
             //UI method to show the new resources that players recieved at the start of their new turn
             //Generate resources
@@ -152,7 +154,7 @@ CatanGame = function(side,ctx) {
         //the below code may be better suited elsewhere
 
         initMouseBuffer(canvas,this.buffer.mouse);
-        this.server.newGame(5);
+        this.server.newGame(5,getStoredPlayers());
         this.gamestate = this.server.getState();
         this.hitboxes =
                 genHitboxes(this.gamestate.board.vertices
@@ -163,7 +165,6 @@ CatanGame = function(side,ctx) {
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;
-        addPlayers(this.server);
 }
 
 cloneGameState = function(gameState) {
@@ -191,8 +192,8 @@ function processUIBuffer(buffer, game){
                                               ,game.ctx.canvas.height+30);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),-1,6,1,100),game);
                         pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),-1,6,1,100),game);
-                                      ,-1,1,12,100,60,1000)//new Vector(850,510)
-                                      ,game);
+                                     // ,-1,1,12,100,60,1000)//new Vector(850,510)
+                                      //,game);
                         game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
                         break;
@@ -286,13 +287,3 @@ function gameStep(game) {
 
 }
 
-//initialize players array. this function is used when users select which game to play (3 or 4 player game)
-addPlayers = function(server){
-  console.log("add players function in")
-  for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
-    server.addPlayer(new Player(i+1));
-    console.log("player was added to the list of players");
-  }
-
-  console.log(server.getState().players);
-}

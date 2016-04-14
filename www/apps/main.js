@@ -26,6 +26,7 @@ define(function (require) {
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
                 setupUIBuffer(myGame.buffer.UI, myGame);
+                genPlayerTabs(myGame.gamestate.players);
                 runGame(myGame,13);
         } else {
             console.log("browser unsupported")

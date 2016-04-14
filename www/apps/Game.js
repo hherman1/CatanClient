@@ -234,7 +234,6 @@ function processUIBuffer(buffer, game){
             }
     })
     flushBufferMessages(buffer);
-    updateUIInfo(game.gamestate.players, game.gamestate.currentPlayerID);
 }
 
 function gameStep(game) {
@@ -304,6 +303,8 @@ function gameStep(game) {
                       ,side
                       ,game.ctx);
                 //drawHitboxes(hitlist,hits,game.ctx);
+                updateUIInfo(game.gamestate.players
+                            ,game.gamestate.currentPlayerID);
         }
 
 }

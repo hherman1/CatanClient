@@ -4,8 +4,8 @@
 	border: solid black 1px;
 	border-radius: 8px 0 0 0;
 	position: absolute;
-	left: 687px; /*the board is 1000 and the button is ~300*/
-	top: 454px;
+    bottom:0;
+    right:0;
 }
 
 .endTurnButton{
@@ -62,21 +62,20 @@
 }
 
 
+
 /*Bottom Left Display*/
 [panel=Up]{
 	transform:translate(0px,0px);
 }
 
 [panel=Down]{
-	transform:translate(0px,-165.5px);
+	transform:translate(0px,165.5px);
 }
 
 .bottomLeftDisplay{
-	height: 50px;
-	width: 475px;
 	position: absolute;
-	top: 510px;
-	left:8px;
+    bottom:0;
+    left:0;
 	transition: transform .9s;
 }
 
@@ -158,10 +157,14 @@
 	width: 300px;
 }
 
+
+#playerTabTemplate {
+        display:none
+}
 /*Player Personal Tabs*/
 .playerDiv{
 	display:inline-block;
-	width: 152.8px;
+	width: 153px;
 }
 
 .playerName{
@@ -179,17 +182,23 @@
 }
 
 .playerInfo{
+    overflow: hidden;
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: white;
 	width: 152.8px;
+    transition: height 0.5s;
 }
 
-.playerTabs{
+#playerTabs{
+        text-align:center;
 	position: absolute;
-	top: 66px;
-	left: 194.95px;
-	width: 624.514px;
+    width:100%;
+    top:0;
+    left:0;
+}
+#playerTabs>* {
+    vertical-align: top;
 }
 
 .playerPoints{
@@ -249,4 +258,27 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 
 canvas { border: 1px solid black; width: 1000px; height:500px}
 
-#board { background-color: #77B2EB; }
+#game {
+        width:1000px;
+        height:500px;
+        position:relative;
+}
+
+.userInterface {
+        position:relative;
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        pointer-events:none;
+}
+
+.userInterface > * {
+        pointer-events:all;
+}
+
+#board { 
+        position:absolute;
+        top:0;
+        left:0;
+    background-color: #77B2EB; 
+}

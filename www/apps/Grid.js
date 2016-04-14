@@ -147,7 +147,10 @@ function hexToWorld(hexcoords,side) {
     return piecewiseTimes(new Vector(Math.cos(Math.PI/6)*side*2,2*-side*Math.sin(Math.PI/3)),fromHex(hexcoords))
 }
 function vertexToWorld(vcoords,side) {
-    return add(new Vector(-side*Math.sin(Math.PI/3),-side/2),piecewiseTimes(new Vector(side,-side),fromVertex(vcoords)))
+    return add(new Vector(-side*Math.sin(Math.PI/3)
+                         ,-side/2)
+              ,piecewiseTimes(new Vector(side,-side)
+                             ,fromVertex(vcoords)))
 
 }
 

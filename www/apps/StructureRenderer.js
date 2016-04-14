@@ -69,15 +69,18 @@ function loadImage(src) {
         return out;
 }
 
-function drawRoad(coordinateA,coordinateB,color,side, ctx) {
-  var worldA = vertexToWorld(coordinateA,side);
-  var worldB = vertexToWorld(coordinateB,side);
+function drawRoad(coordinateA,coordinateB,color,ctx) {
+  var worldA = vertexToWorld(coordinateA,1);//vertexToWorld(coordinateA,side);
+  var worldB = vertexToWorld(coordinateB,1);//vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
   ctx.lineWidth = 7;
   ctx.strokeStyle = getColor(color);
+  ctx.save();
+  resetTransform(ctx);
   ctx.stroke();
+  ctx.restore();
 }
 
 function drawBuilding(coordinate,structure,color,side,ctx){

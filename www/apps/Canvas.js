@@ -86,7 +86,9 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         clearCanvas(ctx,transform);
 
         var renderTree = new TransformNode(transform);
-        renderTree.addChild(assembleRenderTree(gamestate,renderedActions,colorMap,gamestate.currentPlayerID,side));
+        var scaled = new ScaleNode(side);
+        scaled.addChild(assembleRenderTree(gamestate,renderedActions,colorMap,gamestate.currentPlayerID,side));
+        renderTree.addChild(scaled);
         drawNode(renderTree,ctx);
 
         animations.data = pruneAnimations(animations.data);
@@ -109,12 +111,12 @@ function removeRedundantSettlements(actions) {
 
 //draws the image of the terrain on the board
 //created by sduong
-function drawHexImage(image, side, ctx){
-  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2));
+function drawHexImage(image, ctx){
+  var w = Math.sqrt(Math.pow(1,2)-Math.pow((1/2),2));
   var x = -1 * w;
-  var y = -1 * side;
-  var scale = side*2;
-  ctx.drawImage(image, x, y, scale-12, scale);
+  var y = -1;
+  var scale = 2;
+  ctx.drawImage(image, x, y, scale - 6/25, scale);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -228,6 +228,9 @@ function processUIBuffer(buffer, game){
                     case UI.Message.BuildCity:
                             console.log("Test case 4");
                         break;
+                    case UI.Message.Undo:
+                        game.actions.data.pop();
+                        break;
                     default:
                             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
                         break;
@@ -261,6 +264,7 @@ function gameStep(game) {
             //         }
             // });
             flushBufferMessages(game.buffer.UI);//Flushes processed messages
+            shouldRedraw = true;
 
         }
         if(hits.length != 0 || game.graphics.animations.data.length != 0) {

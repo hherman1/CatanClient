@@ -22,6 +22,7 @@ $(document).ready(function(){
 
 //Clock for the bottom right display----------------------------------------------------
 //Used help from this website for the clock: http://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
+/*
 var initTime = Date.parse(new Date());
 function initClock(id){
     var clock = document.getElementById(id);
@@ -50,6 +51,7 @@ function updateClock(){
 }
 updateClock();
 var timeinterval = setInterval(updateClock,1000);
+*/
 
 function genPlayerTabs(players) {
         var container = getPlayerTabsContainer();
@@ -127,7 +129,8 @@ function setVictoryPointsVal(playerTab, amount){
             EndTurn : 0,
             BuildRoad : 1,
             BuildSettlement : 2,
-            BuildCity : 3
+            BuildCity : 3,
+            Undo: 4,
         },
         Buffer : function() {
             this.messages = [];
@@ -136,6 +139,10 @@ function setVictoryPointsVal(playerTab, amount){
 
     function endTurnButtonClick(buffer){
         buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
+        console.log("endTurn clicked");
+    }
+    function undoButtonClick(buffer){
+        buffer.messages.push(UI.Message.Undo);//adds an endTurn call to the UI buffer
         console.log("endTurn clicked");
     }
     function roadBuildCardClick(buffer){
@@ -163,6 +170,9 @@ function setVictoryPointsVal(playerTab, amount){
         })
         $(buildCardCityButton).on('click', function() {
             cityBuildCardClick(buffer);
+        })
+        $("#undoButton").on('click',function() {
+                undoButtonClick(buffer);
         })
     }
 

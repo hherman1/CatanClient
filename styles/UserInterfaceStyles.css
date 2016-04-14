@@ -30,10 +30,23 @@
 	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
-.timerDiv{
+.topBar{
 	background-color: #FFFFFF;
 	border-radius: 8px 0px 0px 0px;
 	width: 320px;
+}
+
+#undoButton {
+	background: #FFF0BD;
+	color: #696558;
+	width: 50%;
+	font-size: 30px;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+
+}
+#undoButton:hover:enabled{
+	background: #ffdb66;
+	box-shadow: 1px 1px 5px #888888;
 }
 
 .rollHolder{

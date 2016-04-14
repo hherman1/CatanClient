@@ -25,19 +25,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
         context.fillText(line, x, y);
      }
 
-function drawStructures(vertices,colorMap,side,ctx) {
-    vertices.forEach(function(vertex) {
-            drawBuilding(vertex.coordinate,vertex.structure,colorMap[vertex.playerID],side,ctx);
-    })
-}
-
-function drawRoads(roads,colorMap,side,ctx) {
-    roads.forEach(function(road) {
-            if(road.structure == Structure.Road) {
-                    drawRoad(road.coord1,road.coord2,colorMap[road.playerID],side,ctx);
-            }
-    })
-}
 
 
 function transform(v,trans) {

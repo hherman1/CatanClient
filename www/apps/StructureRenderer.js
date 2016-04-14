@@ -88,6 +88,13 @@ function drawBuilding(coordinate,structure,color,side,ctx){
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
         }
 }
+function drawStructure(structure,color,side,ctx){
+        if(structure != Structure.Empty) {
+          ctx.drawImage(getBuildingImg(structure, color)
+                       , -side/2, -side/2
+                       , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
+        }
+}
 
 function getRobberImg() {
         return Images.Loaded.Robber;

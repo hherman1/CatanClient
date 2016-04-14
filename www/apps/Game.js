@@ -301,7 +301,7 @@ function gameStep(game) {
         if(shouldRedraw) {
                 redraw(game.gamestate
                       ,potentialAction
-                      ,game.actions.data
+                      ,game.actions.data.slice()
                       ,game.graphics.transform
                       ,game.graphics.animations
                       ,side

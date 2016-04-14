@@ -71,7 +71,7 @@ function newPlayerTab(player,color,template) {
         setTabPlayerID(out,player.id);
         setTabPlayerImages(out,color);
         $(out).removeAttr("id");
-        $(out).css("background-color",getColor(color));
+        $(".playerNameTab",$(out)).css("background-color",getColor(color));
         return out;
 }
 

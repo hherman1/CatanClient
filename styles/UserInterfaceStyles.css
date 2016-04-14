@@ -175,6 +175,21 @@
 	width: 152.8px;
 }
 
+.playerNameTab {
+        position:relative;
+}
+.playerNameTab:hover > .overlay {
+        opacity:0.25;
+}
+.overlay {
+        position:absolute;
+        width:100%;
+        height:100%;
+        background-color:#ffffff;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity 0.25s;
+}
 .playerNameTag{
 	position: absolute;
 	left: 0px;

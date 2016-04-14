@@ -188,7 +188,7 @@
         background-color:#ffffff;
         opacity:0;
         pointer-events:none;
-        transition:opacity 0.25s;
+        transition:opacity 0.1s;
 }
 .playerNameTag{
 	position: absolute;
@@ -252,23 +252,6 @@
 	text-align: center;
 }
 
-#player1Name{
-	background-color: #0093d0
-}
-
-#player2Name{
-	background-color: #fbb034
-}
-
-/*red/plum player*/
-#player3Name{
-	background-color: #ba2441
-}
-
-/*orange player*/
-#player4Name{
-	background-color: #ff7f2a
-}
 
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }

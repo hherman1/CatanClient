@@ -118,8 +118,8 @@ function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx)
         setTransform(transform,ctx);
 
         //BUG: Currently don't draw colors correctly
-        drawHexes(gamestate.board.hexes,side,ctx);
         drawRoads(gamestate.board.roads,colorMap,side,ctx);
+        drawHexes(gamestate.board.hexes,side,ctx);
         drawStructures(gamestate.board.vertices,colorMap,side,ctx);
 
         drawActions(renderedActions,currentPlayerColor,side,ctx); // Pending actions

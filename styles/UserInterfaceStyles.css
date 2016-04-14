@@ -179,6 +179,10 @@
 	display:inline-block;
 	width: 153px;
 }
+.playerDiv[active=true] {
+        position:relative;
+        top:5px;
+}
 
 .playerName{
 	text-align: center;

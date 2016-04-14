@@ -179,14 +179,15 @@ function setVictoryPointsVal(playerTab, amount){
 // function 
     
     function updateUIInfo(players, currentPlayerID){
-        updateUIInfoTopBar(players);
+        updateUIInfoTopBar(players,currentPlayerID);
         var currentPlayer = getCurrentPlayer(players, currentPlayerID);
         updateResourceBar(currentPlayer);
     }
 
-    function updateUIInfoTopBar(players){
+    function updateUIInfoTopBar(players, currentPlayerID){
         players.map(function(player) {
             var playerTab = getPlayerTab(player.id);
+            $(playerTab).attr("active",currentPlayerID == player.id);
             setVictoryPointsVal(playerTab, player.vicPoints);
             setStructureVal(playerTab, "Road", player.roadCount);
             setStructureVal(playerTab, "Settlement", player.settlementCount);

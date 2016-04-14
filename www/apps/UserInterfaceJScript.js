@@ -69,6 +69,7 @@ function getPlayerTabTemplate() {
 function newPlayerTab(player,color,template) {
         var out = $(template).clone(true);
         setTabPlayerID(out,player.id);
+        setTabPlayerImages(out,color);
         $(out).removeAttr("id");
         $(out).css("background-color",getColor(color));
         return out;
@@ -86,6 +87,12 @@ function getPlayerTab(num) {
 function setTabPlayerID(tab,playerID) {
        $(tab).attr("player",playerID);
        $(".playerNumber",tab).html(playerID);
+}
+
+function setTabPlayerImages(tab,color) {
+        $(".settlementPic",tab).append(getBuildingImg(Structure.Settlement,color))
+        $(".cityPic",tab).append(getBuildingImg(Structure.City,color))
+        $(".roadPic",tab).append(getBuildingImg(Structure.Road,color))
 }
 
 //Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount

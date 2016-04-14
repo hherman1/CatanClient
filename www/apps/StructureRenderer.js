@@ -6,12 +6,15 @@ Images = {
         Loaded:{
                 Settlements:[],
                 Cities:[],
+                Roads:[],
                 Resources:[],
                 Robber:{},
         },
         Settlements:[],
 
         Cities:[],
+
+        Roads:[],
 
         Resources:[],
 
@@ -32,6 +35,12 @@ Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
 Images.Cities[Colors.White]    = 'graphics/whitec.svg';
 Images.Loaded.Cities = Images.Cities.map(loadImage);
+
+Images.Roads[Colors.Red]     = 'graphics/redr.svg';
+Images.Roads[Colors.Orange]  = 'graphics/oranger.svg';
+Images.Roads[Colors.Blue]    = 'graphics/bluer.svg';
+Images.Roads[Colors.White]   = 'graphics/whiter.svg';
+Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
@@ -91,6 +100,8 @@ function getBuildingImg(settletype, playerColor){
             return Images.Loaded.Settlements[playerColor];
         case Structure.City:
             return Images.Loaded.Cities[playerColor];
+        case Structure.Road:
+            return Images.Loaded.Roads[playerColor];
   }
 }
 

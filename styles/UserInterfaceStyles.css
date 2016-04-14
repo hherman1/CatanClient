@@ -223,6 +223,8 @@
 
 .playerStructurePic{
 	display: inline;
+}
+.playerStructurePic > img {
 	height: 20px;
 }
 

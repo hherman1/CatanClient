@@ -76,17 +76,26 @@ function oneRoadOneSettlement(actions) {
     });
     return settlements <= 1 && roads <= 1 && actions.length <= 2 && other == 0;
 }
-function validateActions(actions,gamestate) {
+
+function getPositionObject(action,playerID) {
+        switch(action.type) {
+                case Action.Type.BuildRoad:
+                        return new Position.Road(Structure.Road
+                                                ,action.coordinateA
+                                                ,action.coordinateB
+                                                ,playerID);
+                case Action.Type.BuildSettlement:
+                        return new Position.Vertex(Structure.Settlement,playerID,action.coordinate);
+                case Action.Type.BuildCity:
+                        return new Position.Vertex(Structure.City,playerID,action.coordinate);
+        }
+}
+
+function validateActionsForCurrentPlayer(actions,gamestate) {
     var clonedGameState = cloneGameState(gamestate);
-    var currentPlayer = getPlayers(clonedGameState.currentPlayerID,clonedGameState.players)[0];
-
-    if(gamestate.phase == Phase.Init && !oneRoadOneSettlement(actions)) {
-            return false;
-    }
-
     return actions.every(function(action) {
-        if(validateAction(action,clonedGameState,currentPlayer)) {
-            applyAction(action,clonedGameState);
+        if(validateActionForCurrentPlayer(action,clonedGameState)) {
+            applyActionForCurrentPlayer(action,clonedGameState);
             console.log("true");
             return true;
         } else {
@@ -96,24 +105,18 @@ function validateActions(actions,gamestate) {
     })
 }
 
+function validateActionForCurrentPlayer(action,gamestate) {
+    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+    return validateAction(action,gamestate,currentPlayer);
+}
+
 function validateInit(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                        if (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads)) {
-//                                console.log("Road legal");
-                                return true;
-                        }
-                        //console.log("Road illegal")
-                        return false;
+                        return (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads))
                 case Action.Type.BuildSettlement:
-                        if (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player)) {
-                                //console.log("Settlement legal");
-                                return true;
-                        }
-                        //console.log("Settlement illegal");
-                        return false;
+                        return (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player))
                 case Action.Type.BuildCity:
-                        //console.log("City illegal");
                         return false;
         }
 }
@@ -159,22 +162,22 @@ function validateAction (action,gamestate,player) {
         }
 }
 
-function applyActions(actions,gamestate) {
+function applyActionsForCurrentPlayer(actions,gamestate) {
         actions.map(function(a) {
-                applyAction(a,gamestate);
+                applyActionForCurrentPlayer(a,gamestate);
         })
 }
 
-function applyAction(action,gamestate) {
+function applyActionForCurrentPlayer(action,gamestate) {
     var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
-    applyActionForPlayer(action,gamestate,currentPlayer);
+    applyAction(action,gamestate,currentPlayer);
 }
 
 function flushActions(actions){
     actions.data.length = 0;
 }
 
-function applyActionForPlayer(action,gamestate,player) {
+function applyAction(action,gamestate,player) {
         switch(gamestate.phase){
                 case Phase.Normal:
                     player.resources = subtractResources(player.resources,getPrice(getActionBuildStructure(action)));

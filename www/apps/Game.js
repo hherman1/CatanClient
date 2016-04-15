@@ -114,7 +114,7 @@ Server = function() {
                 this.gamestate.players.push(player);
         }
         this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
-            applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
+            applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
@@ -135,7 +135,7 @@ Buffer = function() {
     this.UI = new UI.Buffer();
 }
 
-Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
+Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side) {
         this.ctx = ctx;
         this.mouse = mouse; //new Mouse();
         this.buffer = buffer; //new Buffer();
@@ -143,6 +143,7 @@ Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,imag
         this.server = server; //new Server();
         this.actions = actions; //new Reference([]);
         this.gamestate = gamestate;
+        this.teststate = teststate;
         this.hitboxes = hitboxes;
         this.images = images;
         this.side = side;
@@ -156,7 +157,7 @@ CatanGame = function(side,ctx) {
                  ,new Graphics()
                  ,new Server()
                  ,new Reference([])
-                 ,null,null,null,side)
+                 ,null,null,null,null,side)
         var canvas = ctx.canvas;
         this.ctx = ctx;
         this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
@@ -167,6 +168,7 @@ CatanGame = function(side,ctx) {
         initMouseBuffer(canvas,this.buffer.mouse);
         this.server.newGame(5,getStoredPlayers());
         this.gamestate = this.server.getState();
+        this.teststate = cloneGameState(this.gamestate);
         this.hitboxes =
                 genHitboxes(this.gamestate.board.vertices
                            ,this.gamestate.board.roads
@@ -205,6 +207,7 @@ function processUIBuffer(buffer, game){
                         //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
                         game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+                        game.teststate = cloneGameState(game.gamestate);
                         if(game.gamestate.phase == Phase.Normal) {
                                 var roll = game.server.getRoll();
                                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
@@ -230,6 +233,8 @@ function processUIBuffer(buffer, game){
                         break;
                     case UI.Message.Undo:
                         game.actions.data.pop();
+                        game.teststate = cloneGameState(game.gamestate);
+                        applyActionsForCurrentPlayer(game.actions.data,game.teststate);
                         break;
                     default:
                             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
@@ -287,11 +292,10 @@ function gameStep(game) {
 
                 }
 
-                if(potentialAction != null) {
+                if(potentialAction != null 
+                  && validateActionForCurrentPlayer(potentialAction,game.teststate)) {
                         game.actions.data.push(potentialAction);
-                        if(!validateActions(game.actions.data,game.gamestate)) {
-                                game.actions.data.pop();
-                        }
+                        applyActionForCurrentPlayer(potentialAction,game.teststate);
                         shouldRedraw = true;
                 }
         }
@@ -299,16 +303,15 @@ function gameStep(game) {
         var side=50;
 
         if(shouldRedraw) {
-                redraw(game.gamestate
+                redraw(game.teststate
                       ,potentialAction
-                      ,game.actions.data.slice()
                       ,game.graphics.transform
                       ,game.graphics.animations
                       ,side
                       ,game.ctx);
                 //drawHitboxes(hitlist,hits,game.ctx);
-                updateUIInfo(game.gamestate.players
-                            ,game.gamestate.currentPlayerID);
+                updateUIInfo(game.teststate.players
+                            ,game.teststate.currentPlayerID);
         }
 
 }

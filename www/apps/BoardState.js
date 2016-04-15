@@ -94,6 +94,24 @@ Position = {
         },
 }
 
+function notEqualPositionCoordinatesFilter(posA) {
+        return function(posB) {
+                return !equalPositionCoordinates(posA,posB);
+        }
+}
+
+function equalPositionCoordinates(positionA,positionB) {
+        if(positionA.type != positionB.type) {
+                return false;
+        }
+        switch(positionA.type) {
+                case Position.Type.Road:
+                        return compareRoadPositions(positionA,positionB);
+                case Position.Type.Vertex:
+                        return vectorEquals(positionA.coordinate,positionB.coordinate);
+        }
+}
+
 
 baseResourceList =
     [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain,

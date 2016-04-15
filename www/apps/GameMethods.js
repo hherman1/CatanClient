@@ -79,7 +79,7 @@ function checkInitSettlementLegality(coords, vertexFrame,player){
 			return false;
 		}
 	}
-	return true;
+	return (player.settlementCount + 1 < 2);
 }
 
 function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
@@ -88,7 +88,8 @@ function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
 	}
 	vertex1 = getVertices(vertexFrame,coords1)[0];
 	vertex2 = getVertices(vertexFrame,coords2)[0];
-	if(vertex1.playerID==player.id || vertex2.playerID==player.id){
+	if((vertex1.playerID==player.id || vertex2.playerID==player.id)
+      && (player.roadCount + 1 < 2)){
 		return true;
 	}
 	return false;

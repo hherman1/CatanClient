@@ -4,6 +4,7 @@ Node = function(draw) {
         self.draw = draw;
         self.children = [];
         self.addChild = function(child) {addChild(child,self)};
+        self.addChildren = function(children) {addChildren(children,self)};
 }
 
 TransformNode = function(transform) {
@@ -48,6 +49,9 @@ StructureNode = function(vertex,colorMap) {
 function addChild(childNode,parentNode) {
         parentNode.children.push(childNode);
 }
+function addChildren(children,parentNode) {
+        parentNode.children = parentNode.children.concat(children);
+}
 
 function drawNode(node,ctx) {
         node.draw(ctx);
@@ -60,24 +64,26 @@ function drawNode(node,ctx) {
         ctx.restore();
 }
 
-function assembleRenderTree(gamestate,actions,colorMap,currentPlayerID,side) {
-        var board = new Node(function(){});
-        gamestate.board.hexes.forEach(function(hex) {
-                board.addChild(new HexNode(hex));
+function makeHexNodes(hexes) {
+        return hexes.map(function(hex) {
+                return new HexNode(hex);
         })
-        gamestate.board.roads.forEach(function(road) {
-                if(road.structure == Structure.Road) {
-                        board.addChild(new RoadNode(road,colorMap));
-                }
-        });
-        gamestate.board.vertices.forEach(function(vertex) {
-                board.addChild(new StructureNode(vertex,colorMap));
-        });
-        actions.forEach(function(action) {
-                board.addChild(genActionNode(action,currentPlayerID,colorMap,side));
-        });
-        return board;
 }
+function makeRoadNodes(roads,colorMap) {
+        return roads.filter(function(road) {
+                   return road.structure == Structure.Road;
+               })
+               .map(function(road) {
+                   return new RoadNode(road,colorMap);
+               });
+}
+function makeVertexNodes(vertices,colorMap) {
+        return vertices.map(function(vertex) {
+                return new StructureNode(vertex,colorMap);
+        });
+}
+
+
 
 function genActionNode(action,currentPlayerID,colorMap,side) {
         switch(action.type) {

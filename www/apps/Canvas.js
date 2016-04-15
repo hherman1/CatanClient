@@ -71,23 +71,35 @@ function setTransform(transform,ctx) {
         ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx) {
+function redraw(gamestate,potentialAction,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
-        var renderedActions;
+        var hexes = gamestate.board.hexes;
+        var roads = gamestate.board.roads;
+        var vertices = gamestate.board.vertices;
+
         if(potentialAction != null) {
-               renderedActions = removeRedundantSettlements(actions.concat(potentialAction));
-               renderedActions.push(potentialAction);
-        } else {
-               renderedActions = removeRedundantSettlements(actions);
+                var potentialPosition = getPositionObject(potentialAction,gamestate.currentPlayerID);
+                switch(potentialPosition.type) {
+                        case Position.Type.Road:
+                                roads = roads.filter(notEqualPositionCoordinatesFilter(potentialPosition))
+                                             .concat(potentialPosition);
+                                break;
+                        case Position.Type.Vertex:
+                                vertices = vertices.filter(notEqualPositionCoordinatesFilter(potentialPosition))
+                                                   .concat(potentialPosition);
+                                break;
+                }
         }
 
         clearCanvas(ctx,transform);
 
         var renderTree = new TransformNode(transform);
         var scaled = new ScaleNode(side);
-        scaled.addChild(assembleRenderTree(gamestate,renderedActions,colorMap,gamestate.currentPlayerID,side));
+        scaled.addChildren(makeHexNodes(hexes));
+        scaled.addChildren(makeRoadNodes(roads,colorMap));
+        scaled.addChildren(makeVertexNodes(vertices,colorMap));
         renderTree.addChild(scaled);
         drawNode(renderTree,ctx);
 

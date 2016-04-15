@@ -63,6 +63,14 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
 
+function getLoadedImages() {
+        var out = [];
+        for(var key in Images.Loaded) {
+                out = out.concat(Images.Loaded[key]);
+        }
+        return out;
+}
+
 function loadImage(src) {
         var out = new Image();
         out.src = src;

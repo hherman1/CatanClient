@@ -83,34 +83,6 @@ function makeVertexNodes(vertices,colorMap) {
         });
 }
 
-
-
-function genActionNode(action,currentPlayerID,colorMap,side) {
-        switch(action.type) {
-                case Action.Type.BuildRoad:
-                    return(new RoadNode(new Position.Road(Structure.Road
-                                                         ,action.coordinateA
-                                                         ,action.coordinateB
-                                                         ,currentPlayerID)
-                                       ,colorMap
-                                       ,side));
-                case Action.Type.BuildSettlement:
-                    return(new StructureNode(new Position.Vertex(Structure.Settlement
-                                                                ,currentPlayerID
-                                                                ,action.coordinate)
-                                            ,colorMap
-                                            ,side));
-                case Action.Type.BuildCity:
-                    return(new StructureNode(new Position.Vertex(Structure.City
-                                                                ,currentPlayerID
-                                                                ,action.coordinate)
-                                            ,colorMap
-                                            ,side));
-        }
-
-}
-
-
  function drawHex(hex,ctx) {
      var worldCoord = hexToWorld(hex.coordinate,1);
      ctx.translate(worldCoord.x,worldCoord.y);

@@ -174,10 +174,18 @@ CatanGame = function(side,ctx) {
                            ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
                            ,this.side);
-
+        var numLoadedImages = 0;
+        var self=this;
+        $(getLoadedImages()).load(function() {
+                numLoadedImages++;
+                if(numLoadedImages == getLoadedImages().length) {
+                        renderGame(self,null); // Initial render with no highlight.
+                }
+        });
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;
+        
 }
 
 cloneGameState = function(gameState) {
@@ -300,20 +308,23 @@ function gameStep(game) {
                 }
         }
 
-        var side=50;
 
         if(shouldRedraw) {
-                redraw(game.teststate
-                      ,potentialAction
-                      ,game.graphics.transform
-                      ,game.graphics.animations
-                      ,side
-                      ,game.ctx);
-                //drawHitboxes(hitlist,hits,game.ctx);
-                updateUIInfo(game.teststate.players
-                            ,game.teststate.currentPlayerID);
+                renderGame(game,potentialAction);
         }
 
+}
+
+function renderGame(game,potentialAction) {
+        redraw(game.teststate
+              ,potentialAction
+              ,game.graphics.transform
+              ,game.graphics.animations
+              ,game.side
+              ,game.ctx);
+        //drawHitboxes(hitlist,hits,game.ctx);
+        updateUIInfo(game.teststate.players
+                    ,game.teststate.currentPlayerID);
 }
 
 function checkPlayerWin(player){

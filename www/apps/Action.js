@@ -57,25 +57,6 @@ function drawAction(action,color,side,ctx) {
     }
 }
 
-function oneRoadOneSettlement(actions) {
-    var settlements = 0;
-    var roads = 0;
-    var other = 0;
-    actions.map(function(a) {
-            switch(getActionBuildStructure(a)) {
-                    case Structure.Settlement:
-                            settlements += 1;
-                            break;
-                    case Structure.Road:
-                            roads += 1;
-                            break;
-                    default:
-                            other += 1;
-                            break;
-            }
-    });
-    return settlements <= 1 && roads <= 1 && actions.length <= 2 && other == 0;
-}
 
 function getPositionObject(action,playerID) {
         switch(action.type) {

@@ -20,6 +20,8 @@ $(document).ready(function(){
     });
 });
 
+
+
 //Clock for the bottom right display----------------------------------------------------
 //Used help from this website for the clock: http://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
 /*
@@ -131,6 +133,7 @@ function setVictoryPointsVal(playerTab, amount){
             BuildSettlement : 2,
             BuildCity : 3,
             Undo: 4,
+            Resize:5,
         },
         Buffer : function() {
             this.messages = [];
@@ -157,6 +160,10 @@ function setVictoryPointsVal(playerTab, amount){
     function flushBufferMessages(buffer){
         buffer.messages.length = 0;
     }
+    function resizeGame(buffer) {
+        resizeBoardDOM($("#game").width(),$("#game").height());
+        buffer.messages.push(UI.Message.Resize);
+    }
 
     function setupUIBuffer(buffer) {
         $(endTurnButton).on('click', function() {
@@ -174,6 +181,9 @@ function setVictoryPointsVal(playerTab, amount){
         $("#undoButton").on('click',function() {
                 undoButtonClick(buffer);
         })
+        $(window).resize(function() {
+                resizeGame(buffer);
+        });
     }
 
 // function 
@@ -202,3 +212,10 @@ function setVictoryPointsVal(playerTab, amount){
         setResourceVal("Ore", player.resources[Resource.Ore]);
         setResourceVal("Brick", player.resources[Resource.Brick]);
     }
+
+
+
+function resizeBoardDOM(width,height) {
+        $("#board").attr("width",width);
+        $("#board").attr("height",height);
+}

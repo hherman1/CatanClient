@@ -22,6 +22,7 @@ define(function (require) {
     function main() {
         canvas = document.getElementById('board');
         if(canvas.getContext) {
+                resizeBoardDOM($(window).width(),$(window).height());
                 ctx = canvas.getContext('2d');
                 var myGame = new CatanGame(50,ctx);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO

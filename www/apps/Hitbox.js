@@ -89,7 +89,7 @@ function genHexBoxes(hexes,side) {
 function genVertexBoxes(vertices,side) {
         return vertices.map(function(vertex) {
                 return new Hitbox.Circle(vertexToWorld(vertex.coordinate,side)
-                                ,side/5
+                                ,side/4
                                 ,vertex)
         })
 }
@@ -110,7 +110,7 @@ function genRoadBox(road,side) {
         var rotation = Math.atan(diff.y/diff.x);
         var center = times(0.5,add(w1,w2));
         return new Hitbox.Box(center
-                        ,new Vector(side/2,side/5)
+                        ,new Vector(side/2,side/3)
                         ,road
                         ,rotation)
 }

@@ -296,7 +296,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                pushAnimation(new ClickCircle(mouse.pos,10,10),game);
+                var drawCircle = true;
                 //hits.forEach(function(hit) {
                 //
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
@@ -304,12 +304,19 @@ function gameStep(game) {
 
                 }
 
-                if(potentialAction != null 
-                  && validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-                        game.actions.data.push(potentialAction);
-                        applyActionForCurrentPlayer(potentialAction,game.teststate);
-                        shouldRedraw = true;
+                if(potentialAction != null) {
+                        if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
+                                game.actions.data.push(potentialAction);
+                                applyActionForCurrentPlayer(potentialAction,game.teststate);
+                        } else {
+                                pushAnimation(new XClick(mouse.pos,10,10),game);
+                                drawCircle = false;
+                        }
                 }
+                if(drawCircle) {
+                    pushAnimation(new ClickCircle(mouse.pos,10,10),game);
+                }
+                shouldRedraw = true;
         }
 
 

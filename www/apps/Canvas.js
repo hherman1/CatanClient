@@ -169,3 +169,9 @@ function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToWorld(vertexCoords,side);
         ctx.fillRect(coords.x,coords.y,10,10)
 }
+
+function linePath(start,end,ctx) {
+        ctx.beginPath();
+        ctx.moveTo(start.x,start.y);
+        ctx.lineTo(end.x,end.y);
+}

@@ -67,6 +67,16 @@ Timing = {
             return t;
         },
 
+        //f(0) = 0, f(1) = 1, f'(1) = 0
+        quadratic: function(t) {
+                return -Math.pow(t,2) + 2*t;
+        },
+
+        //f(0) = 0, f(1) = 1, f'(0) = d
+        quadraticInitialDerivative: function(t,d) {
+                return (1 - d) * Math.pow(t,2) + d * t
+        },
+
         // A cubic function f with f' = 0 at the start and end of the period t in [0,1]
         cubic: function(t) {
                 return (-2*Math.pow(t,3) + 3*Math.pow(t,2));
@@ -77,15 +87,15 @@ Timing = {
                 return (2/(1+n))*Timing.cubic(t);
         },
 
-        // a quadratic f with f' = 0 and f = {0,1,0} at {0,1/2,1} 
-        quadratic(t) {
+        // a quartic f with f' = 0 and f = {0,1,0} at {0,1/2,1} 
+        quartic(t) {
                 return 16*(Math.pow(t,4)) - 32 * Math.pow(t,3) + 16 * Math.pow(t,2);
         },
 
         //see cubicFixedDiscreteSum
-        quadraticFixedDiscreteSum(t,n) {
+        quarticFixedDiscreteSum(t,n) {
                 var c = 15*Math.pow(n,3)/(8*(1+n)*(-1+n-Math.pow(n,2)+Math.pow(n,3)));
-                return c * Timing.quadratic(t); 
+                return c * Timing.quartic(t); 
         },
 
 }
@@ -106,6 +116,31 @@ ClickCircle = function(coordinate,radius,frames) {
                         ,frames)
 }
 
+XClick = function(coordinate,radius,frames) {
+        Animation.MultiFrame.call(this
+                        ,function(ctx,transform,frame,totalFrames) {
+                                //setTransform(transform,ctx);
+                                resetTransform(ctx);
+                                ctx.beginPath();
+                                var outerRadius = radius * Timing.quadraticInitialDerivative(frame/totalFrames,4);
+                                var innerRadius = radius * Timing.cubic(frame/totalFrames);
+                                ctx.strokeStyle = "rgba(255,0,0,0.8)";
+                                ctx.lineWidth = "4";
+                                linePath(add(ident(outerRadius),coordinate),add(ident(innerRadius),coordinate),ctx);
+                                ctx.stroke();
+                                linePath(add(ident(-outerRadius),coordinate),add(ident(-innerRadius),coordinate),ctx);
+                                ctx.stroke();
+                                linePath(add(new Vector(-outerRadius,outerRadius),coordinate)
+                                        ,add(new Vector(-innerRadius,innerRadius),coordinate),ctx);
+                                ctx.stroke();
+                                linePath(add(new Vector(outerRadius,-outerRadius),coordinate)
+                                        ,add(new Vector(innerRadius,-innerRadius),coordinate),ctx);
+                                ctx.stroke();
+                        }
+                        ,frames)
+}
+
+
 
 InfoBox = function(coordinate,text,height,width,transitionFrames) {
         var self = this;
@@ -115,7 +150,7 @@ InfoBox = function(coordinate,text,height,width,transitionFrames) {
         self.height = 0;
 
         self.incrementResize = function(target,frame,frames) {
-                self.height += target*Timing.quadraticFixedDiscreteSum(frame/frames,frames);
+                self.height += target*Timing.quarticFixedDiscreteSum(frame/frames,frames);
         }
         self.drawBox = function(text,ctx) {
                 resetTransform(ctx);

@@ -110,7 +110,7 @@ function adjacentHexes(vertCoords){
     else{
         hexCoords.push(new Vector(vertCoords.x,Math.floor(vertCoords.y/2)));
         hexCoords.push(new Vector(vertCoords.x,(vertCoords.y+1)/2));
-        hexCoords.push(new Vector(vertCoords.x,(vertCoords.y+1)/2));
+        hexCoords.push(new Vector(vertCoords.x-1,(vertCoords.y+1)/2));
     }
     return hexCoords;
 

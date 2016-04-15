@@ -281,6 +281,21 @@ canvas { border: 1px solid black; width: 1000px; height:500px}
         position:relative;
 }
 
+#loading-bar {
+        width:100%;
+        height:5px;
+        position:absolute;
+        top:0;
+        background-color:maroon;
+        z-index:1;
+}
+#loaded {
+        height:100%;
+        background-color:red;
+        width:0%;
+        transition: width 0.3s;
+}
+
 .userInterface {
         position:relative;
         width:100%;

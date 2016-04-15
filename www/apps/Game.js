@@ -176,12 +176,16 @@ CatanGame = function(side,ctx) {
                            ,this.side);
         var numLoadedImages = 0;
         var self=this;
+        
         $(getLoadedImages()).load(function() {
                 numLoadedImages++;
+                $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
                 if(numLoadedImages == getLoadedImages().length) {
+                        $("#loading-bar").hide();
                         renderGame(self,null); // Initial render with no highlight.
                 }
         });
+        
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;

@@ -104,7 +104,6 @@ function genActionNode(action,currentPlayerID,colorMap,side) {
 
 }
 
-     //drawToken(hexToWorld(hex.coordinate,side),hex.token,ctx); //draw number token
 
  function drawHex(hex,ctx) {
      var worldCoord = hexToWorld(hex.coordinate,1);

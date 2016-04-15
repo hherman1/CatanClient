@@ -94,9 +94,9 @@ function validateActionForCurrentPlayer(action,gamestate) {
 function validateInit(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                        return (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads))
+                        return (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads));
                 case Action.Type.BuildSettlement:
-                        return (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player))
+                        return (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player));
                 case Action.Type.BuildCity:
                         return false;
         }

@@ -30,9 +30,9 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	var vert = getVertex(vertexFrame,coords);
-//	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
-//		return false;
-//	}
+	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){
+		return false;
+	}
 	if(vert.structure>0){
 		return false;
 	}

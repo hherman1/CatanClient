@@ -44,11 +44,11 @@ Player = function(id){
   this.cityCount = 0;
   //Player owned resources
   this.resources = [];
-  this.resources[Resource.Lumber] = 1;
-  this.resources[Resource.Wool] = 1;
-  this.resources[Resource.Ore] = 1;
-  this.resources[Resource.Brick] = 1;
-  this.resources[Resource.Grain] = 1;
+  this.resources[Resource.Lumber] = 0;
+  this.resources[Resource.Wool] = 0;
+  this.resources[Resource.Ore] = 0;
+  this.resources[Resource.Brick] = 0;
+  this.resources[Resource.Grain] = 0;
   //Color assigned
   this.color = Colors.List[id-1];
   //Player victory points
@@ -130,18 +130,35 @@ function subtractResources(pos,neg) {
 
 //Takes in game and returns what the index is of the current player in players
 function currentPlayerListIndex(gamestate){
-              for (var i = 0; i<gamestate.players.length; i++){
-                if (gamestate.players[i].id == gamestate.currentPlayerID){
-                  return gamestate.players[i].id;//index of current player in players
+        var out = undefined;
+        gamestate.players.every(function(p,i) {
+                if(p.id == gamestate.currentPlayerID) {
+                        out = i;
+                        return false;
                 }
-              }
-              return 'Err | currentPlayersListIndex';
+                return true;
+        });
+        return out;
 }
 
 function nextPlayer(gamestate){
-//get current player index and then increase it by one and set the global player to this calculated player
-              var currentPlayerIndex = currentPlayerListIndex(gamestate);
-              var nextPlayer = currentPlayerIndex % (gamestate.players.length) + 1;
-              gamestate.currentPlayerID = nextPlayer;//Moves to next player
-              console.log("current player id now: " + nextPlayer);
+      var currentPlayerIndex = currentPlayerListIndex(gamestate);
+        switch(gamestate.rotation) {
+                case Rotation.Forwards:
+        //get current player index and then increase it by one and set the global player to this calculated player
+                      var nextPlayer = (currentPlayerIndex+1) % (gamestate.players.length);
+                      gamestate.currentPlayerID = gamestate.players[nextPlayer].id;//Moves to next player
+                      break;
+                case Rotation.Backwards:
+                      var nextPlayer = (currentPlayerIndex-1) % (gamestate.players.length);
+                      gamestate.currentPlayerID = gamestate.players[nextPlayer].id;//Moves to next player
+                      break;
+        }
+}
+function getStoredPlayers() {
+        var out = [];
+        for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
+          out.push(new Player(i+1));
+        }
+        return out;
 }

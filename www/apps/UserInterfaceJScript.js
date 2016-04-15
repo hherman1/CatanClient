@@ -14,14 +14,15 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $(".playerInfo").hide();
-    $(".playerTabs").click(function(e){
+    $(".playerDiv").click(function(e){
         //$(parent(ee.target())).slideToggle("slow");
-        $(this).find('.playerInfo').slideToggle("down");
+        $(".playerInfo",$(this)).slideToggle("down");
     });
 });
 
 //Clock for the bottom right display----------------------------------------------------
 //Used help from this website for the clock: http://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
+/*
 var initTime = Date.parse(new Date());
 function initClock(id){
     var clock = document.getElementById(id);
@@ -50,6 +51,63 @@ function updateClock(){
 }
 updateClock();
 var timeinterval = setInterval(updateClock,1000);
+*/
+
+function genPlayerTabs(players) {
+        var container = getPlayerTabsContainer();
+        var template = getPlayerTabTemplate();
+        var colorMap = getPlayerColors(players);
+
+        $(container).append(players.map(function(player) {
+                return newPlayerTab(player,colorMap[player.id],template);
+        }));
+        updateUIInfoTopBar(players);
+}
+
+function getPlayerTabTemplate() {
+        return $("#playerTabTemplate");
+}
+
+function newPlayerTab(player,color,template) {
+        var out = $(template).clone(true);
+        setTabPlayerID(out,player.id);
+        setTabPlayerImages(out,color);
+        $(out).removeAttr("id");
+        $(".playerNameTab",$(out)).css("background-color",getColor(color));
+        return out;
+}
+
+function getPlayerTabsContainer() {
+        return $("#playerTabs");
+}
+
+function getPlayerTab(num) {
+        return $(".playerDiv[player="+num+"]");
+}
+
+
+function setTabPlayerID(tab,playerID) {
+       $(tab).attr("player",playerID);
+       $(".playerNumber",tab).html(playerID);
+}
+
+function setTabPlayerImages(tab,color) {
+        $(".settlementPic",tab).append(getBuildingImg(Structure.Settlement,color))
+        $(".cityPic",tab).append(getBuildingImg(Structure.City,color))
+        $(".roadPic",tab).append(getBuildingImg(Structure.Road,color))
+}
+
+//Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount
+function setStructureVal(playerTab, structure, amount){
+        $(".playerStructureQuantity[structure="+structure+"]",playerTab).html(amount);
+}
+
+//Sets the victory points for the player. Takes in a number
+function setVictoryPointsVal(playerTab, amount){
+        $(".playerPoints",playerTab).html(amount);
+}
+
+
 
 //Methods to change resource quantities---------------------------------------------------
 
@@ -59,54 +117,20 @@ var timeinterval = setInterval(updateClock,1000);
         $(".resourceValue[resource="+resource+"]").html(amount);
     }
 
-    //Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount
-    function setStructuresVal(playerNum, structure, amount){
-        $(".playerStructureQuantity[player=player"+playerNum+"][structure="+structure+"]").html(amount);
-    }
-
-    //Sets the victory points for the player. Takes in a number
-    function setVictoryPointsVal(playerNum, amount){
-        $(".playerPoints[player=player"+playerNum+"]").html(amount);
-    }
-
     //Sets the roll value display for the player. Takes in a number
     function setRollVal(amount){
         $("#rollValue").html(amount)
     }
     //Tests
     //setResourceVal
-    $(document).ready(function(){
-        setResourceVal("Lumber", 5);
-        setResourceVal("Grain", 5);
-        setResourceVal("Wool", 5);
-        setResourceVal("Ore", 5);
-        setResourceVal("Brick", 5);
-        //setStructuresVal
-        setStructuresVal(1, "Settlement", 0);//TODOTODOTODOTODO put this in an init ui stats function
-        setStructuresVal(1, "Road", 0);
-        setStructuresVal(2, "Settlement", 0);
-        setStructuresVal(2, "City", 0);
-        setStructuresVal(3, "City", 0);
-        setStructuresVal(3, "Road", 0);
-        setStructuresVal(4, "Settlement", 0);
-        setStructuresVal(4, "City", 0);
-        setStructuresVal(4, "Road", 0);
-        //setVictoryPointsVal
-        setVictoryPointsVal(1, 0);
-        setVictoryPointsVal(2, 0);
-        setVictoryPointsVal(3, 0);
-        setVictoryPointsVal(4, 0);
-        setVictoryPointsVal(42, 0);//Doesnt find anything (which is good)
-        //SetRollVal
-        setRollVal(4);
-    })
 
     UI = {
         Message : {
             EndTurn : 0,
             BuildRoad : 1,
             BuildSettlement : 2,
-            BuildCity : 3
+            BuildCity : 3,
+            Undo: 4,
         },
         Buffer : function() {
             this.messages = [];
@@ -115,6 +139,10 @@ var timeinterval = setInterval(updateClock,1000);
 
     function endTurnButtonClick(buffer){
         buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
+        console.log("endTurn clicked");
+    }
+    function undoButtonClick(buffer){
+        buffer.messages.push(UI.Message.Undo);//adds an endTurn call to the UI buffer
         console.log("endTurn clicked");
     }
     function roadBuildCardClick(buffer){
@@ -143,32 +171,27 @@ var timeinterval = setInterval(updateClock,1000);
         $(buildCardCityButton).on('click', function() {
             cityBuildCardClick(buffer);
         })
+        $("#undoButton").on('click',function() {
+                undoButtonClick(buffer);
+        })
     }
 
 // function 
     
     function updateUIInfo(players, currentPlayerID){
-        updateUIInfoTopBar(players);
-        var player = getCurrentPlayer(players, currentPlayerID);
-        updateResourceBar(player);
+        updateUIInfoTopBar(players,currentPlayerID);
+        var currentPlayer = getCurrentPlayer(players, currentPlayerID);
+        updateResourceBar(currentPlayer);
     }
 
-    function updateUIInfoTopBar(players){
+    function updateUIInfoTopBar(players, currentPlayerID){
         players.map(function(player) {
-            console.log(player);
-            console.log(player.id);
-
-            playerVP = player.vicPoints;
-            setVictoryPointsVal(player.id, playerVP);
-
-            playerRoads = player.roadCount;
-            setStructuresVal(player.id, "Road", playerRoads);
-
-            playerSettlements = player.settlementCount;
-            setStructuresVal(player.id, "Settlement", playerSettlements);
-
-            playerCities = player.cityCount;
-            setStructuresVal(player.id, "City", playerCities);
+            var playerTab = getPlayerTab(player.id);
+            $(playerTab).attr("active",currentPlayerID == player.id);
+            setVictoryPointsVal(playerTab, player.vicPoints);
+            setStructureVal(playerTab, "Road", player.roadCount);
+            setStructureVal(playerTab, "Settlement", player.settlementCount);
+            setStructureVal(playerTab, "City", player.cityCount);
         })
     }
 
@@ -179,168 +202,3 @@ var timeinterval = setInterval(updateClock,1000);
         setResourceVal("Ore", player.resources[Resource.Ore]);
         setResourceVal("Brick", player.resources[Resource.Brick]);
     }
-
-
-// function processUIBuffer(buffer, game){
-//     buffer.messages.map(function(elem) {
-//         if (elem == 0){//Turn ending functionallity
-//             game.server.endTurn(game.gamestate, game.actions);//FIX THIS LINE
-//             console.log("Test case 1");
-//         }else if (elem == 1){//Functionallity to build roads
-//             //Build road method here
-//             console.log(elem);
-//             console.log("Test case 2");
-//         }else if (elem == 2){//Build settlements
-//             //Build settlement method here
-//             console.log("Test case 3");
-//         }else if (elem == 3){//Build cities
-//             //Build city method here
-//             console.log("Test case 4");
-//         }else{//Error message
-//             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
-//         }
-//     })
-//     flushBufferMessages(buffer);
-// }
-
-
-
-
-
-// function setResourceVal(resource, amount){
-
-// }
-
-
-
-
-//functions i need
-/*
-function updateDiceRollValue()
-
-function updatePlayerInfoValues(player, resource, value)
-
-function buildRoad()
-
-function buildCity()
-
-function buildSettlement()
-
-function endTurn()
-*/
-
-
-
-/*
-function startTime(){
-    var base = new Date().getTime();
-
-}
-
-function formatTime(time) {
-    var h = m = s = ms = 0;
-    var newTime = '';
-
-    h = Math.floor( time / (60 * 60 * 1000) );
-    time = time % (60 * 60 * 1000);
-    m = Math.floor( time / (60 * 1000) );
-    time = time % (60 * 1000);
-    s = Math.floor( time / 1000 );
-    ms = time % 1000;
-
-    newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2) + ':' + pad(ms, 3);
-    return newTime;
-}
-*/
-
-
-
-/*Old Timer
-
-function timer(){
-    var d = new Date();
-    var start = d.getTime();
-    for(int i = 0; i < 1000; i++){
-        var newTime = d.getTime();
-        var result = newTime - start;
-        document.getElementById("demo").innerHTML = result;
-    }
-}
-*/
-
-
-
-
-/*THIS DOESNT WORK EITHER. AHH!
-$(function () {
-
-    $('#buildCard').tabSlideOut({
-        tabHandle: '#resourceBar', //class of the element that will become your tab
-
-        tabLocation: 'left', //side of screen where tab lives, top, right, bottom, or left
-        speed: 300, //speed of animation
-        action: 'click', //options: 'click' or 'hover', action to trigger animation
-        topPos: '200px', //position from the top/ use if tabLocation is left or right
-        leftPos: '20px', //position from left/ use if tabLocation is bottom or top
-        fixedPosition: false //options: true makes it stick(fixed position) on scroll
-    });
-
-
-    $('#bottomLeftDisplay > #resourceBar').click();    // Add this line and that's it
-
-});*/
-
-/*Closer, but hides tabs when done sliding
-$('#bottomLeftDisplay').on('click', function () {
-    $('#resourceBar').toggle("slide", { direction: "up" }, 9000);
-    $('#buildCard').toggle("slide", { direction: "up" }, 1000);
-});
-*/
-
-/*$(document).ready(function(){
-    $("#bottomLeftDisplay").click(function(){
-        $("#buildCard").animate({ height:'30px'});
-    });
-});
-*/
-/*
-function move() {
-    var elem = document.getElementById("bottomLeftDisplay"),
-        speed = 10,
-        currentPos = 78;
-    // Reset the element
-    elem.style.top = 464+"px";
-    elem.style.bottom = "auto";
-    var motionInterval = setInterval(function() {
-        currentPos += speed;
-        if (currentPos >= 300 && speed > 0) {
-           currentPos = 800;
-           speed = -2 * speed;
-           elem.style.width = parseInt(elem.style.width)*2+"px";
-           elem.style.height = parseInt(elem.style.height)*2+"px";
-        }
-        if (currentPos <= 40 && speed < 0) {
-           clearInterval(motionInterval);
-        }
-        elem.style.height = currentPos+"px";
-    },20);
-}
-*/
-
-/*$(document).ready(function(){
-    $("#bottomLeftDisplay").click(function(){
-        $("#bottomLeftDisplay").slideToggle("slow");
-        $(this).toggleClass("active"); return false;
-    });
-});
-*/
-/*
-    $('#bottomLeftDisplay').on("click", function(){
-        var hidden = $('.hidden');
-        if (hidden.hasClass('visable')){
-            hidden.animate({"up":"300px"},"slow").removeClass('visible');
-        } else {
-            hidden.animate({"down":"300px"}, "slow").addClass('visible');
-        }
-    });
-*/

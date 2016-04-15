@@ -1,4 +1,13 @@
 //Data Types
+Phase = {               
+    Init: 0,
+    Normal: 1
+}
+Rotation = {
+        Forwards: 0,
+        Backwards: 1,
+        None: 2,
+}
 
 Board = function() {
         this.hexes = [];
@@ -83,6 +92,24 @@ Position = {
             this.coordinate=coordinate;
             this.robber = robber
         },
+}
+
+function notEqualPositionCoordinatesFilter(posA) {
+        return function(posB) {
+                return !equalPositionCoordinates(posA,posB);
+        }
+}
+
+function equalPositionCoordinates(positionA,positionB) {
+        if(positionA.type != positionB.type) {
+                return false;
+        }
+        switch(positionA.type) {
+                case Position.Type.Road:
+                        return compareRoadPositions(positionA,positionB);
+                case Position.Type.Vertex:
+                        return vectorEquals(positionA.coordinate,positionB.coordinate);
+        }
 }
 
 
@@ -294,4 +321,19 @@ function compareTwoCoordPositions(road1coord1, road1coord2, road2coord1, road2co
         return true;
     }
     return false;
+}
+
+function updateGamePhase(gamestate) {
+        if(gamestate.phase == Phase.Init) {
+                if(gamestate.rotation == Rotation.Backwards) {
+                        if(gamestate.players[0].id == gamestate.currentPlayerID) {
+                                gamestate.rotation = Rotation.Forwards;
+                                gamestate.phase = Phase.Normal;
+                        }
+                } else if(gamestate.rotation == Rotation.None) {
+                        gamestate.rotation = Rotation.Backwards;
+                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
+                        gamestate.rotation = Rotation.None;
+                }
+        }
 }

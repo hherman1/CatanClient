@@ -78,7 +78,8 @@ Reference = function(data) {
 
 GameState = function() {
         this.board = new Board();
-        this.phase = Phase.Normal;
+        this.phase = Phase.Init;
+        this.rotation = Rotation.Forwards;
         this.players = [];
         this.currentPlayerID = null;
 }
@@ -93,24 +94,35 @@ Graphics = function(){
 }
 
 Server = function() {
+        this.roll = {
+                first:undefined,
+                second:undefined
+        };
         this.gamestate = new GameState();
         this.getState = function() {
                 return this.gamestate;
         }
-        this.newGame = function(width) {
+        this.getRoll = function() {
+                return this.roll;
+        }
+        this.newGame = function(width,players) {
             this.gamestate.board = new RegularHexBoard(width);
-            this.gamestate.players = []
+            this.gamestate.players = players;
+            this.gamestate.currentPlayerID = players[0].id;
         }
         this.addPlayer = function(player) {
-                player.resources = player.resources.map(function(){return 100})
                 this.gamestate.players.push(player);
-                this.gamestate.currentPlayerID = player.id;
         }
         this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
-            applyActions(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
+            applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
+            updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
-            resourceGeneration(diceRoll, players, vertices, hexes);
+            if(this.gamestate.phase == Phase.Normal) {
+                    this.roll.first = rollDice();
+                    this.roll.second = rollDice();
+                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
+            }
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
@@ -123,7 +135,7 @@ Buffer = function() {
     this.UI = new UI.Buffer();
 }
 
-Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,images,side) {
+Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side) {
         this.ctx = ctx;
         this.mouse = mouse; //new Mouse();
         this.buffer = buffer; //new Buffer();
@@ -131,6 +143,7 @@ Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,hitboxes,imag
         this.server = server; //new Server();
         this.actions = actions; //new Reference([]);
         this.gamestate = gamestate;
+        this.teststate = teststate;
         this.hitboxes = hitboxes;
         this.images = images;
         this.side = side;
@@ -144,7 +157,7 @@ CatanGame = function(side,ctx) {
                  ,new Graphics()
                  ,new Server()
                  ,new Reference([])
-                 ,null,null,null,side)
+                 ,null,null,null,null,side)
         var canvas = ctx.canvas;
         this.ctx = ctx;
         this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
@@ -153,18 +166,30 @@ CatanGame = function(side,ctx) {
         //the below code may be better suited elsewhere
 
         initMouseBuffer(canvas,this.buffer.mouse);
-        this.server.newGame(5);
+        this.server.newGame(5,getStoredPlayers());
         this.gamestate = this.server.getState();
+        this.teststate = cloneGameState(this.gamestate);
         this.hitboxes =
                 genHitboxes(this.gamestate.board.vertices
                            ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
                            ,this.side);
-
+        var numLoadedImages = 0;
+        var self=this;
+        
+        $(getLoadedImages()).load(function() {
+                numLoadedImages++;
+                $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
+                if(numLoadedImages == getLoadedImages().length) {
+                        $("#loading-bar").hide();
+                        renderGame(self,null); // Initial render with no highlight.
+                }
+        });
+        
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;
-        addPlayers(this.server);
+        
 }
 
 cloneGameState = function(gameState) {
@@ -172,6 +197,7 @@ cloneGameState = function(gameState) {
         out.board = cloneBoard(gameState.board);
         out.players = gameState.players.map(clonePlayer);
         out.currentPlayerID = gameState.currentPlayerID;
+        out.phase = gameState.phase;
         return out;
 }
 
@@ -188,18 +214,17 @@ function processUIBuffer(buffer, game){
     buffer.messages.map(function(elem) {
             switch(elem) {
                     case UI.Message.EndTurn:
-                        var coord = new Vector(game.ctx.canvas.width-150
-                                              ,game.ctx.canvas.height+30);
-                        var roll1 = rollDice();
-                        var roll2 = rollDice();
-                        var roll = roll1 + roll2;
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll1,6,1,100),game);
-                        pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll2,6,1,100),game);
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
       //                                ,game);
                         //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
-                        game.server.endTurn(game.actions, roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
+                        game.server.endTurn(game.actions);
                         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+                        game.teststate = cloneGameState(game.gamestate);
+                        if(game.gamestate.phase == Phase.Normal) {
+                                var roll = game.server.getRoll();
+                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
+                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
+                        }
 
                         for(var i = 0; i<game.gamestate.players.length;i++) {
                             console.log(game.gamestate.players[i]);
@@ -218,13 +243,17 @@ function processUIBuffer(buffer, game){
                     case UI.Message.BuildCity:
                             console.log("Test case 4");
                         break;
+                    case UI.Message.Undo:
+                        game.actions.data.pop();
+                        game.teststate = cloneGameState(game.gamestate);
+                        applyActionsForCurrentPlayer(game.actions.data,game.teststate);
+                        break;
                     default:
                             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
                         break;
             }
     })
     flushBufferMessages(buffer);
-    updateUIInfo(game.gamestate.players, game.gamestate.currentPlayerID);
 }
 
 function gameStep(game) {
@@ -252,6 +281,7 @@ function gameStep(game) {
             //         }
             // });
             flushBufferMessages(game.buffer.UI);//Flushes processed messages
+            shouldRedraw = true;
 
         }
         if(hits.length != 0 || game.graphics.animations.data.length != 0) {
@@ -266,7 +296,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
-                pushAnimation(new ClickCircle(mouse.pos,10,10),game);
+                var drawCircle = true;
                 //hits.forEach(function(hit) {
                 //
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
@@ -275,41 +305,41 @@ function gameStep(game) {
                 }
 
                 if(potentialAction != null) {
-                        game.actions.data.push(potentialAction);
-                        if(!validateActions(game.actions.data,game.gamestate)) {
-                                game.actions.data.pop();
+                        if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
+                                game.actions.data.push(potentialAction);
+                                applyActionForCurrentPlayer(potentialAction,game.teststate);
+                        } else {
+                                pushAnimation(new XClick(mouse.pos,10,10),game);
+                                drawCircle = false;
                         }
-                        shouldRedraw = true;
                 }
+                if(drawCircle) {
+                    pushAnimation(new ClickCircle(mouse.pos,10,10),game);
+                }
+                shouldRedraw = true;
         }
 
-        var side=50;
 
         if(shouldRedraw) {
-                redraw(game.gamestate
-                      ,potentialAction
-                      ,game.actions.data
-                      ,game.graphics.transform
-                      ,game.graphics.animations
-                      ,side
-                      ,game.ctx);
-                //drawHitboxes(hitlist,hits,game.ctx);
+                var highlight = null;
+                if(potentialAction != null) {
+                        highlight = getPositionObject(potentialAction,game.teststate.currentPlayerID);
+                }
+                renderGame(game,highlight);
         }
 
 }
 
-//initialize players array. this function is used when users select which game to play (3 or 4 player game)
-addPlayers = function(server){
-  console.log("add players function in")
-  for(var i = 0; i < localStorage.getItem("numPlayers"); i++) {
-    server.addPlayer(new Player(i+1));
-    console.log("player was added to the list of players");
-  }
-
-
-  server.gamestate.currentPlayerID = 1;
-
-  console.log(server.getState().players);
+function renderGame(game,positionHighlight) {
+        redraw(game.teststate
+              ,positionHighlight
+              ,game.graphics.transform
+              ,game.graphics.animations
+              ,game.side
+              ,game.ctx);
+        //drawHitboxes(hitlist,hits,game.ctx);
+        updateUIInfo(game.teststate.players
+                    ,game.teststate.currentPlayerID);
 }
 
 function checkPlayerWin(player){

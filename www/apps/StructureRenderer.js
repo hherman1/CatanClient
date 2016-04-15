@@ -6,12 +6,15 @@ Images = {
         Loaded:{
                 Settlements:[],
                 Cities:[],
+                Roads:[],
                 Resources:[],
                 Robber:{},
         },
         Settlements:[],
 
         Cities:[],
+
+        Roads:[],
 
         Resources:[],
 
@@ -32,6 +35,12 @@ Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
 Images.Cities[Colors.White]    = 'graphics/whitec.svg';
 Images.Loaded.Cities = Images.Cities.map(loadImage);
+
+Images.Roads[Colors.Red]     = 'graphics/redr.svg';
+Images.Roads[Colors.Orange]  = 'graphics/oranger.svg';
+Images.Roads[Colors.Blue]    = 'graphics/bluer.svg';
+Images.Roads[Colors.White]   = 'graphics/whiter.svg';
+Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
@@ -54,21 +63,32 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
 
+function getLoadedImages() {
+        var out = [];
+        for(var key in Images.Loaded) {
+                out = out.concat(Images.Loaded[key]);
+        }
+        return out;
+}
+
 function loadImage(src) {
         var out = new Image();
         out.src = src;
         return out;
 }
 
-function drawRoad(coordinateA,coordinateB,color,side, ctx) {
-  var worldA = vertexToWorld(coordinateA,side);
-  var worldB = vertexToWorld(coordinateB,side);
+function drawRoad(coordinateA,coordinateB,color,ctx) {
+  var worldA = vertexToWorld(coordinateA,1);//vertexToWorld(coordinateA,side);
+  var worldB = vertexToWorld(coordinateB,1);//vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
   ctx.lineTo(worldB.x,worldB.y);
   ctx.lineWidth = 7;
   ctx.strokeStyle = getColor(color);
+  ctx.save();
+  resetTransform(ctx);
   ctx.stroke();
+  ctx.restore();
 }
 
 function drawBuilding(coordinate,structure,color,side,ctx){
@@ -76,6 +96,13 @@ function drawBuilding(coordinate,structure,color,side,ctx){
           var worldCoord = vertexToWorld(coordinate,side);
           ctx.drawImage(getBuildingImg(structure, color)
                        , worldCoord.x-side/2, worldCoord.y-side/2
+                       , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
+        }
+}
+function drawStructure(structure,color,side,ctx){
+        if(structure != Structure.Empty) {
+          ctx.drawImage(getBuildingImg(structure, color)
+                       , -side/2, -side/2
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
         }
 }
@@ -91,6 +118,8 @@ function getBuildingImg(settletype, playerColor){
             return Images.Loaded.Settlements[playerColor];
         case Structure.City:
             return Images.Loaded.Cities[playerColor];
+        case Structure.Road:
+            return Images.Loaded.Roads[playerColor];
   }
 }
 

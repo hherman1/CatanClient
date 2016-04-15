@@ -4,8 +4,8 @@
 	border: solid black 1px;
 	border-radius: 8px 0 0 0;
 	position: absolute;
-	left: 687px; /*the board is 1000 and the button is ~300*/
-	top: 454px;
+    bottom:0;
+    right:0;
 }
 
 .endTurnButton{
@@ -30,10 +30,23 @@
 	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
-.timerDiv{
+.topBar{
 	background-color: #FFFFFF;
 	border-radius: 8px 0px 0px 0px;
 	width: 320px;
+}
+
+#undoButton {
+	background: #FFF0BD;
+	color: #696558;
+	width: 50%;
+	font-size: 30px;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+
+}
+#undoButton:hover:enabled{
+	background: #ffdb66;
+	box-shadow: 1px 1px 5px #888888;
 }
 
 .rollHolder{
@@ -62,21 +75,20 @@
 }
 
 
+
 /*Bottom Left Display*/
 [panel=Up]{
 	transform:translate(0px,0px);
 }
 
 [panel=Down]{
-	transform:translate(0px,-165.5px);
+	transform:translate(0px,165.5px);
 }
 
 .bottomLeftDisplay{
-	height: 50px;
-	width: 475px;
 	position: absolute;
-	top: 510px;
-	left:8px;
+    bottom:0;
+    left:0;
 	transition: transform .9s;
 }
 
@@ -158,10 +170,18 @@
 	width: 300px;
 }
 
+
+#playerTabTemplate {
+        display:none
+}
 /*Player Personal Tabs*/
 .playerDiv{
 	display:inline-block;
-	width: 152.8px;
+	width: 153px;
+}
+.playerDiv[active=true] {
+        position:relative;
+        top:5px;
 }
 
 .playerName{
@@ -172,6 +192,21 @@
 	width: 152.8px;
 }
 
+.playerNameTab {
+        position:relative;
+}
+.playerNameTab:hover > .overlay {
+        opacity:0.25;
+}
+.overlay {
+        position:absolute;
+        width:100%;
+        height:100%;
+        background-color:#ffffff;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity 0.1s;
+}
 .playerNameTag{
 	position: absolute;
 	left: 0px;
@@ -179,17 +214,23 @@
 }
 
 .playerInfo{
+    overflow: hidden;
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: white;
 	width: 152.8px;
+    transition: height 0.5s;
 }
 
-.playerTabs{
+#playerTabs{
+        text-align:center;
 	position: absolute;
-	top: 66px;
-	left: 194.95px;
-	width: 624.514px;
+    width:100%;
+    top:0;
+    left:0;
+}
+#playerTabs>* {
+    vertical-align: top;
 }
 
 .playerPoints{
@@ -214,6 +255,8 @@
 
 .playerStructurePic{
 	display: inline;
+}
+.playerStructurePic > img {
 	height: 20px;
 }
 
@@ -226,27 +269,48 @@
 	text-align: center;
 }
 
-#player1Name{
-	background-color: #0093d0
-}
-
-#player2Name{
-	background-color: #fbb034
-}
-
-/*red/plum player*/
-#player3Name{
-	background-color: #ba2441
-}
-
-/*orange player*/
-#player4Name{
-	background-color: #ff7f2a
-}
 
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
 
 canvas { border: 1px solid black; width: 1000px; height:500px}
 
-#board { background-color: #77B2EB; }
+#game {
+        width:1000px;
+        height:500px;
+        position:relative;
+}
+
+#loading-bar {
+        width:100%;
+        height:5px;
+        position:absolute;
+        top:0;
+        background-color:maroon;
+        z-index:1;
+}
+#loaded {
+        height:100%;
+        background-color:red;
+        width:0%;
+        transition: width 0.3s;
+}
+
+.userInterface {
+        position:relative;
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        pointer-events:none;
+}
+
+.userInterface > * {
+        pointer-events:all;
+}
+
+#board { 
+        position:absolute;
+        top:0;
+        left:0;
+    background-color: #77B2EB; 
+}

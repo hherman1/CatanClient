@@ -2,6 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d276c79e-f752-4da1-8565-34face886a44" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/apps/RenderTree.js" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\.name" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\CatanClient.iml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\copyright\profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Carsten\Documents\Software Design\Catan Shit\CatanClient\.idea\vcs.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Action.js" afterPath="$PROJECT_DIR$/www/apps/Action.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Animation.js" afterPath="$PROJECT_DIR$/www/apps/Animation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/BoardState.js" afterPath="$PROJECT_DIR$/www/apps/BoardState.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Canvas.js" afterPath="$PROJECT_DIR$/www/apps/Canvas.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Game.js" afterPath="$PROJECT_DIR$/www/apps/Game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/GameMethods.js" afterPath="$PROJECT_DIR$/www/apps/GameMethods.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Grid.js" afterPath="$PROJECT_DIR$/www/apps/Grid.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Player.js" afterPath="$PROJECT_DIR$/www/apps/Player.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/StructureRenderer.js" afterPath="$PROJECT_DIR$/www/apps/StructureRenderer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/UserInterfaceJScript.js" afterPath="$PROJECT_DIR$/www/apps/UserInterfaceJScript.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/UserInterfaceStyles.css" afterPath="$PROJECT_DIR$/styles/UserInterfaceStyles.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/main.js" afterPath="$PROJECT_DIR$/www/apps/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanClient.iws" />
@@ -28,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="187" column="5" selection-start-line="187" selection-start-column="5" selection-end-line="187" selection-end-column="5" />
+              <caret line="214" column="5" selection-start-line="214" selection-start-column="5" selection-end-line="214" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -37,8 +60,8 @@
       <file leaf-file-name="Game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.611236">
+              <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -48,7 +71,7 @@
         <entry file="file://$PROJECT_DIR$/www/apps/Action.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="219" column="1" selection-start-line="219" selection-start-column="1" selection-end-line="219" selection-end-column="1" />
+              <caret line="205" column="1" selection-start-line="205" selection-start-column="1" selection-end-line="205" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -58,8 +81,10 @@
         <entry file="file://$PROJECT_DIR$/www/apps/UserInterfaceJScript.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
-              <folding />
+              <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+              <folding>
+                <marker date="1460746108770" expanded="true" signature="481:526" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -68,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/www/apps/GameMethods.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="165" column="9" selection-start-line="165" selection-start-column="9" selection-end-line="165" selection-end-column="9" />
+              <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -80,7 +105,7 @@
         <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -566,15 +591,15 @@
       <workItem from="1460143270449" duration="699000" />
       <workItem from="1460400707085" duration="3972000" />
       <workItem from="1460472314082" duration="959000" />
-      <workItem from="1460746048279" duration="39000" />
+      <workItem from="1460746048279" duration="89000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87661000" />
+    <option name="totallyTimeSpent" value="87711000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -941,6 +966,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -987,7 +1013,7 @@
     <entry file="file://$PROJECT_DIR$/www/apps/Action.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="219" column="1" selection-start-line="219" selection-start-column="1" selection-end-line="219" selection-end-column="1" />
+          <caret line="205" column="1" selection-start-line="205" selection-start-column="1" selection-end-line="205" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -995,7 +1021,7 @@
     <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1003,15 +1029,17 @@
     <entry file="file://$PROJECT_DIR$/www/apps/UserInterfaceJScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
-          <folding />
+          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+          <folding>
+            <marker date="1460746108770" expanded="true" signature="481:526" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/GameMethods.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="165" column="9" selection-start-line="165" selection-start-column="9" selection-end-line="165" selection-end-column="9" />
+          <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -1031,15 +1059,15 @@
     <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="187" column="5" selection-start-line="187" selection-start-column="5" selection-end-line="187" selection-end-column="5" />
+          <caret line="214" column="5" selection-start-line="214" selection-start-column="5" selection-end-line="214" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.611236">
+          <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
           <folding />
         </state>
       </provider>

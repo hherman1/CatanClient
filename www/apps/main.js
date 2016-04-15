@@ -6,6 +6,7 @@ define(function (require) {
     var game = require('./Game');
     var gameM = require('./GameMethods');
     var boardstate = require('./BoardState');
+    var renderTree = require('./RenderTree');
     var canvas = require('./Canvas');
     var dice = require('./Dice');
     var animation = require('./Animation');
@@ -26,6 +27,7 @@ define(function (require) {
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
                 setupUIBuffer(myGame.buffer.UI, myGame);
+                genPlayerTabs(myGame.gamestate.players);
                 runGame(myGame,13);
         } else {
             console.log("browser unsupported")

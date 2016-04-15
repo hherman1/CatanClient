@@ -23,37 +23,8 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
           }
         }
         context.fillText(line, x, y);
-      }
- function drawHexes(hexes,side,ctx) {
-         //Set transformation
-   //setting the side of hexagon to be a value
+     }
 
-   hexes.forEach(function(hex){
-     var tileImage = getResourceImage(hex.resource); //get the source path for the hexagon's terrain image
-     ctx.lineWidth = 1;
-     ctx.strokeStyle = "black";
-     ctx.fillStyle = "#D9B5A0";
-     hexPath(hex.coordinate,side,ctx);
-     ctx.fill();
-     ctx.stroke();
-     drawHexImage(tileImage,hexToWorld(hex.coordinate,side), side, ctx);
-     drawToken(hexToWorld(hex.coordinate,side),hex.token,ctx); //draw number token
-   })
- }
-
-function drawStructures(vertices,colorMap,side,ctx) {
-    vertices.forEach(function(vertex) {
-            drawBuilding(vertex.coordinate,vertex.structure,colorMap[vertex.playerID],side,ctx);
-    })
-}
-
-function drawRoads(roads,colorMap,side,ctx) {
-    roads.forEach(function(road) {
-            if(road.structure == Structure.Road) {
-                    drawRoad(road.coord1,road.coord2,colorMap[road.playerID],side,ctx);
-            }
-    })
-}
 
 
 function transform(v,trans) {
@@ -100,37 +71,44 @@ function setTransform(transform,ctx) {
         ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
 }
 
-function redraw(gamestate,potentialAction,actions,transform,animations,side,ctx) {
+
+function redraw(gamestate,highlight,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
-        var renderedActions;
-        if(potentialAction != null) {
-               renderedActions = removeRedundantSettlements(actions.concat(potentialAction));
-        } else {
-               renderedActions = removeRedundantSettlements(actions);
+        var hexes = gamestate.board.hexes;
+        var roads = gamestate.board.roads;
+        var vertices = gamestate.board.vertices;
+
+        if(highlight != null) {
+                switch(highlight.type) {
+                        case Position.Type.Road:
+                                roads = roads.filter(notEqualPositionCoordinatesFilter(highlight))
+                                             .concat(highlight);
+                                break;
+                        case Position.Type.Vertex:
+                                vertices = vertices.filter(notEqualPositionCoordinatesFilter(highlight))
+                                                   .concat(highlight);
+                                break;
+                }
         }
 
         clearCanvas(ctx,transform);
 
-        resetTransform(ctx);
+        var renderTree = new TransformNode(transform);
+        var scaled = new ScaleNode(side);
+        scaled.addChildren(makeHexNodes(hexes));
+        scaled.addChildren(makeRoadNodes(roads,colorMap));
+        scaled.addChildren(makeVertexNodes(vertices,colorMap));
+        renderTree.addChild(scaled);
+        drawNode(renderTree,ctx);
 
-        setTransform(transform,ctx);
-
-        //BUG: Currently don't draw colors correctly
-        drawHexes(gamestate.board.hexes,side,ctx);
-        drawRoads(gamestate.board.roads,colorMap,side,ctx);
-        drawStructures(gamestate.board.vertices,colorMap,side,ctx);
-
-        drawActions(renderedActions,currentPlayerColor,side,ctx); // Pending actions
-        if(potentialAction != null) {
-                drawAction(potentialAction,currentPlayerColor,side,ctx);
-        }
         animations.data = pruneAnimations(animations.data);
         if(animations.data.length > 0)  {
                 drawAnims(animations.data,transform,ctx);
         }
 }
+
 
 function removeRedundantSettlements(actions) {
         return actions.filter(function(a) {
@@ -142,43 +120,15 @@ function removeRedundantSettlements(actions) {
 }
 
 
-function drawToken(hc, token, ctx){
-  var hc = hc;
-  ctx.beginPath();
-  ctx.strokeStyle="black"; //draw a black border for the number
-  ctx.lineWidth=1; //with width 1
-  ctx.fillStyle="beige"; //fill color of the token
-  ctx.arc(hc.x,hc.y, 20, 0, 2*Math.PI); //draw the token circle
-  ctx.fill();
-  ctx.stroke();
-  if (token != 7) {
-    if (token == 6 || token == 8){
-  		ctx.fillStyle="red";
-    }
-    else{
-  		ctx.fillStyle="black";
-    }
-
-    ctx.font = "24px Times New Roman";
-    if (token > 9){
-      ctx.fillText(String(token),hc.x-11,hc.y+6);
-    }
-    else{
-      ctx.fillText(String(token),hc.x-6,hc.y+6);
-    }
-	} else{
-      drawRobber(hc.x,hc.y,50,ctx);
-	}
-}
 
 //draws the image of the terrain on the board
 //created by sduong
-function drawHexImage(image, hc, side, ctx){
-  var w = Math.sqrt(Math.pow(side,2)-Math.pow((side/2),2));
-  var x = hc.x-w;
-  var y = hc.y-side;
-  var scale = side*2;
-  ctx.drawImage(image, x, y, scale-12, scale);
+function drawHexImage(image, ctx){
+  var w = Math.sqrt(Math.pow(1,2)-Math.pow((1/2),2));
+  var x = -1 * w;
+  var y = -1;
+  var scale = 2;
+  ctx.drawImage(image, x, y, scale - 6/25, scale);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +148,8 @@ function drawPath(verts,ctx) {
         ctx.closePath();
 }
 
-function hexPath(hexCoords,side,ctx) {
-        var verts = vertices(hexCoords).map(function(c) {
+function hexPath(side,ctx) {
+        var verts = vertices(new Vector(0,0)).map(function(c) {
                 return vertexToWorld(c,side);
         })
         drawPath(verts,ctx);
@@ -218,4 +168,10 @@ function drawHexPoints(hexCoords,side,ctx) {
 function drawVertex(vertexCoords,side,ctx) {
         coords = vertexToWorld(vertexCoords,side);
         ctx.fillRect(coords.x,coords.y,10,10)
+}
+
+function linePath(start,end,ctx) {
+        ctx.beginPath();
+        ctx.moveTo(start.x,start.y);
+        ctx.lineTo(end.x,end.y);
 }

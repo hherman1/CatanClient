@@ -91,12 +91,31 @@ function validateActionForCurrentPlayer(action,gamestate) {
     return validateAction(action,gamestate,currentPlayer);
 }
 
+function getInitStructureLimit(rotation) {
+        switch(rotation) {
+                case Rotation.Forwards:
+                        return 1;
+                case Rotation.Backwards:
+                        return 2;
+                default:
+                        return 2;
+        }
+}
+
 function validateInit(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                        return (checkInitRoadLegality(action.coordinateA, action.coordinateB, player, gamestate.board.vertices, gamestate.board.roads))
+                        return (player.roadCount < getInitStructureLimit(gamestate.rotation)
+                               && checkInitRoadLegality(action.coordinateA
+                                                       , action.coordinateB
+                                                       , player
+                                                       , gamestate.board.vertices
+                                                       , gamestate.board.roads));
                 case Action.Type.BuildSettlement:
-                        return (checkInitSettlementLegality(action.coordinate, gamestate.board.vertices,player))
+                        return (player.settlementCount < getInitStructureLimit(gamestate.rotation)
+                               && checkInitSettlementLegality(action.coordinate
+                                                             , gamestate.board.vertices
+                                                             ,player));
                 case Action.Type.BuildCity:
                         return false;
         }

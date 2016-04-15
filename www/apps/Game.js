@@ -198,6 +198,7 @@ cloneGameState = function(gameState) {
         out.players = gameState.players.map(clonePlayer);
         out.currentPlayerID = gameState.currentPlayerID;
         out.phase = gameState.phase;
+        out.rotation = gameState.rotation;
         return out;
 }
 

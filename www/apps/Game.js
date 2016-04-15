@@ -314,14 +314,18 @@ function gameStep(game) {
 
 
         if(shouldRedraw) {
-                renderGame(game,potentialAction);
+                var highlight = null;
+                if(potentialAction != null) {
+                        highlight = getPositionObject(potentialAction,game.teststate.currentPlayerID);
+                }
+                renderGame(game,highlight);
         }
 
 }
 
-function renderGame(game,potentialAction) {
+function renderGame(game,positionHighlight) {
         redraw(game.teststate
-              ,potentialAction
+              ,positionHighlight
               ,game.graphics.transform
               ,game.graphics.animations
               ,game.side

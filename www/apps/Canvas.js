@@ -72,7 +72,7 @@ function setTransform(transform,ctx) {
 }
 
 
-function redraw(gamestate,potentialAction,transform,animations,side,ctx) {
+function redraw(gamestate,highlight,transform,animations,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
@@ -80,16 +80,15 @@ function redraw(gamestate,potentialAction,transform,animations,side,ctx) {
         var roads = gamestate.board.roads;
         var vertices = gamestate.board.vertices;
 
-        if(potentialAction != null) {
-                var potentialPosition = getPositionObject(potentialAction,gamestate.currentPlayerID);
-                switch(potentialPosition.type) {
+        if(highlight != null) {
+                switch(highlight.type) {
                         case Position.Type.Road:
-                                roads = roads.filter(notEqualPositionCoordinatesFilter(potentialPosition))
-                                             .concat(potentialPosition);
+                                roads = roads.filter(notEqualPositionCoordinatesFilter(highlight))
+                                             .concat(highlight);
                                 break;
                         case Position.Type.Vertex:
-                                vertices = vertices.filter(notEqualPositionCoordinatesFilter(potentialPosition))
-                                                   .concat(potentialPosition);
+                                vertices = vertices.filter(notEqualPositionCoordinatesFilter(highlight))
+                                                   .concat(highlight);
                                 break;
                 }
         }

@@ -20,6 +20,10 @@ define(function (require) {
     var action = require('./Action');
     var uiController = require('./UserInterfaceJScript')
     function main() {
+            var scale = 50;
+            var framerate = 60;
+            var secondTime = 1000;
+            var interval = secondTime/framerate;
         canvas = document.getElementById('board');
         if(canvas.getContext) {
                 resizeBoardDOM($(window).width(),$(window).height());
@@ -29,7 +33,7 @@ define(function (require) {
                 // game.setupUIBuffer(game.Buffer.UI);
                 setupUIBuffer(myGame.buffer.UI, myGame);
                 genPlayerTabs(myGame.gamestate.players);
-                runGame(myGame,13);
+                loadGame(myGame,function(){runGame(myGame,13);});
         } else {
             console.log("browser unsupported")
         }

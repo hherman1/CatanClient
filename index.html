@@ -30,11 +30,14 @@
             <!--Bottom Right Display-->
 
             <div id="game">
-                    <canvas draggable="false" id="board" width="100%" height="100%"></canvas>
-                    <div id="loading-bar">
-                            <div id="loaded"> </div>
+                    <div id="loading">
+                            <h1> Loading... </h1>
+                            <div id="loading-bar">
+                                    <div id="loaded"> </div>
+                            </div>
                     </div>
-                    <div class="userInterface">
+                    <canvas draggable="false" id="board" width="100%" height="100%"></canvas>
+                    <div id="userInterface">
                         <div class="bottomRightDisplay">
                             <div class="topBar">
                                 <div class="rollHolder">
@@ -57,35 +60,30 @@
                             <div id="resourceBar" class="resourceBar">
                                 <div class="resources">
                                     <ul class="resourceList">
-                                        <div class="resourcePicAndNumHolder">
-                                            <p resource="Lumber" id="lumberValue" class="resourceValue">
+                                        <div resource="Lumber" class="resourcePicAndNumHolder">
+                                            <p class="resourceValue">
                                                 0
                                             </p>
-                                            <img src="graphics/woodsymbol.svg" style="height: 50px;" alt="">
                                         </div>
-                                        <div class="resourcePicAndNumHolder">
-                                            <p resource="Grain" id="grainValue" class="resourceValue">
+                                        <div resource="Grain" class="resourcePicAndNumHolder">
+                                            <p class="resourceValue">
                                                 0
                                             </p>
-                                            <img src="graphics/wheatsymbol.svg" style="height: 50px;" alt="">
                                         </div>
-                                        <div class="resourcePicAndNumHolder">
-                                            <p resource="Wool" id="woolValue" class="resourceValue">
+                                        <div resource="Wool" class="resourcePicAndNumHolder">
+                                            <p class="resourceValue">
                                                 0
                                             </p>
-                                            <img src="graphics/woolsymbol.svg" style="height: 50px;" alt="">
                                         </div>
-                                        <div class="resourcePicAndNumHolder">
-                                            <p resource="Ore" id="oreValue" class="resourceValue">
+                                        <div resource="Ore" class="resourcePicAndNumHolder">
+                                            <p class="resourceValue">
                                                 0
                                             </p>
-                                            <img src="graphics/oresymbol.svg" style="height: 50px;" alt="">
                                         </div>
-                                        <div class="resourcePicAndNumHolder">
-                                            <p resource="Brick" id="brickValue" class="resourceValue">
+                                        <div resource="Brick" class="resourcePicAndNumHolder">
+                                            <p class="resourceValue">
                                                 0
                                             </p>
-                                            <img src="graphics/bricksymbol.svg" style="height: 50px;" alt="">
                                         </div>
                                     </ul>
                                 </div>

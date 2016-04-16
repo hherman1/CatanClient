@@ -121,6 +121,9 @@ body {
 	display: inline-block;
 	margin: 0 0 0 11px;
 }
+.resourcePicAndNumHolder > img {
+        height:50px;
+}
 
 .resourceValue{
 	cursor:default;
@@ -287,13 +290,20 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         left:0;
 }
 
-#loading-bar {
-        width:100%;
-        height:5px;
+#loading {
+        width:50%;
         position:absolute;
-        top:0;
-        background-color:maroon;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
         z-index:1;
+}
+#loading > h1 {
+        margin:5px;
+}
+#loading-bar {
+        height:10px;
+        background-color:maroon;
 }
 #loaded {
         height:100%;
@@ -302,7 +312,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         transition: width 0.3s;
 }
 
-.userInterface {
+#userInterface {
         position:relative;
         width:100%;
         height:100%;
@@ -310,7 +320,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         pointer-events:none;
 }
 
-.userInterface > * {
+#userInterface > * {
         pointer-events:all;
 }
 

@@ -175,19 +175,7 @@ CatanGame = function(side,ctx) {
                            ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
                            ,this.side);
-        var numLoadedImages = 0;
         var self=this;
-        
-        $(getLoadedImages()).load(function() {
-                numLoadedImages++;
-                $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
-                if(numLoadedImages == getLoadedImages().length) {
-                        $("#loading-bar").hide();
-                        self.graphics.renderedHexes = generateHexCanvas(self.gamestate,self.side);
-                        renderGame(self,null); // Initial render with no highlight.
-                }
-        });
-        
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;

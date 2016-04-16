@@ -8,6 +8,7 @@ Images = {
                 Cities:[],
                 Roads:[],
                 Resources:[],
+                ResourceSymbols:[],
                 Robber:{},
         },
         Settlements:[],
@@ -17,6 +18,8 @@ Images = {
         Roads:[],
 
         Resources:[],
+
+        ResourceSymbols:[],
 
         Robber:'',
 }
@@ -62,6 +65,13 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 //labeled for noncommercial reuse
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
+
+Images.ResourceSymbols[Resource.Lumber] = 'graphics/woodsymbol.svg';
+Images.ResourceSymbols[Resource.Grain] = 'graphics/wheatsymbol.svg';
+Images.ResourceSymbols[Resource.Wool] = 'graphics/woolsymbol.svg';
+Images.ResourceSymbols[Resource.Ore] = 'graphics/oresymbol.svg';
+Images.ResourceSymbols[Resource.Brick] = 'graphics/bricksymbol.svg';
+Images.Loaded.ResourceSymbols = Images.ResourceSymbols.map(loadImage);
 
 function getLoadedImages() {
         var out = [];

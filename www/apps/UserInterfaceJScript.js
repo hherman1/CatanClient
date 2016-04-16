@@ -116,7 +116,7 @@ function setVictoryPointsVal(playerTab, amount){
 
     //Sets the resource amount for the player. Takes in a resource ("Lumber","Wool", etc) and an amount to be set at
     function setResourceVal(resource, amount){
-        $(".resourceValue[resource="+resource+"]").html(amount);
+        $("[resource="+resource+"]>.resourceValue").html(amount);
     }
 
     //Sets the roll value display for the player. Takes in a number
@@ -218,4 +218,33 @@ function setVictoryPointsVal(playerTab, amount){
 function resizeBoardDOM(width,height) {
         $("#board").attr("width",width);
         $("#board").attr("height",height);
+}
+
+function addResourceSymbolImages() {
+        function addToResource(resource,image) {
+                $("[resource="+resource+"]").append(image);
+        }
+        addToResource("Lumber",Images.Loaded.ResourceSymbols[Resource.Lumber]);
+        addToResource("Grain",Images.Loaded.ResourceSymbols[Resource.Grain]);
+        addToResource("Wool",Images.Loaded.ResourceSymbols[Resource.Wool]);
+        addToResource("Ore",Images.Loaded.ResourceSymbols[Resource.Ore]);
+        addToResource("Brick",Images.Loaded.ResourceSymbols[Resource.Brick]);
+}
+
+
+function loadGame(game,callback) {
+        var numLoadedImages = 0;
+        $("#board,#userInterface").hide();
+        $(getLoadedImages()).load(function() {
+                numLoadedImages++;
+                $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
+                if(numLoadedImages == getLoadedImages().length) {
+                        addResourceSymbolImages();
+                        game.graphics.renderedHexes = generateHexCanvas(game.gamestate,game.side);
+                        renderGame(game,null); // Initial render with no highlight.
+                        $("#loading").hide();
+                        $("#board,#userInterface").show();
+                        callback();
+                }
+        });
 }

@@ -13,7 +13,7 @@ BlankNode = function() {
 
 CenteredImageNode = function(img) {
         Node.call(this,function(ctx) {
-                ctx.translate(-1/2 * $(img).width(),-1/2 * $(img).height());
+                ctx.translate(-1/2 * img.width,-1/2 * img.height);
         });
         this.addChild(new ImageNode(img));
 }

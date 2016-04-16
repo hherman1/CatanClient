@@ -83,11 +83,9 @@ function generateHexCanvas(gamestate,scale) {
         var $canvas = $("<canvas></canvas>");
         $canvas.attr("width","500");
         $canvas.attr("height","500");
-        $canvas.attr("id","RENDERME");
         var ctx = $canvas[0].getContext("2d");
         ctx.translate(250,250);
         drawHexes(gamestate,scale,ctx);
-        $("body").append($canvas);
         return $canvas[0];
 }
 

@@ -159,10 +159,20 @@ body {
 	box-shadow: 1px 1px 5px #888888;
 }
 
+
+
 .buildChoices{
 	border: solid black 1px;
 	margin: 0px;
 	padding: 0;
+}
+
+.choiceVictoryInfo > .structureImage > img {
+        height:20px;
+}
+
+.choiceReqs > img {
+        height: 50px;
 }
 
 .choiceTitle{

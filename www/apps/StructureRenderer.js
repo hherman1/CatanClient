@@ -73,6 +73,10 @@ Images.ResourceSymbols[Resource.Ore] = 'graphics/oresymbol.svg';
 Images.ResourceSymbols[Resource.Brick] = 'graphics/bricksymbol.svg';
 Images.Loaded.ResourceSymbols = Images.ResourceSymbols.map(loadImage);
 
+function getGameImages() {
+        return Images.Loaded;
+}
+
 function getLoadedImages() {
         var out = [];
         for(var key in Images.Loaded) {
@@ -121,6 +125,7 @@ function getRobberImg() {
         return Images.Loaded.Robber;
 }
 
+
 function getBuildingImg(settletype, playerColor){
   //still needs work...i will have to spend some time resizing these photos somehow
   switch(settletype) {
@@ -135,6 +140,13 @@ function getBuildingImg(settletype, playerColor){
 
 function getResourceImage(resourceType) {
   return Images.Loaded.Resources[resourceType];
+}
+
+function getResourceSymbolImages() {
+        return Images.Loaded.ResourceSymbols;
+}
+function getResourceSymbolImage(resource) {
+  return Images.Loaded.ResourceSymbols[resource];
 }
 
 

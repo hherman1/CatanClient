@@ -338,3 +338,13 @@ function checkPlayerWin(player){
     }
     return false;
 }
+
+function storeBoardImage(graphics,gamestate,side) {
+        graphics.renderedHexes = generateHexCanvas(gamestate,side);
+}
+
+function makeBoard(game) {
+        storeBoardImage(game.graphics,game.gamestate,game.side);
+}
+
+

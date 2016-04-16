@@ -113,9 +113,9 @@ function redraw(gamestate,highlight,graphics,side,ctx) {
         clearCanvas(ctx,graphics.transform);
 
         var renderTree = new TransformNode(graphics.transform);
-        var scaled = new ScaleNode(side);
         renderTree.addChild(new CenteredImageNode(graphics.renderedHexes));
-//        scaled.addChildren(makeHexNodes(hexes));
+
+        var scaled = new ScaleNode(side);
         scaled.addChildren(makeRoadNodes(roads,colorMap));
         scaled.addChildren(makeVertexNodes(vertices,colorMap));
         renderTree.addChild(scaled);

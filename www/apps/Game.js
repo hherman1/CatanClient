@@ -183,7 +183,7 @@ CatanGame = function(side,ctx) {
                 $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
                 if(numLoadedImages == getLoadedImages().length) {
                         $("#loading-bar").hide();
-                        self.graphics.renderedHexes = generateHexCanvas(self.gamestate,50);
+                        self.graphics.renderedHexes = generateHexCanvas(self.gamestate,self.side);
                         renderGame(self,null); // Initial render with no highlight.
                 }
         });

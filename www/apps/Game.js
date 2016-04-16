@@ -91,6 +91,7 @@ Graphics = function(){
                translation: new Vector(0,0)
               ,scale: 1
         }
+        this.renderedHexes = $("<canvas></canvas>")[0];
 }
 
 Server = function() {
@@ -182,6 +183,7 @@ CatanGame = function(side,ctx) {
                 $("#loaded").css("width",100* numLoadedImages/getLoadedImages().length + "%");
                 if(numLoadedImages == getLoadedImages().length) {
                         $("#loading-bar").hide();
+                        self.graphics.renderedHexes = generateHexCanvas(self.gamestate,50);
                         renderGame(self,null); // Initial render with no highlight.
                 }
         });
@@ -334,8 +336,7 @@ function gameStep(game) {
 function renderGame(game,positionHighlight) {
         redraw(game.teststate
               ,positionHighlight
-              ,game.graphics.transform
-              ,game.graphics.animations
+              ,game.graphics
               ,game.side
               ,game.ctx);
         //drawHitboxes(hitlist,hits,game.ctx);

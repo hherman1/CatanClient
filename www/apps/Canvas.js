@@ -72,7 +72,26 @@ function setTransform(transform,ctx) {
 }
 
 
-function redraw(gamestate,highlight,transform,animations,side,ctx) {
+function drawHexes(gamestate,scale,ctx) {
+        var tree = new ScaleNode(scale);
+        tree.addChildren(makeHexNodes(gamestate.board.hexes));
+        drawNode(tree,ctx);
+}
+
+
+function generateHexCanvas(gamestate,scale) {
+        var $canvas = $("<canvas></canvas>");
+        $canvas.attr("width","500");
+        $canvas.attr("height","500");
+        $canvas.attr("id","RENDERME");
+        var ctx = $canvas[0].getContext("2d");
+        ctx.translate(250,250);
+        drawHexes(gamestate,scale,ctx);
+        $("body").append($canvas);
+        return $canvas[0];
+}
+
+function redraw(gamestate,highlight,graphics,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
@@ -93,19 +112,20 @@ function redraw(gamestate,highlight,transform,animations,side,ctx) {
                 }
         }
 
-        clearCanvas(ctx,transform);
+        clearCanvas(ctx,graphics.transform);
 
-        var renderTree = new TransformNode(transform);
+        var renderTree = new TransformNode(graphics.transform);
         var scaled = new ScaleNode(side);
-        scaled.addChildren(makeHexNodes(hexes));
+        renderTree.addChild(new CenteredImageNode(graphics.renderedHexes));
+//        scaled.addChildren(makeHexNodes(hexes));
         scaled.addChildren(makeRoadNodes(roads,colorMap));
         scaled.addChildren(makeVertexNodes(vertices,colorMap));
         renderTree.addChild(scaled);
         drawNode(renderTree,ctx);
 
-        animations.data = pruneAnimations(animations.data);
-        if(animations.data.length > 0)  {
-                drawAnims(animations.data,transform,ctx);
+        graphics.animations.data = pruneAnimations(graphics.animations.data);
+        if(graphics.animations.data.length > 0)  {
+                drawAnims(graphics.animations.data,graphics.transform,ctx);
         }
 }
 

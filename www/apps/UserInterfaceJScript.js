@@ -134,48 +134,11 @@ function setVictoryPointsVal(playerTab, amount){
                                  ,message.requestResources);
     }
 
-    function endTurnButtonClick(buffer){
-        buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
-        console.log("endTurn clicked");
-    }
-    function undoButtonClick(buffer){
-        buffer.messages.push(UI.Message.Undo);//adds an endTurn call to the UI buffer
-        console.log("endTurn clicked");
-    }
-    function roadBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildRoad);//adds a road build call to the UI buffer
-    }
-    function settlementBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildSettlement);//adds a settlement build call to the UI buffer
-    }
-    function cityBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildCity);//adds a city build call to the UI buffer
-    }
-    function flushBufferMessages(buffer){
-        buffer.messages.length = 0;
-    }
     function resizeGame(buffer) {
         resizeBoardDOM($("#game").width(),$("#game").height());
         buffer.messages.push(UI.Message.Resize);
     }
 
-    function setupUIBuffer(buffer) {
-        $(".buildChoice[structure=Road]").on('click', function() {
-            roadBuildCardClick(buffer);
-        })
-        $(".buildChoice[structure=Settlement]").on('click', function() {
-            settlementBuildCardClick(buffer);
-        })
-        $(".buildChoice[structure=City").on('click', function() {
-            cityBuildCardClick(buffer);
-        })
-        $("#undoButton").on('click',function() {
-                undoButtonClick(buffer);
-        })
-        $(window).resize(function() {
-                resizeGame(buffer);
-        });
-    }
 
 // function 
     

@@ -34,7 +34,6 @@ define(function (require) {
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
                 setUpUIViews(myGame);
-                setupUIBuffer(myGame.buffer.UI, myGame);
                 genPlayerTabs(myGame.gamestate.players);
                 loadGame(myGame,function(){runGame(myGame,13);});
         } else {

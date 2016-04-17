@@ -93,6 +93,7 @@ Graphics = function(){
               ,scale: 1
         }
         this.renderedHexes = $("<canvas></canvas>")[0];
+        this.views = [];
 }
 
 Server = function() {
@@ -134,7 +135,6 @@ Server = function() {
 
 Buffer = function() {
     this.mouse = new MouseBuffer();
-    this.UI = new UI.Buffer();
 }
 
 Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side,receiveMessage) {
@@ -208,8 +208,8 @@ function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
 
-function processUIBuffer(buffer, game){
-    buffer.messages.forEach(function(message) {
+function processInbox(inbox, game){
+    inbox.forEach(function(message) {
             switch(message.type) {
                     case UI.Message.Type.EndTurn:
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
@@ -285,20 +285,9 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,maxHit);
 
-        if(game.buffer.UI.messages.length + game.inbox.length !=  0) {
-
-            game.buffer.UI.messages = game.buffer.UI.messages.concat(game.inbox);
-            processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
-            flushBufferMessages(game.buffer.UI);
-            game.inbox.length = 0;
-            // game.buffer.UI.messages.map(function(message) {
-            //         switch(message) {
-            //                 case UI.Messages.EndTurn:
-            //                         game.server.endTurn(game.actions.data);//TODO: DO WE NEED THIS SECTION
-            //                         flushActions(game.actions);
-            //         }
-            // });
-            flushBufferMessages(game.buffer.UI);//Flushes processed messages
+        if(game.inbox.length !=  0) {
+            processInbox(game.inbox, game);//Processes information from the UI in buffer
+            flushInbox(game.inbox);
             shouldRedraw = true;
 
         }
@@ -374,4 +363,7 @@ function makeBoard(game) {
         storeBoardImage(game.graphics,game.gamestate,game.side);
 }
 
+function flushInbox(inbox) {
+        inbox.length = 0;
+}
 

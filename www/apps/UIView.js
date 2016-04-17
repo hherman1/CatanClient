@@ -13,9 +13,7 @@ UI = {
         Message : {
                 Type : {
                     EndTurn : 0,
-                    BuildRoad : 1,
-                    BuildSettlement : 2,
-                    BuildCity : 3,
+                    BuildChoice:1,
                     Undo: 4,
                     Resize:5,
                     MakeOffer:6,
@@ -38,10 +36,11 @@ UI = {
                         this.tradeID = tradeID;
                         UI.Message.Message.call(this,sender,UI.Message.Type.AcceptOffer);
                 },
+                BuildChoice: function(sender,structure) {
+                        this.structure = structure;
+                        UI.Message.Message.call(this,sender,UI.Message.Type.BuildChoice);
+                }
         },
-        Buffer : function() {
-            this.messages = [];
-        }
 }
 
 function sendMessage(message,destination) {
@@ -58,18 +57,52 @@ UIView = function(messageDestination,receiveMessage) {
         UI.Message.Client.call(self,receiveMessage);
 }
 
+UIViewSendOnly = function(messageDestination) {
+        UIView.call(this,messageDestination,function(){});
+}
+
 
 EndTurnView = function(messageDestination) {
         var self = this;
         $("#endTurnButton").on('click',function() {
                 sendMessage(new UI.Message.Message(self,UI.Message.Type.EndTurn),messageDestination);
         });
-        UIView.call(self,messageDestination,function(){});
+        UIViewSendOnly.call(self,messageDestination);
+}
+
+BuildChoiceView = function(structure,messageDestination) {
+        var self = this;
+        $(".buildChoice[structure="+getStructureName(structure)+"]").click(function() {
+                sendMessage(new UI.Message.BuildChoice(self,structure),messageDestination);
+        });
+        UIViewSendOnly.call(self,messageDestination);
+}
+
+UndoView = function(messageDestination) {
+        var self = this;
+        $("#undoButton").on('click',function() {
+                sendMessage(new UI.Message.Message(self,UI.Message.Type.Undo),messageDestination);
+        });
+        UIViewSendOnly.call(self,messageDestination);
+}
+
+ResizeView = function(messageDestination) {
+        var self = this;
+        $(window).resize(function() {
+                resizeBoardDOM($("#game").width(),$("#game").height());
+                sendMessage(new UI.Message.Message(self,UI.Message.Type.Resize),messageDestination);
+        });
+        UIViewSendOnly.call(self,messageDestination);
 }
 
 
 function setUpUIViews(destination) {
         var views = [];
         views.push(new EndTurnView(destination));
+        views.push(new UndoView(destination));
+        views.push(new ResizeView(destination));
+        views.push(new BuildChoiceView(Structure.Road,destination));
+        views.push(new BuildChoiceView(Structure.Settlement,destination));
+        views.push(new BuildChoiceView(Structure.City,destination));
         return views;
 }

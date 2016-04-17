@@ -20,22 +20,24 @@
         </head>
 
         <body>
-          <h1>MacSettlers</h1>
-          <br>
-          <!--Not sure if this is showing up on the page...-->
-          <!-- Sign and date the page, it's only polite! -->
-          <address>&copy; 2016 Macalester College MaCaHuSt</address>
 
         <!--~~~~~~~~~~~~~~~User Interface Work~~~~~~~~~~~~~~~~-->
             <!--Bottom Right Display-->
-
-            <div id="game">
+            <div id="loading-screen">
+                  <h1>MacSettlers</h1>
+                  <br>
+                  <!--Not sure if this is showing up on the page...-->
+                  <!-- Sign and date the page, it's only polite! -->
+                  <address>&copy; 2016 Macalester College MaCaHuSt</address>
                     <div id="loading">
                             <h1> Loading... </h1>
                             <div id="loading-bar">
                                     <div id="loaded"> </div>
                             </div>
                     </div>
+            </div>
+
+            <div id="game">
                     <canvas draggable="false" id="board" width="100%" height="100%"></canvas>
                     <div id="userInterface">
                         <div class="bottomRightDisplay">

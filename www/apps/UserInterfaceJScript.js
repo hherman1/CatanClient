@@ -340,7 +340,7 @@ function loadGame(game,callback) {
 
         addUIImages(structureIcons,costImages,resourceSymbolImages);
 
-        $("#board,#userInterface").hide();
+//        $("#board,#userInterface").css("opacity","0");
 
         $(images).load(function() {
                 numLoadedImages++;
@@ -351,10 +351,10 @@ function loadGame(game,callback) {
                         makeBoard(game);
                         renderGame(game,null); // Initial render with no highlight.
                         setTimeout(function() {
-                                $("#loading").show().fadeOut(2000);
-                                $("#board,#userInterface").hide().fadeIn(2000);
+                                $("#loading-screen").fadeOut(2000);
+ //                               $("#board,#userInterface").fadeTo(2000,1);
                                 callback();
-                        },500);
+                        },2000);
                 }
         });
 }

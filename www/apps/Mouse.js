@@ -42,6 +42,20 @@ MouseBuffer = function() {
         this.mousescrolls = [];
 }
 
+MouseView = function(canvas) {
+        var self = this;
+        self.mouseEventBuffer = new MouseBuffer();
+        initMouseBuffer(canvas,self.mouseEventBuffer);
+        self.mouse = new Mouse()
+        View.Message.Client.call(self, function(message) {
+                if(message.type == View.Message.Type.RequestMouseData) {
+                        self.mouse = processMouseBuffer(self.mouse,self.mouseEventBuffer);
+                        flushMouseEvents(self.mouseEventBuffer);
+                        sendMessage(new View.Message.MouseData(self,self.mouse),message.sender);
+                }
+        });
+}
+
 function processMouseBuffer(mouse,mousebuffer) {
         mouse.clicked = 0;
         mouse.movement.x = 0;

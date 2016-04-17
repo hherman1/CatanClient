@@ -137,39 +137,14 @@ Buffer = function() {
     this.mouse = new MouseBuffer();
 }
 
-Game = function(canvasView,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side,receiveMessage) {
-        this.canvasView = canvasView;
-        this.mouse = mouse; //new Mouse();
-        this.buffer = buffer; //new Buffer();
-        this.graphics = graphics; //new Graphics();
-        this.server = server; //new Server();
-        this.actions = actions; //new Reference([]);
-        this.gamestate = gamestate;
-        this.teststate = teststate;
-        this.hitboxes = hitboxes;
-        this.images = images;
-        this.side = side;
-        this.inbox = [];
-        View.Message.Client.call(this,receiveMessage);
-}
 
 CatanGame = function(side,canvasView) {
-        Game.call(this
-                 ,canvasView
-                 ,new Mouse()
-                 ,new Buffer()
-                 ,new Graphics()
-                 ,new Server()
-                 ,new Reference([])
-                 ,null,null,null,null,side,null)
-//        var canvas = ctx.canvas;
-//        this.ctx = ctx;
-//        this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+        this.canvasView = canvasView;
+        this.mouse = new Mouse(); //new Mouse();
+        this.graphics = new Graphics(); //new Graphics();
+        this.server = new Server(); //new Server();
+        this.actions = new Reference([]); //new Reference([]);
         this.side = side;
-
-        //the below code may be better suited elsewhere
-
-//        initMouseBuffer(canvas,this.buffer.mouse);
         this.server.newGame(5,getStoredPlayers());
         this.gamestate = this.server.getState();
         this.teststate = cloneGameState(this.gamestate);
@@ -180,12 +155,10 @@ CatanGame = function(side,canvasView) {
                            ,this.gamestate.board.hexes
                            ,this.side)),this.canvasView);
         var self=this;
+        self.inbox = [];
         self.receiveMessage = function(message) {
                 self.inbox.push(message);
         }
-        //TEMPORARY
-        // this.gamestate.players.push(new Player(1));
-        // this.gamestate.currentPlayerID = 1;
         
 }
 
@@ -209,72 +182,81 @@ function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
 
+function endTurn(game) {
+        game.server.endTurn(game.actions);
+        game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+        game.teststate = cloneGameState(game.gamestate);
+        if(game.gamestate.phase == Phase.Normal) {
+                var roll = game.server.getRoll();
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
+        }
+
+        for(var i = 0; i<game.gamestate.players.length;i++) {
+            console.log(game.gamestate.players[i]);
+            if (checkPlayerWin(game.gamestate.players[i])) {
+                console.log(game.gamestate.players[i] + "wins");
+            }
+        }
+
+}
+
+function processUIMessage(message,game) {
+        switch(message.type) {
+            case View.Message.Type.EndTurn:
+                endTurn(game);
+                break;
+            case View.Message.Type.BuildRoad:
+                    console.log(elem);
+                    console.log("Test case 2");
+                break;
+            case View.Message.Type.BuildSettlement:
+                    console.log("Test case 3");
+                break;
+            case View.Message.Type.BuildCity:
+                    console.log("Test case 4");
+                break;
+            case View.Message.Type.Undo:
+                game.actions.data.pop();
+                game.teststate = cloneGameState(game.gamestate);
+                applyActionsForCurrentPlayer(game.actions.data,game.teststate);
+                break;
+            case View.Message.Type.Resize:
+                break;
+            case View.Message.Type.MakeOffer:
+                var trade = getOfferFromMessage(message
+                                               ,game.gamestate.tradeoffers.length
+                                               ,game.gamestate.currentPlayerID);
+                if(validateTradeOffer(game.gamestate,trade)) {
+                        game.gamestate.tradeoffers.push(trade);
+                } else {
+                        pushAnimation(new XClick(game.mouse.pos,15,10),game);
+                }
+                break;
+            case View.Message.Type.AcceptOffer:
+                var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
+                if(validateTrade(game.gamestate,trade)) {
+                        applyTrade(game.gamestate,trade);
+                        game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
+                }
+        }
+}
+
+function processDataMessage(message,game) {
+        switch(message.type) {
+            case View.Message.Type.MouseData:
+                game.mouse = message.mouse;
+                break;
+            case View.Message.Type.HitsData:
+                game.hits = message.hits;
+                break;
+        }
+}
+
 function processInbox(inbox, game){
     inbox.forEach(function(message) {
-            switch(message.type) {
-                    case View.Message.Type.EndTurn:
-    //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
-      //                                ,game);
-                        //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
-                        game.server.endTurn(game.actions);
-                        game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
-                        game.teststate = cloneGameState(game.gamestate);
-                        if(game.gamestate.phase == Phase.Normal) {
-                                var roll = game.server.getRoll();
-                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
-                                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-                        }
-
-                        for(var i = 0; i<game.gamestate.players.length;i++) {
-                            console.log(game.gamestate.players[i]);
-                            if (checkPlayerWin(game.gamestate.players[i])) {
-                                console.log(game.gamestate.players[i] + "wins");
-                            }
-                        }
-                        break;
-                    case View.Message.Type.BuildRoad:
-                            console.log(elem);
-                            console.log("Test case 2");
-                        break;
-                    case View.Message.Type.BuildSettlement:
-                            console.log("Test case 3");
-                        break;
-                    case View.Message.Type.BuildCity:
-                            console.log("Test case 4");
-                        break;
-                    case View.Message.Type.Undo:
-                        game.actions.data.pop();
-                        game.teststate = cloneGameState(game.gamestate);
-                        applyActionsForCurrentPlayer(game.actions.data,game.teststate);
-                        break;
-                    case View.Message.Type.Resize:
-                        break;
-                    case View.Message.Type.MakeOffer:
-                        var trade = getOfferFromMessage(message
-                                                       ,game.gamestate.tradeoffers.length
-                                                       ,game.gamestate.currentPlayerID);
-                        if(validateTradeOffer(game.gamestate,trade)) {
-                                game.gamestate.tradeoffers.push(trade);
-                        } else {
-                                pushAnimation(new XClick(game.mouse.pos,15,10),game);
-                        }
-                        break;
-                    case View.Message.Type.AcceptOffer:
-                        var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
-                        if(validateTrade(game.gamestate,trade)) {
-                                applyTrade(game.gamestate,trade);
-                                game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
-                        }
-                    case View.Message.Type.MouseData:
-                        game.mouse = message.mouse;
-                        break;
-                    case View.Message.Type.HitsData:
-                        game.hits = message.hits;
-                        break;
-                    default:
-                            console.log('Err: inbox | Array either contains null or an uncrecognized message!');
-                        break;
-            }
+            processUIMessage(message,game);
+            processDataMessage(message,game);
     })
 }
 

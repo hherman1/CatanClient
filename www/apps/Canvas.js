@@ -60,11 +60,9 @@ function resetTransform(ctx) {
 }
 
 
-function clearCanvas(ctx,transform) {
+function clearCanvas(ctx) {
         var canvas = ctx.canvas;
-        resetTransform(ctx);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setTransform(transform,ctx);
 }
 
 function setTransform(transform,ctx) {
@@ -110,7 +108,7 @@ function redraw(gamestate,highlight,graphics,side,ctx) {
                 }
         }
 
-        clearCanvas(ctx,graphics.transform);
+        clearCanvas(ctx);
 
         var renderTree = new TransformNode(graphics.transform);
         renderTree.addChild(new RadialGradientNode(side*20,"#77B2EB","blue"));

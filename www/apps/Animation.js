@@ -119,7 +119,7 @@ ClickCircle = function(coordinate,radius,frames) {
 XClick = function(coordinate,radius,frames) {
         function innerStyle(ctx) {
                 ctx.strokeStyle = "rgba(255,0,0,0.8)";
-                ctx.lineWidth = "4";
+                ctx.lineWidth = "7";
         }
         function outerStyle(ctx) {/*
                 ctx.strokeStyle = "rgba(255,255,255,1)";

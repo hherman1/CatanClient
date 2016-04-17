@@ -300,7 +300,7 @@ function gameStep(game) {
                                 game.actions.data.push(potentialAction);
                                 applyActionForCurrentPlayer(potentialAction,game.teststate);
                         } else {
-                                pushAnimation(new XClick(mouse.pos,10,10),game);
+                                pushAnimation(new XClick(mouse.pos,15,10),game);
                                 drawCircle = false;
                         }
                 }

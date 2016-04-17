@@ -42,7 +42,7 @@ MouseBuffer = function() {
         this.mousescrolls = [];
 }
 
-function processBuffer(mouse,mousebuffer) {
+function processMouseBuffer(mouse,mousebuffer) {
         mouse.clicked = 0;
         mouse.movement.x = 0;
         mouse.movement.y = 0;

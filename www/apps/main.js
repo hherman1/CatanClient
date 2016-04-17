@@ -19,7 +19,7 @@ define(function (require) {
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
     var uiController = require('./UserInterfaceJScript');
-    var uiViews = require('./UIView');
+    var uiViews = require('./View');
     var tradeOffers = require('./TradeOffer');
     function main() {
             var scale = 50;
@@ -30,7 +30,8 @@ define(function (require) {
         if(canvas.getContext) {
                 resizeBoardDOM($(window).width(),$(window).height());
                 ctx = canvas.getContext('2d');
-                var myGame = new CatanGame(50,ctx);
+                var canvasView = new CanvasView(ctx);
+                var myGame = new CatanGame(50,canvasView);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
                 setUpUIViews(myGame);

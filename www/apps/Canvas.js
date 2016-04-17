@@ -87,7 +87,69 @@ function generateHexCanvas(gamestate,scale) {
         return $canvas[0];
 }
 
-function redraw(gamestate,highlight,graphics,side,ctx) {
+CanvasView = function(ctx) {
+        var self = this;
+        self.mouseView = new MouseView(ctx.canvas);
+        self.canvasRenderView = new CanvasRenderView(ctx);
+        View.Message.Client.call(self,function(message) {
+                sendMessage(message,self.mouseView);
+                sendMessage(message,self.canvasRenderView);
+        });
+}
+
+MouseView = function(canvas) {
+        var self = this;
+        self.mouseEventBuffer = new MouseBuffer();
+        initMouseBuffer(canvas,self.mouseEventBuffer);
+        self.mouse = new Mouse()
+        View.Message.Client.call(self, function(message) {
+                if(message.type == View.Message.Type.RequestMouseData) {
+                        self.mouse = processMouseBuffer(self.mouse,self.mouseEventBuffer);
+                        flushMouseEvents(self.mouseEventBuffer);
+                        sendMessage(new View.Message.MouseData(self,self.mouse),message.sender);
+                }
+        });
+}
+
+CanvasRenderView = function(ctx) {
+        var self = this;
+        self.ctx = ctx;
+        self.transform = {
+                translation: center(new Vector(ctx.canvas.width,ctx.canvas.height)),
+                scale: 1
+        };
+        self.hitboxes = [];
+        var receiveMessage = function(message) {
+                switch(message.type) {
+                        case View.Message.Type.RenderGameCanvas:
+                                redraw(message.gamestate
+                                      ,message.highlight
+                                      ,message.graphics
+                                      ,self.transform
+                                      ,message.side
+                                      ,self.ctx);
+                                break;
+                        case View.Message.Type.AdjustTranslation:
+                                self.transform.translation = add(self.transform.translation
+                                                                ,message.translation);
+                                break;
+                        case View.Message.Type.AdjustScale:
+                                self.transform.scale = newScale(message.adjustment
+                                                               ,self.transform.scale);
+                                break;
+                        case View.Message.Type.SetHitboxes:
+                                self.hitboxes = message.hitboxes;
+                                break;
+                        case View.Message.Type.RequestHits:
+                                var hitlist = transformHitlist(self.hitboxes,self.transform);
+                                var hits = getHits(hitlist,message.coordinate);
+                                sendMessage(new View.Message.HitsData(self,hits),message.sender);
+                }
+        };
+        View.Message.Client.call(self,receiveMessage);
+}
+
+function redraw(gamestate,highlight,graphics,transform,side,ctx) {
         var colorMap = getPlayerColors(gamestate.players);
         var currentPlayerColor = colorMap[gamestate.currentPlayerID];
 
@@ -110,7 +172,7 @@ function redraw(gamestate,highlight,graphics,side,ctx) {
 
         clearCanvas(ctx);
 
-        var renderTree = new TransformNode(graphics.transform);
+        var renderTree = new TransformNode(transform);
         renderTree.addChild(new RadialGradientNode(side*20,"#77B2EB","blue"));
         renderTree.addChild(new CenteredImageNode(graphics.renderedHexes));
 

@@ -85,15 +85,15 @@ GameState = function() {
         this.currentPlayerID = null;
 }
 
+Transform = function(translation,scale) {
+        this.translation=translation;
+        this.scale = scale;
+}
 
 Graphics = function(){
         this.animations = new Reference([])
-        this.transform = {
-               translation: new Vector(0,0)
-              ,scale: 1
-        }
+        this.transform = new Transform(new Vector(0,0),1);
         this.renderedHexes = $("<canvas></canvas>")[0];
-        this.views = [];
 }
 
 Server = function() {
@@ -137,8 +137,8 @@ Buffer = function() {
     this.mouse = new MouseBuffer();
 }
 
-Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side,receiveMessage) {
-        this.ctx = ctx;
+Game = function(canvasView,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side,receiveMessage) {
+        this.canvasView = canvasView;
         this.mouse = mouse; //new Mouse();
         this.buffer = buffer; //new Buffer();
         this.graphics = graphics; //new Graphics();
@@ -150,34 +150,35 @@ Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hit
         this.images = images;
         this.side = side;
         this.inbox = [];
-        UI.Message.Client.call(this,receiveMessage);
+        View.Message.Client.call(this,receiveMessage);
 }
 
-CatanGame = function(side,ctx) {
+CatanGame = function(side,canvasView) {
         Game.call(this
-                 ,ctx
+                 ,canvasView
                  ,new Mouse()
                  ,new Buffer()
                  ,new Graphics()
                  ,new Server()
                  ,new Reference([])
                  ,null,null,null,null,side,null)
-        var canvas = ctx.canvas;
-        this.ctx = ctx;
-        this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
+//        var canvas = ctx.canvas;
+//        this.ctx = ctx;
+//        this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
         this.side = side;
 
         //the below code may be better suited elsewhere
 
-        initMouseBuffer(canvas,this.buffer.mouse);
+//        initMouseBuffer(canvas,this.buffer.mouse);
         this.server.newGame(5,getStoredPlayers());
         this.gamestate = this.server.getState();
         this.teststate = cloneGameState(this.gamestate);
-        this.hitboxes =
+        this.hits = [];
+        sendMessage(new View.Message.SetHitboxes(this,
                 genHitboxes(this.gamestate.board.vertices
                            ,this.gamestate.board.roads
                            ,this.gamestate.board.hexes
-                           ,this.side);
+                           ,this.side)),this.canvasView);
         var self=this;
         self.receiveMessage = function(message) {
                 self.inbox.push(message);
@@ -211,7 +212,7 @@ function pushAnimation(animation,game) {
 function processInbox(inbox, game){
     inbox.forEach(function(message) {
             switch(message.type) {
-                    case UI.Message.Type.EndTurn:
+                    case View.Message.Type.EndTurn:
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
       //                                ,game);
                         //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
@@ -231,24 +232,24 @@ function processInbox(inbox, game){
                             }
                         }
                         break;
-                    case UI.Message.Type.BuildRoad:
+                    case View.Message.Type.BuildRoad:
                             console.log(elem);
                             console.log("Test case 2");
                         break;
-                    case UI.Message.Type.BuildSettlement:
+                    case View.Message.Type.BuildSettlement:
                             console.log("Test case 3");
                         break;
-                    case UI.Message.Type.BuildCity:
+                    case View.Message.Type.BuildCity:
                             console.log("Test case 4");
                         break;
-                    case UI.Message.Type.Undo:
+                    case View.Message.Type.Undo:
                         game.actions.data.pop();
                         game.teststate = cloneGameState(game.gamestate);
                         applyActionsForCurrentPlayer(game.actions.data,game.teststate);
                         break;
-                    case UI.Message.Type.Resize:
+                    case View.Message.Type.Resize:
                         break;
-                    case UI.Message.Type.MakeOffer:
+                    case View.Message.Type.MakeOffer:
                         var trade = getOfferFromMessage(message
                                                        ,game.gamestate.tradeoffers.length
                                                        ,game.gamestate.currentPlayerID);
@@ -258,56 +259,60 @@ function processInbox(inbox, game){
                                 pushAnimation(new XClick(game.mouse.pos,15,10),game);
                         }
                         break;
-                    case UI.Message.Type.AcceptOffer:
+                    case View.Message.Type.AcceptOffer:
                         var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                         if(validateTrade(game.gamestate,trade)) {
                                 applyTrade(game.gamestate,trade);
                                 game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
                         }
+                    case View.Message.Type.MouseData:
+                        game.mouse = message.mouse;
+                        break;
+                    case View.Message.Type.HitsData:
+                        game.hits = message.hits;
+                        break;
                     default:
-                            console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
+                            console.log('Err: inbox | Array either contains null or an uncrecognized message!');
                         break;
             }
     })
 }
 
+function processGameInbox(game) {
+    processInbox(game.inbox, game);//Processes information from the UI in buffer
+    flushInbox(game.inbox);
+
+}
+
 function gameStep(game) {
         var shouldRedraw = false;
 
-        var mouse = processBuffer(game.mouse,game.buffer.mouse);
-        flushMouseEvents(game.buffer.mouse);
+        sendMessage(new View.Message.RequestMouseData(game),game.canvasView);
+        processGameInbox(game);
+        sendMessage(new View.Message.RequestHits(game,game.mouse.pos),game.canvasView);
+        processGameInbox(game);
 
-        var hitlist = transformHitlist(game.hitboxes,game.graphics.transform);
-        var hits = getHits(hitlist,game.mouse.pos);
-        var maxHit = getMaxPositionHit(hits);
+        var maxHit = getMaxPositionHit(game.hits);
         var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
                                                  ,game.actions.data
                                                  ,maxHit);
 
-        if(game.inbox.length !=  0) {
-            processInbox(game.inbox, game);//Processes information from the UI in buffer
-            flushInbox(game.inbox);
-            shouldRedraw = true;
-
-        }
-        if(hits.length != 0 || game.graphics.animations.data.length != 0) {
+        if(game.hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
-                game.graphics.transform.translation = add(game.graphics.transform.translation,game.mouse.movement);
+                sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.canvasView);
                 shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
-                game.graphics.transform.scale = newScale(game.mouse.scroll.y,game.graphics.transform.scale);
+                sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.canvasView);
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
                 var drawCircle = true;
-                //hits.forEach(function(hit) {
-                //
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-                        pushAnimation(new InfoBox(mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
+                        pushAnimation(new InfoBox(game.mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
 
                 }
 
@@ -316,12 +321,12 @@ function gameStep(game) {
                                 game.actions.data.push(potentialAction);
                                 applyActionForCurrentPlayer(potentialAction,game.teststate);
                         } else {
-                                pushAnimation(new XClick(mouse.pos,15,10),game);
+                                pushAnimation(new XClick(game.mouse.pos,15,10),game);
                                 drawCircle = false;
                         }
                 }
                 if(drawCircle) {
-                    pushAnimation(new ClickCircle(mouse.pos,10,10),game);
+                    pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);
                 }
                 shouldRedraw = true;
         }
@@ -338,11 +343,12 @@ function gameStep(game) {
 }
 
 function renderGame(game,positionHighlight) {
-        redraw(game.teststate
-              ,positionHighlight
-              ,game.graphics
-              ,game.side
-              ,game.ctx);
+        sendMessage(new View.Message.RenderGameCanvas(game
+                                                     ,game.teststate
+                                                     ,positionHighlight
+                                                     ,game.graphics
+                                                     ,game.side)
+                   ,game.canvasView);
         //drawHitboxes(hitlist,hits,game.ctx);
         updateUIInfo(game.teststate.players
                     ,game.teststate.currentPlayerID);

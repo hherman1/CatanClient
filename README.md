@@ -6,7 +6,7 @@ Asynchronous online Catan
 
 Our project is to create a version of Settlers of Catan, an original board game created by Klaus Teuber.
 
-## How to implement the game
+## How to run the game
 
 
 ## Current Bugs

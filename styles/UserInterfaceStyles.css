@@ -347,5 +347,6 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         position:absolute;
         top:0;
         left:0;
-    background-color: #77B2EB; 
+//        background-color: #77B2EB;
+    background-color: blue;
 }

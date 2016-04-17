@@ -34,6 +34,17 @@ ScaleNode = function(scale) {
         });
 }
 
+RadialGradientNode = function(radius,startColor,endColor) {
+        Node.call(this,function(ctx) {
+                var gradient = ctx.createRadialGradient(0,0,0
+                                                       ,0,0,radius);
+                gradient.addColorStop(0,startColor);
+                gradient.addColorStop(1,endColor);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(-radius,-radius,2*radius,2*radius);
+        });
+}
+
 HexNode = function(hex) {
         Node.call(this,function(ctx) {
             drawHex(hex,ctx);

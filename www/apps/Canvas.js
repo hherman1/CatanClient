@@ -113,6 +113,7 @@ function redraw(gamestate,highlight,graphics,side,ctx) {
         clearCanvas(ctx,graphics.transform);
 
         var renderTree = new TransformNode(graphics.transform);
+        renderTree.addChild(new RadialGradientNode(side*20,"#77B2EB","blue"));
         renderTree.addChild(new CenteredImageNode(graphics.renderedHexes));
 
         var scaled = new ScaleNode(side);

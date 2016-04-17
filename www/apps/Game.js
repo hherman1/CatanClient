@@ -81,6 +81,7 @@ GameState = function() {
         this.phase = Phase.Init;
         this.rotation = Rotation.Forwards;
         this.players = [];
+        this.tradeoffers = [];
         this.currentPlayerID = null;
 }
 
@@ -136,7 +137,7 @@ Buffer = function() {
     this.UI = new UI.Buffer();
 }
 
-Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side) {
+Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hitboxes,images,side,receiveMessage) {
         this.ctx = ctx;
         this.mouse = mouse; //new Mouse();
         this.buffer = buffer; //new Buffer();
@@ -148,6 +149,8 @@ Game = function(ctx,mouse,buffer,graphics,server,actions,gamestate,teststate,hit
         this.hitboxes = hitboxes;
         this.images = images;
         this.side = side;
+        this.inbox = [];
+        UI.Message.Client.call(this,receiveMessage);
 }
 
 CatanGame = function(side,ctx) {
@@ -158,7 +161,7 @@ CatanGame = function(side,ctx) {
                  ,new Graphics()
                  ,new Server()
                  ,new Reference([])
-                 ,null,null,null,null,side)
+                 ,null,null,null,null,side,null)
         var canvas = ctx.canvas;
         this.ctx = ctx;
         this.graphics.transform.translation = center(new Vector(canvas.width,canvas.height));
@@ -176,6 +179,9 @@ CatanGame = function(side,ctx) {
                            ,this.gamestate.board.hexes
                            ,this.side);
         var self=this;
+        self.receiveMessage = function(message) {
+                self.inbox.push(message);
+        }
         //TEMPORARY
         // this.gamestate.players.push(new Player(1));
         // this.gamestate.currentPlayerID = 1;
@@ -189,6 +195,7 @@ cloneGameState = function(gameState) {
         out.currentPlayerID = gameState.currentPlayerID;
         out.phase = gameState.phase;
         out.rotation = gameState.rotation;
+        out.tradeoffers = gameState.tradeoffers.map(cloneTradeOffer);
         return out;
 }
 
@@ -202,9 +209,9 @@ function pushAnimation(animation,game) {
 }
 
 function processUIBuffer(buffer, game){
-    buffer.messages.map(function(elem) {
-            switch(elem) {
-                    case UI.Message.EndTurn:
+    buffer.messages.forEach(function(message) {
+            switch(message.type) {
+                    case UI.Message.Type.EndTurn:
     //                                  ,-1,1,12,100,60,1000) //new Vector(850,510)
       //                                ,game);
                         //resourceGeneration(roll, game.gamestate.players, game.gamestate.board.vertices, game.gamestate.board.hexes);
@@ -224,27 +231,44 @@ function processUIBuffer(buffer, game){
                             }
                         }
                         break;
-                    case UI.Message.BuildRoad:
+                    case UI.Message.Type.BuildRoad:
                             console.log(elem);
                             console.log("Test case 2");
                         break;
-                    case UI.Message.BuildSettlement:
+                    case UI.Message.Type.BuildSettlement:
                             console.log("Test case 3");
                         break;
-                    case UI.Message.BuildCity:
+                    case UI.Message.Type.BuildCity:
                             console.log("Test case 4");
                         break;
-                    case UI.Message.Undo:
+                    case UI.Message.Type.Undo:
                         game.actions.data.pop();
                         game.teststate = cloneGameState(game.gamestate);
                         applyActionsForCurrentPlayer(game.actions.data,game.teststate);
                         break;
+                    case UI.Message.Type.Resize:
+                        break;
+                    case UI.Message.Type.MakeOffer:
+                        var trade = getOfferFromMessage(message
+                                                       ,game.gamestate.tradeoffers.length
+                                                       ,game.gamestate.currentPlayerID);
+                        if(validateTradeOffer(game.gamestate,trade)) {
+                                game.gamestate.tradeoffers.push(trade);
+                        } else {
+                                pushAnimation(new XClick(game.mouse.pos,15,10),game);
+                        }
+                        break;
+                    case UI.Message.Type.AcceptOffer:
+                        var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
+                        if(validateTrade(game.gamestate,trade)) {
+                                applyTrade(game.gamestate,trade);
+                                game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
+                        }
                     default:
                             console.log('Err: UI.Buffer.messages| Array either contains null or a number not between 0-3 inclusive!');
                         break;
             }
     })
-    flushBufferMessages(buffer);
 }
 
 function gameStep(game) {
@@ -261,9 +285,12 @@ function gameStep(game) {
                                                  ,game.actions.data
                                                  ,maxHit);
 
-        if(game.buffer.UI.messages.length !=  0) {
+        if(game.buffer.UI.messages.length + game.inbox.length !=  0) {
 
+            game.buffer.UI.messages = game.buffer.UI.messages.concat(game.inbox);
             processUIBuffer(game.buffer.UI, game)//Processes information from the UI in buffer
+            flushBufferMessages(game.buffer.UI);
+            game.inbox.length = 0;
             // game.buffer.UI.messages.map(function(message) {
             //         switch(message) {
             //                 case UI.Messages.EndTurn:

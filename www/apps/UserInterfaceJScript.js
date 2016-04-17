@@ -126,18 +126,12 @@ function setVictoryPointsVal(playerTab, amount){
     //Tests
     //setResourceVal
 
-    UI = {
-        Message : {
-            EndTurn : 0,
-            BuildRoad : 1,
-            BuildSettlement : 2,
-            BuildCity : 3,
-            Undo: 4,
-            Resize:5,
-        },
-        Buffer : function() {
-            this.messages = [];
-        }
+    function getOfferFromMessage(message,tradeID,offererID) {
+            return new TradeOffer(tradeID
+                                 ,offererID
+                                 ,message.targetID
+                                 ,message.offerResources
+                                 ,message.requestResources);
     }
 
     function endTurnButtonClick(buffer){
@@ -166,9 +160,6 @@ function setVictoryPointsVal(playerTab, amount){
     }
 
     function setupUIBuffer(buffer) {
-        $(endTurnButton).on('click', function() {
-            endTurnButtonClick(buffer);
-        })
         $(".buildChoice[structure=Road]").on('click', function() {
             roadBuildCardClick(buffer);
         })
@@ -351,10 +342,10 @@ function loadGame(game,callback) {
                         makeBoard(game);
                         renderGame(game,null); // Initial render with no highlight.
                         setTimeout(function() {
-                                $("#loading-screen").fadeOut(2000);
+                                $("#loading-screen").fadeOut(300);
  //                               $("#board,#userInterface").fadeTo(2000,1);
                                 callback();
-                        },2000);
+                        },1000);
                 }
         });
 }

@@ -18,7 +18,9 @@ define(function (require) {
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
-    var uiController = require('./UserInterfaceJScript')
+    var uiController = require('./UserInterfaceJScript');
+    var uiViews = require('./UIView');
+    var tradeOffers = require('./TradeOffer');
     function main() {
             var scale = 50;
             var framerate = 60;
@@ -31,6 +33,7 @@ define(function (require) {
                 var myGame = new CatanGame(50,ctx);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
+                setUpUIViews(myGame);
                 setupUIBuffer(myGame.buffer.UI, myGame);
                 genPlayerTabs(myGame.gamestate.players);
                 loadGame(myGame,function(){runGame(myGame,13);});

@@ -97,7 +97,6 @@ CanvasView = function(ctx) {
         });
 }
 
-
 CanvasRenderView = function(ctx) {
         var self = this;
         self.ctx = ctx;

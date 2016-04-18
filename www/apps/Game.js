@@ -225,7 +225,7 @@ function processUIMessage(message,game) {
                 break;
             case View.Message.Type.MakeOffer:
                 var trade = getOfferFromMessage(message
-                                               ,game.gamestate.tradeoffers.length
+                                               ,nextTradeID(game.gamestate.tradeoffers)
                                                ,game.gamestate.currentPlayerID);
                 if(validateTradeOffer(game.gamestate,trade)) {
                         game.gamestate.tradeoffers.push(trade);

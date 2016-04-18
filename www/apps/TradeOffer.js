@@ -54,3 +54,7 @@ function validateTrade(gamestate,trade) {
                && validateAccept(gamestate,trade.targetID,trade.requestResources);
 }
 
+function nextTradeID(trades) {
+        return last(trades).tradeID + 1;
+}
+

@@ -51,7 +51,7 @@ MouseView = function(canvas) {
                 if(message.type == View.Message.Type.RequestMouseData) {
                         self.mouse = processMouseBuffer(self.mouse,self.mouseEventBuffer);
                         flushMouseEvents(self.mouseEventBuffer);
-                        sendMessage(new View.Message.MouseData(self,self.mouse),message.sender);
+                        respond(message,new View.Message.MouseData(self,self.mouse));
                 }
         });
 }

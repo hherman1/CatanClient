@@ -52,11 +52,9 @@ function checkCityLegality(coords, player, vertexFrame){
 	console.log("checking city");
 	var vert = getVertices(vertexFrame,coords)[0];
 	if(vert.structure != 1){
-		console.log("structure is " + vert.structure);
 		return false;
 	}
 	if(vert.playerID != player.id){
-		console.log("player id is "+ player.id + " but vert id is "+ vert.playerID);
 		return false;
 	}
 
@@ -73,7 +71,6 @@ function checkInitSettlementLegality(coords, vertexFrame,player){
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
-	console.log(neighborList);
 	for(i=0;i<neighborList.length;i++){
 		if(getVertex(vertexFrame, neighborList[i]).structure>0){
 			return false;

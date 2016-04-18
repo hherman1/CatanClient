@@ -192,8 +192,18 @@ function applyAction(action,gamestate,player) {
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
                                 player.vicPoints++;
+
                                 if(gamestate.phase == Phase.Init){
                                     initSettlementResources(action.coordinate,gamestate.board.hexes, player);
+                                    var add = true;
+                                    for(var i = 0;i<player.firstSettlementsCoords.length;i++){      //TODO: Clean
+                                        if(vectorEquals(player.firstSettlementsCoords[i], action.coordinate)){
+                                            add = false;
+                                        }
+                                    }
+                                    if(add){
+                                        player.firstSettlementsCoords.push(action.coordinate);
+                                    }
                                 }
                         })
                         break;

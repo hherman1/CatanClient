@@ -193,7 +193,7 @@ function endTurn(game) {
         }
 
         for(var i = 0; i<game.gamestate.players.length;i++) {
-            console.log(game.gamestate.players[i]);
+         //   console.log(game.gamestate.players[i]);
             if (checkPlayerWin(game.gamestate.players[i])) {
                 console.log(game.gamestate.players[i] + "wins");
             }

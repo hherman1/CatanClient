@@ -42,6 +42,7 @@ Player = function(id){
   this.settlementCount = 0;
   this.roadCount = 0;
   this.cityCount = 0;
+    this.firstSettlementsCoords = [];
   //Player owned resources
   this.resources = [];
   this.resources[Resource.Lumber] = 0;
@@ -71,6 +72,7 @@ function clonePlayer(player) {
         out.settlementCount = player.settlementCount;
         out.roadCount = player.roadCount;
         out.cityCount = player.cityCount;
+        out.firstSettlementsCoords = player.firstSettlementsCoords;
         return out;
 }
 

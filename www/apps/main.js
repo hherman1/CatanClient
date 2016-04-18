@@ -18,17 +18,25 @@ define(function (require) {
     var robber = require('./Robber');
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
-    var uiController = require('./UserInterfaceJScript')
+    var uiController = require('./UserInterfaceJScript');
+    var uiViews = require('./View');
+    var tradeOffers = require('./TradeOffer');
     function main() {
+            var scale = 50;
+            var framerate = 60;
+            var secondTime = 1000;
+            var interval = secondTime/framerate;
         canvas = document.getElementById('board');
         if(canvas.getContext) {
+                resizeBoardDOM($(window).width(),$(window).height());
                 ctx = canvas.getContext('2d');
-                var myGame = new CatanGame(50,ctx);
+                var canvasView = new CanvasView(ctx);
+                var myGame = new CatanGame(50,canvasView);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
-                setupUIBuffer(myGame.buffer.UI, myGame);
+                setUpUIViews(myGame);
                 genPlayerTabs(myGame.gamestate.players);
-                runGame(myGame,13);
+                loadGame(myGame,function(){runGame(myGame,13);});
         } else {
             console.log("browser unsupported")
         }

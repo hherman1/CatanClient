@@ -1,4 +1,10 @@
+
+body {
+        overflow: hidden;
+}
+
 /*Bottom Right Display*/
+
 
 .bottomRightDisplay{
 	border: solid black 1px;
@@ -98,7 +104,6 @@
 	background-color: white;
 	height: 180px;
 	width: 500px;
-	z-index: 10;
 
 }
 /*Resource Bar*/
@@ -114,6 +119,9 @@
 .resourcePicAndNumHolder{
 	display: inline-block;
 	margin: 0 0 0 11px;
+}
+.resourcePicAndNumHolder > img {
+        height:50px;
 }
 
 .resourceValue{
@@ -150,10 +158,20 @@
 	box-shadow: 1px 1px 5px #888888;
 }
 
+
+
 .buildChoices{
 	border: solid black 1px;
 	margin: 0px;
 	padding: 0;
+}
+
+.choiceVictoryInfo > .structureImage > img {
+        height:20px;
+}
+
+.choiceReqs > img {
+        height: 50px;
 }
 
 .choiceTitle{
@@ -272,21 +290,40 @@
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
 
-canvas { border: 1px solid black; width: 1000px; height:500px}
 
 #game {
-        width:1000px;
-        height:500px;
-        position:relative;
-}
-
-#loading-bar {
         width:100%;
-        height:5px;
+        height:100%;
         position:absolute;
         top:0;
-        background-color:maroon;
+        left:0;
+}
+
+#loading-screen {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+ //       background-color:#ffffff;
+        background-color: #77B2EB;
+        padding:50px;
         z-index:1;
+}
+
+#loading {
+        width:50%;
+        position:fixed;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+}
+#loading > h1 {
+        margin:5px;
+}
+#loading-bar {
+        height:10px;
+        background-color:maroon;
 }
 #loaded {
         height:100%;
@@ -295,7 +332,7 @@ canvas { border: 1px solid black; width: 1000px; height:500px}
         transition: width 0.3s;
 }
 
-.userInterface {
+#userInterface {
         position:relative;
         width:100%;
         height:100%;
@@ -303,7 +340,7 @@ canvas { border: 1px solid black; width: 1000px; height:500px}
         pointer-events:none;
 }
 
-.userInterface > * {
+#userInterface > * {
         pointer-events:all;
 }
 
@@ -311,5 +348,6 @@ canvas { border: 1px solid black; width: 1000px; height:500px}
         position:absolute;
         top:0;
         left:0;
-    background-color: #77B2EB; 
+//        background-color: #77B2EB;
+    background-color: blue;
 }

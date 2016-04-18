@@ -106,9 +106,9 @@ ClickCircle = function(coordinate,radius,frames) {
                                 //setTransform(transform,ctx);
                                 resetTransform(ctx);
                                 ctx.beginPath();
-                                var outerRadius = radius * Timing.linear(frame/totalFrames);
-                                var innerRadius = radius * Timing.cubic(frame/totalFrames);
-                                ctx.fillStyle = "rgba(0,0,0,0.8)";
+                                var outerRadius = radius * Timing.quadraticInitialDerivative(frame/totalFrames,0);
+                                var innerRadius = radius * Timing.linear(frame/totalFrames);
+                                ctx.fillStyle = "rgba(0,0,0,0.3)";
                                 ctx.arc(coordinate.x,coordinate.y,outerRadius,0,2*Math.PI,false)
                                 ctx.arc(coordinate.x,coordinate.y,innerRadius,0,2*Math.PI,true)
                                 ctx.fill();
@@ -117,6 +117,22 @@ ClickCircle = function(coordinate,radius,frames) {
 }
 
 XClick = function(coordinate,radius,frames) {
+        function innerStyle(ctx) {
+                ctx.strokeStyle = "rgba(255,0,0,0.8)";
+                ctx.lineWidth = "7";
+        }
+        function outerStyle(ctx) {/*
+                ctx.strokeStyle = "rgba(255,255,255,1)";
+                ctx.lineWidth = "5";
+                */
+        }
+        function drawSegment(start,end,ctx) {
+                linePath(start,end,ctx);
+                outerStyle(ctx);
+                ctx.stroke();
+                innerStyle(ctx);
+                ctx.stroke();
+        }
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 //setTransform(transform,ctx);
@@ -124,16 +140,11 @@ XClick = function(coordinate,radius,frames) {
                                 ctx.beginPath();
                                 var outerRadius = radius * Timing.quadraticInitialDerivative(frame/totalFrames,4);
                                 var innerRadius = radius * Timing.cubic(frame/totalFrames);
-                                ctx.strokeStyle = "rgba(255,0,0,0.8)";
-                                ctx.lineWidth = "4";
-                                linePath(add(ident(outerRadius),coordinate),add(ident(innerRadius),coordinate),ctx);
-                                ctx.stroke();
-                                linePath(add(ident(-outerRadius),coordinate),add(ident(-innerRadius),coordinate),ctx);
-                                ctx.stroke();
-                                linePath(add(new Vector(-outerRadius,outerRadius),coordinate)
+                                drawSegment(add(ident(outerRadius),coordinate),add(ident(innerRadius),coordinate),ctx);
+                                drawSegment(add(ident(-outerRadius),coordinate),add(ident(-innerRadius),coordinate),ctx);
+                                drawSegment(add(new Vector(-outerRadius,outerRadius),coordinate)
                                         ,add(new Vector(-innerRadius,innerRadius),coordinate),ctx);
-                                ctx.stroke();
-                                linePath(add(new Vector(outerRadius,-outerRadius),coordinate)
+                                drawSegment(add(new Vector(outerRadius,-outerRadius),coordinate)
                                         ,add(new Vector(innerRadius,-innerRadius),coordinate),ctx);
                                 ctx.stroke();
                         }

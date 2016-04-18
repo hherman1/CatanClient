@@ -7,6 +7,21 @@ Node = function(draw) {
         self.addChildren = function(children) {addChildren(children,self)};
 }
 
+BlankNode = function() {
+        Node.call(this,function(){});
+}
+
+CenteredImageNode = function(img) {
+        Node.call(this,function(ctx) {
+                ctx.translate(-1/2 * img.width,-1/2 * img.height);
+        });
+        this.addChild(new ImageNode(img));
+}
+
+ImageNode = function(img) {
+        Node.call(this,function(ctx){ctx.drawImage(img,0,0);});
+}
+
 TransformNode = function(transform) {
         Node.call(this,function(ctx) {
                 setTransform(transform,ctx);
@@ -16,6 +31,17 @@ TransformNode = function(transform) {
 ScaleNode = function(scale) {
         Node.call(this,function(ctx) {
                 ctx.scale(scale,scale);
+        });
+}
+
+RadialGradientNode = function(radius,startColor,endColor) {
+        Node.call(this,function(ctx) {
+                var gradient = ctx.createRadialGradient(0,0,0
+                                                       ,0,0,radius);
+                gradient.addColorStop(0,startColor);
+                gradient.addColorStop(1,endColor);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(-radius,-radius,2*radius,2*radius);
         });
 }
 

@@ -8,6 +8,7 @@ Images = {
                 Cities:[],
                 Roads:[],
                 Resources:[],
+                ResourceSymbols:[],
                 Robber:{},
         },
         Settlements:[],
@@ -17,6 +18,8 @@ Images = {
         Roads:[],
 
         Resources:[],
+
+        ResourceSymbols:[],
 
         Robber:'',
 }
@@ -62,6 +65,17 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 //labeled for noncommercial reuse
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
+
+Images.ResourceSymbols[Resource.Lumber] = 'graphics/woodsymbol.svg';
+Images.ResourceSymbols[Resource.Grain] = 'graphics/wheatsymbol.svg';
+Images.ResourceSymbols[Resource.Wool] = 'graphics/woolsymbol.svg';
+Images.ResourceSymbols[Resource.Ore] = 'graphics/oresymbol.svg';
+Images.ResourceSymbols[Resource.Brick] = 'graphics/bricksymbol.svg';
+Images.Loaded.ResourceSymbols = Images.ResourceSymbols.map(loadImage);
+
+function getGameImages() {
+        return Images.Loaded;
+}
 
 function getLoadedImages() {
         var out = [];
@@ -111,6 +125,7 @@ function getRobberImg() {
         return Images.Loaded.Robber;
 }
 
+
 function getBuildingImg(settletype, playerColor){
   //still needs work...i will have to spend some time resizing these photos somehow
   switch(settletype) {
@@ -125,6 +140,13 @@ function getBuildingImg(settletype, playerColor){
 
 function getResourceImage(resourceType) {
   return Images.Loaded.Resources[resourceType];
+}
+
+function getResourceSymbolImages() {
+        return Images.Loaded.ResourceSymbols;
+}
+function getResourceSymbolImage(resource) {
+  return Images.Loaded.ResourceSymbols[resource];
 }
 
 

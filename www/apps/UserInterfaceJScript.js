@@ -20,6 +20,8 @@ $(document).ready(function(){
     });
 });
 
+
+
 //Clock for the bottom right display----------------------------------------------------
 //Used help from this website for the clock: http://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
 /*
@@ -114,7 +116,7 @@ function setVictoryPointsVal(playerTab, amount){
 
     //Sets the resource amount for the player. Takes in a resource ("Lumber","Wool", etc) and an amount to be set at
     function setResourceVal(resource, amount){
-        $(".resourceValue[resource="+resource+"]").html(amount);
+        $("[resource="+resource+"]>.resourceValue").html(amount);
     }
 
     //Sets the roll value display for the player. Takes in a number
@@ -124,57 +126,19 @@ function setVictoryPointsVal(playerTab, amount){
     //Tests
     //setResourceVal
 
-    UI = {
-        Message : {
-            EndTurn : 0,
-            BuildRoad : 1,
-            BuildSettlement : 2,
-            BuildCity : 3,
-            Undo: 4,
-        },
-        Buffer : function() {
-            this.messages = [];
-        }
+    function getOfferFromMessage(message,tradeID,offererID) {
+            return new TradeOffer(tradeID
+                                 ,offererID
+                                 ,message.targetID
+                                 ,message.offerResources
+                                 ,message.requestResources);
     }
 
-    function endTurnButtonClick(buffer){
-        buffer.messages.push(UI.Message.EndTurn);//adds an endTurn call to the UI buffer
-        console.log("endTurn clicked");
-    }
-    function undoButtonClick(buffer){
-        buffer.messages.push(UI.Message.Undo);//adds an endTurn call to the UI buffer
-        console.log("endTurn clicked");
-    }
-    function roadBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildRoad);//adds a road build call to the UI buffer
-    }
-    function settlementBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildSettlement);//adds a settlement build call to the UI buffer
-    }
-    function cityBuildCardClick(buffer){
-        buffer.messages.push(UI.Message.BuildCity);//adds a city build call to the UI buffer
-    }
-    function flushBufferMessages(buffer){
-        buffer.messages.length = 0;
+    function resizeGame(buffer) {
+        resizeBoardDOM($("#game").width(),$("#game").height());
+        buffer.messages.push(UI.Message.Resize);
     }
 
-    function setupUIBuffer(buffer) {
-        $(endTurnButton).on('click', function() {
-            endTurnButtonClick(buffer);
-        })
-        $(buildCardRoadButton).on('click', function() {
-            roadBuildCardClick(buffer);
-        })
-        $(buildCardSettlementButton).on('click', function() {
-            settlementBuildCardClick(buffer);
-        })
-        $(buildCardCityButton).on('click', function() {
-            cityBuildCardClick(buffer);
-        })
-        $("#undoButton").on('click',function() {
-                undoButtonClick(buffer);
-        })
-    }
 
 // function 
     
@@ -202,3 +166,149 @@ function setVictoryPointsVal(playerTab, amount){
         setResourceVal("Ore", player.resources[Resource.Ore]);
         setResourceVal("Brick", player.resources[Resource.Brick]);
     }
+
+
+
+function resizeBoardDOM(width,height) {
+        $("#board").attr("width",width);
+        $("#board").attr("height",height);
+}
+
+function getStructureName(structure) {
+        switch(structure) {
+                case Structure.Road:
+                        return "Road";
+                case Structure.Settlement:
+                        return "Settlement";
+                case Structure.City:
+                        return "City";
+        }
+};
+
+function flattenDictionary(dictionary) {
+        var out = [];
+        Object.keys(dictionary).forEach(function(k) {
+                out.push(dictionary[k]);
+        });
+        return out;
+}
+function flattenJQuery(selectors) {
+        var out = $();
+        selectors.forEach(function(s) {
+                out = out.add(s);
+        });
+        return out;
+}
+
+function genResourceSymbolImages() {
+        var images = flattenDictionary(getResourceSymbolImages());
+        return $(images).clone();
+}
+
+function addResourceSymbolImages(images) {
+        function addToResource(resource,image) {
+                $("[resource="+resource+"]").append(image);
+        }
+        addToResource("Lumber",images[Resource.Lumber]);
+        addToResource("Grain",images[Resource.Grain]);
+        addToResource("Wool",images[Resource.Wool]);
+        addToResource("Ore",images[Resource.Ore]);
+        addToResource("Brick",images[Resource.Brick]);
+}
+
+function addStructureIcons(images) {
+        function addStructureImage(structure,image) {
+            var structureName = getStructureName(structure);
+            $("[structure="+structureName+"] .structureImage").append(image);
+        };
+        addStructureImage(Structure.Settlement,images[Structure.Settlement]);
+        addStructureImage(Structure.City,images[Structure.City]);
+        addStructureImage(Structure.Road,images[Structure.Road]);
+
+}
+function genStructureIcons() {
+        function genIcon(structure) {
+            return $(getBuildingImg(structure,Colors.Blue)).clone();
+        }
+        var out = {};
+        out[Structure.Settlement] = genIcon(Structure.Settlement);
+        out[Structure.City] = genIcon(Structure.City);
+        out[Structure.Road] = genIcon(Structure.Road);
+        return out;
+}
+
+function addCostImages(images) {
+        function addCostImagesForStructure(structure) {
+                var imgs = images[structure];
+                var structureName = getStructureName(structure);
+                $("[structure="+structureName+"] .choiceReqs").append(imgs);
+        };
+        addCostImagesForStructure(Structure.Settlement);
+        addCostImagesForStructure(Structure.City);
+        addCostImagesForStructure(Structure.Road);
+}
+
+function genCostImages() {
+        function genCostImagesFromResources(resources) {
+                var out = [];
+                resources.forEach(function(count,resource) {
+                        var img = getResourceSymbolImage(resource);
+                        for(var i  = 0; i < count; i ++) {
+                                out.push(img);
+                        }
+                });
+                return $(out).clone();
+        };
+        var out = {};
+        out[Structure.Road] = genCostImagesFromResources(getPrice(Structure.Road));
+        out[Structure.Settlement] = genCostImagesFromResources(getPrice(Structure.Settlement));
+        out[Structure.City] = genCostImagesFromResources(getPrice(Structure.City));
+        return out;
+}
+
+function gameImageCount() {
+        return getLoadedImages().length;
+}
+
+
+
+
+function addUIImages(structureIcons,costImages,resourceSymbolImages) {
+        addStructureIcons(structureIcons);
+        addCostImages(costImages);
+        addResourceSymbolImages(resourceSymbolImages);
+}
+
+function loadGame(game,callback) {
+        var structureIcons = genStructureIcons();
+        var costImages = genCostImages();
+        var resourceSymbolImages = genResourceSymbolImages();
+        var gameImages = getLoadedImages(); // array
+        var images = flattenJQuery([flattenJQuery(flattenDictionary(structureIcons))
+                              ,flattenJQuery(flattenDictionary(costImages))
+                              ,resourceSymbolImages
+                              ,$(gameImages)]);
+
+        var numLoadedImages = 0;
+        var totalImages = images.length;
+
+        addUIImages(structureIcons,costImages,resourceSymbolImages);
+
+//        $("#board,#userInterface").css("opacity","0");
+
+        $(images).load(function() {
+                numLoadedImages++;
+
+                $("#loaded").css("width",100* numLoadedImages/totalImages + "%");
+
+                if(numLoadedImages == totalImages) {
+                        makeBoard(game);
+                        renderGame(game,null); // Initial render with no highlight.
+                        setTimeout(function() {
+                                $("#loading-screen").fadeOut(300);
+ //                               $("#board,#userInterface").fadeTo(2000,1);
+                                callback();
+                        },1000);
+                }
+        });
+}

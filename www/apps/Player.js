@@ -96,6 +96,7 @@ function getPlayerColors(playerList) {
         return out;
 }
 
+//deprecated
 function getCurrentPlayer(players, currentPlayerID){
   for (player in players){
     if (currentPlayerID == players[player].id){
@@ -121,10 +122,16 @@ function addResource(resources, resource, amount){
         return resources;
 }
 
+function addResources(store,adder) {
+        adder.forEach(function(val,resource) {
+                addResource(store,resource,val);
+        });
+}
+
 function subtractResources(pos,neg) {
-        for(resource in neg) {
-                addResource(pos,resource,-1 * getResource(neg,resource));
-        }
+        neg.forEach(function(val,resource) {
+                addResource(pos,resource,-1 * val);
+        });
         return pos;
 }
 

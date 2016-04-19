@@ -114,8 +114,7 @@ function validateInit(action,gamestate,player) {
                 case Action.Type.BuildSettlement:
                         return (player.settlementCount < getInitStructureLimit(gamestate.rotation)
                                && checkInitSettlementLegality(action.coordinate
-                                                             , gamestate.board.vertices
-                                                             ,player));
+                                                             , gamestate.board.vertices));
                 case Action.Type.BuildCity:
                         return false;
         }

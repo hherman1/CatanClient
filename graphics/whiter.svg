@@ -28,10 +28,10 @@
      id="namedview6027"
      showgrid="false"
      inkscape:zoom="2.3590172"
-     inkscape:cx="-6.4109572"
+     inkscape:cx="10.969162"
      inkscape:cy="50.020831"
-     inkscape:window-x="20"
-     inkscape:window-y="42"
+     inkscape:window-x="143"
+     inkscape:window-y="84"
      inkscape:window-maximized="0"
      inkscape:current-layer="g4222-6" />
   <defs
@@ -56,20 +56,20 @@
        id="g4247-6"
        transform="matrix(0.94628994,0,0,1.0742393,-344.03914,108.8359)">
       <path
-         style="fill:#fbb034;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+         style="fill:#62a119;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
          d="m 611.65885,336.3428 80.87113,-71.11082 22.30928,1.39433 0,23.70361 -83.65979,66.92784 -20.91495,0 z"
          id="path4216-1" />
       <g
-         style="fill:#fbb034;fill-opacity:1"
+         style="fill:#62a119;fill-opacity:1"
          id="g4222-6">
         <path
            id="path4218-62"
            d="m 611.65885,336.3428 19.52062,0 80.87113,-69.71649"
-           style="fill:#fbb034;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+           style="fill:#62a119;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
         <path
            id="path4220-3"
            d="m 628.39081,357.25775 0,-20.91495 -15.33763,-1.39432 -1.39433,19.52062 z"
-           style="fill:#fb8334;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+           style="fill:#627919;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
       </g>
     </g>
   </g>

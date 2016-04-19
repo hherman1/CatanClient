@@ -16,7 +16,7 @@ getColor = function(colorNum){
       case Colors.Blue:
           return "rgb(0,147,208)";
       case Colors.White:
-          return 'rgb(251,176,52)';
+          return 'rgb(98,161,25)';
       case Colors.Red:
           return 'rgb(186, 36, 65)';
       case Colors.Orange:

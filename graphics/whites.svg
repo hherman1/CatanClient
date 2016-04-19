@@ -28,10 +28,10 @@
      id="namedview6620"
      showgrid="false"
      inkscape:zoom="2.0674699"
-     inkscape:cx="74.970863"
-     inkscape:cy="50.019604"
-     inkscape:window-x="20"
-     inkscape:window-y="42"
+     inkscape:cx="-1.9347307"
+     inkscape:cy="50.019605"
+     inkscape:window-x="103"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -58,19 +58,19 @@
        height="59.481628"
        width="88.447426"
        id="rect4557-5"
-       style="opacity:1;fill:#fbb034;fill-opacity:1;stroke:#000000;stroke-width:1.72325552;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#62a119;fill-opacity:1;stroke:#000000;stroke-width:1.72325552;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        id="path4559-9"
        d="m 307.10133,346.75406 -31.68672,-13.60459 1.68587,56.18854 33.21661,17.20821 z"
-       style="fill:#fb8334;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.06618834;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#627919;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.06618834;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        id="path4563-5"
        d="m 289.73766,312.97458 21.97519,45.32005 97.98585,-3.83421 -26.94659,-45.16257 -94.50052,1.53256 -24.60389,32.9176 10.65302,-0.33745 -0.416,-13.8647"
-       style="fill:#fbb034;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.06618834;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#62a119;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.06618834;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        transform="matrix(0.67973031,0.14883407,0.00931379,0.66596752,246.70432,209.70271)"
        d="M 85.054123,192.41753 29.617896,188.17108 61.013548,142.28512 Z"
        id="path4567-9"
-       style="opacity:1;fill:#fb8334;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#627919;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

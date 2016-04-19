@@ -44,9 +44,9 @@ function isHit(hitbox,loc) {
 function getHitboxStructure(vertices,roads,box) {
         switch(box.data.type) {
                 case Position.Type.Vertex:
-                        return getVertex(vertices,box.data.coordinate).structure;
+                        return findVertex(vertices,box.data.coordinate).structure;
                 case Position.Type.Road:
-                        return getRoad(roads,box.data.coord1,box.data.coord2).structure;
+                        return findRoad(roads,box.data.coord1,box.data.coord2).structure;
         }
 }
 

@@ -186,7 +186,7 @@ function applyAction(action,gamestate,player) {
         }
         switch(action.type) {
                 case Action.Type.BuildSettlement:
-                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                        findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
                                 v.structure = Structure.Settlement;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
@@ -207,7 +207,7 @@ function applyAction(action,gamestate,player) {
                         })
                         break;
                 case Action.Type.BuildCity:
-                        getVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                        findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
                                 v.structure = Structure.City;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
@@ -216,7 +216,7 @@ function applyAction(action,gamestate,player) {
                         })
                         break;
                 case Action.Type.BuildRoad:
-                        var r = getRoad(gamestate.board.roads,action.coordinateA,action.coordinateB);
+                        var r = findRoad(gamestate.board.roads,action.coordinateA,action.coordinateB);
                         r.structure = Structure.Road;
                         r.playerID = gamestate.currentPlayerID;
                         player.roadCount++;

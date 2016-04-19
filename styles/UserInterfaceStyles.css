@@ -95,6 +95,7 @@ body {
 	position: absolute;
     bottom:0;
     left:0;
+    top: 355px;
 	transition: transform .9s;
 }
 
@@ -349,7 +350,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         pointer-events:all;
 }
 
-#board { 
+#board {
         position:absolute;
         top:0;
         left:0;

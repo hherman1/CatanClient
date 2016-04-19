@@ -1,16 +1,19 @@
 
 body {
-  padding-left: 20em;
+  padding-left: 18em;
+  padding-top: 3em;
   font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
   color: #17324f;
-  background-color: #77B2EB }
+  background-color: #77B2EB;
+  background-image: url("../graphics/splash.svg");
+  background-attachment: fixed}
 ul.navbar {
   list-style-type: none;
   padding: 0;
   margin: 0;
   position: absolute;
   top: 3em;
-  left: 7em;
+  left: 5em;
   width: 10em }
 h1 {
 font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
@@ -50,6 +53,6 @@ input[type=button]:hover{
 address {
     display: block;
     font-style: italic;
-    text-align: center;
+    text-align: left;
 }
 //http://www.color-hex.com/color-palette/16273

@@ -6,26 +6,6 @@ function last(list) {
         return list[list.length - 1]
 }
 
-//function to shuffle up the number tokens
-//Source: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
 function newScale(delta,scale) {
 
         function sigmoid(x) {
@@ -351,7 +331,7 @@ function checkPlayerWin(player){
 function checkLongestRoad(gameState){
     var player = getPlayers(gameState.currentPlayerID, gameState.players)[0];
     for(var i =0; i<player.firstSettlementsCoords.length;i++){
-        var testLength = longestRoad(getVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
+        var testLength = longestRoad(findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
         if(testLength>gameState.longestRoad && testLength >= 5){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;

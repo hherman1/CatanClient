@@ -83,6 +83,8 @@ GameState = function() {
         this.players = [];
         this.tradeoffers = [];
         this.currentPlayerID = null;
+        this.longestRoad = 0;
+        this.longestRoadPlayer = null;
 }
 
 Transform = function(translation,scale) {
@@ -118,7 +120,8 @@ Server = function() {
         }
         this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
-            flushActions(actionsToBeValidated);//Flushes the pendng actions
+            flushActions(actionsToBeValidated);//Flushes the pending actions
+            checkLongestRoad(this.gamestate)
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
             if(this.gamestate.phase == Phase.Normal) {
@@ -170,6 +173,8 @@ cloneGameState = function(gameState) {
         out.phase = gameState.phase;
         out.rotation = gameState.rotation;
         out.tradeoffers = gameState.tradeoffers.map(cloneTradeOffer);
+        out.longestRoad = gameState.longestRoad;
+        out.longestRoadPlayer = gameState.longestRoadPlayer
         return out;
 }
 
@@ -341,6 +346,22 @@ function checkPlayerWin(player){
         return true;
     }
     return false;
+}
+
+function checkLongestRoad(gameState){
+    var player = getPlayers(gameState.currentPlayerID, gameState.players)[0];
+    for(var i =0; i<player.firstSettlementsCoords.length;i++){
+        var testLength = longestRoad(getVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
+        if(testLength>gameState.longestRoad && testLength >= 5){
+            console.log("Longest road changed");
+            gameState.longestRoad = testLength;
+            if(gameState.longestRoadPlayer != null) {
+                gameState.longestRoadPlayer.vicPoints -= 2;
+            }
+            gameState.longestRoadPlayer = player;
+            gameState.longestRoadPlayer.vicPoints += 2;
+        }
+    }
 }
 
 function storeBoardImage(graphics,gamestate,side) {

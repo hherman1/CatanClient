@@ -96,8 +96,17 @@ function drawRoad(coordinateA,coordinateB,color,ctx) {
   var worldB = vertexToWorld(coordinateB,1);//vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
+
   ctx.lineTo(worldB.x,worldB.y);
-  ctx.lineWidth = 7;
+  ctx.lineWidth = 8;
+  ctx.strokeStyle = "#000000";
+  ctx.save();
+  resetTransform(ctx);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.lineTo(worldB.x,worldB.y);
+  ctx.lineWidth = 5;
   ctx.strokeStyle = getColor(color);
   ctx.save();
   resetTransform(ctx);

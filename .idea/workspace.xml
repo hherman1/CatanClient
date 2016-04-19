@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdad4301-b980-4c49-8346-44acdffe7f6b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Action.js" afterPath="$PROJECT_DIR$/www/apps/Action.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/BoardState.js" afterPath="$PROJECT_DIR$/www/apps/BoardState.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Game.js" afterPath="$PROJECT_DIR$/www/apps/Game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/GameMethods.js" afterPath="$PROJECT_DIR$/www/apps/GameMethods.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/apps/Hitbox.js" afterPath="$PROJECT_DIR$/www/apps/Hitbox.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanClient.iws" />
@@ -30,8 +33,8 @@
       <file leaf-file-name="GameMethods.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/GameMethods.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.875">
-              <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+            <state vertical-scroll-proportion="-1.59375">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="5" selection-end-column="72" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -59,67 +62,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserInterfaceJScript.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/apps/UserInterfaceJScript.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Player.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/apps/Player.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="60" column="40" selection-start-line="60" selection-start-column="40" selection-end-line="60" selection-end-column="40" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Grid.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/apps/Grid.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoardState.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BoardState.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.5">
-              <caret line="124" column="51" selection-start-line="124" selection-start-column="51" selection-end-line="124" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.38405797">
+              <caret line="414" column="0" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StructureRenderer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/apps/StructureRenderer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Game.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6507009">
-              <caret line="150" column="29" selection-start-line="150" selection-start-column="29" selection-end-line="150" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -141,8 +98,8 @@
         <option value="$PROJECT_DIR$/www/apps/Player.js" />
         <option value="$PROJECT_DIR$/www/apps/Action.js" />
         <option value="$PROJECT_DIR$/www/apps/GameMethods.js" />
-        <option value="$PROJECT_DIR$/www/apps/BoardState.js" />
         <option value="$PROJECT_DIR$/www/apps/Game.js" />
+        <option value="$PROJECT_DIR$/www/apps/BoardState.js" />
       </list>
     </option>
   </component>
@@ -519,12 +476,12 @@
       <updated>1460949635027</updated>
       <workItem from="1460949639021" duration="56000" />
       <workItem from="1460991531991" duration="8474000" />
-      <workItem from="1461076589177" duration="5475000" />
+      <workItem from="1461076589177" duration="11361000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14005000" />
+    <option name="totallyTimeSpent" value="19891000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -542,6 +499,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -552,7 +510,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -713,26 +670,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/apps/GameMethods.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.875">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+        <state vertical-scroll-proportion="-1.59375">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="5" selection-end-column="72" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
+    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.5">
-          <caret line="124" column="51" selection-start-line="124" selection-start-column="51" selection-end-line="124" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/apps/Game.js">
+    <entry file="file://$PROJECT_DIR$/www/apps/BoardState.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6507009">
-          <caret line="150" column="29" selection-start-line="150" selection-start-column="29" selection-end-line="150" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.38405797">
+          <caret line="414" column="0" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
           <folding />
         </state>
       </provider>

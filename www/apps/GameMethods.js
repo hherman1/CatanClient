@@ -12,11 +12,11 @@
  */
 
 function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
-	if(getRoad(roadList,coords1,coords2).playerID>0){
+	if(findRoad(roadList,coords1,coords2).playerID>0){
 		return false; // Ensures no road already exists at those coordinates
 	}
-	vertex1 = getVertices(vertexFrame,coords1)[0];
-	vertex2 = getVertices(vertexFrame,coords2)[0];
+	vertex1 = findVertices(vertexFrame,coords1)[0];
+	vertex2 = findVertices(vertexFrame,coords2)[0];
 	if(vertex1.playerID==player.id || vertex2.playerID==player.id){ // Checks for player settlements at either end of the intended road
 		return true;
 	}
@@ -31,7 +31,7 @@ function checkRoadLegality(vertexFrame, coords1, coords2, player, roadList){
  */
 
 function checkSettlementLegality(coords, player, vertexFrame, roadList){
-	var vert = getVertex(vertexFrame,coords);
+	var vert = findVertex(vertexFrame,coords);
 	if(!checkAdjacentPlayerRoads(coords, coords, player, roadList, vertexFrame)){ // Checks if the player has roads next to the planned settlement
 		return false;
 	}
@@ -40,7 +40,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(getVertex(vertexFrame, neighborList[i]).structure>0){ // Ensures the adjacent vertices aren't already settled
+		if(findVertex(vertexFrame, neighborList[i]).structure>0){ // Ensures the adjacent vertices aren't already settled
 			return false;
 		}
 	}
@@ -53,7 +53,7 @@ function checkSettlementLegality(coords, player, vertexFrame, roadList){
  */
 
 function checkCityLegality(coords, player, vertexFrame){
-	var vert = getVertices(vertexFrame,coords)[0];
+	var vert = findVertices(vertexFrame,coords)[0];
 	if(vert.structure != 1){ // Ensures settlement is already present
 		return false;
 	}
@@ -73,13 +73,13 @@ function checkCityLegality(coords, player, vertexFrame){
  */
 
 function checkInitSettlementLegality(coords, vertexFrame){
-	var vert = getVertex(vertexFrame, coords);
+	var vert = findVertex(vertexFrame, coords);
 	if(vert.structure>0){ // Ensures the vertex isn't already settled
 		return false;
 	}
 	neighborList = getVertexNeighbors(coords, vertexFrame);
 	for(i=0;i<neighborList.length;i++){
-		if(getVertex(vertexFrame, neighborList[i]).structure>0){ // Ensures the neighboring vertices aren't already settled
+		if(findVertex(vertexFrame, neighborList[i]).structure>0){ // Ensures the neighboring vertices aren't already settled
 			return false;
 		}
 	}
@@ -93,11 +93,11 @@ function checkInitSettlementLegality(coords, vertexFrame){
  */
 
 function checkInitRoadLegality(coords1, coords2, player, vertexFrame, roadList){
-	if(getRoad(roadList,coords1,coords2).playerID!=0){ // Ensures there isn't already a road at the intended coordinates
+	if(findRoad(roadList,coords1,coords2).playerID!=0){ // Ensures there isn't already a road at the intended coordinates
 		return false;
 	}
-	vertex1 = getVertices(vertexFrame,coords1)[0];
-	vertex2 = getVertices(vertexFrame,coords2)[0];
+	vertex1 = findVertices(vertexFrame,coords1)[0];
+	vertex2 = findVertices(vertexFrame,coords2)[0];
     return vertex1.playerID==player.id || vertex2.playerID==player.id; // Ensures the road is adjacent to a player settlement
 }
 
@@ -115,7 +115,7 @@ function longestRoad(vert, vertices, roadList, player, visitedVertices){
 	var newVertices = [];
 	var connectedVertices = getConnectedVertices(vert.coordinate, player, roadList, vertices);
 	for(var i = 0; i<connectedVertices.length;i++){
-		if(checkForSameVector(visitedVertices,connectedVertices[i].coordinate)){  // Adds all unvisited vertices to a list to be processed
+		if(doesNotContainVertexAtCoordinates(visitedVertices,connectedVertices[i].coordinate)){  // Adds all unvisited vertices to a list to be processed
 			newVertices.push(connectedVertices[i]);
 		}
 	}
@@ -146,9 +146,9 @@ function getConnectedVertices(coords, player, roadList, vertices){
 	var connectedVertices = [];
 	var neighbors = getVertexNeighbors(coords, vertices); // Gets the vertices that neighbor the given coordinates
 	for (var i = 0; i<neighbors.length;i++){
-		var testRoad = getRoad(roadList, neighbors[i], coords);
+		var testRoad = findRoad(roadList, neighbors[i], coords);
 		if(testRoad.playerID == player.id){
-			connectedVertices.push(getVertex(vertices,neighbors[i])); // Checks which neighboring vertices are connected by player-owned roads
+			connectedVertices.push(findVertex(vertices,neighbors[i])); // Checks which neighboring vertices are connected by player-owned roads
 		}
 	}
 	return connectedVertices;
@@ -165,7 +165,7 @@ function getConnectedVertices(coords, player, roadList, vertices){
 function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) {
 	var testCoords1 = getVertexNeighbors(coords1, vertices);
 	for (var i = 0; i < testCoords1.length; i++) {
-		var road1 = getRoad(roadList, coords1, testCoords1[i]); // Checks the vertices adjacent to the first coordinate for player roads
+		var road1 = findRoad(roadList, coords1, testCoords1[i]); // Checks the vertices adjacent to the first coordinate for player roads
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
@@ -174,7 +174,7 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 	}
 	var testCoords2 = getVertexNeighbors(coords2, vertices);
 	for (i = 0; i < testCoords2.length; i++) {
-		var road2 = getRoad(roadList, coords2, testCoords2[i]); // Checks the vertices adjacent to the second coordinate for player roads
+		var road2 = findRoad(roadList, coords2, testCoords2[i]); // Checks the vertices adjacent to the second coordinate for player roads
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;
@@ -189,14 +189,14 @@ function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertices) 
 
 function getVertexNeighbors(coords, vertexFrame){
 	if(coords.y%2==0){
-		neighbor0 = getVertex(vertexFrame, new Vector(coords.x,coords.y+1));
-		neighbor1 = getVertex(vertexFrame, new Vector(coords.x-1,coords.y+1));
-		neighbor2 = getVertex(vertexFrame, new Vector(coords.x,coords.y-1));
+		neighbor0 = findVertex(vertexFrame, new Vector(coords.x,coords.y+1));
+		neighbor1 = findVertex(vertexFrame, new Vector(coords.x-1,coords.y+1));
+		neighbor2 = findVertex(vertexFrame, new Vector(coords.x,coords.y-1));
 	}
 	else{
-		neighbor0 = getVertex(vertexFrame, new Vector(coords.x,coords.y+1));
-		neighbor1 = getVertex(vertexFrame, new Vector(coords.x+1,coords.y-1));
-		neighbor2 = getVertex(vertexFrame, new Vector(coords.x, coords.y-1));
+		neighbor0 = findVertex(vertexFrame, new Vector(coords.x,coords.y+1));
+		neighbor1 = findVertex(vertexFrame, new Vector(coords.x+1,coords.y-1));
+		neighbor2 = findVertex(vertexFrame, new Vector(coords.x, coords.y-1));
 	}
 	var realNeighbors = [];
 	var neighbors = [neighbor0, neighbor1, neighbor2];
@@ -224,7 +224,7 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 			var tileVerticesCoordinates = vertices(tileFrame[i].coordinate);
 			var tileVertices = [];
 			for(var j = 0; j<tileVerticesCoordinates.length;j++){
-				tileVertices.push(getVertex(vertexFrame,tileVerticesCoordinates[j])); // Gathers the relevant vertices
+				tileVertices.push(findVertex(vertexFrame,tileVerticesCoordinates[j])); // Gathers the relevant vertices
 			}
 			for(var l=0;l<tileVertices.length;l++){
 				var currNeighbor = tileVertices[l];
@@ -245,7 +245,7 @@ function resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame){
 function initSettlementResources(settlementCoords, tileFrame, player){
 	var resourceHexCoords = adjacentHexes(settlementCoords);
 	for(var i = 0; i<resourceHexCoords.length;i++){
-		var hex = getHex(resourceHexCoords[i], tileFrame); // Provides one research for each adjacent hex
+		var hex = findHex(resourceHexCoords[i], tileFrame); // Provides one research for each adjacent hex
 		if(hex != undefined){
 			addResource(player.resources, hex.resource, 1);
 		}

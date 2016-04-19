@@ -110,8 +110,8 @@ Server = function() {
         this.getRoll = function() {
                 return this.roll;
         }
-        this.newGame = function(width,players) {
-            this.gamestate.board = new RegularHexBoard(width);
+        this.newGame = function(width,resourceList, tokenList, players) {
+            this.gamestate.board = new RegularHexBoard(width, resourceList, tokenList);
             this.gamestate.players = players;
             this.gamestate.currentPlayerID = players[0].id;
         }
@@ -148,7 +148,7 @@ CatanGame = function(side,canvasView) {
         this.server = new Server(); //new Server();
         this.actions = new Reference([]); //new Reference([]);
         this.side = side;
-        this.server.newGame(5,getStoredPlayers());
+        this.server.newGame(5,baseResourceList.slice(), baseTokenList.slice(),getStoredPlayers());
         this.gamestate = this.server.getState();
         this.teststate = cloneGameState(this.gamestate);
         this.hits = [];

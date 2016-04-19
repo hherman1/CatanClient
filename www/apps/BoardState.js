@@ -16,9 +16,9 @@ Board = function() {
         this.robber = undefined;
 }
 
-RegularHexBoard = function(width) {
+RegularHexBoard = function(width, resourceList, tokenList) {
         Board.call(this);
-        this.hexes = buildRegularHexFramework(width);
+        this.hexes = buildRegularHexFramework(width, baseResourceList.slice(), baseTokenList.slice());
         this.vertices = buildVertexFramework(this.hexes);
         this.roads = buildRoadFramework(this.vertices);
         var desertIndex = undefined;
@@ -44,7 +44,7 @@ Resource = {
         Brick : 3,
         Grain : 4,
         Desert : 5
-}
+};
 
 Position = {
         Type: {
@@ -52,11 +52,12 @@ Position = {
                 Road: 1,
                 Hex: 2
         },
-        /* Road Object
-         * Roads will be stored in a list
-         * {coord1:vector object storing x and y coordinate,
-         * coord2:vector object storing x and y coordinate,
-         * player: integer from 1 to 4, according to player}
+        /* Road
+         * Roads are stored in a list in the board object
+         * structure: set to 1 if a structure (i.e. a road) is present on this road position, 0 otherwise
+         * coord1: vector representing the coordinates of the first end of the road
+         * coord2: vector representing the coordinates of the second end of the road
+         * playerID: number from 1 to 4 indicating owner of the road - set to 0 if the road has not been built on
          */
 
         Road: function(structure, coord1, coord2, playerID){
@@ -68,8 +69,10 @@ Position = {
         },
 
         /* Vertex Object
-         * {settled:integer (0 indicates none, 1 indicates settlement, 2 indicates city), see Structure
-         * player:integer(0 indicates none, numbered 1 through 4 otherwise)}
+         * Vertices are stored in a list in the board object
+         * structure: set to 1 if there is a settlement on this vertex, 2 if there is a city, and 0 otherwise
+         * playerID: number from 1 to 4 indicating owner of the vertex - set to 0 if the vertex has not been built on
+         * coordinate: vector representing the coordinates of the vector on the vector grid
          */
 
         Vertex : function(structure, playerID,coordinate){
@@ -80,9 +83,10 @@ Position = {
         },
 
         /* Hex Object
-         * {resource:"w" (wheat), "s" (sheep), "o" ore, "b" (brick), "l" (lumber), "d" (desert),
-         * num: integer from 2 to 12, 7 indicating robber
-         * coordiantes: vector object containing hex's coordinate.}
+         * Hexes are stored in a list in the board object
+         * resource: number from 0 to 5 indicating the resource of the tile (resource correspondences are stored in the Resource data type)
+         * token: number from 2 to 12, not including 7, representing the number that must be rolled to yield resources form the tile
+         * coordinate: vector representing the coordinates of the hex on the hex grid
          */
 
         Hex : function(resource, token, coordinate, robber){
@@ -91,8 +95,8 @@ Position = {
             this.token=token;
             this.coordinate=coordinate;
             this.robber = robber
-        },
-}
+        }
+};
 
 function notEqualPositionCoordinatesFilter(posA) {
         return function(posB) {
@@ -114,7 +118,7 @@ function equalPositionCoordinates(positionA,positionB) {
 
 
 baseResourceList =
-    [Resource.Desert, Resource.Grain, Resource.Grain, Resource.Grain,
+    [Resource.Desert,  Resource.Grain, Resource.Grain, Resource.Grain,
      Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
      Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
      Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
@@ -148,6 +152,10 @@ function cloneRobber(robber){
     return new Robber(robber.hex);
 }
 
+/* getPrice
+ * Given a structure, returns a resource list representing the structure's cost.
+ * Resource lists are stored as length 5 arrays, wherein each index represents a specific resource
+ */
 
 function getPrice(structure) {
         var resources = [];
@@ -177,15 +185,13 @@ function getPrice(structure) {
 
 
 /* buildRegularHexFramework
- * Function builds a list of hex objects
- * This represents a regular hexagonal board - that is to say, like a normal
- * catan board - with a width at the highest point of width.
+ * Builds a list of hex objects representing a hexagonal board of width 'width' in the middle (e.g. a standard 4-player catan board
+ * would have a width of 5
+ * Among the
  */
 
-function buildRegularHexFramework(width){
+function buildRegularHexFramework(width, resList, tokList){
 	var tileFrame = [];
-	resList = baseResourceList.slice();
-	tokList = baseTokenList.slice();
 	shuffle(resList);
 	shuffle(tokList);
 	for(i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){

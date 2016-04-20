@@ -88,7 +88,7 @@ body {
 }
 
 [panel=Down]{
-	transform:translate(0px,165.5px);
+	transform:translate(0px,230.5px);
 }
 
 .bottomLeftDisplay{
@@ -189,7 +189,6 @@ body {
 	width: 300px;
 }
 
-
 #playerTabTemplate {
         display:none
 }
@@ -198,10 +197,16 @@ body {
 	display:inline-block;
 	width: 153px;
 }
-.playerDiv[active=true] {
-        position:relative;
-        top:5px;
-}
+
+ .playerDiv[active=true] .playerName {
+        /*position:relative;*/
+        padding-top: 10px;
+} 
+
+/*.playerName[active=true] {
+	position:relative;
+	padding-top: 5px;
+}*/
 
 .playerName{
 	text-align: center;

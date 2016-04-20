@@ -75,7 +75,7 @@ function newPlayerTab(player,color,template) {
         setTabPlayerID(out,player.id);
         setTabPlayerImages(out,color);
         $(out).removeAttr("id");
-        $(".playerNameTab",$(out)).css("background-color",getColor(color));
+        $(".playerName",$(out)).css("background-color",getColor(color));
         return out;
 }
 
@@ -85,6 +85,10 @@ function getPlayerTabsContainer() {
 
 function getPlayerTab(num) {
         return $(".playerDiv[player="+num+"]");
+}
+
+function getPlayerName(num){
+    return $(".playerName[player="+num+"]");
 }
 
 
@@ -150,6 +154,7 @@ function setVictoryPointsVal(playerTab, amount){
 
     function updateUIInfoTopBar(players, currentPlayerID){
         players.map(function(player) {
+            var playerName = getPlayerName(player.id);
             var playerTab = getPlayerTab(player.id);
             $(playerTab).attr("active",currentPlayerID == player.id);
             setVictoryPointsVal(playerTab, player.vicPoints);

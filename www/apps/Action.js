@@ -66,9 +66,9 @@ function getPositionObject(action,playerID) {
                                                 ,action.coordinateB
                                                 ,playerID);
                 case Action.Type.BuildSettlement:
-                        return new Position.Vertex(Structure.Settlement,playerID,action.coordinate);
+                        return new Position.Vertex(Structure.Settlement,action.coordinate, playerID);
                 case Action.Type.BuildCity:
-                        return new Position.Vertex(Structure.City,playerID,action.coordinate);
+                        return new Position.Vertex(Structure.City,action.coordinate, playerID);
         }
 }
 

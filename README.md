@@ -12,11 +12,11 @@ To run macSettlers, simply run landing.html in your browser.
 
 ## Code Summary
 
-### Graphics
+### Quick Modification
 
-### Styles
+Players wishing to quickly modify aspects of the game - e.g. victory point requirements, longest road rewards, etc. - can modify the values in the Constants.js file.
 
-### www
+We recognize that there are many features we have not yet implemented - if you feel that any missing features have unbalanced portions of the game - or if you just want to change the rules - we encourage you to modify the constants however you wish!
 
 ## A note on coordinates
 

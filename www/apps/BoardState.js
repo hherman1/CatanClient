@@ -294,29 +294,14 @@ function equalPositionCoordinates(positionA,positionB) {
  */
 
 function getPrice(structure) {
-        var resources = [];
-        resources[Resource.Lumber] = 0;
-        resources[Resource.Wool] = 0;
-        resources[Resource.Ore] = 0;
-        resources[Resource.Brick] = 0;
-        resources[Resource.Grain] = 0;
         switch(structure) {
                 case Structure.Road:
-                        resources[Resource.Brick] = 1;
-                        resources[Resource.Lumber] = 1;
-                        break;
-                case Structure.Settlement: 
-                        resources[Resource.Brick] = 1;
-                        resources[Resource.Lumber] = 1;
-                        resources[Resource.Grain] = 1;
-                        resources[Resource.Wool] = 1;
-                        break;
+                        return ROAD_COST;
+                case Structure.Settlement:
+                        return SETTLEMENT_COST;
                 case Structure.City:
-                        resources[Resource.Grain] = 2;
-                        resources[Resource.Ore] = 3;
-                        break;
+                        return CITY_COST;
         }
-        return resources;
 }
 
 /* generateYShift

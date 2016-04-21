@@ -115,23 +115,6 @@ Position = {
 };
 
 ////////////////////////////////////////////////////////////////////////
-/*                             CONSTANTS                              */
-////////////////////////////////////////////////////////////////////////
-
-// The baseline catan resource list for a standard board
-
-baseResourceList =
-    [Resource.Desert,  Resource.Grain, Resource.Grain, Resource.Grain,
-        Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
-        Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
-        Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
-        Resource.Brick, Resource.Brick, Resource.Brick];
-
-// The baseline catan token list for a standard board
-
-baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
-
-////////////////////////////////////////////////////////////////////////
 /*                     BOARD BUILDING FUNCTIONS                       */
 ////////////////////////////////////////////////////////////////////////
 

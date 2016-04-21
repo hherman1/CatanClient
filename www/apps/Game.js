@@ -128,7 +128,7 @@ CatanGame = function(side,canvasView) {
         this.server = new Server(); //new Server();
         this.actions = new Reference([]); //new Reference([]);
         this.side = side;
-        this.server.newGame(5,baseResourceList.slice(), baseTokenList.slice(),getStoredPlayers());
+        this.server.newGame(5,BASE_RESOURCE_LIST.slice(), BASE_TOKEN_LIST.slice(),getStoredPlayers());
         this.gamestate = this.server.getState();
         this.teststate = cloneGameState(this.gamestate);
         this.hits = [];
@@ -321,8 +321,12 @@ function renderGame(game,positionHighlight) {
                     ,game.teststate.currentPlayerID);
 }
 
+/* checkPlayerWin
+ * Given a player, checks whether or not they have met the victory conditions
+ */
+
 function checkPlayerWin(player){
-    if(player.vicPoints>=10){
+    if(player.vicPoints>=VPS_REQUIRED_FOR_WIN){
         return true;
     }
     return false;
@@ -336,10 +340,10 @@ function checkLongestRoad(gameState){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
             if(gameState.longestRoadPlayer != null) {
-                gameState.longestRoadPlayer.vicPoints -= 2;
+                gameState.longestRoadPlayer.vicPoints -= LONGEST_ROAD_VPS;
             }
             gameState.longestRoadPlayer = player;
-            gameState.longestRoadPlayer.vicPoints += 2;
+            gameState.longestRoadPlayer.vicPoints += LONGEST_ROAD_VPS;
         }
     }
 }

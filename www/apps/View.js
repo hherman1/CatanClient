@@ -25,7 +25,7 @@ View = {
                     SetHitboxes:14,
                     HitsData:15,
                     DisplayIncomingTrades:16,
-                    RequestAcceptValidation:17,
+                    IncomingTradesViewClosed:17,
                     AcceptValidation:18,
                     AcceptTrade:19,
                     DisplayOfferDesigner:20,
@@ -82,11 +82,11 @@ View = {
                         this.trades = trades;
                         View.Message.Blank.call(this,sender,View.Message.Type.DisplayIncomingTrades);
                 },
-                RequestAcceptValidation: function(sender,tradeID) {
-                        this.trades = trades;
-                        View.Message.Blank.call(this,sender,View.Message.Type.DisplayIncomingTrades);
+                IncomingTradesViewClosed: function(sender) {
+                        View.Message.Blank.call(this,sender,View.Message.Type.IncomingTradesViewClosed);
                 },
-                AcceptValidation: function(sender,validation) {
+                AcceptValidation: function(sender,tradeID,validation) {
+                        this.tradeID = tradeID;
                         this.validation = validation;
                         View.Message.Blank.call(this,sender,View.Message.Type.AcceptValidation);
                 },
@@ -141,6 +141,7 @@ EndTurnView = function(messageDestination) {
 
 BuildChoiceView = function(structure,messageDestination) {
         var self = this;
+        var incomingTrades = 
         $(".buildChoice[structure="+getStructureName(structure)+"]").click(function() {
                 sendMessage(new View.Message.BuildChoice(self,structure),messageDestination);
         });
@@ -164,19 +165,7 @@ ResizeView = function(messageDestination) {
         ClientViewSendOnly.call(self,messageDestination);
 }
 
-TradeView = function(messageDestination) {
-        var self = this;
-}
-
-
-function setUpUIViews(destination) {
-        var views = [];
-        views.push(new EndTurnView(destination));
-        views.push(new UndoView(destination));
-        views.push(new ResizeView(destination));
-        views.push(new BuildChoiceView(Structure.Road,destination));
-        views.push(new BuildChoiceView(Structure.Settlement,destination));
-        views.push(new BuildChoiceView(Structure.City,destination));
-        return views;
+function joinJQueryArray(list) {
+        return $(list).map(function(){return this.toArray()});
 }
 

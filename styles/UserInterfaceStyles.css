@@ -351,3 +351,26 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 //        background-color: #77B2EB;
     background-color: blue;
 }
+
+.tradeoffer-screen {
+        display:none;
+        padding:20px;
+        background-color:#ffffff;
+        border-radius:10px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        height:75%;
+        width:50%;
+        transform:translate(-50%,-50%);
+}
+
+.tradeOffer {
+        width:100%;
+        background-color:#AAAAAA;
+}
+
+#templateTradeOffer {
+        display:none;
+}
+

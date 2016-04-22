@@ -119,6 +119,10 @@ Server = function() {
         this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pendng actions
+
+            this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
+                                                                ,this.gamestate.tradeoffers);
+
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
             if(this.gamestate.phase == Phase.Normal) {
@@ -126,6 +130,8 @@ Server = function() {
                     this.roll.second = rollDice();
                     resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
             }
+
+            this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
@@ -138,8 +144,9 @@ Buffer = function() {
 }
 
 
-CatanGame = function(side,canvasView) {
+CatanGame = function(side,canvasView,tradeView) {
         this.canvasView = canvasView;
+        this.tradeView = tradeView;
         this.mouse = new Mouse(); //new Mouse();
         this.graphics = new Graphics(); //new Graphics();
         this.server = new Server(); //new Server();
@@ -198,7 +205,18 @@ function endTurn(game) {
                 console.log(game.gamestate.players[i] + "wins");
             }
         }
-
+        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
+        var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers)
+        sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
+                   ,game.tradeView);
+        incomingTrades.forEach(function(trade) {
+                sendMessage(new View.Message.AcceptValidation(game
+                                                             ,trade.tradeID
+                                                             ,validateAccept(game.gamestate
+                                                                            ,trade.targetID
+                                                                            ,trade.requestResources))
+                           ,game.tradeView);
+        });
 }
 
 function processUIMessage(message,game) {
@@ -233,12 +251,14 @@ function processUIMessage(message,game) {
                         pushAnimation(new XClick(game.mouse.pos,15,10),game);
                 }
                 break;
-            case View.Message.Type.AcceptOffer:
+            case View.Message.Type.AcceptTrade:
                 var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
-                        game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
+                        game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
                 }
+            case View.Message.Type.IncomingTradesViewClosed:
+                sendMessage(new View.Message.DisplayOfferDesigner(game,game.gamestate),game.tradeView);
         }
 }
 

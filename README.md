@@ -10,6 +10,14 @@ Our project is to create a version of Settlers of Catan, an original board game 
 
 To run macSettlers, simply run landing.html in your browser.
 
+## Code Summary
+
+### Quick Modification
+
+Players wishing to quickly modify aspects of the game - e.g. victory point requirements, longest road rewards, etc. - can modify the values in the Constants.js file.
+
+We recognize that there are many features we have not yet implemented - if you feel that any missing features have unbalanced portions of the game - or if you just want to change the rules - we encourage you to modify the constants however you wish!
+
 ## A note on coordinates
 
 Coordinates can be very difficult to work with when applied to hexagons, because a hexagonal grid does not line up the
@@ -17,79 +25,78 @@ same way a regular grid does. After some thought, we've elected to use the follo
 
 Columns lean diagonally to the right - see the hexagonal grid below, with the x-coordinate of each hex listed:
 
-     / \ / \ / \
-    | -2| -1| 0 |
-   / \ / \ / \ / \
-  | -2| -1| 0 | 1 |
- / \ / \ / \ / \ / \
-| -2| -1| 0 | 1 | 2 |
- \ / \ / \ / \ / \ /
-  | -1| 0 | 1 | 2 |
-   \ / \ / \ / \ /
-    | 0 | 1 | 2 |
-     \ / \ / \ /
+         / \ / \ / \
+        | -2| -1| 0 |
+       / \ / \ / \ / \
+      | -2| -1| 0 | 1 |
+     / \ / \ / \ / \ / \
+    | -2| -1| 0 | 1 | 2 |
+     \ / \ / \ / \ / \ /
+      | -1| 0 | 1 | 2 |
+       \ / \ / \ / \ /
+        | 0 | 1 | 2 |
+         \ / \ / \ /
 
 Rows function normally - see the hexagonal grid below, with the y-coordinate of each hex listed:
 
-
-     / \ / \ / \
-    | 2 | 2 | 2 |
-   / \ / \ / \ / \
-  | 1 | 1 | 1 | 1 |
- / \ / \ / \ / \ / \
-| 0 | 0 | 0 | 0 | 0 |
- \ / \ / \ / \ / \ /
-  | -1| -1| -1| -1|
-   \ / \ / \ / \ /
-    | -2| -2| -2|
-     \ / \ / \ /
+         / \ / \ / \
+        | 2 | 2 | 2 |
+       / \ / \ / \ / \
+      | 1 | 1 | 1 | 1 |
+     / \ / \ / \ / \ / \
+    | 0 | 0 | 0 | 0 | 0 |
+     \ / \ / \ / \ / \ /
+      | -1| -1| -1| -1|
+       \ / \ / \ / \ /
+        | -2| -2| -2|
+         \ / \ / \ /
 
 On a default board catan board, the origin is in the center - see below:
 
-
-     / \ / \ / \
-    |   |   |   |
-   / \ / \ / \ / \
-  |   |   |   |   |
- / \ / \ / \ / \ / \
-|   |   | X |   |   |
- \ / \ / \ / \ / \ /
-  |   |   |   |   |
-   \ / \ / \ / \ /
-    |   |   |   |
-     \ / \ / \ /
+         / \ / \ / \
+        |   |   |   |
+       / \ / \ / \ / \
+      |   |   |   |   |
+     / \ / \ / \ / \ / \
+    |   |   | X |   |   |
+     \ / \ / \ / \ / \ /
+      |   |   |   |   |
+       \ / \ / \ / \ /
+        |   |   |   |
+         \ / \ / \ /
 
 Vertices require a different system. Each hex has six vertices, one at each corner - see below:
-    x
-  /   \
- /     \
-x       x
-|       |
-|       |
-x       x
- \     /
-  \   /
-    x
+
+        x
+      /   \
+     /     \
+    x       x
+    |       |
+    |       |
+    x       x
+     \     /
+      \   /
+        x
+
 The coordinate system for vertices is similar to that of the hexes, except that the columns are made up of the right
 leaning edges of hexes, rather than right leaning columns of hexagons - see below:
 
-
-        e
-      /   \
-     /     \
-    d       j         a - (0, -1)
-    | (0,1) |         b - (0, 0)
-    |       |         c - (0, 1)
-    c       i         d - (0, 2)
-  /   \   /           e - (0, 3)
- /     \ /
-b       h             f - (1, -2)
-| (0,0) |             g - (1, -1)
-|       |             h - (1, 0)
-a       g             i - (1, 1)
- \     /              j - (1, 2)
-  \   /
-    f
+            e
+          /   \
+         /     \
+        d       j         a - (0, -1)
+        | (0,1) |         b - (0, 0)
+        |       |         c - (0, 1)
+        c       i         d - (0, 2)
+      /   \   /           e - (0, 3)
+     /     \ /
+    b       h             f - (1, -2)
+    | (0,0) |             g - (1, -1)
+    |       |             h - (1, 0)
+    a       g             i - (1, 1)
+     \     /              j - (1, 2)
+      \   /
+        f
 
 The origin vertex is the upper left vertex of the origin hex (b in the above diagram).
 

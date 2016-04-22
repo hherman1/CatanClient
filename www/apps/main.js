@@ -6,6 +6,7 @@ define(function (require) {
     var game = require('./Game');
     var gameM = require('./GameMethods');
     var boardstate = require('./BoardState');
+    var constants = require('./Constants');
     var renderTree = require('./RenderTree');
     var canvas = require('./Canvas');
     var dice = require('./Dice');

@@ -115,23 +115,6 @@ Position = {
 };
 
 ////////////////////////////////////////////////////////////////////////
-/*                             CONSTANTS                              */
-////////////////////////////////////////////////////////////////////////
-
-// The baseline catan resource list for a standard board
-
-baseResourceList =
-    [Resource.Desert,  Resource.Grain, Resource.Grain, Resource.Grain,
-        Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
-        Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
-        Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
-        Resource.Brick, Resource.Brick, Resource.Brick];
-
-// The baseline catan token list for a standard board
-
-baseTokenList = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
-
-////////////////////////////////////////////////////////////////////////
 /*                     BOARD BUILDING FUNCTIONS                       */
 ////////////////////////////////////////////////////////////////////////
 
@@ -252,7 +235,7 @@ function cloneRoad(road) {
 }
 
 function cloneVertex(vertex){
-    return new Position.Vertex(vertex.structure,vertex.playerID,vertex.coordinate);
+    return new Position.Vertex(vertex.structure,vertex.coordinate,vertex.playerID);
 }
 
 function cloneHex(hex)  {
@@ -311,29 +294,14 @@ function equalPositionCoordinates(positionA,positionB) {
  */
 
 function getPrice(structure) {
-        var resources = [];
-        resources[Resource.Lumber] = 0;
-        resources[Resource.Wool] = 0;
-        resources[Resource.Ore] = 0;
-        resources[Resource.Brick] = 0;
-        resources[Resource.Grain] = 0;
         switch(structure) {
                 case Structure.Road:
-                        resources[Resource.Brick] = 1;
-                        resources[Resource.Lumber] = 1;
-                        break;
-                case Structure.Settlement: 
-                        resources[Resource.Brick] = 1;
-                        resources[Resource.Lumber] = 1;
-                        resources[Resource.Grain] = 1;
-                        resources[Resource.Wool] = 1;
-                        break;
+                        return ROAD_COST;
+                case Structure.Settlement:
+                        return SETTLEMENT_COST;
                 case Structure.City:
-                        resources[Resource.Grain] = 2;
-                        resources[Resource.Ore] = 3;
-                        break;
+                        return CITY_COST;
         }
-        return resources;
 }
 
 /* generateYShift

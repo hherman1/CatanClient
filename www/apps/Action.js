@@ -66,9 +66,9 @@ function getPositionObject(action,playerID) {
                                                 ,action.coordinateB
                                                 ,playerID);
                 case Action.Type.BuildSettlement:
-                        return new Position.Vertex(Structure.Settlement,playerID,action.coordinate);
+                        return new Position.Vertex(Structure.Settlement,action.coordinate, playerID);
                 case Action.Type.BuildCity:
-                        return new Position.Vertex(Structure.City,playerID,action.coordinate);
+                        return new Position.Vertex(Structure.City,action.coordinate, playerID);
         }
 }
 
@@ -190,7 +190,7 @@ function applyAction(action,gamestate,player) {
                                 v.structure = Structure.Settlement;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
-                                player.vicPoints++;
+                                player.vicPoints+=SETTLEMENT_VPS;
 
                                 if(gamestate.phase == Phase.Init){
                                     initSettlementResources(action.coordinate,gamestate.board.hexes, player);
@@ -212,7 +212,8 @@ function applyAction(action,gamestate,player) {
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
                                 player.settlementCount--;
-                                player.vicPoints++;
+                                player.vicPoints-=SETTLEMENT_VPS;
+                                player.vicPoints+=CITY_VPS;
                         })
                         break;
                 case Action.Type.BuildRoad:
@@ -220,6 +221,7 @@ function applyAction(action,gamestate,player) {
                         r.structure = Structure.Road;
                         r.playerID = gamestate.currentPlayerID;
                         player.roadCount++;
+                        player.vicPoints+=ROAD_VPS;
 
                         break;
         }

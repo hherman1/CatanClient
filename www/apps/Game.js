@@ -241,6 +241,7 @@ function processUIMessage(message,game) {
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
                         game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
+                        updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
             case View.Message.Type.IncomingTradesViewClosed:
                 sendMessage(new View.Message.DisplayOfferDesigner(game,game.gamestate),game.views);

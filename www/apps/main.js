@@ -22,6 +22,7 @@ define(function (require) {
     var uiController = require('./UserInterfaceJScript');
     var uiViews = require('./View');
     var tradeOffers = require('./TradeOffer');
+    var tradeViews = require('./TradeView');
     function main() {
             var scale = 50;
             var framerate = 60;
@@ -32,7 +33,9 @@ define(function (require) {
                 resizeBoardDOM($(window).width(),$(window).height());
                 ctx = canvas.getContext('2d');
                 var canvasView = new CanvasView(ctx);
-                var myGame = new CatanGame(50,canvasView);
+                var tradeView = new TradeView();
+                var myGame = new CatanGame(50,canvasView,tradeView);
+                tradeView.setMessageDestination(myGame);
                 //setUpUi(game.buffer.ui)//FIX THIS TODO
                 // game.setupUIBuffer(game.Buffer.UI);
                 setUpUIViews(myGame);

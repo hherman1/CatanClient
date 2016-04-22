@@ -171,3 +171,7 @@ function getStoredPlayers() {
         }
         return out;
 }
+
+function getPlayerIDs(players) {
+        return players.map(function(player){return player.id});
+}

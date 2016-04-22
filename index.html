@@ -40,6 +40,41 @@
             <div id="game">
                     <canvas draggable="false" id="board" width="100%" height="100%"></canvas>
                     <div id="userInterface">
+                            <div id="offerCreator" class="tradeoffer-screen">
+                                    <h1 class="title">Make an Offer</h1>
+                                    <select id="targetPlayer"></select><br />
+                                    <div id="offer-resources">
+                                            <h2> Offer: </h2>
+                                            <span class="resource-type"> Lumber </span> <input class="resource-input" type="number" resource="Lumber" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Grain </span> <input class="resource-input" type="number" resource="Grain" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Wool </span> <input class="resource-input" type="number" resource="Wool" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Ore </span> <input class="resource-input" type="number" resource="Ore" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Brick </span> <input class="resource-input" type="number" resource="Brick" value=0 min=0 /> <br />
+                                    </div>
+                                    <div id="request-resources">
+                                            <h2> Request: </h2>
+                                            <span class="resource-type"> Lumber </span> <input class="resource-input" type="number" resource="Lumber" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Grain </span> <input class="resource-input" type="number" resource="Grain" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Wool </span> <input class="resource-input" type="number" resource="Wool" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Ore </span> <input class="resource-input" type="number" resource="Ore" value=0 min=0 /> <br />
+                                            <span class="resource-type"> Brick </span> <input class="resource-input" type="number" resource="Brick" value=0 min=0 /> <br />
+                                    </div>
+                                    <button id="makeOffer" > Make Offer </button>
+                                    <button id="cancelOffer" > Cancel Offer </button> 
+                            </div>
+                            <div id="incomingTradeOffers" class="tradeoffer-screen" >
+                                    <h1 class="title">Incoming Offers</h1>
+                                    <div id="offers"> 
+                                            <div id="templateTradeOffer" class="tradeOffer">
+                                                    <div class="offerer"> </div>
+                                                    <div class="offeredResources"> </div>
+                                                    <div class="requestedResources"> </div>
+                                                    <button class="acceptOffer" > Accept </button>
+                                                    <button class="rejectOffer" > Reject </button>
+                                            </div>
+                                    </div>
+                                    <button id="finish"> Finish/Reject All </button>
+                            </div>
                         <div class="bottomRightDisplay">
                             <div class="topBar">
                                 <div class="rollHolder">

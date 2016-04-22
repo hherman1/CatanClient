@@ -205,7 +205,7 @@ function endTurn(game) {
                 console.log(game.gamestate.players[i] + "wins");
             }
         }
-        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
+//        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
         var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers)
         sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
                    ,game.tradeView);

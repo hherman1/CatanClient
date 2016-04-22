@@ -106,8 +106,10 @@ View = {
                         this.validation = validation;
                         View.Message.Blank.call(this,sender,View.Message.Type.OfferValidation);
                 },
-                MakeOffer: function(sender,trade) {
-                        this.trade = trade;
+                MakeOffer: function(sender,targetID,offerResources,requestResources) {
+                        this.targetID = targetID;
+                        this.offerResources = offerResources;
+                        this.requestResources = requestResources;
                         View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
                 },
         },

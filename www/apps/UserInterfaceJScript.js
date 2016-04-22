@@ -126,13 +126,6 @@ function setVictoryPointsVal(playerTab, amount){
     //Tests
     //setResourceVal
 
-    function getOfferFromMessage(message,tradeID,offererID) {
-            return new TradeOffer(tradeID
-                                 ,offererID
-                                 ,message.targetID
-                                 ,message.offerResources
-                                 ,message.requestResources);
-    }
 
     function resizeGame(buffer) {
         resizeBoardDOM($("#game").width(),$("#game").height());

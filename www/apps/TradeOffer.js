@@ -69,6 +69,10 @@ function validateTrade(gamestate,trade) {
 }
 
 function nextTradeID(trades) {
-        return last(trades).tradeID + 1;
+        if(trades.length > 0) {
+                return last(trades).tradeID + 1;
+        } else {
+                return 0;
+        }
 }
 

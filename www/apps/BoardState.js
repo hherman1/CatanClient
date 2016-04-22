@@ -177,7 +177,7 @@ function buildVertexFramework(hexList){
         for(j=0;j<coordList.length;j++){
             testVector = coordList[j];
             if(doesNotContainVertexAtCoordinates(vertexFrame,testVector)) { // Ensures the vertex hasn't been created yet
-                vertexFrame.push(new Position.Vertex(Structure.Empty, coordList[j]), 0); // Creates and adds the vertex
+                vertexFrame.push(new Position.Vertex(Structure.Empty, coordList[j], 0)); // Creates and adds the vertex
             }
         }
     }

@@ -36,6 +36,18 @@ View = {
                 Client : function(receiveMessage) {
                         this.receiveMessage = receiveMessage;
                 },
+                Forwarder : function(children) {
+                        var self = this;
+                        self.children = children;
+                        self.addChild = function(child) {
+                                self.children.push(child);
+                        };
+                        View.Message.Client.call(self,function(message) {
+                                self.children.forEach(function(child) {
+                                        sendMessage(message,child);
+                                });
+                        });
+                },
                 Blank: function(sender,messageType) {
                         this.sender = sender;
                         this.type = messageType;
@@ -167,7 +179,19 @@ ResizeView = function(messageDestination) {
         ClientViewSendOnly.call(self,messageDestination);
 }
 
+
 function joinJQueryArray(list) {
         return $(list).map(function(){return this.toArray()});
 }
 
+function makeUIViews(destination) {
+        var views = [];
+        views.push(new EndTurnView(destination));
+        views.push(new UndoView(destination));
+        views.push(new ResizeView(destination));
+        views.push(new BuildChoiceView(Structure.Road,destination));
+        views.push(new BuildChoiceView(Structure.Settlement,destination));
+        views.push(new BuildChoiceView(Structure.City,destination));
+        views.push(new TradeView(destination));
+        return views;
+}

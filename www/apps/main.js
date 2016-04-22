@@ -24,25 +24,19 @@ define(function (require) {
     var tradeOffers = require('./TradeOffer');
     var tradeViews = require('./TradeView');
     function main() {
-            var scale = 50;
-            var framerate = 60;
-            var secondTime = 1000;
-            var interval = secondTime/framerate;
         canvas = document.getElementById('board');
         if(canvas.getContext) {
                 resizeBoardDOM($(window).width(),$(window).height());
                 ctx = canvas.getContext('2d');
-                var canvasView = new CanvasView(ctx);
-                var tradeView = new TradeView();
-                var myGame = new CatanGame(50,canvasView,tradeView);
-                tradeView.setMessageDestination(myGame);
-                //setUpUi(game.buffer.ui)//FIX THIS TODO
-                // game.setupUIBuffer(game.Buffer.UI);
-                setUpUIViews(myGame);
+                var myGame = new CatanGame(GAME_DEFAULT_SCALE);
+                var views = new View.Message.Forwarder(makeUIViews(myGame));
+                views.addChild(new CanvasView(ctx));
+                myGame.views = views;
+                myGame.setUpHitboxes();
                 genPlayerTabs(myGame.gamestate.players);
-                loadGame(myGame,function(){runGame(myGame,13);});
+                loadGame(myGame,function(){runGame(myGame,GAME_STEP_INTERVAL);});
         } else {
-            console.log("browser unsupported")
+                alert("Browser must support HTML Canvas");
         }
     }
     main();

@@ -150,16 +150,6 @@ TradeView = function(messageDestination) {
 }
 
 
-function setUpUIViews(destination) {
-        var views = [];
-        views.push(new EndTurnView(destination));
-        views.push(new UndoView(destination));
-        views.push(new ResizeView(destination));
-        views.push(new BuildChoiceView(Structure.Road,destination));
-        views.push(new BuildChoiceView(Structure.Settlement,destination));
-        views.push(new BuildChoiceView(Structure.City,destination));
-        return views;
-}
 
 function getOfferFromMessage(message,tradeID,offererID) {
     return new TradeOffer(tradeID

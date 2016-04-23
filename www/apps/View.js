@@ -55,13 +55,13 @@ ClientViewSendOnly = function() {
 
 
 View.Message.Type.EndTurn = registerType();
-View.Message.EndTurn = function() {
-        View.Message.Blank.call(this,View.Message.Type.EndTurn);
+View.Message.EndTurn = function(sender) {
+        View.Message.Blank.call(this,sender,View.Message.Type.EndTurn);
 }
 EndTurnView = function(messageDestination) {
         var self = this;
         $("#endTurnButton").on('click',function() {
-                sendMessage(new View.Message.EndTurn(),messageDestination);
+                sendMessage(new View.Message.EndTurn(self),messageDestination);
         });
         ClientViewSendOnly.call(self);
 }

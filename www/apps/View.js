@@ -55,11 +55,13 @@ ClientViewSendOnly = function() {
 
 
 View.Message.Type.EndTurn = registerType();
-
+View.Message.EndTurn = function() {
+        View.Message.Blank.call(this,View.Message.Type.EndTurn);
+}
 EndTurnView = function(messageDestination) {
         var self = this;
         $("#endTurnButton").on('click',function() {
-                sendMessage(new View.Message.Blank(self,View.Message.Type.EndTurn),messageDestination);
+                sendMessage(new View.Message.EndTurn(),messageDestination);
         });
         ClientViewSendOnly.call(self);
 }
@@ -67,7 +69,6 @@ EndTurnView = function(messageDestination) {
 
 
 View.Message.Type.BuildChoice = registerType();
-
 View.Message.BuildChoice = function(sender,structure) {
         this.structure = structure;
         View.Message.Blank.call(this,sender,View.Message.Type.BuildChoice);
@@ -84,22 +85,21 @@ BuildChoiceView = function(structure,messageDestination) {
 
 View.Message.Type.Undo = registerType();
 
-View.Message.Undo = function() {
-        View.Message.Blank.call(this,View.Message.Type.Undo);
+View.Message.Undo = function(sender) {
+        View.Message.Blank.call(this,sender,View.Message.Type.Undo);
 }
 
 UndoView = function(messageDestination) {
         var self = this;
         $("#undoButton").on('click',function() {
-                sendMessage(new View.Message.Blank(self,View.Message.Type.Undo),messageDestination);
+                sendMessage(new View.Message.Undo(),messageDestination);
         });
         ClientViewSendOnly.call(self);
 }
 
 View.Message.Type.Resize = registerType();
-
-View.Message.Resize = function() {
-        View.Message.Blank.call(this,View.Message.Type.Resize);
+View.Message.Resize = function(sender) {
+        View.Message.Blank.call(this,sender,View.Message.Type.Resize);
 }
 
 ResizeView = function(messageDestination) {

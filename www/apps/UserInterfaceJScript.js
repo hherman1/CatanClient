@@ -130,13 +130,6 @@ function setVictoryPointsVal(playerTab, amount){
     //Tests
     //setResourceVal
 
-    function getOfferFromMessage(message,tradeID,offererID) {
-            return new TradeOffer(tradeID
-                                 ,offererID
-                                 ,message.targetID
-                                 ,message.offerResources
-                                 ,message.requestResources);
-    }
 
     function resizeGame(buffer) {
         resizeBoardDOM($("#game").width(),$("#game").height());
@@ -144,8 +137,8 @@ function setVictoryPointsVal(playerTab, amount){
     }
 
 
-// function 
-    
+// function
+
     function updateUIInfo(players, currentPlayerID){
         updateUIInfoTopBar(players,currentPlayerID);
         var currentPlayer = getCurrentPlayer(players, currentPlayerID);
@@ -233,7 +226,7 @@ function addStructureIcons(images) {
 }
 function genStructureIcons() {
         function genIcon(structure) {
-            return $(getBuildingImg(structure,Colors.Blue)).clone();
+            return $(getBuildingImg(structure,Colors.White)).clone();
         }
         var out = {};
         out[Structure.Settlement] = genIcon(Structure.Settlement);

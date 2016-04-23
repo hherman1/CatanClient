@@ -42,6 +42,17 @@ MouseBuffer = function() {
         this.mousescrolls = [];
 }
 
+View.Message.Type.RequestMouseData = registerType();
+View.Message.RequestMouseData = function(sender) {
+        View.Message.Blank.call(this,sender,View.Message.Type.RequestMouseData);
+}
+
+View.Message.Type.MouseData = registerType();
+View.Message.MouseData = function(sender,mouse) {
+        this.mouse = mouse;
+        View.Message.Blank.call(this,sender,View.Message.Type.MouseData);
+}
+
 MouseView = function(canvas) {
         var self = this;
         self.mouseEventBuffer = new MouseBuffer();
@@ -51,7 +62,7 @@ MouseView = function(canvas) {
                 if(message.type == View.Message.Type.RequestMouseData) {
                         self.mouse = processMouseBuffer(self.mouse,self.mouseEventBuffer);
                         flushMouseEvents(self.mouseEventBuffer);
-                        sendMessage(new View.Message.MouseData(self,self.mouse),message.sender);
+                        respond(message,new View.Message.MouseData(self,self.mouse));
                 }
         });
 }

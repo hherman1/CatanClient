@@ -87,6 +87,45 @@ function generateHexCanvas(gamestate,scale) {
         return $canvas[0];
 }
 
+View.Message.Type.RenderGameCanvas = registerType();
+View.Message.RenderGameCanvas = function(sender,gamestate,highlight,graphics,side) {
+        this.gamestate= gamestate;
+        this.highlight = highlight;
+        this.graphics = graphics;
+        this.side = side;
+        View.Message.Blank.call(this,sender,View.Message.Type.RenderGameCanvas);
+}
+
+View.Message.Type.AdjustTranslation = registerType();
+View.Message.AdjustTranslation = function(sender,translation) {
+        this.translation = translation;
+        View.Message.Blank.call(this,sender,View.Message.Type.AdjustTranslation);
+}
+
+View.Message.Type.AdjustScale = registerType();
+View.Message.AdjustScale = function(sender,adjustment) {
+        this.adjustment = adjustment;
+        View.Message.Blank.call(this,sender,View.Message.Type.AdjustScale);
+}
+
+View.Message.Type.RequestHits = registerType();
+View.Message.RequestHits= function(sender,coordinate) {
+        this.coordinate = coordinate;
+        View.Message.Blank.call(this,sender,View.Message.Type.RequestHits);
+}
+
+View.Message.Type.SetHitboxes = registerType();
+View.Message.SetHitboxes= function(sender,hitboxes) {
+        this.hitboxes = hitboxes;
+        View.Message.Blank.call(this,sender,View.Message.Type.SetHitboxes);
+}
+
+View.Message.Type.HitsData = registerType();
+View.Message.HitsData = function(sender,hits) {
+        this.hits = hits;
+        View.Message.Blank.call(this,sender,View.Message.Type.HitsData);
+}
+
 CanvasView = function(ctx) {
         var self = this;
         self.mouseView = new MouseView(ctx.canvas);
@@ -129,7 +168,7 @@ CanvasRenderView = function(ctx) {
                         case View.Message.Type.RequestHits:
                                 var hitlist = transformHitlist(self.hitboxes,self.transform);
                                 var hits = getHits(hitlist,message.coordinate);
-                                sendMessage(new View.Message.HitsData(self,hits),message.sender);
+                                respond(message,new View.Message.HitsData(self,hits));
                 }
         };
         View.Message.Client.call(self,receiveMessage);

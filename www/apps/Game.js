@@ -101,7 +101,11 @@ Server = function() {
         this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
+
             checkLongestRoad(this.gamestate)
+            this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
+                                                                ,this.gamestate.tradeoffers);
+
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
             if(this.gamestate.phase == Phase.Normal) {
@@ -109,6 +113,8 @@ Server = function() {
                     this.roll.second = rollDice();
                     resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
             }
+
+            this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
@@ -121,28 +127,29 @@ Buffer = function() {
 }
 
 
-CatanGame = function(side,canvasView) {
-        this.canvasView = canvasView;
-        this.mouse = new Mouse(); //new Mouse();
-        this.graphics = new Graphics(); //new Graphics();
-        this.server = new Server(); //new Server();
-        this.actions = new Reference([]); //new Reference([]);
-        this.side = side;
-        this.server.newGame(5,BASE_RESOURCE_LIST.slice(), BASE_TOKEN_LIST.slice(),getStoredPlayers());
-        this.gamestate = this.server.getState();
-        this.teststate = cloneGameState(this.gamestate);
-        this.hits = [];
-        sendMessage(new View.Message.SetHitboxes(this,
-                genHitboxes(this.gamestate.board.vertices
-                           ,this.gamestate.board.roads
-                           ,this.gamestate.board.hexes
-                           ,this.side)),this.canvasView);
+CatanGame = function(side,views) {
         var self=this;
+        self.views  = views;
+        self.mouse = new Mouse(); //new Mouse();
+        self.graphics = new Graphics(); //new Graphics();
+        self.server = new Server(); //new Server();
+        self.actions = new Reference([]); //new Reference([]);
+        self.side = side;
+        self.server.newGame(5,BASE_RESOURCE_LIST.slice(), BASE_TOKEN_LIST.slice(),getStoredPlayers());
+        self.gamestate = self.server.getState();
+        self.teststate = cloneGameState(self.gamestate);
+        self.hits = [];
+        self.setUpHitboxes = function() {
+                sendMessage(new View.Message.SetHitboxes(self,
+                        genHitboxes(self.gamestate.board.vertices
+                                   ,self.gamestate.board.roads
+                                   ,self.gamestate.board.hexes
+                                   ,self.side)),self.views);
+        }
         self.inbox = [];
         self.receiveMessage = function(message) {
                 self.inbox.push(message);
         }
-        
 }
 
 cloneGameState = function(gameState) {
@@ -183,7 +190,18 @@ function endTurn(game) {
                 console.log(game.gamestate.players[i] + "wins");
             }
         }
-
+//        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
+        var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers)
+        sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
+                   ,game.views);
+        incomingTrades.forEach(function(trade) {
+                sendMessage(new View.Message.AcceptValidation(game
+                                                             ,trade.tradeID
+                                                             ,validateAccept(game.gamestate
+                                                                            ,trade.targetID
+                                                                            ,trade.requestResources))
+                           ,game.views);
+        });
 }
 
 function processUIMessage(message,game) {
@@ -210,7 +228,7 @@ function processUIMessage(message,game) {
                 break;
             case View.Message.Type.MakeOffer:
                 var trade = getOfferFromMessage(message
-                                               ,game.gamestate.tradeoffers.length
+                                               ,nextTradeID(game.gamestate.tradeoffers)
                                                ,game.gamestate.currentPlayerID);
                 if(validateTradeOffer(game.gamestate,trade)) {
                         game.gamestate.tradeoffers.push(trade);
@@ -218,12 +236,15 @@ function processUIMessage(message,game) {
                         pushAnimation(new XClick(game.mouse.pos,15,10),game);
                 }
                 break;
-            case View.Message.Type.AcceptOffer:
+            case View.Message.Type.AcceptTrade:
                 var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
-                        game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.trades);
+                        game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
+                        updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
+            case View.Message.Type.IncomingTradesViewClosed:
+                sendMessage(new View.Message.DisplayOfferDesigner(game,game.gamestate),game.views);
         }
 }
 
@@ -254,9 +275,9 @@ function processGameInbox(game) {
 function gameStep(game) {
         var shouldRedraw = false;
 
-        sendMessage(new View.Message.RequestMouseData(game),game.canvasView);
+        sendMessage(new View.Message.RequestMouseData(game),game.views);
         processGameInbox(game);
-        sendMessage(new View.Message.RequestHits(game,game.mouse.pos),game.canvasView);
+        sendMessage(new View.Message.RequestHits(game,game.mouse.pos),game.views);
         processGameInbox(game);
 
         var maxHit = getMaxPositionHit(game.hits);
@@ -269,11 +290,11 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
-                sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.canvasView);
+                sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.views);
                 shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
-                sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.canvasView);
+                sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.views);
                 shouldRedraw = true;
         }
         if(game.mouse.clicked) {
@@ -315,7 +336,7 @@ function renderGame(game,positionHighlight) {
                                                      ,positionHighlight
                                                      ,game.graphics
                                                      ,game.side)
-                   ,game.canvasView);
+                   ,game.views);
         //drawHitboxes(hitlist,hits,game.ctx);
         updateUIInfo(game.teststate.players
                     ,game.teststate.currentPlayerID);

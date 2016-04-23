@@ -129,7 +129,7 @@ CanvasRenderView = function(ctx) {
                         case View.Message.Type.RequestHits:
                                 var hitlist = transformHitlist(self.hitboxes,self.transform);
                                 var hits = getHits(hitlist,message.coordinate);
-                                sendMessage(new View.Message.HitsData(self,hits),message.sender);
+                                respond(message,new View.Message.HitsData(self,hits));
                 }
         };
         View.Message.Client.call(self,receiveMessage);

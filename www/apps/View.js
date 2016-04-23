@@ -16,8 +16,6 @@ View = {
                     BuildChoice:1,
                     Undo: 4,
                     Resize:5,
-                    MakeOffer:6,
-                    AcceptOffer:7,
                     RenderGameCanvas:8,
                     RequestMouseData:9,
                     MouseData:10,
@@ -26,23 +24,33 @@ View = {
                     RequestHits:13,
                     SetHitboxes:14,
                     HitsData:15,
+                    DisplayIncomingTrades:16,
+                    IncomingTradesViewClosed:17,
+                    AcceptValidation:18,
+                    AcceptTrade:19,
+                    DisplayOfferDesigner:20,
+                    RequestOfferValidation:21,
+                    OfferValidation:22,
+                    MakeOffer:23,
                 },
                 Client : function(receiveMessage) {
                         this.receiveMessage = receiveMessage;
                 },
+                Forwarder : function(children) {
+                        var self = this;
+                        self.children = children;
+                        self.addChild = function(child) {
+                                self.children.push(child);
+                        };
+                        View.Message.Client.call(self,function(message) {
+                                self.children.forEach(function(child) {
+                                        sendMessage(message,child);
+                                });
+                        });
+                },
                 Blank: function(sender,messageType) {
                         this.sender = sender;
                         this.type = messageType;
-                },
-                MakeOffer: function(sender,offerResources,targetID,requestResources) {
-                        this.offerResources = offerResources;
-                        this.targetID = targetID;
-                        this.requestResources = requestResources;
-                        View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
-                },
-                AcceptOffer: function(sender,tradeID) {
-                        this.tradeID = tradeID;
-                        View.Message.Blank.call(this,sender,View.Message.Type.AcceptOffer);
                 },
                 BuildChoice: function(sender,structure) {
                         this.structure = structure;
@@ -79,17 +87,52 @@ View = {
                         View.Message.Blank.call(this,sender,View.Message.Type.SetHitboxes);
                 },
                 HitsData: function(sender,hits) {
-                        this.hits = hits
+                        this.hits = hits;
                         View.Message.Blank.call(this,sender,View.Message.Type.HitsData);
-                }
+                },
+                DisplayIncomingTrades: function(sender,trades) {
+                        this.trades = trades;
+                        View.Message.Blank.call(this,sender,View.Message.Type.DisplayIncomingTrades);
+                },
+                IncomingTradesViewClosed: function(sender) {
+                        View.Message.Blank.call(this,sender,View.Message.Type.IncomingTradesViewClosed);
+                },
+                AcceptValidation: function(sender,tradeID,validation) {
+                        this.tradeID = tradeID;
+                        this.validation = validation;
+                        View.Message.Blank.call(this,sender,View.Message.Type.AcceptValidation);
+                },
+                AcceptTrade: function(sender,tradeID) {
+                        this.tradeID = tradeID;
+                        View.Message.Blank.call(this,sender,View.Message.Type.AcceptTrade);
+                },
+                DisplayOfferDesigner: function(sender,gamestate) {
+                        this.gamestate = gamestate;
+                        View.Message.Blank.call(this,sender,View.Message.Type.DisplayOfferDesigner);
+                },
+                RequestOfferValidation: function(sender,trade) {
+                        this.trade = trade;
+                        View.Message.Blank.call(this,sender,View.Message.Type.RequestOfferValidation);
+                },
+                OfferValidation: function(sender,validation) {
+                        this.validation = validation;
+                        View.Message.Blank.call(this,sender,View.Message.Type.OfferValidation);
+                },
+                MakeOffer: function(sender,targetID,offerResources,requestResources) {
+                        this.targetID = targetID;
+                        this.offerResources = offerResources;
+                        this.requestResources = requestResources;
+                        View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
+                },
         },
 }
 
 function sendMessage(message,destination) {
         destination.receiveMessage(message);
 }
-
-
+function respond(received,outgoing) {
+        sendMessage(outgoing,received.sender);
+}
 
 
 ClientView = function(receiveMessage) {
@@ -112,6 +155,7 @@ EndTurnView = function(messageDestination) {
 
 BuildChoiceView = function(structure,messageDestination) {
         var self = this;
+        var incomingTrades = 
         $(".buildChoice[structure="+getStructureName(structure)+"]").click(function() {
                 sendMessage(new View.Message.BuildChoice(self,structure),messageDestination);
         });
@@ -136,7 +180,11 @@ ResizeView = function(messageDestination) {
 }
 
 
-function setUpUIViews(destination) {
+function joinJQueryArray(list) {
+        return $(list).map(function(){return this.toArray()});
+}
+
+function makeUIViews(destination) {
         var views = [];
         views.push(new EndTurnView(destination));
         views.push(new UndoView(destination));
@@ -144,5 +192,6 @@ function setUpUIViews(destination) {
         views.push(new BuildChoiceView(Structure.Road,destination));
         views.push(new BuildChoiceView(Structure.Settlement,destination));
         views.push(new BuildChoiceView(Structure.City,destination));
+        views.push(new TradeView(destination));
         return views;
 }

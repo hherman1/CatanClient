@@ -9,30 +9,11 @@
 // Future:
 // It may make sense to have Game implement Client
 
+//Do not put Messages/Message.Types here. Use registerType() from Types.js instead. 
+//See below for examples.
 View = {
         Message : {
-                Type : {
-                    EndTurn : 0,
-                    BuildChoice:1,
-                    Undo: 4,
-                    Resize:5,
-                    RenderGameCanvas:8,
-                    RequestMouseData:9,
-                    MouseData:10,
-                    AdjustTranslation:11,
-                    AdjustScale:12,
-                    RequestHits:13,
-                    SetHitboxes:14,
-                    HitsData:15,
-                    DisplayIncomingTrades:16,
-                    IncomingTradesViewClosed:17,
-                    AcceptValidation:18,
-                    AcceptTrade:19,
-                    DisplayOfferDesigner:20,
-                    RequestOfferValidation:21,
-                    OfferValidation:22,
-                    MakeOffer:23,
-                },
+                Type : {},
                 Client : function(receiveMessage) {
                         this.receiveMessage = receiveMessage;
                 },
@@ -51,78 +32,6 @@ View = {
                 Blank: function(sender,messageType) {
                         this.sender = sender;
                         this.type = messageType;
-                },
-                BuildChoice: function(sender,structure) {
-                        this.structure = structure;
-                        View.Message.Blank.call(this,sender,View.Message.Type.BuildChoice);
-                },
-                RenderGameCanvas : function(sender,gamestate,highlight,graphics,side) {
-                        this.gamestate= gamestate;
-                        this.highlight = highlight;
-                        this.graphics = graphics;
-                        this.side = side;
-                        View.Message.Blank.call(this,sender,View.Message.Type.RenderGameCanvas);
-                },
-                RequestMouseData : function(sender) {
-                        View.Message.Blank.call(this,sender,View.Message.Type.RequestMouseData);
-                },
-                MouseData : function(sender,mouse) {
-                        this.mouse = mouse;
-                        View.Message.Blank.call(this,sender,View.Message.Type.MouseData);
-                },
-                AdjustTranslation: function(sender,translation) {
-                        this.translation = translation;
-                        View.Message.Blank.call(this,sender,View.Message.Type.AdjustTranslation);
-                },
-                AdjustScale: function(sender,adjustment) {
-                        this.adjustment = adjustment;
-                        View.Message.Blank.call(this,sender,View.Message.Type.AdjustScale);
-                },
-                RequestHits: function(sender,coordinate) {
-                        this.coordinate = coordinate;
-                        View.Message.Blank.call(this,sender,View.Message.Type.RequestHits);
-                },
-                SetHitboxes: function(sender,hitboxes) {
-                        this.hitboxes = hitboxes;
-                        View.Message.Blank.call(this,sender,View.Message.Type.SetHitboxes);
-                },
-                HitsData: function(sender,hits) {
-                        this.hits = hits;
-                        View.Message.Blank.call(this,sender,View.Message.Type.HitsData);
-                },
-                DisplayIncomingTrades: function(sender,trades) {
-                        this.trades = trades;
-                        View.Message.Blank.call(this,sender,View.Message.Type.DisplayIncomingTrades);
-                },
-                IncomingTradesViewClosed: function(sender) {
-                        View.Message.Blank.call(this,sender,View.Message.Type.IncomingTradesViewClosed);
-                },
-                AcceptValidation: function(sender,tradeID,validation) {
-                        this.tradeID = tradeID;
-                        this.validation = validation;
-                        View.Message.Blank.call(this,sender,View.Message.Type.AcceptValidation);
-                },
-                AcceptTrade: function(sender,tradeID) {
-                        this.tradeID = tradeID;
-                        View.Message.Blank.call(this,sender,View.Message.Type.AcceptTrade);
-                },
-                DisplayOfferDesigner: function(sender,gamestate) {
-                        this.gamestate = gamestate;
-                        View.Message.Blank.call(this,sender,View.Message.Type.DisplayOfferDesigner);
-                },
-                RequestOfferValidation: function(sender,trade) {
-                        this.trade = trade;
-                        View.Message.Blank.call(this,sender,View.Message.Type.RequestOfferValidation);
-                },
-                OfferValidation: function(sender,validation) {
-                        this.validation = validation;
-                        View.Message.Blank.call(this,sender,View.Message.Type.OfferValidation);
-                },
-                MakeOffer: function(sender,targetID,offerResources,requestResources) {
-                        this.targetID = targetID;
-                        this.offerResources = offerResources;
-                        this.requestResources = requestResources;
-                        View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
                 },
         },
 }
@@ -145,12 +54,23 @@ ClientViewSendOnly = function() {
 }
 
 
+View.Message.Type.EndTurn = registerType();
+
 EndTurnView = function(messageDestination) {
         var self = this;
         $("#endTurnButton").on('click',function() {
                 sendMessage(new View.Message.Blank(self,View.Message.Type.EndTurn),messageDestination);
         });
         ClientViewSendOnly.call(self);
+}
+
+
+
+View.Message.Type.BuildChoice = registerType();
+
+View.Message.BuildChoice = function(sender,structure) {
+        this.structure = structure;
+        View.Message.Blank.call(this,sender,View.Message.Type.BuildChoice);
 }
 
 BuildChoiceView = function(structure,messageDestination) {
@@ -162,6 +82,12 @@ BuildChoiceView = function(structure,messageDestination) {
         ClientViewSendOnly.call(self);
 }
 
+View.Message.Type.Undo = registerType();
+
+View.Message.Undo = function() {
+        View.Message.Blank.call(this,View.Message.Type.Undo);
+}
+
 UndoView = function(messageDestination) {
         var self = this;
         $("#undoButton").on('click',function() {
@@ -170,11 +96,17 @@ UndoView = function(messageDestination) {
         ClientViewSendOnly.call(self);
 }
 
+View.Message.Type.Resize = registerType();
+
+View.Message.Resize = function() {
+        View.Message.Blank.call(this,View.Message.Type.Resize);
+}
+
 ResizeView = function(messageDestination) {
         var self = this;
         $(window).resize(function() {
                 resizeBoardDOM($("#game").width(),$("#game").height());
-                sendMessage(new View.Message.Blank(self,View.Message.Type.Resize),messageDestination);
+                sendMessage(new View.Message.Resize(),messageDestination);
         });
         ClientViewSendOnly.call(self,messageDestination);
 }

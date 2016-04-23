@@ -3,6 +3,9 @@ define(function (require) {
     // with a relative require call,
     // like:
 
+    
+    var types = require("./Types");
+    var view = require('./View');
     var game = require('./Game');
     var gameM = require('./GameMethods');
     var boardstate = require('./BoardState');
@@ -20,7 +23,6 @@ define(function (require) {
     var structrender = require('./StructureRenderer');
     var action = require('./Action');
     var uiController = require('./UserInterfaceJScript');
-    var uiViews = require('./View');
     var tradeOffers = require('./TradeOffer');
     var tradeViews = require('./TradeView');
     function main() {

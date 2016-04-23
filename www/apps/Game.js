@@ -187,7 +187,11 @@ function endTurn(game) {
         for(var i = 0; i<game.gamestate.players.length;i++) {
          //   console.log(game.gamestate.players[i]);
             if (checkPlayerWin(game.gamestate.players[i])) {
+                var winner = game.gamestate.players[i];
+                console.log(winner); //we see the player info of the winner
                 console.log(game.gamestate.players[i] + "wins");
+                window.location.href = "www/result.html"; //goes to the results page
+                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
         }
 //        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
@@ -380,4 +384,3 @@ function makeBoard(game) {
 function flushInbox(inbox) {
         inbox.length = 0;
 }
-

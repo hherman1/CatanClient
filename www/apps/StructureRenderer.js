@@ -69,9 +69,9 @@ Images.Resources[Resource.Brick] = 'graphics/hills.svg';
 Images.Resources[Resource.Desert] = 'graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
 
-Images.ResourceSymbols[Resource.Lumber] = 'graphics/woodsymbol.svg';
+Images.ResourceSymbols[Resource.Lumber] = 'graphics/WOODS.svg';
 Images.ResourceSymbols[Resource.Grain] = 'graphics/wheatsymbol.svg';
-Images.ResourceSymbols[Resource.Wool] = 'graphics/woolsymbol.svg';
+Images.ResourceSymbols[Resource.Wool] = 'graphics/WOOL.svg';
 Images.ResourceSymbols[Resource.Ore] = 'graphics/oresymbol.svg';
 Images.ResourceSymbols[Resource.Brick] = 'graphics/bricksymbol.svg';
 Images.Loaded.ResourceSymbols = Images.ResourceSymbols.map(loadImage);

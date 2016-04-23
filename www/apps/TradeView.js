@@ -1,3 +1,52 @@
+View.Message.Type.DisplayIncomingTrades = registerType();
+View.Message.DisplayIncomingTrades = function(sender,trades) {
+        this.trades = trades;
+        View.Message.Blank.call(this,sender,View.Message.Type.DisplayIncomingTrades);
+}
+
+View.Message.Type.IncomingTradesViewClosed = registerType();
+View.Message.IncomingTradesViewClosed = function(sender) {
+        View.Message.Blank.call(this,sender,View.Message.Type.IncomingTradesViewClosed);
+}
+
+View.Message.Type.AcceptValidation = registerType();
+View.Message.AcceptValidation = function(sender,tradeID,validation) {
+        this.tradeID = tradeID;
+        this.validation = validation;
+        View.Message.Blank.call(this,sender,View.Message.Type.AcceptValidation);
+}
+
+View.Message.Type.AcceptTrade = registerType();
+View.Message.AcceptTrade = function(sender,tradeID) {
+        this.tradeID = tradeID;
+        View.Message.Blank.call(this,sender,View.Message.Type.AcceptTrade);
+}
+                    
+View.Message.Type.DisplayOfferDesigner = registerType();
+View.Message.DisplayOfferDesigner = function(sender,gamestate) {
+        this.gamestate = gamestate;
+        View.Message.Blank.call(this,sender,View.Message.Type.DisplayOfferDesigner);
+}
+
+View.Message.Type.RequestOfferValidation = registerType();
+View.Message.RequestOfferValidation = function(sender,trade) {
+        this.trade = trade;
+        View.Message.Blank.call(this,sender,View.Message.Type.RequestOfferValidation);
+}
+
+View.Message.Type.OfferValidation = registerType();
+View.Message.OfferValidation = function(sender,validation) {
+        this.validation = validation;
+        View.Message.Blank.call(this,sender,View.Message.Type.OfferValidation);
+}
+
+View.Message.Type.MakeOffer = registerType();
+View.Message.MakeOffer= function(sender,targetID,offerResources,requestResources) {
+        this.targetID = targetID;
+        this.offerResources = offerResources;
+        this.requestResources = requestResources;
+        View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
+}
 
 IncomingTradesView = function(messageDestination) {
         var self = this;

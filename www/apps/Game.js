@@ -147,9 +147,12 @@ CatanGame = function(side,views) {
                                    ,self.side)),self.views);
         }
         self.inbox = [];
-        self.receiveMessage = function(message) {
+        View.Message.Client.call(self,function(message) {
                 self.inbox.push(message);
-        }
+                if(message.type == undefined) {
+                        throw "Undefined Message Type";
+                }
+        });
 }
 
 cloneGameState = function(gameState) {
@@ -210,7 +213,7 @@ function processUIMessage(message,game) {
                 endTurn(game);
                 break;
             case View.Message.Type.BuildRoad:
-                    console.log(elem);
+                    //console.log(elem);
                     console.log("Test case 2");
                 break;
             case View.Message.Type.BuildSettlement:
@@ -223,8 +226,10 @@ function processUIMessage(message,game) {
                 game.actions.data.pop();
                 game.teststate = cloneGameState(game.gamestate);
                 applyActionsForCurrentPlayer(game.actions.data,game.teststate);
+                renderGame(game,null);
                 break;
             case View.Message.Type.Resize:
+                renderGame(game,null);
                 break;
             case View.Message.Type.MakeOffer:
                 var trade = getOfferFromMessage(message

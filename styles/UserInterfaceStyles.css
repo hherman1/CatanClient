@@ -357,3 +357,10 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 //        background-color: #77B2EB;
     background-color: blue;
 }
+
+.globalTimerTopRight {
+	background-color: #000000;
+	z-index: 99;
+	width: 90px;
+	height: 90px;
+}

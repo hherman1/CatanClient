@@ -144,8 +144,8 @@ function setVictoryPointsVal(playerTab, amount){
     }
 
 
-// function 
-    
+// function
+
     function updateUIInfo(players, currentPlayerID){
         updateUIInfoTopBar(players,currentPlayerID);
         var currentPlayer = getCurrentPlayer(players, currentPlayerID);
@@ -233,7 +233,7 @@ function addStructureIcons(images) {
 }
 function genStructureIcons() {
         function genIcon(structure) {
-            return $(getBuildingImg(structure,Colors.Blue)).clone();
+            return $(getBuildingImg(structure,Colors.White)).clone();
         }
         var out = {};
         out[Structure.Settlement] = genIcon(Structure.Settlement);

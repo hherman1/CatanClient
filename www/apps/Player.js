@@ -6,16 +6,17 @@ Colors = {
     Red: 2,
     Orange: 3,
     Blue: 0,
-    White: 1,
+    Green: 1,
+    White: 4
 }
 
-Colors.List = [Colors.Blue, Colors.White, Colors.Red, Colors.Orange]  //Player Colors will be consistently assigned
+Colors.List = [Colors.Blue, Colors.Green, Colors.Red, Colors.Orange, Colors.White]  //Player Colors will be consistently assigned
 
 getColor = function(colorNum){
   switch(colorNum) {
       case Colors.Blue:
           return "rgb(0,147,208)";
-      case Colors.White:
+      case Colors.Green:
           return 'rgb(98,161,25)';
       case Colors.Red:
           return 'rgb(186, 36, 65)';
@@ -27,7 +28,7 @@ getHighlight = function(colorNum){
   switch(colorNum) {
       case Colors.Blue:
           return "rgba(85, 153, 255,0.5)";
-      case Colors.White:
+      case Colors.Green:
           return 'rgba(255, 255, 255,0.5)';
       case Colors.Red:
           return 'rgba(255, 0, 0,0.5)';

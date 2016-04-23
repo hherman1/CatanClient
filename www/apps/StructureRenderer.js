@@ -30,19 +30,22 @@ Images.Loaded.Robber = loadImage(Images.Robber);
 Images.Settlements[Colors.Red]     = 'graphics/reds.svg';
 Images.Settlements[Colors.Orange]  = 'graphics/oranges.svg';
 Images.Settlements[Colors.Blue]    = 'graphics/blues.svg';
-Images.Settlements[Colors.White]   = 'graphics/whites.svg';
+Images.Settlements[Colors.Green]   = 'graphics/whites.svg';
+Images.Settlements[Colors.White]   = 'graphics/buildingcosts.svg';
 Images.Loaded.Settlements = Images.Settlements.map(loadImage);
 
 Images.Cities[Colors.Red]      = 'graphics/redc.svg';
 Images.Cities[Colors.Orange]   = 'graphics/orangec.svg';
 Images.Cities[Colors.Blue]     = 'graphics/bluec.svg';
-Images.Cities[Colors.White]    = 'graphics/whitec.svg';
+Images.Cities[Colors.Green]    = 'graphics/whitec.svg';
+Images.Cities[Colors.White]   = 'graphics/buildingcostc.svg';
 Images.Loaded.Cities = Images.Cities.map(loadImage);
 
 Images.Roads[Colors.Red]     = 'graphics/redr.svg';
 Images.Roads[Colors.Orange]  = 'graphics/oranger.svg';
 Images.Roads[Colors.Blue]    = 'graphics/bluer.svg';
-Images.Roads[Colors.White]   = 'graphics/whiter.svg';
+Images.Roads[Colors.Green]   = 'graphics/whiter.svg';
+Images.Roads[Colors.White]   = 'graphics/buildingcostr.svg';
 Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 

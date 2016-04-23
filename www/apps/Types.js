@@ -1,7 +1,5 @@
-RegisteredTypes = [];
+NextType = 0;
 
 function registerType() {
-        var type = RegisteredTypes.length;
-        RegisteredTypes.push(type);
-        return type;
+        return NextType++;
 }

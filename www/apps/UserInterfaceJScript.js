@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 //Clock for the bottom right display----------------------------------------------------
 //Used help from this website for the clock: http://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
-/*
+
 var initTime = Date.parse(new Date());
 function initClock(id){
     var clock = document.getElementById(id);
@@ -53,7 +53,7 @@ function updateClock(){
 }
 updateClock();
 var timeinterval = setInterval(updateClock,1000);
-*/
+
 
 function genPlayerTabs(players) {
         var container = getPlayerTabsContainer();

@@ -20,20 +20,13 @@ body {
 	width: 320px;
 	height: 75px;
 	font-size: 50px;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+	
 }
 
 .endTurnButton:hover:enabled{
 	background: #ffdb66;
 	box-shadow: 1px 1px 5px #888888;
-}
-
-.timer{
-	display: inline-block;
-	margin: 0px;
-	margin: 0 0 0 4px;
-	color: #696558;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
 .topBar{
@@ -95,7 +88,6 @@ body {
 	position: absolute;
     bottom:0;
     left:0;
-    top: 355px;
 	transition: transform .9s;
 }
 
@@ -181,6 +173,7 @@ body {
 
 .choiceInfo{
 	display: inline-block;
+	padding-left: 10px;
 }
 
 .choiceReqs{
@@ -350,12 +343,60 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         pointer-events:all;
 }
 
-#board {
+#board { 
         position:absolute;
         top:0;
         left:0;
 //        background-color: #77B2EB;
     background-color: blue;
+}
+
+
+.topRightGlobalTimer {
+	position: absolute;
+	right: 0;
+	top: -1.5%;
+	background-color: #FFF0BD;
+	width: 145px;
+	border: solid black 1px;
+	border-radius: 0px 0px 0 8px;
+}
+
+.timer{
+	display: inline-block;
+	margin: 0px;
+	margin: 0 0 0 4px;
+	color: #696558;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+}
+
+.timerModule {
+	border-bottom: solid black 1px;
+}
+
+.phaseMessageHolder {
+	margin: 0px;
+	padding: 5px;
+}
+
+.phaseMessageInnerHolder {
+	margin: 0px;
+	padding: 4px;
+	border-radius: 0 0 0 4px;
+	border: solid blue 2px;
+}
+
+.phaseMessage {
+	margin: 0px;
+}
+
+.timerTitleHolder {
+	position: center;
+	padding: 0px 0px 0px 10px;
+}
+
+.titleHolder {
+	background-color: #FFF0BD;
 }
 
 .tradeoffer-screen {
@@ -379,3 +420,4 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 #templateTradeOffer {
         display:none;
 }
+

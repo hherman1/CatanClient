@@ -8,7 +8,8 @@ html, body {
 }
 
 h1{
-  font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  margin-top: .5em;
+  font-family: Papyrus, fantasy;
   font-size: 48px;
   text-align: center;
   text-decoration: none;
@@ -17,9 +18,11 @@ h1{
 a:link{
   color:  #17324f;
   background-color: #f6bc73;
-
+  padding: 10px;
   text-decoration: none;
   font-size: 30px;
+  border-right: 1em solid #17324f;
+  border-radius: 10px;
 }
 a:visited {
   color: #17324f }
@@ -27,11 +30,12 @@ a:hover{
   background-color: #ffecbc;
   text-decoration: none;
   font-size: 32px;
+  border-right: 1em solid #17324f;
 
 }
 
 h2{
-  font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-family: Papyrus, fantasy;
   font-size: 56px;
   text-align: center;
   color: #F64F5C;

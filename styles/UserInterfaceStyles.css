@@ -323,12 +323,15 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 #loading-bar {
         height:10px;
         background-color:#ffecbc;
+        padding: 5px;
+        border-radius: 10px;
 }
 #loaded {
         height:100%;
         background-color:#f64f5c;
         width:0%;
         transition: width 0.3s;
+        border-radius: 10px;
 }
 
 #userInterface {

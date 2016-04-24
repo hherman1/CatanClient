@@ -213,6 +213,7 @@ function endTurn(game) {
                                                                             ,trade.requestResources))
                            ,game.views);
         });
+        renderGame(game,null);
 }
 
 function processUIMessage(message,game) {

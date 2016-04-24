@@ -10,7 +10,7 @@ html, body {
 h1{
   margin-top: .5em;
   font-family: Papyrus, fantasy;
-  font-size: 48px;
+  font-size: 42px;
   text-align: center;
   text-decoration: none;
   color: #17324f;
@@ -20,7 +20,7 @@ a:link{
   background-color: #f6bc73;
   padding: 10px;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 26px;
   border-right: 1em solid #17324f;
   border-radius: 10px;
 }
@@ -29,7 +29,7 @@ a:visited {
 a:hover{
   background-color: #ffecbc;
   text-decoration: none;
-  font-size: 32px;
+  font-size: 28px;
   border-right: 1em solid #17324f;
 
 }
@@ -40,4 +40,8 @@ h2{
   text-align: center;
   color: #F64F5C;
   font-weight: bold;
+}
+
+audio {
+   display:none;
 }

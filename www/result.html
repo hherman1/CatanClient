@@ -6,18 +6,22 @@
 
     <link rel="stylesheet" href="../styles/resultReset.css">
     <link rel="stylesheet" href="../styles/resultStyle.css">
-
-
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   </head>
 
-  <body>
+  <body onload="">
     <h1>WINNER OF MacSettlers: </h1>
-    <h2 name="winner" id="winner"> placeholder </h2>
+    <h2 name="winner" id="winner"> </h2>
     <canvas id="world"></canvas>
 
         <script src="apps/Confetti.js"></script>
+        <script type="text/javascript">
+                $(window).ready(function(){
+                  var winner = localStorage.getItem('winner');
+                  $('#winner').html("Player " + winner);
+                })
+
+        </script>
 
 
   </body>

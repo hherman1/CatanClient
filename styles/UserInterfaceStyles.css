@@ -114,7 +114,7 @@ body {
 	margin: 0 0 0 11px;
 }
 .resourcePicAndNumHolder > img {
-        height:50px;
+        height:60px;
 }
 
 .resourceValue{
@@ -194,7 +194,7 @@ body {
  .playerDiv[active=true] .playerName {
         /*position:relative;*/
         padding-top: 10px;
-} 
+}
 
 /*.playerName[active=true] {
 	position:relative;
@@ -420,5 +420,4 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 #templateTradeOffer {
         display:none;
 }
-
 

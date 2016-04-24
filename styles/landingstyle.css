@@ -2,7 +2,7 @@
 body {
   padding-left: 18em;
   padding-top: 3em;
-  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-family: Papyrus, fantasy;
   color: #17324f;
   background-color: #77B2EB;
   background-image: url("../graphics/splash.svg");
@@ -16,13 +16,16 @@ ul.navbar {
   left: 5em;
   width: 10em }
 h1 {
-font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace; }
+font-family: Papyrus, fantasy;
+font-size: 38px;}
 ul.navbar li {
   background: #f6bc73;
   margin: 0.5em 0;
   padding: 0.5em;
-  border-right: 1em solid #17324f}
+  border-right: 1em solid #17324f;
+  border-radius: 10px;}
 ul.navbar a {
+  font-family: Papyrus, fantasy;
   text-decoration: none }
 a:link {
   color: #17324f;
@@ -34,12 +37,14 @@ a:hover{
   background-color: #ffecbc;
   text-decoration: none;
   font-size: 26px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 input[type=button]{
   background-color: #f6bc73;
   color: #17324f;
-  font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-family: Papyrus, fantasy;
   font-size: 24px;
   border: none;
   padding: 5px 5px 5px 0px;
@@ -49,10 +54,14 @@ input[type=button]:hover{
   background-color: #ffecbc;
   text-decoration: none;
   font-size: 26px;
+  padding: 5px;
+  border-radius: 10px;
 }
 address {
+    font-family: Papyrus, fantasy;
     display: block;
     font-style: italic;
+    font-size: 16px;
     text-align: left;
 }
 //http://www.color-hex.com/color-palette/16273

@@ -219,9 +219,9 @@ function getVertexNeighbors(coords, vertexList){
  * allocates resources to the appropriate players.
  */
 
-function resourceGeneration(diceRoll, playerList, vertexList, hexList){
+function resourceGeneration(diceRoll, playerList, vertexList, hexList, robber){
 	for(var i = 0;i<hexList.length;i++){
-		if(hexList[i].token == diceRoll){ // Checks if the hex is the correct number
+		if(hexList[i].token == diceRoll && hexList[i] != robber.hex){ // Checks if the hex is the correct number
 			var tileVerticesCoordinates = vertices(hexList[i].coordinate);
 			var tileVertices = [];
 			for(var j = 0; j<tileVerticesCoordinates.length;j++){

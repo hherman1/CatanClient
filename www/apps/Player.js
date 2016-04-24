@@ -112,6 +112,10 @@ function getPlayers(id, playerList){
         return playerList.filter(function(player) {return player.id == id});
 }
 
+function getPlayer(id, playerList){
+    return getPlayers(id, playerList)[0];
+}
+
 function getPlayersResources(player) {
         return player.resources;
 }

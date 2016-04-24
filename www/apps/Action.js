@@ -158,6 +158,8 @@ function validateAction (action,gamestate,player) {
                                 return e >= cost[i]
                         })) {return false};
                         return validateNormal(action,gamestate,player);
+                case Phase.Trading:
+                        return false;
         }
 }
 
@@ -191,7 +193,6 @@ function applyAction(action,gamestate,player) {
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
                                 player.vicPoints+=SETTLEMENT_VPS;
-
                                 if(gamestate.phase == Phase.Init){
                                     initSettlementResources(action.coordinate,gamestate.board.hexes, player);
                                     var add = true;

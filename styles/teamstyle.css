@@ -1,6 +1,6 @@
 body {
   padding-left: 20em;
-  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-family: Papyrus, fantasy;
   color: #17324f;
   background-color: #77B2EB
 }
@@ -16,7 +16,8 @@ ul.navbar li {
   background: #f6bc73;
   margin: 0.5em 0;
   padding: 0.5em;
-  border-right: 1em solid #17324f}
+  border-right: 1em solid #17324f;
+  border-radius: 10px;}
 ul.navbar a {
   text-decoration: none;
   font-weight: normal;
@@ -26,6 +27,8 @@ ul.navbar a:hover {
   background-color: #ffecbc;
   text-decoration: none;
   font-size: 22px;
+  padding: 5px;
+  border-radius: 10px;
 }
 a:link {
   color: #17324f;

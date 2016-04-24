@@ -102,7 +102,7 @@ Server = function() {
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
 
-            checkLongestRoad(this.gamestate)
+            checkLongestRoad(this.gamestate);
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
                                                                 ,this.gamestate.tradeoffers);
 
@@ -111,7 +111,7 @@ Server = function() {
             if(this.gamestate.phase == Phase.Normal) {
                     this.roll.first = rollDice();
                     this.roll.second = rollDice();
-                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
+                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
             }
 
             this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);
@@ -164,7 +164,7 @@ cloneGameState = function(gameState) {
         out.rotation = gameState.rotation;
         out.tradeoffers = gameState.tradeoffers.map(cloneTradeOffer);
         out.longestRoad = gameState.longestRoad;
-        out.longestRoadPlayer = gameState.longestRoadPlayer
+        out.longestRoadPlayer = gameState.longestRoadPlayer;
         return out;
 }
 
@@ -218,7 +218,19 @@ function endTurn(game) {
 function processUIMessage(message,game) {
         switch(message.type) {
             case View.Message.Type.EndTurn:
-                endTurn(game);
+                switch(game.gamestate.phase){
+                    case Phase.Init:
+                        var currentPlayer = getPlayers(game.gamestate.currentPlayerID,game.teststate.players)[0];
+                        if (currentPlayer.roadCount == getInitStructureLimit(game.gamestate.rotation) &&
+                            currentPlayer.settlementCount == getInitStructureLimit(game.gamestate.rotation)){
+                            console.log("End game valid");
+                            endTurn(game);
+                        }
+                        break;
+                        // End if settlement & Road were built
+                    case Phase.Normal:
+                        endTurn(game);
+                }
                 break;
             case View.Message.Type.BuildRoad:
                     //console.log(elem);
@@ -313,7 +325,7 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 var drawCircle = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-                        pushAnimation(new InfoBox(game.mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
+                        pushAnimation(new InfoBox(game.mouse.pos,"hex.type hex.resource hex.token",200,100,20),game);
 
                 }
 

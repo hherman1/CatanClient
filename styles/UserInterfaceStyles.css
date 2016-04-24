@@ -21,7 +21,7 @@ body {
 	height: 75px;
 	font-size: 50px;
 	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
-	
+
 }
 
 .endTurnButton:hover:enabled{
@@ -322,11 +322,11 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 }
 #loading-bar {
         height:10px;
-        background-color:maroon;
+        background-color:#ffecbc;
 }
 #loaded {
         height:100%;
-        background-color:red;
+        background-color:#f64f5c;
         width:0%;
         transition: width 0.3s;
 }
@@ -343,7 +343,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
         pointer-events:all;
 }
 
-#board { 
+#board {
         position:absolute;
         top:0;
         left:0;
@@ -420,4 +420,3 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 #templateTradeOffer {
         display:none;
 }
-

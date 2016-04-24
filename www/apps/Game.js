@@ -323,7 +323,7 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 var drawCircle = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-                        pushAnimation(new InfoBox(game.mouse.pos,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",200,100,20),game);
+                        pushAnimation(new InfoBox(game.mouse.pos,"hex.type hex.resource hex.token",200,100,20),game);
 
                 }
 

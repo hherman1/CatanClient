@@ -1,5 +1,5 @@
 body {
-  padding-left: 20em;
+  padding-left: 17em;
   font-family: Papyrus, fantasy;
   color: #17324f;
   background-color: #77B2EB
@@ -10,7 +10,7 @@ ul.navbar {
   margin: 0;
   position: absolute;
   top: 3em;
-  left: 7em;
+  left: 5em;
   width: 10em }
 ul.navbar li {
   background: #f6bc73;

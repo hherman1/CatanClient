@@ -102,7 +102,7 @@ Server = function() {
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
 
-            checkLongestRoad(this.gamestate)
+            checkLongestRoad(this.gamestate);
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
                                                                 ,this.gamestate.tradeoffers);
 
@@ -164,7 +164,7 @@ cloneGameState = function(gameState) {
         out.rotation = gameState.rotation;
         out.tradeoffers = gameState.tradeoffers.map(cloneTradeOffer);
         out.longestRoad = gameState.longestRoad;
-        out.longestRoadPlayer = gameState.longestRoadPlayer
+        out.longestRoadPlayer = gameState.longestRoadPlayer;
         return out;
 }
 
@@ -214,7 +214,19 @@ function endTurn(game) {
 function processUIMessage(message,game) {
         switch(message.type) {
             case View.Message.Type.EndTurn:
-                endTurn(game);
+                switch(game.gamestate.phase){
+                    case Phase.Init:
+                        var currentPlayer = getPlayers(game.gamestate.currentPlayerID,game.teststate.players)[0];
+                        if (currentPlayer.roadCount == getInitStructureLimit(game.gamestate.rotation) &&
+                            currentPlayer.settlementCount == getInitStructureLimit(game.gamestate.rotation)){
+                            console.log("End game valid");
+                            endTurn(game);
+                        }
+                        break;
+                        // End if settlement & Road were built
+                    case Phase.Normal:
+                        endTurn(game);
+                }
                 break;
             case View.Message.Type.BuildRoad:
                     //console.log(elem);

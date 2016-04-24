@@ -191,7 +191,6 @@ function applyAction(action,gamestate,player) {
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
                                 player.vicPoints+=SETTLEMENT_VPS;
-
                                 if(gamestate.phase == Phase.Init){
                                     initSettlementResources(action.coordinate,gamestate.board.hexes, player);
                                     var add = true;

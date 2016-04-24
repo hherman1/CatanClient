@@ -397,10 +397,12 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 }
 
 .phaseMessage {
+  font-family: Papyrus, fantasy;
 	margin: 0px;
 }
 
 .timerTitleHolder {
+  font-family: Papyrus, fantasy;
 	position: center;
 	padding: 0px 0px 0px 10px;
 }

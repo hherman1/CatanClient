@@ -6,7 +6,6 @@ Robber = function(hex) {
 }
 
 function moveRobber(robber, hex, player){
-  robber.hex.robber = false;
   robber.hex = hex;
   hex.robber = true;
   robHex(hex,player);

@@ -111,7 +111,7 @@ Server = function() {
             if(this.gamestate.phase == Phase.Normal) {
                     this.roll.first = rollDice();
                     this.roll.second = rollDice();
-                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes);
+                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
             }
 
             this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);

@@ -4,7 +4,8 @@
 
 Phase = {               
     Init: 0,
-    Normal: 1
+    Normal: 1,
+    Trading: 2
 };
 
 Rotation = {
@@ -105,12 +106,11 @@ Position = {
          * coordinate: vector representing the coordinates of the hex on the hex grid
          */
 
-        Hex : function(resource, token, coordinate, robber){
+        Hex : function(resource, token, coordinate){
             this.type = Position.Type.Hex;
             this.resource=resource;
             this.token=token;
             this.coordinate=coordinate;
-            this.robber = robber
         }
 };
 
@@ -136,14 +136,12 @@ function buildRegularHexFramework(width, resourceList, tokenList){
             var res = resourceList.pop(); // Assigns a random resource to the hex
             if(res==Resource.Desert){  // Sets robber's initial position to desert
                 var tok = 7;
-                var robber = true;
             }
             else{
                 var tok = tokenList.pop(); // Assigns a random token to the hex
-                var robber = false;
             }
             var coords = new Vector(i, j+yShift); // Determines coordinates of the hex
-            hexList.push(new Position.Hex(res,tok,coords,robber)); // Creates and adds the hex
+            hexList.push(new Position.Hex(res,tok,coords)); // Creates and adds the hex
         }
     }
     return hexList;
@@ -239,7 +237,7 @@ function cloneVertex(vertex){
 }
 
 function cloneHex(hex)  {
-    return new Position.Hex(hex.resource,hex.token,hex.coordinate,hex.robber);
+    return new Position.Hex(hex.resource,hex.token,hex.coordinate);
 }
 
 function cloneRobber(robber){

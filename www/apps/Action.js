@@ -158,6 +158,8 @@ function validateAction (action,gamestate,player) {
                                 return e >= cost[i]
                         })) {return false};
                         return validateNormal(action,gamestate,player);
+                case Phase.Trading:
+                        return false;
         }
 }
 

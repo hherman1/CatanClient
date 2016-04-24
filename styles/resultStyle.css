@@ -11,11 +11,28 @@ h1{
   font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
   font-size: 48px;
   text-align: center;
+  text-decoration: none;
+  color: #17324f;
+}
+a:link{
+  color:  #17324f;
+  background-color: #f6bc73;
+
+  text-decoration: none;
+  font-size: 30px;
+}
+a:visited {
+  color: #17324f }
+a:hover{
+  background-color: #ffecbc;
+  text-decoration: none;
+  font-size: 32px;
+
 }
 
 h2{
   font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
-  font-size: 60px;
+  font-size: 56px;
   text-align: center;
   color: #F64F5C;
   font-weight: bold;

@@ -4,7 +4,7 @@
 
 Phase = {               
     Init: 0,
-    Normal: 1
+    Normal: 1,
 };
 
 Rotation = {

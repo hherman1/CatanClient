@@ -147,15 +147,16 @@ MakeOfferView = function(messageDestination) {
                         var min = Math.round(parseFloat($(ev.target).attr("min")));
                         if(isNaN(val)) {
                                 $(ev.target).val(min);
+                        } else {
+                            if(val != valFloat) {
+                                    $(ev.target).val(val);
+                            }
+                            if(val > max) {
+                                    $(ev.target).val(max);
+                            }else if(val < min) {
+                                    $(ev.target).val(min);
+                            } 
                         }
-                        if(val != valFloat) {
-                                $(ev.target).val(val);
-                        }
-                        if(val > max) {
-                                $(ev.target).val(max);
-                        }else if(val < min) {
-                                $(ev.target).val(min);
-                        } 
                 });
         }
         function displayOfferDesigner(gamestate) {

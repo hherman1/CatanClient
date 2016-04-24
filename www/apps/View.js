@@ -1,15 +1,15 @@
 //Concept:
-//There are messages and clients. Clients send and receive messages. 
-// UIViews are Clients which interact with the UI (typically the DOM). 
+//There are messages and clients. Clients send and receive messages.
+// UIViews are Clients which interact with the UI (typically the DOM).
 //
 //Purpose:
-// This is a generalization of the UI pattern we've used so far, 
+// This is a generalization of the UI pattern we've used so far,
 // to make it much easier to manage our UI.
 //
 // Future:
 // It may make sense to have Game implement Client
 
-//Do not put Messages/Message.Types here. Use registerType() from Types.js instead. 
+//Do not put Messages/Message.Types here. Use registerType() from Types.js instead.
 //See below for examples.
 View = {
         Message : {
@@ -76,7 +76,7 @@ View.Message.BuildChoice = function(sender,structure) {
 
 BuildChoiceView = function(structure,messageDestination) {
         var self = this;
-        var incomingTrades = 
+        var incomingTrades =
         $(".buildChoice[structure="+getStructureName(structure)+"]").click(function() {
                 sendMessage(new View.Message.BuildChoice(self,structure),messageDestination);
         });
@@ -116,6 +116,24 @@ function joinJQueryArray(list) {
         return $(list).map(function(){return this.toArray()});
 }
 
+View.Message.Type.WinnerMessage = registerType();
+
+View.Message.WinnerMessage = function(winner,sender){
+        this.winner = winner;
+        View.Message.Blank.call(this, sender, View.Message.Type.WinnerMessage);
+}
+WinnerMessageView = function(){
+        View.Message.Client.call(this, function(winnermessage){
+          if (winnermessage.type == View.Message.Type.WinnerMessage){
+            localStorage.setItem('winner',winnermessage.winner);
+             window.location.href = "www/result.html"; //goes to the results page
+          }
+          else{
+
+          }
+        })
+}
+
 function makeUIViews(destination) {
         var views = [];
         views.push(new EndTurnView(destination));
@@ -125,5 +143,6 @@ function makeUIViews(destination) {
         views.push(new BuildChoiceView(Structure.Settlement,destination));
         views.push(new BuildChoiceView(Structure.City,destination));
         views.push(new TradeView(destination));
+        views.push(new WinnerMessageView());
         return views;
 }

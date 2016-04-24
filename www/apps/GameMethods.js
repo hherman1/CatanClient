@@ -231,7 +231,9 @@ function resourceGeneration(diceRoll, playerList, vertexList, hexList, robber){
 				var currNeighbor = tileVertices[l];
 				if(currNeighbor.structure>0){
 					var receivingPlayer = getPlayers(currNeighbor.playerID, playerList)[0]; // Awards the correct resource to a player if they own a neighboring vertex
-					addResource(receivingPlayer.resources, hexList[i].resource, currNeighbor.structure);
+					if(hexList[i].resource != Resource.Desert){	
+						addResource(receivingPlayer.resources, hexList[i].resource, currNeighbor.structure);
+					}
 				}
 			}
 		}
@@ -247,7 +249,7 @@ function initSettlementResources(coords, hexList, player){
 	var resourceHexCoords = adjacentHexes(coords);
 	for(var i = 0; i<resourceHexCoords.length;i++){
 		var hex = findHex(resourceHexCoords[i], hexList); // For every adjacent hex, provides the player one of that hex's resource
-		if(hex != undefined){
+		if(hex != undefined && hex.resource != Resource.Desert){
 			addResource(player.resources, hex.resource, 1);
 		}
 	}

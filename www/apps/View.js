@@ -122,6 +122,7 @@ View.Message.WinnerMessage = function(winner,sender){
         this.winner = winner;
         View.Message.Blank.call(this, sender, View.Message.Type.WinnerMessage);
 }
+
 WinnerMessageView = function(){
         View.Message.Client.call(this, function(winnermessage){
           if (winnermessage.type == View.Message.Type.WinnerMessage){
@@ -134,6 +135,27 @@ WinnerMessageView = function(){
         })
 }
 
+View.Message.Type.PhaseMessage = registerType();
+
+View.Message.PhaseMessage = function(phase,sender) {
+    this.phase = phase;
+    View.Message.Blank.call(this,sender,View.Message.Type.PhaseMessage);
+
+}
+TimerMessageView = function() {
+    View.Message.Client.call(this,function(message){
+        if(message.type == View.Message.Type.PhaseMessage) {
+            if(message.phase == Phase.Init){
+                $("#phaseMessage").html("GAME START");
+                $("#phaseMessageHolder").attr("phase","init");
+            }else if(message.phase == Phase.Normal){
+                $("#phaseMessage").html("BUILDING");
+                $("#phaseMessageHolder").attr("phase","normal");
+            }
+        }
+    });
+}
+
 function makeUIViews(destination) {
         var views = [];
         views.push(new EndTurnView(destination));
@@ -144,5 +166,6 @@ function makeUIViews(destination) {
         views.push(new BuildChoiceView(Structure.City,destination));
         views.push(new TradeView(destination));
         views.push(new WinnerMessageView());
+        views.push(new TimerMessageView());
         return views;
 }

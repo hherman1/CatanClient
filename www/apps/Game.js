@@ -187,6 +187,8 @@ function endTurn(game) {
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
         }
 
+        sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game),game.views);
+
         for(var i = 0; i<game.gamestate.players.length;i++) {
          //   console.log(game.gamestate.players[i]);
             if (checkPlayerWin(game.gamestate.players[i])) {

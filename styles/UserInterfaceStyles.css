@@ -384,21 +384,43 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 	border-bottom: solid black 1px;
 }
 
-.phaseMessageHolder {
+#phaseMessageHolder {
 	margin: 0px;
 	padding: 5px;
+	border-radius: 0 0 0 7px;
 }
 
-.phaseMessageInnerHolder {
+#phaseMessageHolder[phase="init"] {
+	background-color: green;
+}
+
+#phaseMessageHolder[phase="normal"] {
+	background-color: blue;
+}
+
+#phaseMessageInnerHolder {
 	margin: 0px;
 	padding: 4px;
-	border-radius: 0 0 0 4px;
-	border: solid blue 2px;
+	border-radius: 6px 6px 6px 6px;
+	background-color: white;
 }
 
-.phaseMessage {
+
+#phaseMessage {
   font-family: Papyrus, fantasy;
 	margin: 0px;
+	text-align: center;
+}
+
+#phaseMessage[phase="init"] {
+	color: green;
+}
+#phaseMessageHolder[phase="init"] #phaseMessage {
+	color:green;
+}
+
+#phaseMessage[phase="normal"] {
+	color: blue;
 }
 
 .timerTitleHolder {

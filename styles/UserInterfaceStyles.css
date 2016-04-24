@@ -20,7 +20,7 @@ body {
 	width: 320px;
 	height: 75px;
 	font-size: 50px;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+	font-family: Papyrus, fantasy;
 
 }
 
@@ -40,7 +40,7 @@ body {
 	color: #696558;
 	width: 50%;
 	font-size: 30px;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+	font-family: Papyrus, fantasy;;
 
 }
 #undoButton:hover:enabled{
@@ -118,6 +118,7 @@ body {
 }
 
 .resourceValue{
+  font-family: Papyrus, fantasy;
 	cursor:default;
 	display: inline;
 	font-size: 24px;
@@ -136,7 +137,7 @@ body {
 .buildCardTitle{
 	border-right: solid black 1px;
 	border-left: solid black 1px;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;;
+	font-family: Papyrus, fantasy;;
 	font-size: 30px;
 	margin: 0;
 	text-align: center;
@@ -169,6 +170,7 @@ body {
 
 .choiceTitle{
 	margin: 0;
+  font-family: Papyrus, fantasy;
 }
 
 .choiceInfo{
@@ -182,11 +184,16 @@ body {
 	width: 300px;
 }
 
+.victoryPointStructureValue{
+    font-family: Papyrus, fantasy;
+}
+
 #playerTabTemplate {
         display:none
 }
 /*Player Personal Tabs*/
 .playerDiv{
+  font-family: Papyrus, fantasy;
 	display:inline-block;
 	width: 153px;
 }
@@ -370,7 +377,7 @@ font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter
 	margin: 0px;
 	margin: 0 0 0 4px;
 	color: #696558;
-	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+	font-family: Papyrus, fantasy;
 }
 
 .timerModule {

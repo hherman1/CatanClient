@@ -396,20 +396,16 @@ font-family: Papyrus, fantasy; }
 }
 
 #phaseMessageHolder[phase="init"] {
-	background-color: green;
+	background-color: #ff00ff;
 }
 
 #phaseMessageHolder[phase="normal"] {
-	background-color: blue;
+	background-color: #0000FF;
 }
 
-#phaseMessageInnerHolder {
-	margin: 0px;
-	padding: 4px;
-	border-radius: 6px 6px 6px 6px;
-	background-color: white;
+#phaseMessageHolder[phase="trade"] {
+	background-color: #00cc00;
 }
-
 
 #phaseMessage {
   font-family: Papyrus, fantasy;
@@ -417,15 +413,22 @@ font-family: Papyrus, fantasy; }
 	text-align: center;
 }
 
-#phaseMessage[phase="init"] {
-	color: green;
-}
 #phaseMessageHolder[phase="init"] #phaseMessage {
-	color:green;
+	color: #ff00ff;
+}
+#phaseMessageHolder[phase="trading"] #phaseMessage {
+	color:#00cc00;
 }
 
-#phaseMessage[phase="normal"] {
-	color: blue;
+#phaseMessage[phase="normal"] #phaseMessage {
+	color: #0000FF;
+}
+
+#phaseMessageInnerHolder {
+	margin: 0px;
+	padding: 4px;
+	border-radius: 6px 6px 6px 6px;
+	background-color: white;
 }
 
 .timerTitleHolder {

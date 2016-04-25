@@ -199,11 +199,6 @@ body {
   font-family: Papyrus, fantasy;
 	display:inline-block;
 	width: 153px;
-  font-size: 18px;
-}
-
-.playerDiv .playerInfo {
-  font-size: 11px;
 }
 
  .playerDiv[active=true] .playerName {
@@ -226,7 +221,6 @@ body {
 
 .playerNameTab {
         position:relative;
-
 }
 .playerNameTab:hover > .overlay {
         opacity:0.25;
@@ -376,19 +370,27 @@ font-family: Papyrus, fantasy; }
 .topRightGlobalTimer {
 	position: absolute;
 	right: 0;
-	top: -1.5%;
+	top: 0;
 	background-color: #FFF0BD;
 	width: 145px;
 	border: solid black 1px;
 	border-radius: 0px 0px 0 8px;
 }
 
-.timer{
+#clock{
 	display: inline-block;
 	margin: 0px;
-	margin: 0 0 0 4px;
-	color: #696558;
-	font-family: Papyrus, fantasy;
+	padding: 0px;
+	font-family: Papyrus-fantasy;
+	font-size: 18px;
+	left: 50%;
+	position: relative;
+	padding-bottom: 4px;
+	transform: translate(-50%, 0);
+}
+
+.timerHolder {
+	position: absolute center;
 }
 
 .timerModule {
@@ -443,8 +445,17 @@ font-family: Papyrus, fantasy; }
 	padding: 0px 0px 0px 10px;
 }
 
+.timerTitle {
+	text-align: center;
+	font-size: 20px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
 .titleHolder {
 	background-color: #FFF0BD;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
 }
 
 .tradeoffer-screen {

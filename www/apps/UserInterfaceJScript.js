@@ -40,8 +40,10 @@ function getTimeElapsed(){
     var minutes = Math.floor( (t/1000/60) % 60 );
     var hours = Math.floor( (t/(1000*60*60)) % 24 );
     return{seconds, minutes, hours}
+
 };
 //Helper function for keeping the clock updated
+
 var hoursSpan = clock.querySelector('.hours');
 var minutesSpan = clock.querySelector('.minutes');
 var secondsSpan = clock.querySelector('.seconds');

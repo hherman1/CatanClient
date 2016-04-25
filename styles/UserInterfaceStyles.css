@@ -492,3 +492,34 @@ address {
     text-align: left;
     font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }
+
+.bank {
+	position:absolute;
+	top: 80%;
+	left: 0%;
+}
+
+.bankHeader {
+	background: #00cc00;
+	margin:0px;
+	border-radius: 0 8px 0 0;
+	border: black solid 1px;
+	width:300px;
+}
+
+.bankChoices {
+	background-color: white;
+	display: inline-block;
+	margin:0px;
+	padding:0px;
+	width: 460px;
+	height: 65px;
+}
+
+.bankIcon {
+	width: 40px;
+	height: 65px;
+	background-color: black;
+	float: right;
+	border-radius: 0 10px 10px 0;
+}

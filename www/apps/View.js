@@ -151,6 +151,9 @@ TimerMessageView = function() {
             }else if(message.phase == Phase.Normal){
                 $("#phaseMessage").html("BUILDING");
                 $("#phaseMessageHolder").attr("phase","normal");
+            }else if(message.phase == Phase.Normal){
+                $("#phaseMessage").html("TRADING");
+                $("#phaseMessageHolder").attr("phase","trading");
             }
         }
     });

@@ -199,6 +199,11 @@ body {
   font-family: Papyrus, fantasy;
 	display:inline-block;
 	width: 153px;
+  font-size: 18px;
+}
+
+.playerDiv .playerInfo {
+  font-size: 11px;
 }
 
  .playerDiv[active=true] .playerName {
@@ -221,6 +226,7 @@ body {
 
 .playerNameTab {
         position:relative;
+
 }
 .playerNameTab:hover > .overlay {
         opacity:0.25;

@@ -20,7 +20,7 @@ body {
 	width: 320px;
 	height: 75px;
 	font-size: 50px;
-	font-family: Papyrus, fantasy;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 
 }
 
@@ -40,7 +40,7 @@ body {
 	color: #696558;
 	width: 50%;
 	font-size: 30px;
-	font-family: Papyrus, fantasy;;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;;
 
 }
 #undoButton:hover:enabled{
@@ -119,7 +119,7 @@ body {
 }
 
 .resourceValue{
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	cursor:default;
 	display: inline;
 	font-size: 24px;
@@ -138,7 +138,7 @@ body {
 .buildCardTitle{
 	border-right: solid black 1px;
 	border-left: solid black 1px;
-	font-family: Papyrus, fantasy;;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;;
 	font-size: 30px;
 	margin: 0;
 	text-align: center;
@@ -172,7 +172,7 @@ body {
 
 .choiceTitle{
 	margin: 0;
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }
 
 .choiceInfo{
@@ -188,7 +188,7 @@ body {
 }
 
 .victoryPointStructureValue{
-    font-family: Papyrus, fantasy;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }
 
 #playerTabTemplate {
@@ -196,7 +196,7 @@ body {
 }
 /*Player Personal Tabs*/
 .playerDiv{
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	display:inline-block;
 	width: 153px;
   font-size: 18px;
@@ -303,7 +303,7 @@ body {
 
 
 h1 {
-font-family: Papyrus, fantasy; }
+font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; }
 
 
 #game {
@@ -334,7 +334,7 @@ font-family: Papyrus, fantasy; }
         transform: translate(-50%,-50%);
 }
 #loading > h1 {
-        font-family: Papyrus, fantasy;
+        font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
         margin:5px;
 
 }
@@ -388,7 +388,7 @@ font-family: Papyrus, fantasy; }
 	margin: 0px;
 	margin: 0 0 0 4px;
 	color: #696558;
-	font-family: Papyrus, fantasy;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }
 
 .timerModule {
@@ -418,7 +418,7 @@ font-family: Papyrus, fantasy; }
 
 
 #phaseMessage {
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	margin: 0px;
 	text-align: center;
 }
@@ -435,7 +435,7 @@ font-family: Papyrus, fantasy; }
 }
 
 .timerTitleHolder {
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	position: center;
 	padding: 0px 0px 0px 10px;
 }
@@ -455,7 +455,7 @@ font-family: Papyrus, fantasy; }
         height:75%;
         width:50%;
         transform:translate(-50%,-50%);
-        font-family: Papyrus, fantasy;
+        font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
         font-size: 14px;
 }
 
@@ -472,5 +472,5 @@ address {
     display: block;
     font-style: italic;
     text-align: left;
-    font-family: Papyrus, fantasy;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }

@@ -2,7 +2,7 @@
 body {
   padding-left: 18em;
   padding-top: 3em;
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   color: #17324f;
   background-color: #77B2EB;
   background-image: url("../graphics/splash.svg");
@@ -16,7 +16,7 @@ ul.navbar {
   left: 5em;
   width: 10em }
 h1 {
-font-family: Papyrus, fantasy;
+font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 font-size: 38px;}
 ul.navbar li {
   background: #f6bc73;
@@ -25,7 +25,7 @@ ul.navbar li {
   border-right: 1em solid #17324f;
   border-radius: 10px;}
 ul.navbar a {
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   text-decoration: none }
 a:link {
   color: #17324f;
@@ -44,7 +44,7 @@ a:hover{
 input[type=button]{
   background-color: #f6bc73;
   color: #17324f;
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   font-size: 24px;
   border: none;
   padding: 5px 5px 5px 0px;
@@ -58,7 +58,7 @@ input[type=button]:hover{
   border-radius: 10px;
 }
 address {
-    font-family: Papyrus, fantasy;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
     display: block;
     font-style: italic;
     font-size: 16px;

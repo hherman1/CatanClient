@@ -326,7 +326,13 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 var drawCircle = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-                        pushAnimation(new InfoBox(game.mouse.pos,"hex.type hex.resource hex.token",200,100,20),game);
+
+                        pushAnimation(new InfoBox(game.mouse.pos,"Terrain: "
+                                                                + getResourceTerrainName(maxHit.data.resource)
+                                                                + " Resource: "
+                                                                + getResourceName(maxHit.data.resource)
+                                                                + " Token: "
+                                                                + maxHit.data.token,100,100,20),game);
 
                 }
 

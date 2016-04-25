@@ -2,7 +2,7 @@
 /*                               DATA TYPES                           */
 ////////////////////////////////////////////////////////////////////////
 
-Phase = {               
+Phase = {
     Init: 0,
     Normal: 1,
     Trading: 2
@@ -117,6 +117,49 @@ Position = {
 ////////////////////////////////////////////////////////////////////////
 /*                     BOARD BUILDING FUNCTIONS                       */
 ////////////////////////////////////////////////////////////////////////
+
+/*Returns the name of the resource: Lumber : 0,
+Wool : 1,
+Ore : 2,
+Brick : 3,
+Grain : 4,
+Desert : 5
+*/
+function getResourceName(resource) {
+        switch(resource) {
+            case Resource.Wool:
+              return "Wool";
+            case Resource.Ore:
+              return "Ore";
+            case Resource.Lumber:
+              return "Lumber";
+            case Resource.Brick:
+              return "Brick";
+            case Resource.Grain:
+              return "Grain";
+            case Resource.Desert:
+              return "Produces Nothing";
+
+  }
+}
+
+function getResourceTerrainName(resource) {
+        switch(resource) {
+            case Resource.Wool:
+              return "Pasture";
+            case Resource.Ore:
+              return "Mountains";
+            case Resource.Lumber:
+              return "Forest";
+            case Resource.Brick:
+              return "Hills";
+            case Resource.Grain:
+              return "Fields";
+            case Resource.Desert:
+              return "Desert";
+
+  }
+}
 
 // Functions concerned with creating the board objects
 

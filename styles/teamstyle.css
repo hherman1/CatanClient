@@ -1,6 +1,6 @@
 body {
   padding-left: 17em;
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   color: #17324f;
   background-color: #77B2EB
 }
@@ -21,12 +21,12 @@ ul.navbar li {
 ul.navbar a {
   text-decoration: none;
   font-weight: normal;
-  font-size: 22px;
+  font-size: 20px;
 }
 ul.navbar a:hover {
   background-color: #ffecbc;
   text-decoration: none;
-  font-size: 24px;
+  font-size: 22px;
   padding: 5px;
   border-radius: 10px;
 }

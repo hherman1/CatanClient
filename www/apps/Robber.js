@@ -5,25 +5,25 @@ Robber = function(hex) {
   this.hex = hex;
 }
 
-function moveRobber(robber, hex, player){
+function moveRobber(robber, hex){
   robber.hex = hex;
   hex.robber = true;
-  robHex(hex,player);
 }
 
 function drawRobber(x, y, z, ctx){
   ctx.drawImage(getRobberImg(), x-30, y-(z*0.75), z*1.2, z*1.5);
 }
 
-function robHex(hex,player){
-  var vertices = vertices(hex.coordinate);
+function robHex(hex,player, vertexList, playerList){
+  var affectedVertices = vertices(hex.coordinate);
   var affectedPlayers = [];
   for(var i = 0; i<6;i++){
-    if(vertices[i].playerID>0){
-      affectedPlayers.push(vertices[i].playerID);
+      var vert = findVertex(vertexList, affectedVertices[i]);
+    if(vert.playerID>0){
+      affectedPlayers.push(vert.playerID);
     }
   }
-  var affectedPlayer = affectedPlayers[Math.round(Math.random() * affectedPlayers.size)];
+  var affectedPlayer = getPlayer(affectedPlayers[Math.round(Math.random() * affectedPlayers.length)],playerList);
     robPlayer(player, affectedPlayer);
 }
 
@@ -41,6 +41,10 @@ function robPlayer(receivingPlayer, losingPlayer){
             break;
         }
     }
+    console.log(receivingPlayer.resources);
+    console.log(losingPlayer.resources);
     receivingPlayer.resources[i]++;
     losingPlayer.resources[i]--;
+    console.log(receivingPlayer.resources);
+    console.log(losingPlayer.resources);
 }

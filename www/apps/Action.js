@@ -3,6 +3,7 @@ Action = {
         BuildRoad: 0,
         BuildSettlement: 1,
         BuildCity: 2,
+        RobHex: 3
     },
     BuildRoad : function(coordinateA,coordinateB) {
         this.type = Action.Type.BuildRoad;
@@ -16,8 +17,12 @@ Action = {
     BuildCity : function(coordinate) {
         this.type = Action.Type.BuildCity;
         this.coordinate = coordinate;
+    },
+    RobHex : function(coordinate){
+        this.type = Action.Type.RobHex;
+        this.coordinate = coordinate;
     }
-}
+};
 
 
 function nextPlayerInit(gamestate) {
@@ -117,8 +122,25 @@ function validateInit(action,gamestate,player) {
                                                              , gamestate.board.vertices));
                 case Action.Type.BuildCity:
                         return false;
+                case Action.Type.RobHex:
+                        return false;
         }
 }
+
+function validateRobbing(action, gamestate, player){
+    switch (action.type){
+        case Action.Type.BuildCity:
+            return false;
+        case Action.Type.BuildRoad:
+            return false;
+        case Action.Type.BuildSettlement:
+            return false;
+        case Action.Type.RobHex:
+            return checkRobbingLegality(player, gamestate.board.robber, action.coordinate, gamestate.board.hexes, gamestate.board.vertices);
+
+    }
+}
+
 
 function validateNormal(action,gamestate,player) {
         switch (action.type) {
@@ -144,6 +166,8 @@ function validateNormal(action,gamestate,player) {
                         }
                         //console.log("City illegal");
                         return false;
+                case Action.Type.RobHex:
+                    return false;
         }
 }
 
@@ -153,13 +177,18 @@ function validateAction (action,gamestate,player) {
                 case Phase.Init:
                         return validateInit(action,gamestate,player);
                 case Phase.Normal:
-                        var cost = getPrice(getActionBuildStructure(action));
-                        if(!player.resources.every(function(e,i) {
-                                return e >= cost[i]
-                        })) {return false};
-                        return validateNormal(action,gamestate,player);
-                case Phase.Trading:
-                        return false;
+                        switch(gamestate.subPhase){
+                            case SubPhase.Building:
+                                var cost = getPrice(getActionBuildStructure(action));
+                                if(!player.resources.every(function(e,i) {
+                                        return e >= cost[i]
+                                    })) {return false};
+                                return validateNormal(action,gamestate,player);
+                            case SubPhase.Trading:
+                                return false;
+                            case SubPhase.Robbing:
+                                return validateRobbing(action, gamestate, player);
+                        }
         }
 }
 
@@ -181,10 +210,11 @@ function flushActions(actions){
 function applyAction(action,gamestate,player) {
         switch(gamestate.phase){
                 case Phase.Normal:
-                    player.resources = subtractResources(player.resources,getPrice(getActionBuildStructure(action)));
-                    updateResourceBar(player);
-                    break;
-
+                    if(gamestate.subPhase == SubPhase.Building) {
+                        player.resources = subtractResources(player.resources, getPrice(getActionBuildStructure(action)));
+                        updateResourceBar(player);
+                        break;
+                    }
         }
         switch(action.type) {
                 case Action.Type.BuildSettlement:
@@ -225,6 +255,13 @@ function applyAction(action,gamestate,player) {
                         player.vicPoints+=ROAD_VPS;
 
                         break;
+            case Action.Type.RobHex:
+                    var hex = findHex(action.coordinate, gamestate.board.hexes);
+                    moveRobber(gamestate.board.robber, hex);
+                    //drawRobber(); // How?
+                    robHex(hex, player, gamestate.board.vertices, gamestate.players);
+                    gamestate.phase = Phase.Normal;
+                        break;
         }
 }
 
@@ -240,6 +277,9 @@ function genPotentialAction(vertices,roads,actions,box) {
         if(box == null) {
                 return null;
         }
+        if(box.data.type == Position.Type.Hex){
+            return new Action.RobHex(box.data.coordinate);
+        }
         switch(getHitboxStructure(vertices,roads,box)) {
                 case Structure.Empty:
                         switch(box.data.type) {
@@ -250,6 +290,8 @@ function genPotentialAction(vertices,roads,actions,box) {
                                         return new Action.BuildSettlement(box.data.coordinate);
                                 case Position.Type.Road:
                                         return new Action.BuildRoad(box.data.coord1,box.data.coord2);
+
+
                         }
                         break;
                 case Structure.Settlement:

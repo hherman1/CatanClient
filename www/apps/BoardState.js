@@ -4,8 +4,13 @@
 
 Phase = {               
     Init: 0,
-    Normal: 1,
-    Trading: 2
+    Normal: 1
+};
+
+SubPhase = {
+    Building: 0,
+    Trading: 1,
+    Robbing: 2
 };
 
 Rotation = {
@@ -393,3 +398,4 @@ function updateGamePhase(gamestate) {
                 }
         }
 }
+

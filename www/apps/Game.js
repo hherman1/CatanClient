@@ -59,6 +59,7 @@ Reference = function(data) {
 GameState = function() {
         this.board = new Board();
         this.phase = Phase.Init;
+        this.subPhase = SubPhase.Building;
         this.rotation = Rotation.Forwards;
         this.players = [];
         this.tradeoffers = [];
@@ -109,18 +110,25 @@ Server = function() {
             updateGamePhase(this.gamestate);
             nextPlayer(this.gamestate);//Change current player ID
             if(this.gamestate.phase == Phase.Normal) {
-                    this.roll.first = rollDice();
-                    this.roll.second = rollDice();
-                    resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
-            }
+                this.roll.first = rollDice();
+                this.roll.second = rollDice();
+                resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
 
+                if (this.roll.first + this.roll.second == 7) {
+                    this.gamestate.subPhase = SubPhase.Robbing;
+                }
+                else {
+                    this.gamestate.subPhase = SubPhase.Trading;
+                }
+            }
+            }
             this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
             //UI method to show the new resources that players recieved at the start of their new turn
             //Generate resources
         }
-}
+
 
 Buffer = function() {
     this.mouse = new MouseBuffer();
@@ -161,6 +169,7 @@ cloneGameState = function(gameState) {
         out.players = gameState.players.map(clonePlayer);
         out.currentPlayerID = gameState.currentPlayerID;
         out.phase = gameState.phase;
+        out.subPhase = gameState.subPhase;
         out.rotation = gameState.rotation;
         out.tradeoffers = gameState.tradeoffers.map(cloneTradeOffer);
         out.longestRoad = gameState.longestRoad;
@@ -185,9 +194,12 @@ function endTurn(game) {
                 var roll = game.server.getRoll();
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
+            if(game.gamestate.subPhase == SubPhase.Trading){
+                displayTrade(game);
+            }
         }
 
-        sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game),game.views);
+    sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game),game.views);
 
         for(var i = 0; i<game.gamestate.players.length;i++) {
          //   console.log(game.gamestate.players[i]);
@@ -201,19 +213,23 @@ function endTurn(game) {
                 //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
         }
-//        game.gamestate.tradeoffers = [new TradeOffer(1,1,2,[0,0,99,0,0],[0,0,1,0,0])];
-        var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers)
-        sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
-                   ,game.views);
-        incomingTrades.forEach(function(trade) {
-                sendMessage(new View.Message.AcceptValidation(game
-                                                             ,trade.tradeID
-                                                             ,validateAccept(game.gamestate
-                                                                            ,trade.targetID
-                                                                            ,trade.requestResources))
-                           ,game.views);
-        });
+
         renderGame(game,null);
+
+}
+
+function displayTrade(game){
+    var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
+    sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
+        ,game.views);
+    incomingTrades.forEach(function(trade) {
+        sendMessage(new View.Message.AcceptValidation(game
+                ,trade.tradeID
+                ,validateAccept(game.gamestate
+                    ,trade.targetID
+                    ,trade.requestResources))
+            ,game.views);
+    });
 }
 
 function processUIMessage(message,game) {
@@ -309,7 +325,7 @@ function gameStep(game) {
         var maxHit = getMaxPositionHit(game.hits);
         var potentialAction = genPotentialAction(game.gamestate.board.vertices
                                                  ,game.gamestate.board.roads
-                                                 ,game.actions.data
+                                                 , game.actions.data
                                                  ,maxHit);
 
         if(game.hits.length != 0 || game.graphics.animations.data.length != 0) {
@@ -332,8 +348,17 @@ function gameStep(game) {
 
                 if(potentialAction != null) {
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-                                game.actions.data.push(potentialAction);
-                                applyActionForCurrentPlayer(potentialAction,game.teststate);
+                            console.log("validate passed for robber");
+                                if (potentialAction.type == Action.Type.RobHex){
+                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                                    game.teststate = cloneGameState(game.gamestate);
+                                    game.gamestate.subPhase = SubPhase.Trading;
+                                    displayTrade(game);
+                                }
+                                else {
+                                    game.actions.data.push(potentialAction);
+                                    applyActionForCurrentPlayer(potentialAction, game.teststate);
+                                }
                         } else {
                                 pushAnimation(new XClick(game.mouse.pos,15,10),game);
                                 drawCircle = false;

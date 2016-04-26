@@ -148,12 +148,15 @@ TimerMessageView = function() {
             if(message.phase == Phase.Init){
                 $("#phaseMessage").html("GAME START");
                 $("#phaseMessageHolder").attr("phase","init");
-            }else if(message.phase == Phase.Normal){
+            }else if(message.subPhase == subPhase.Building){
                 $("#phaseMessage").html("BUILDING");
                 $("#phaseMessageHolder").attr("phase","normal");
-            }else if(message.phase == Phase.Normal){
+            }else if(message.subPhase == subPhase.Trading){
                 $("#phaseMessage").html("TRADING");
                 $("#phaseMessageHolder").attr("phase","trading");
+            }else if(message.subPhase == subPhase.Robbing){
+                $("#phaseMessage").html("Robbin'");
+                $("#phaseMessageHolder").attr("phase","robbing");
             }
         }
     });

@@ -114,6 +114,7 @@ body {
 	display: inline-block;
 	margin: 0 0 0 11px;
 }
+
 .resourcePicAndNumHolder > img {
         height:60px;
 }
@@ -418,6 +419,10 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	background-color: #00cc00;
 }
 
+#phaseMessageHolder[phase="robbing"] {
+	background-color: red;
+}
+
 #phaseMessage {
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	margin: 0px;
@@ -433,6 +438,10 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 
 #phaseMessage[phase="normal"] #phaseMessage {
 	color: #0000FF;
+}
+
+#phaseMessage[phase="robbing"] #phaseMessage {
+	color: red;
 }
 
 #phaseMessageInnerHolder {
@@ -524,4 +533,16 @@ address {
 	background-color: white;
 	float: right;
 	border-radius: 0 10px 10px 0;
+}
+
+.bankResourceAmt{
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	cursor:default;
+	display: inline;
+	font-size: 24px;
+}
+
+.bankPicHolder{
+	display: inline-block;
+	margin: 0 0 0 11px;
 }

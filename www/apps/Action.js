@@ -59,6 +59,8 @@ function drawAction(action,color,side,ctx) {
         case Action.Type.BuildCity:
             drawBuilding(action.coordinate,Structure.City,color,side,ctx);
             break;
+        case Action.Type.RobHex:
+            drawRobberFromHex(action.coordinate, side, ctx);
     }
 }
 
@@ -235,7 +237,7 @@ function applyAction(action,gamestate,player) {
                                         player.firstSettlementsCoords.push(action.coordinate);
                                     }
                                 }
-                        })
+                        });
                         break;
                 case Action.Type.BuildCity:
                         findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {

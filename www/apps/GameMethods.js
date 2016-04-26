@@ -153,10 +153,10 @@ function longestRoad(vert, vertexList, roadList, player, visitedVertices){
  * Given a hex, checks to see if the hex has been settled by players other than the current player.
  */
 
-function checkHexSettled(hex, player, vertList){
+function checkHexSettled(hex, player, vertexList){
 	var borderVertices = vertices(hex.coordinate);
 	for (var i = 0; i<borderVertices.length; i++){
-		var vert = findVertex(vertList, borderVertices[i]);
+		var vert = findVertex(vertexList, borderVertices[i]);
 		if(vert.structure>0 && vert.playerID != player.id){
 			return true;
 		}

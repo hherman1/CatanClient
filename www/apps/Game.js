@@ -125,7 +125,7 @@ Server = function() {
             this.gamestate.tradeoffers = filterValidTradeOffers(this.gamestate);
 
             //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
-            //UI method to show the new resources that players recieved at the start of their new turn
+            //UI method to show the new resources that players received at the start of their new turn
             //Generate resources
         }
 
@@ -189,16 +189,17 @@ function pushAnimation(animation,game) {
 function endTurn(game) {
         game.server.endTurn(game.actions);
         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
-        game.teststate = cloneGameState(game.gamestate);
+        //game.teststate = cloneGameState(game.gamestate);
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
             if(game.gamestate.subPhase == SubPhase.Trading){
                 displayTrade(game);
+                game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
             }
         }
-
+    game.teststate = cloneGameState(game.gamestate);
     sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game),game.views);
 
         for(var i = 0; i<game.gamestate.players.length;i++) {
@@ -357,8 +358,8 @@ function gameStep(game) {
                             console.log("validate passed for robber");
                                 if (potentialAction.type == Action.Type.RobHex){
                                     applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                                    game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
                                     game.teststate = cloneGameState(game.gamestate);
-                                    game.gamestate.subPhase = SubPhase.Trading;
                                     displayTrade(game);
                                 }
                                 else {

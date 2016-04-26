@@ -19,7 +19,7 @@ function robHex(hex,player, vertexList, playerList){
   var affectedPlayers = [];
   for(var i = 0; i<6;i++){
       var vert = findVertex(vertexList, affectedVertices[i]);
-    if(vert.playerID>0){
+    if(vert.playerID>0 && vert.playerID != player.id){
       affectedPlayers.push(vert.playerID);
     }
   }

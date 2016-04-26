@@ -39,7 +39,7 @@ function getActionBuildStructure(action) {
                     return Structure.Settlement;
                 case Action.Type.BuildCity:
                     return Structure.City;
-        } 
+        }
 }
 
 function drawActions(actions,color,side,ctx) {
@@ -59,6 +59,10 @@ function drawAction(action,color,side,ctx) {
         case Action.Type.BuildCity:
             drawBuilding(action.coordinate,Structure.City,color,side,ctx);
             break;
+        case Action.Type.RobHex:
+            drawRobber(action.coordinate.x, action.coordinate.y, side, ctx);
+            break;
+
     }
 }
 

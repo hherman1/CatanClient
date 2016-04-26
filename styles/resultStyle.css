@@ -9,7 +9,7 @@ html, body {
 
 h1{
   margin-top: .5em;
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   font-size: 40px;
   text-align: center;
   text-decoration: none;
@@ -35,7 +35,7 @@ a:hover{
 }
 
 h2{
-  font-family: Papyrus, fantasy;
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   font-size: 56px;
   text-align: center;
   color: #F64F5C;

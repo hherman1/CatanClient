@@ -99,16 +99,17 @@ Server = function() {
         this.addPlayer = function(player) {
                 this.gamestate.players.push(player);
         }
-        this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes){
+        this.endTurn = function(actionsToBeValidated, diceRoll, players, vertices, hexes) {
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
 
             checkLongestRoad(this.gamestate);
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
-                                                                ,this.gamestate.tradeoffers);
+                , this.gamestate.tradeoffers);
 
-            updateGamePhase(this.gamestate);
-            nextPlayer(this.gamestate);//Change current player ID
+            if (!updateGamePhase(this.gamestate)) {
+                nextPlayer(this.gamestate);//Change current player ID
+            }
             if(this.gamestate.phase == Phase.Normal) {
                 this.roll.first = rollDice();
                 this.roll.second = rollDice();

@@ -510,6 +510,7 @@ address {
 .bankChoices {
 	background-color: white;
 	display: inline-block;
+	border: solid black 1px;
 	margin:0px;
 	padding:0px;
 	width: 460px;
@@ -519,7 +520,8 @@ address {
 .bankIcon {
 	width: 40px;
 	height: 65px;
-	background-color: black;
+	border: solid black 1px;
+	background-color: white;
 	float: right;
 	border-radius: 0 10px 10px 0;
 }

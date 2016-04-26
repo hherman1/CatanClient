@@ -426,6 +426,7 @@ function compareTwoCoordPositions(object1coord1, object1coord2, object2coord1, o
 }
 
 //TODO: Comment
+// Returns true for phase switch
 
 function updateGamePhase(gamestate) {
         if(gamestate.phase == Phase.Init) {
@@ -433,11 +434,14 @@ function updateGamePhase(gamestate) {
                         if(gamestate.players[0].id == gamestate.currentPlayerID) {
                                 gamestate.rotation = Rotation.Forwards;
                                 gamestate.phase = Phase.Normal;
+                                return true;
                         }
                 } else if(gamestate.rotation == Rotation.None) {
                         gamestate.rotation = Rotation.Backwards;
+                        return false;
                 } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
                         gamestate.rotation = Rotation.None;
+                        return false;
                 }
         }
 }

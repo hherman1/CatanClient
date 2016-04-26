@@ -102,6 +102,19 @@ function checkInitRoadLegality(coords1, coords2, player, vertexList, roadList){
 }
 
 ////////////////////////////////////////////////////////////////////////
+/*                   ROBBING LEGALITY FUNCTIONS                       */
+////////////////////////////////////////////////////////////////////////
+
+function checkRobbingLegality(player, robber, coords, hexList, vertList){
+	var hex = findHex(coords, hexList);
+	if(hex == robber.hex){
+		return false;
+	}
+	return checkHexSettled(hex, player, vertList);
+
+}
+
+////////////////////////////////////////////////////////////////////////
 /*                     VICTORY POINT FUNCTIONS                        */
 ////////////////////////////////////////////////////////////////////////
 
@@ -135,6 +148,21 @@ function longestRoad(vert, vertexList, roadList, player, visitedVertices){
 ////////////////////////////////////////////////////////////////////////
 /*                            HELPER FUNCTIONS                        */
 ////////////////////////////////////////////////////////////////////////
+
+/* checkHexSettled
+ * Given a hex, checks to see if the hex has been settled by players other than the current player.
+ */
+
+function checkHexSettled(hex, player, vertList){
+	var borderVertices = vertices(hex.coordinate);
+	for (var i = 0; i<borderVertices.length; i++){
+		var vert = findVertex(vertList, borderVertices[i]);
+		if(vert.structure>0 && vert.playerID != player.id){
+			return true;
+		}
+	}
+	return false;
+}
 
 /* getConnectedVertices
  * Given vector coordinates, their owning player, and lists of roads and vertices,

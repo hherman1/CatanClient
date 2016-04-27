@@ -1,6 +1,6 @@
 # MacSettlers
 
-![](graphics/splash.svg?raw=true)
+![](graphics/splash.svg)
 
 ## Synopsis
 

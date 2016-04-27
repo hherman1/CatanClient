@@ -139,7 +139,6 @@ Buffer = function() {
 CatanGame = function(side,views) {
         var self=this;
         self.views  = views;
-        self.mouse = new Mouse(); //new Mouse();
         self.graphics = new Graphics(); //new Graphics();
         self.server = new Server(); //new Server();
         self.actions = new Reference([]); //new Reference([]);
@@ -155,6 +154,7 @@ CatanGame = function(side,views) {
                                    ,self.gamestate.board.hexes
                                    ,self.side)),self.views);
         }
+        self.processing = [];
         self.inbox = [];
         View.Message.Client.call(self,function(message) {
                 self.inbox.push(message);
@@ -195,13 +195,9 @@ function endTurn(game) {
                 var roll = game.server.getRoll();
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-            if(game.gamestate.subPhase == SubPhase.Trading){
                 displayTrade(game);
-                game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
-            }
         }
     game.teststate = cloneGameState(game.gamestate);
-    sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
 
         for(var i = 0; i<game.gamestate.players.length;i++) {
          //   console.log(game.gamestate.players[i]);
@@ -215,15 +211,17 @@ function endTurn(game) {
                 //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
         }
-
         renderGame(game,null);
 
 }
-
-function displayTrade(game){
+function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
-    sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
+    sendMessage(new View.Message.SetIncomingTrades(game,incomingTrades)
         ,game.views);
+}
+
+function sendAcceptValidations(game) {
+    var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
     incomingTrades.forEach(function(trade) {
         sendMessage(new View.Message.AcceptValidation(game
                 ,trade.tradeID
@@ -232,6 +230,12 @@ function displayTrade(game){
                     ,trade.requestResources))
             ,game.views);
     });
+}
+
+function displayTrade(game){
+        game.gamestate.subPhase = SubPhase.Trading;
+        sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+        sendMessage(new View.Message.DisplayTradeView(game),game.views);
 }
 
 function processUIMessage(message,game) {
@@ -284,11 +288,26 @@ function processUIMessage(message,game) {
                 var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
+                        game.teststate = cloneGameState(game.gamestate);
                         game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
                         updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
-            case View.Message.Type.IncomingTradesViewClosed:
-                sendMessage(new View.Message.DisplayOfferDesigner(game,game.gamestate),game.views);
+                break;
+            case View.Message.Type.RequestGameState:
+                respond(message,new View.Message.GameState(game,game.gamestate));
+                break;
+            case View.Message.Type.RequestAcceptValidations:
+                sendAcceptValidations(game);
+                break;
+            case View.Message.Type.RequestIncomingTrades:
+                sendIncomingTrades(game);
+                break;
+            case View.Message.Type.TradeViewClosed:
+                game.gamestate.subPhase = SubPhase.Building;
+                game.teststate = cloneGameState(game.gamestate);
+                updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+                break;
         }
 }
 
@@ -311,8 +330,10 @@ function processInbox(inbox, game){
 }
 
 function processGameInbox(game) {
-    processInbox(game.inbox, game);//Processes information from the UI in buffer
-    flushInbox(game.inbox);
+        game.processing = game.inbox.slice();
+        flushInbox(game.inbox);
+    processInbox(game.processing, game);//Processes information from the UI in buffer
+    flushInbox(game.processing);
 
 }
 
@@ -357,13 +378,12 @@ function gameStep(game) {
                 if(potentialAction != null) {
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
                             console.log("validate passed for robber");
-                                if (potentialAction.type == Action.Type.RobHex){
+                                if (game.gamestate.subPhase == SubPhase.Robbing 
+                                   && potentialAction.type == Action.Type.RobHex) {
                                     applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
                                     game.teststate = cloneGameState(game.gamestate);
                                     displayTrade(game);
-                                }
-                                else {
+                                } else if(game.gamestate.subPhase == SubPhase.Building) {
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
                                 }
@@ -375,6 +395,11 @@ function gameStep(game) {
                 if(drawCircle) {
                     pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);
                 }
+
+            if(game.gamestate.board.robber.moved) {
+                makeBoard(game);
+                game.gamestate.board.robber.moved = false;
+            }
                 shouldRedraw = true;
         }
 

@@ -3,8 +3,9 @@
 /* Robber constructor - the Robber object simply takes a positional argument, so that it knows which hex it's on
  */
 
-Robber = function(hex) {
+Robber = function(hex, moved) {
   this.hex = hex;
+    this.moved = false;
 }
 
 /* moveRobber
@@ -13,6 +14,7 @@ Robber = function(hex) {
 
 function moveRobber(robber, hex){
   robber.hex = hex;
+    robber.moved = true;
 }
 
 //TODO: Needs commenting

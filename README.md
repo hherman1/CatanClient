@@ -1,10 +1,10 @@
-# CatanClient
-
-Asynchronous online Catan
+# MacSettlers
 
 ## Synopsis
 
-Our project is to create a version of Settlers of Catan, an original board game created by Klaus Teuber.
+Our main project goal is to create a version of Settlers of Catan, an original board game created by Klaus Teuber. More specifically, our product--MacSettlers--is a multiplayer web game that allows gamers to play endless rounds of Settlers together without worrying about the cost of acquiring the game.
+
+The main purpose of this software project is to learn about software development and work as a team to produce a minimum viable product for our computer science course, COMP 225 Software Development and Design, taught by Professor Bret Jackson. Through this project, we practice becoming self-starters, learning JavaScript/CSS/HTML and dissecting the original game logic and design to build our website. Another motivation behind this project is to provide users in our community with an alternative option to the original Settlers of Catan game (the latter being expensive to acquire). MacSettlers is free and easy to use on a PC or Macintosh laptop/desktop and supports Google Chrome and Safari.
 
 ## How to run the game
 

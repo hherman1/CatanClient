@@ -201,7 +201,7 @@ function endTurn(game) {
             }
         }
     game.teststate = cloneGameState(game.gamestate);
-    sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game),game.views);
+    sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
 
         for(var i = 0; i<game.gamestate.players.length;i++) {
          //   console.log(game.gamestate.players[i]);

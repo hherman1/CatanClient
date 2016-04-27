@@ -135,28 +135,65 @@ WinnerMessageView = function(){
         })
 }
 
+// View.Message.Type.PhaseMessage = registerType();
+
+// View.Message.PhaseMessage = function(phase,sender) {
+//     this.phase = phase;
+//     View.Message.Blank.call(this,sender,View.Message.Type.PhaseMessage);
+
+// }
+// TimerMessageView = function() {
+//     View.Message.Client.call(this,function(message){
+//         if(message.type == View.Message.Type.PhaseMessage) {
+//             if(message.phase == Phase.Init){
+//                 $("#phaseMessage").html("GAME START");
+//                 $("#phaseMessageHolder").attr("phase","init");
+//             }else if(message.subPhase == subPhase.Building){
+//                 $("#phaseMessage").html("BUILDING");
+//                 $("#phaseMessageHolder").attr("phase","normal");
+//             }else if(message.subPhase == subPhase.Trading){
+//                 $("#phaseMessage").html("TRADING");
+//                 $("#phaseMessageHolder").attr("phase","trading");
+//             }else if(message.subPhase == subPhase.Robbing){
+//                 $("#phaseMessage").html("Robbin'");
+//                 $("#phaseMessageHolder").attr("phase","robbing");
+//             }
+//         }
+//     });
+// }
+
 View.Message.Type.PhaseMessage = registerType();
 
-View.Message.PhaseMessage = function(phase,sender) {
+View.Message.PhaseMessage = function(phase,subPhase,sender) {
     this.phase = phase;
+    this.subPhase = subPhase;
     View.Message.Blank.call(this,sender,View.Message.Type.PhaseMessage);
-
 }
+
+// View.Message.SubPhaseMessage = function(phase,subPhase,sender) {
+//     this.phase = phase;
+//     this.subPhase = subPhase;
+//     View.Message.Blank.call(this,sender,View.Message.Type.PhaseMessage);
+// }
+
 TimerMessageView = function() {
     View.Message.Client.call(this,function(message){
         if(message.type == View.Message.Type.PhaseMessage) {
-            if(message.phase == Phase.Init){
+            if(message.phase == Phase.Init) {
                 $("#phaseMessage").html("GAME START");
-                $("#phaseMessageHolder").attr("phase","init");
-            }else if(message.subPhase == subPhase.Building){
+                $("#phaseMessageHolder").attr("phase","init");                
+            }else if(message.subPhase == SubPhase.Building){
                 $("#phaseMessage").html("BUILDING");
                 $("#phaseMessageHolder").attr("phase","normal");
-            }else if(message.subPhase == subPhase.Trading){
+            }else if(message.subPhase == SubPhase.Trading){
                 $("#phaseMessage").html("TRADING");
                 $("#phaseMessageHolder").attr("phase","trading");
-            }else if(message.subPhase == subPhase.Robbing){
+            }else if(message.subPhase == SubPhase.Robbing){
                 $("#phaseMessage").html("Robbin'");
                 $("#phaseMessageHolder").attr("phase","robbing");
+            }else{
+                throw ("Err: TimerMessageView not getting a proper phase or subphase");
+                console.log(message.subPhase);
             }
         }
     });

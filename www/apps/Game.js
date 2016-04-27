@@ -354,22 +354,25 @@ function gameStep(game) {
                 }
 
                 if(potentialAction != null) {
+                    if(potentialAction.type == Action.Type.RobHex){
+                        if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
+                            applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                            game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
+                            game.teststate = cloneGameState(game.gamestate);
+                            displayTrade(game);
+                        }
+                    }
+                    else{
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-                            console.log("validate passed for robber");
-                                if (potentialAction.type == Action.Type.RobHex){
-                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
-                                    game.teststate = cloneGameState(game.gamestate);
-                                    displayTrade(game);
-                                }
-                                else {
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
-                                }
+
                         } else {
                                 pushAnimation(new XClick(game.mouse.pos,15,10),game);
                                 drawCircle = false;
                         }
+                }
+
                 }
                 if(drawCircle) {
                     pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);

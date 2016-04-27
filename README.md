@@ -1,6 +1,7 @@
 # MacSettlers
 
-![](https://github.com/hherman1/CatanClient/blob/master/graphics/splash.svg)
+![Alt text](https://github.com/hherman1/CatanClient/blob/master/graphics/splash.svg)
+<img src="https://github.com/hherman1/CatanClient/blob/master/graphics/splash.svg">
 
 ## Synopsis
 

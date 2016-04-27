@@ -26,8 +26,6 @@ Note: To run MacSettlers, you will need to have Google Chrome or Safari to run t
 * JQuery (front-end)
 * CSS, HTML (front-end)
 
-###Online Tools
-
 ###Testing
 
 * Google Chrome Developer Tools

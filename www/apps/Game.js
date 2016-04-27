@@ -215,7 +215,6 @@ function endTurn(game) {
                 //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
         }
-
         renderGame(game,null);
 
 }
@@ -397,6 +396,11 @@ function gameStep(game) {
                 if(drawCircle) {
                     pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);
                 }
+
+            if(game.gamestate.board.robber.moved) {
+                makeBoard(game);
+                game.gamestate.board.robber.moved = false;
+            }
                 shouldRedraw = true;
         }
 

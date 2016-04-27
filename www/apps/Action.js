@@ -183,11 +183,15 @@ function validateAction (action,gamestate,player) {
                 case Phase.Normal:
                         switch(gamestate.subPhase){
                             case SubPhase.Building:
-                                var cost = getPrice(getActionBuildStructure(action));
-                                if(!player.resources.every(function(e,i) {
-                                        return e >= cost[i]
-                                    })) {return false};
-                                return validateNormal(action,gamestate,player);
+                                if(validateNormal(action,gamestate,player)) {
+                                    var cost = getPrice(getActionBuildStructure(action));
+                                    if (!player.resources.every(function (e, i) {
+                                            return e >= cost[i]
+                                        })) {
+                                        return false
+                                    }
+                                    return true;
+                                }
                             case SubPhase.Trading:
                                 return false;
                             case SubPhase.Robbing:
@@ -262,10 +266,8 @@ function applyAction(action,gamestate,player) {
             case Action.Type.RobHex:
                     var hex = findHex(action.coordinate, gamestate.board.hexes);
                     moveRobber(gamestate.board.robber, hex);
-                    //drawRobber(); // How?
                     robHex(hex, player, gamestate.board.vertices, gamestate.players);
-                    gamestate.phase = Phase.Normal;
-                        break;
+                    console.log("Robbed");
         }
 }
 

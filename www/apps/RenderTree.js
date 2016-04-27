@@ -1,4 +1,6 @@
 
+
+
 Node = function(draw) {
         var self = this;
         self.draw = draw;
@@ -45,17 +47,17 @@ RadialGradientNode = function(radius,startColor,endColor) {
         });
 }
 
-HexNode = function(hex) {
+HexNode = function(hex, robbed) {
         Node.call(this,function(ctx) {
             drawHex(hex,ctx);
         });
-        this.addChild(new TokenNode(hex.token,.015));
+        this.addChild(new TokenNode(hex.token, robbed, .015));
 }
 
-TokenNode = function(token,scale) {
+TokenNode = function(token, robbed, scale) {
         Node.call(this,function(ctx) {
             ctx.scale(scale,scale);
-            drawToken(token,ctx);
+            drawToken(token, robbed, ctx);
         });
 }
 
@@ -90,9 +92,14 @@ function drawNode(node,ctx) {
         ctx.restore();
 }
 
-function makeHexNodes(hexes) {
+function makeHexNodes(hexes, robber) {
         return hexes.map(function(hex) {
-                return new HexNode(hex);
+            if(robber.hex == hex){
+                return new HexNode(hex, true);
+            }
+            else {
+                return new HexNode(hex, false);
+            }
         })
 }
 function makeRoadNodes(roads,colorMap) {
@@ -126,7 +133,7 @@ function makeVertexNodes(vertices,colorMap) {
 
  }
 
-function drawToken(token, ctx){
+function drawToken(token, robbed, ctx){
   ctx.beginPath();
   ctx.strokeStyle="black"; //draw a black border for the number
   ctx.lineWidth=1; //with width 1
@@ -137,7 +144,9 @@ function drawToken(token, ctx){
   ctx.fill();
   ctx.stroke();
   ctx.restore();
-  if (token != 7) {
+  if (robbed) {
+      drawRobber(0,0,50,ctx);}
+    else{
     if (token == 6 || token == 8){
   		ctx.fillStyle="red";
     }
@@ -152,7 +161,6 @@ function drawToken(token, ctx){
     else{
       ctx.fillText(String(token),-6,6);
     }
-	} else{
-      drawRobber(0,0,50,ctx);
 	}
+
 }

@@ -72,7 +72,7 @@ function setTransform(transform,ctx) {
 
 function drawHexes(gamestate,scale,ctx) {
         var tree = new ScaleNode(scale);
-        tree.addChildren(makeHexNodes(gamestate.board.hexes));
+        tree.addChildren(makeHexNodes(gamestate.board.hexes, gamestate.board.robber));
         drawNode(tree,ctx);
 }
 

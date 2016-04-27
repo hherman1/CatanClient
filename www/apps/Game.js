@@ -139,7 +139,6 @@ Buffer = function() {
 CatanGame = function(side,views) {
         var self=this;
         self.views  = views;
-        self.mouse = new Mouse(); //new Mouse();
         self.graphics = new Graphics(); //new Graphics();
         self.server = new Server(); //new Server();
         self.actions = new Reference([]); //new Reference([]);
@@ -197,9 +196,6 @@ function endTurn(game) {
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
                 displayTrade(game);
-            if(game.gamestate.subPhase == SubPhase.Trading){
-                game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
-            }
         }
     game.teststate = cloneGameState(game.gamestate);
 
@@ -292,6 +288,7 @@ function processUIMessage(message,game) {
                 var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
+                        game.teststate = cloneGameState(game.gamestate);
                         game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
                         updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
@@ -307,6 +304,9 @@ function processUIMessage(message,game) {
                 break;
             case View.Message.Type.TradeViewClosed:
                 game.gamestate.subPhase = SubPhase.Building;
+                game.teststate = cloneGameState(game.gamestate);
+                updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
                 break;
         }
 }
@@ -378,13 +378,12 @@ function gameStep(game) {
                 if(potentialAction != null) {
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
                             console.log("validate passed for robber");
-                                if (potentialAction.type == Action.Type.RobHex){
+                                if (game.gamestate.subPhase == SubPhase.Robbing 
+                                   && potentialAction.type == Action.Type.RobHex) {
                                     applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
                                     game.teststate = cloneGameState(game.gamestate);
                                     displayTrade(game);
-                                }
-                                else {
+                                } else if(game.gamestate.subPhase == SubPhase.Building) {
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
                                 }

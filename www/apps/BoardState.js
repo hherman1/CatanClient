@@ -7,6 +7,12 @@ Phase = {
     Normal: 1
 };
 
+ClosenessToWerewolf = {
+    Vampires: "No",
+    Mack: "Pretty Sad",
+    Carsten: "Actually a Werewolf"
+}
+
 SubPhase = {
     Building: 0,
     Trading: 1,
@@ -60,12 +66,12 @@ RegularHexBoard = function(width, resourceList, tokenList) {
     this.vertices = buildVertexFramework(this.hexes);
     this.roads = buildRoadFramework(this.vertices);
     var desertIndex = undefined;
-    for(var i=0;i<this.hexes.size;i++){
+    for(var i=0;i<this.hexes.length;i++){
         if(this.hexes[i].resource == Resource.Desert){
             desertIndex = i;
         }
     }
-    this.robber = new Robber(this.hexes[desertIndex]);
+    this.robber = new Robber(this.hexes[desertIndex], false);
 };
 
 Position = {
@@ -183,7 +189,7 @@ function buildRegularHexFramework(width, resourceList, tokenList){
         for(j=0;j<width-Math.abs(i);j++){ // Cycles through rows
             var res = resourceList.pop(); // Assigns a random resource to the hex
             if(res==Resource.Desert){  // Sets robber's initial position to desert
-                var tok = 7;
+                var tok = 0;
             }
             else{
                 var tok = tokenList.pop(); // Assigns a random token to the hex
@@ -289,7 +295,7 @@ function cloneHex(hex)  {
 }
 
 function cloneRobber(robber){
-    return new Robber(robber.hex);
+    return new Robber(robber.hex, robber.moved);
 }
 
 ////////////////////////////////////////////////////////////////////////

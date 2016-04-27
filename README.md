@@ -1,6 +1,6 @@
 # MacSettlers
 
-![](CatanClient/graphics/splash.svg)
+![](https://github.com/hherman1/CatanClient/blob/master/graphics/splash.svg)
 
 ## Synopsis
 

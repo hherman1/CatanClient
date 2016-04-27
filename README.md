@@ -8,7 +8,15 @@ The main purpose of this software project is to learn about software development
 
 ## How to run the game
 
-To run macSettlers, simply run landing.html in your browser.
+Prerequisites:
+* Have Git installed
+* Have a GitHub account
+
+Note: To run MacSettlers, you will need to have Google Chrome or Safari to run the game in the browser.
+
+1. Fork our repository for MacSettlers (https://github.com/hherman1/CatanClient)
+2. Clone the repository you just forked.
+3. Open the landing.html file to start playing the game locally.
 
 ## Code Summary
 

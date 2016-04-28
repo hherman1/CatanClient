@@ -42,30 +42,6 @@ function getActionBuildStructure(action) {
         }
 }
 
-function drawActions(actions,color,side,ctx) {
-    actions.forEach(function(action) {
-        drawAction(action,color,side,ctx);
-    });
-}
-
-function drawAction(action,color,side,ctx) {
-    switch(action.type) {
-        case Action.Type.BuildRoad:
-            drawRoad(action.coordinateA,action.coordinateB,color,side,ctx);
-            break;
-        case Action.Type.BuildSettlement:
-            drawBuilding(action.coordinate,Structure.Settlement,color,side,ctx);
-            break;
-        case Action.Type.BuildCity:
-            drawBuilding(action.coordinate,Structure.City,color,side,ctx);
-            break;
-        case Action.Type.RobHex:
-            drawRobberFromHex(action.coordinate, side, ctx);
-            break;
-
-    }
-}
-
 
 function getPositionObject(action,playerID) {
         switch(action.type) {

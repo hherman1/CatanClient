@@ -1,11 +1,12 @@
 // File contains methods dealing with the construction and actions of the robber
 
-/* Robber constructor - the Robber object simply takes a positional argument, so that it knows which hex it's on
+/* Robber
+ * A constructor for the robber object. Takes a hex (positional argument) and a boolean indicating whether the Robber has just moved or not.
  */
 
 Robber = function(hex, moved) {
   this.hex = hex;
-    this.moved = false;
+    this.moved = moved;
 }
 
 /* moveRobber
@@ -17,17 +18,12 @@ function moveRobber(robber, hex){
     robber.moved = true;
 }
 
-//TODO: Needs commenting
+/* drawRobber
+ * Given coordinates, scale and a context, draws the image of the robber.
+ */
 
 function drawRobber(x,y, z, ctx){
     ctx.drawImage(getRobberImg(), x-30, y-(z*0.75), z*1.2, z*1.5);
-}
-
-//TODO: Needs commenting
-
-function drawRobberFromHex(coordinate,side,ctx){
-    var worldCoordinate = hexToWorld(coordinate, side);
-    ctx.drawImage(getRobberImg(),worldCoordinate.x, worldCoordinate.y, side*1.2, side*1.5);
 }
 
 /* robHex
@@ -44,7 +40,7 @@ function robHex(hex,player, vertexList, playerList){
       affectedPlayers.push(vert.playerID); // Checks each vertex around the hex for opposing players, adding them to a list
     }
   }
-  var randomNum = Math.floor(Math.random() * affectedPlayers.length)
+  var randomNum = Math.floor(Math.random() * affectedPlayers.length);
     robPlayer(player, getPlayer(affectedPlayers[randomNum],playerList)); // Robs a random player from those affected
 }
 

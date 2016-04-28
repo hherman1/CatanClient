@@ -209,7 +209,7 @@ function endTurn(game) {
                 console.log(winner); //we see the player info of the winner
                 console.log(game.gamestate.players[i] + "wins");
                 //console.log("donefdsf");
-                sendMessage(new View.Message.WinnerMessage(winner.id,game),game.views);
+                sendMessage(new View.Message.WinnerMessage(game,winner.id),game.views);
                 //window.location.href = "www/result.html"; //goes to the results page
                 //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
@@ -240,7 +240,7 @@ function setTradeSubPhase(gamestate) {
 }
 
 function updatePhaseLabel(game) {
-        sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+        sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
 }
 function displayTrade(game){
         sendMessage(new View.Message.DisplayTradeView(game),game.views);
@@ -314,7 +314,7 @@ function processUIMessage(message,game) {
                 game.gamestate.subPhase = SubPhase.Building;
                 game.teststate = cloneGameState(game.gamestate);
                 updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
-                sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+                sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
                 break;
         }
 }

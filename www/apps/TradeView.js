@@ -1,73 +1,44 @@
 
-View.Message.Type.DisplayTradeView = registerType();
-View.Message.DisplayTradeView = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.DisplayTradeView);
-}
+View.Message.newMessageType("DisplayTradeView", function() {});
 
-View.Message.Type.RequestIncomingTrades = registerType();
-View.Message.RequestIncomingTrades = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.RequestIncomingTrades);
-}
+View.Message.newMessageType("RequestIncomingTrades",function(){});
 
-View.Message.Type.SetIncomingTrades = registerType();
-View.Message.SetIncomingTrades = function(sender,trades) {
+View.Message.newMessageType("SetIncomingTrades", function(sender,trades) {
         this.trades = trades;
-        View.Message.Blank.call(this,sender,View.Message.Type.SetIncomingTrades);
-}
+});
 
-View.Message.Type.TradeViewClosed = registerType();
-View.Message.TradeViewClosed = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.TradeViewClosed);
-}
+View.Message.newMessageType("TradeViewClosed",function(){});
 
-View.Message.Type.RequestAcceptValidations = registerType();
-View.Message.RequestAcceptValidations = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.RequestAcceptValidations);
-}
+View.Message.newMessageType("RequestAcceptValidations",function(){});
 
-View.Message.Type.AcceptValidation = registerType();
-View.Message.AcceptValidation = function(sender,tradeID,validation) {
+View.Message.newMessageType("AcceptValidation",function(sender,tradeID,validation) {
         this.tradeID = tradeID;
         this.validation = validation;
-        View.Message.Blank.call(this,sender,View.Message.Type.AcceptValidation);
-}
+});
 
-View.Message.Type.AcceptTrade = registerType();
-View.Message.AcceptTrade = function(sender,tradeID) {
+View.Message.newMessageType("AcceptTrade", function(sender,tradeID) {
         this.tradeID = tradeID;
-        View.Message.Blank.call(this,sender,View.Message.Type.AcceptTrade);
-}
+});
                     
-View.Message.Type.RequestGameState = registerType();
-View.Message.RequestGameState = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.RequestGameState);
-}
+View.Message.newMessageType("RequestGameState",function(){});
 
-View.Message.Type.GameState = registerType();
-View.Message.GameState = function(sender,gamestate) {
+View.Message.newMessageType("GameState", function(sender,gamestate) {
         this.gamestate = gamestate;
-        View.Message.Blank.call(this,sender,View.Message.Type.GameState);
-}
+});
 
-View.Message.Type.RequestOfferValidation = registerType();
-View.Message.RequestOfferValidation = function(sender,trade) {
+View.Message.newMessageType("RequestOfferValidation", function(sender,trade) {
         this.trade = trade;
-        View.Message.Blank.call(this,sender,View.Message.Type.RequestOfferValidation);
-}
+});
 
-View.Message.Type.OfferValidation = registerType();
-View.Message.OfferValidation = function(sender,validation) {
+View.Message.newMessageType("OfferValidation", function(sender,validation) {
         this.validation = validation;
-        View.Message.Blank.call(this,sender,View.Message.Type.OfferValidation);
-}
+});
 
-View.Message.Type.MakeOffer = registerType();
-View.Message.MakeOffer= function(sender,targetID,offerResources,requestResources) {
+View.Message.newMessageType("MakeOffer", function(sender,targetID,offerResources,requestResources) {
         this.targetID = targetID;
         this.offerResources = offerResources;
         this.requestResources = requestResources;
-        View.Message.Blank.call(this,sender,View.Message.Type.MakeOffer);
-}
+});
 
 TradeView = function(messageDestination) {
         var ActiveView = {

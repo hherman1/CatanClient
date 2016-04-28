@@ -188,10 +188,17 @@ function pushAnimation(animation,game) {
 }
 function changePhaseViews(game) {
     updatePhaseLabel(game);
-    if(game.gamestate.subPhase == SubPhase.Building) {
-            sendMessage(new View.Message.EnableEndTurnButton(game),game.views);
-    } else {
-            sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+    switch(game.gamestate.subPhase) {
+            case SubPhase.Building:
+                    sendMessage(new View.Message.EnableEndTurnButton(game),game.views);
+                    break;
+            case SubPhase.Trading:
+                    sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+                    displayTrade(game);
+                    break;
+            default:
+                    sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+                    break;
     }
 }
 
@@ -208,9 +215,6 @@ function endTurn(game) {
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
                 sendMessage(new View.Message.RollDice(game,roll),game.views);
-                if (game.gamestate.subPhase == SubPhase.Trading) {
-                    displayTrade(game);
-                }
             }
             game.teststate = cloneGameState(game.gamestate);
             changePhaseViews(game);
@@ -386,6 +390,7 @@ function gameStep(game) {
         }
         if(game.mouse.clicked) {
                 var drawCircle = true;
+                shouldRedraw = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
 
                         pushAnimation(new InfoBox(game.mouse.pos,"Terrain: "
@@ -401,9 +406,9 @@ function gameStep(game) {
                     if(potentialAction.type == Action.Type.RobHex){
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
                             applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                            game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
+                            game.gamestate.subPhase = SubPhase.Trading;
                             game.teststate = cloneGameState(game.gamestate);
-                            displayTrade(game);
+                            changePhaseViews(game);
                         }
                     }
                     else{
@@ -427,7 +432,6 @@ function gameStep(game) {
                 makeBoard(game);
                 game.gamestate.board.robber.moved = false;
             }
-                shouldRedraw = true;
         }
 
 

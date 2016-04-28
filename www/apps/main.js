@@ -12,7 +12,6 @@ define(function (require) {
     var constants = require('./Constants');
     var renderTree = require('./RenderTree');
     var canvas = require('./Canvas');
-    var dice = require('./Dice');
     var animation = require('./Animation');
     var grid = require('./Grid');
     var hitbox = require('./Hitbox');

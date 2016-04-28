@@ -195,7 +195,10 @@ function endTurn(game) {
                 var roll = game.server.getRoll();
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-                displayTrade(game);
+                if(game.gamestate.subPhase == SubPhase.Trading) {
+                        displayTrade(game);
+                        updatePhaseLabel(game);
+                }
         }
     game.teststate = cloneGameState(game.gamestate);
 
@@ -232,9 +235,14 @@ function sendAcceptValidations(game) {
     });
 }
 
-function displayTrade(game){
-        game.gamestate.subPhase = SubPhase.Trading;
+function setTradeSubPhase(gamestate) {
+        gamestate.subPhase = SubPhase.Trading;
+}
+
+function updatePhaseLabel(game) {
         sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+}
+function displayTrade(game){
         sendMessage(new View.Message.DisplayTradeView(game),game.views);
 }
 
@@ -381,8 +389,10 @@ function gameStep(game) {
                                 if (game.gamestate.subPhase == SubPhase.Robbing 
                                    && potentialAction.type == Action.Type.RobHex) {
                                     applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    game.teststate = cloneGameState(game.gamestate);
+                                    setTradeSubPhase(game.gamestate);
                                     displayTrade(game);
+                                    updatePhaseLabel(game);
+                                    game.teststate = cloneGameState(game.gamestate);
                                 } else if(game.gamestate.subPhase == SubPhase.Building) {
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);

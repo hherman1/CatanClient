@@ -215,28 +215,7 @@ function endTurn(game) {
                     //window.location.href = "www/result.html"; //goes to the results page
                     //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
                 }
-//=======
-/*
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-                if(game.gamestate.subPhase == SubPhase.Trading) {
-                        displayTrade(game);
-                        updatePhaseLabel(game);
-                }
-        }
-    game.teststate = cloneGameState(game.gamestate);
 
-        for(var i = 0; i<game.gamestate.players.length;i++) {
-         //   console.log(game.gamestate.players[i]);
-            if (checkPlayerWin(game.gamestate.players[i])) {
-                var winner = game.gamestate.players[i];
-                console.log(winner); //we see the player info of the winner
-                console.log(game.gamestate.players[i] + "wins");
-                //console.log("donefdsf");
-                sendMessage(new View.Message.WinnerMessage(game,winner.id),game.views);
-                //window.location.href = "www/result.html"; //goes to the results page
-                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
->>>>>>> 749770444113f404dc4d45b023493527525edb79*/
             }
             renderGame(game, null);
         
@@ -418,18 +397,7 @@ function gameStep(game) {
                     }
                     else{
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-//<<<<<<< HEAD
-//=======
- /*                           console.log("validate passed for robber");
-                                if (game.gamestate.subPhase == SubPhase.Robbing 
-                                   && potentialAction.type == Action.Type.RobHex) {
-                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    setTradeSubPhase(game.gamestate);
-                                    displayTrade(game);
-                                    updatePhaseLabel(game);
-                                    game.teststate = cloneGameState(game.gamestate);
-                                } else if(game.gamestate.subPhase == SubPhase.Building) {
->>>>>>> 749770444113f404dc4d45b023493527525edb79*/
+
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
 

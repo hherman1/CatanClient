@@ -72,15 +72,39 @@ ClientViewSendOnly = function() {
 
 
 View.Message.newMessageType("EndTurn",function() {});
+View.Message.newMessageType("DisableEndTurnButton",function(){});
+View.Message.newMessageType("EnableEndTurnButton",function(){});
 
 EndTurnView = function(messageDestination) {
         var self = this;
-        $("#endTurnButton").on('click',function() {
-                sendMessage(new View.Message.EndTurn(self),messageDestination);
+        self.messageDestination = messageDestination;
+        self.setupButton();
+        ClientView.call(self,function(message) {
+                switch(message.type) {
+                        case View.Message.Type.DisableEndTurnButton:
+                                self.disable();
+                                break;
+                        case View.Message.Type.EnableEndTurnButton:
+                                self.enable();
+                                break;
+                }
         });
-        ClientViewSendOnly.call(self);
 }
-
+EndTurnView.prototype.getButton = function() {
+        return $("#endTurnButton");
+}
+EndTurnView.prototype.setupButton = function() {
+        var self = this;
+        $("#endTurnButton").on('click',function() {
+                sendMessage(new View.Message.EndTurn(self),self.messageDestination);
+        });
+}
+EndTurnView.prototype.disable = function() {
+        this.getButton().prop("disabled",true);
+}
+EndTurnView.prototype.enable = function() {
+        this.getButton().prop("disabled",false);
+}
 
 
 View.Message.newMessageType("BuildChoice",function(sender,structure) {

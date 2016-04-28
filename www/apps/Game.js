@@ -186,6 +186,19 @@ function runGame(game,frameDuration) {
 function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
+function changePhaseViews(game) {
+    updatePhaseLabel(game);
+    if(game.gamestate.subPhase == SubPhase.Building) {
+            sendMessage(new View.Message.EnableEndTurnButton(game),game.views);
+    } else {
+            sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+    }
+}
+
+function rollDice(){
+    var roll = Math.floor(Math.random()* 6) + 1;
+    return roll
+}
 
 function endTurn(game) {
         game.server.endTurn(game.actions);
@@ -197,11 +210,10 @@ function endTurn(game) {
                 sendMessage(new View.Message.RollDice(game,roll),game.views);
                 if (game.gamestate.subPhase == SubPhase.Trading) {
                     displayTrade(game);
-                    game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
                 }
             }
             game.teststate = cloneGameState(game.gamestate);
-            sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase), game.views);
+            changePhaseViews(game);
 
             for (var i = 0; i < game.gamestate.players.length; i++) {
                 //   console.log(game.gamestate.players[i]);
@@ -316,7 +328,7 @@ function processUIMessage(message,game) {
                 game.gamestate.subPhase = SubPhase.Building;
                 game.teststate = cloneGameState(game.gamestate);
                 updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
-                sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
+                changePhaseViews(game);
                 break;
         }
 }

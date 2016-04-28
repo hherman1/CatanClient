@@ -188,35 +188,35 @@ function pushAnimation(animation,game) {
 }
 
 function endTurn(game) {
-        game.server.endTurn(game.actions);
-        game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
-        //game.teststate = cloneGameState(game.gamestate);
-        if(game.gamestate.phase == Phase.Normal) {
+            game.server.endTurn(game.actions);
+            game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
+            //game.teststate = cloneGameState(game.gamestate);
+            if (game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-            if(game.gamestate.subPhase == SubPhase.Trading){
-                displayTrade(game);
-                game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"), roll.first, 6, 1, 100), game);
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"), roll.second, 6, 1, 100), game);
+                if (game.gamestate.subPhase == SubPhase.Trading) {
+                    displayTrade(game);
+                    game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
+                }
             }
-        }
-    game.teststate = cloneGameState(game.gamestate);
-    sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+            game.teststate = cloneGameState(game.gamestate);
+            sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game), game.views);
 
-        for(var i = 0; i<game.gamestate.players.length;i++) {
-         //   console.log(game.gamestate.players[i]);
-            if (checkPlayerWin(game.gamestate.players[i])) {
-                var winner = game.gamestate.players[i];
-                console.log(winner); //we see the player info of the winner
-                console.log(game.gamestate.players[i] + "wins");
-                //console.log("donefdsf");
-                sendMessage(new View.Message.WinnerMessage(winner.id,game),game.views);
-                //window.location.href = "www/result.html"; //goes to the results page
-                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+            for (var i = 0; i < game.gamestate.players.length; i++) {
+                //   console.log(game.gamestate.players[i]);
+                if (checkPlayerWin(game.gamestate.players[i])) {
+                    var winner = game.gamestate.players[i];
+                    console.log(winner); //we see the player info of the winner
+                    console.log(game.gamestate.players[i] + "wins");
+                    //console.log("donefdsf");
+                    sendMessage(new View.Message.WinnerMessage(winner.id, game), game.views);
+                    //window.location.href = "www/result.html"; //goes to the results page
+                    //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+                }
             }
-        }
-        renderGame(game,null);
-
+            renderGame(game, null);
+        
 }
 
 function displayTrade(game){

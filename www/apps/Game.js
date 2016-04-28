@@ -194,15 +194,14 @@ function endTurn(game) {
         updateLongestRoadView(game);
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"), roll.first, 6, 1, 100), game);
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"), roll.second, 6, 1, 100), game);
+                sendMessage(new View.Message.RollDice(game,roll),game.views);
                 if (game.gamestate.subPhase == SubPhase.Trading) {
                     displayTrade(game);
                     game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
                 }
             }
             game.teststate = cloneGameState(game.gamestate);
-            sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game), game.views);
+            sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase), game.views);
 
             for (var i = 0; i < game.gamestate.players.length; i++) {
                 //   console.log(game.gamestate.players[i]);

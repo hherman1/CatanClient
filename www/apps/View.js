@@ -50,7 +50,7 @@ View = {
 }
 
 View.Message.Default.prototype.hasType = function(type) {
-        this.type == View.Message.Type[type];
+        return this.type == View.Message.Type[type];
 }
 
 function sendMessage(message,destination) {
@@ -208,5 +208,6 @@ function makeUIViews(destination) {
         views.push(new WinnerMessageView());
         views.push(new TimerMessageView());
         views.push(new LongestRoadView());
+        views.push(new DiceRollView(DICE_ROLL_DURATION,DICE_ROLL_STEPS,DICE_ROLL_MAX,DICE_ROLL_MIN));
         return views;
 }

@@ -194,29 +194,31 @@ function endTurn(game) {
         updateLongestRoadView(game);
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-                if(game.gamestate.subPhase == SubPhase.Trading) {
-                        displayTrade(game);
-                        updatePhaseLabel(game);
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"), roll.first, 6, 1, 100), game);
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"), roll.second, 6, 1, 100), game);
+                if (game.gamestate.subPhase == SubPhase.Trading) {
+                    displayTrade(game);
+                    game.gamestate.subPhase = SubPhase.Building; //TODO: Find way around this
                 }
-        }
-    game.teststate = cloneGameState(game.gamestate);
-
-        for(var i = 0; i<game.gamestate.players.length;i++) {
-         //   console.log(game.gamestate.players[i]);
-            if (checkPlayerWin(game.gamestate.players[i])) {
-                var winner = game.gamestate.players[i];
-                console.log(winner); //we see the player info of the winner
-                console.log(game.gamestate.players[i] + "wins");
-                //console.log("donefdsf");
-                sendMessage(new View.Message.WinnerMessage(game,winner.id),game.views);
-                //window.location.href = "www/result.html"; //goes to the results page
-                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
             }
-        }
-        renderGame(game,null);
+            game.teststate = cloneGameState(game.gamestate);
+            sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game), game.views);
 
+            for (var i = 0; i < game.gamestate.players.length; i++) {
+                //   console.log(game.gamestate.players[i]);
+                if (checkPlayerWin(game.gamestate.players[i])) {
+                    var winner = game.gamestate.players[i];
+                    console.log(winner); //we see the player info of the winner
+                    console.log(game.gamestate.players[i] + "wins");
+                    //console.log("donefdsf");
+                    sendMessage(new View.Message.WinnerMessage(winner.id, game), game.views);
+                    //window.location.href = "www/result.html"; //goes to the results page
+                    //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+                }
+
+            }
+            renderGame(game, null);
+        
 }
 function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
@@ -385,23 +387,26 @@ function gameStep(game) {
                 }
 
                 if(potentialAction != null) {
+                    if(potentialAction.type == Action.Type.RobHex){
+                        if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
+                            applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                            game.gamestate.subPhase = SubPhase.Building; //TODO: Need trading phase
+                            game.teststate = cloneGameState(game.gamestate);
+                            displayTrade(game);
+                        }
+                    }
+                    else{
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-                            console.log("validate passed for robber");
-                                if (game.gamestate.subPhase == SubPhase.Robbing 
-                                   && potentialAction.type == Action.Type.RobHex) {
-                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    setTradeSubPhase(game.gamestate);
-                                    displayTrade(game);
-                                    updatePhaseLabel(game);
-                                    game.teststate = cloneGameState(game.gamestate);
-                                } else if(game.gamestate.subPhase == SubPhase.Building) {
+
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
-                                }
+
                         } else {
                                 pushAnimation(new XClick(game.mouse.pos,15,10),game);
                                 drawCircle = false;
                         }
+                }
+
                 }
                 if(drawCircle) {
                     pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);

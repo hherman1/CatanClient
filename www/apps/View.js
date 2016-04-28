@@ -207,5 +207,6 @@ function makeUIViews(destination) {
         views.push(new TradeView(destination));
         views.push(new WinnerMessageView());
         views.push(new TimerMessageView());
+        views.push(new LongestRoadView());
         return views;
 }

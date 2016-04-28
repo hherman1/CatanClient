@@ -103,7 +103,7 @@ Server = function() {
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
 
-            checkLongestRoad(this.gamestate);
+            updateLongestRoad(this.gamestate);
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
                 , this.gamestate.tradeoffers);
 
@@ -191,6 +191,7 @@ function endTurn(game) {
         game.server.endTurn(game.actions);
         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
         //game.teststate = cloneGameState(game.gamestate);
+        updateLongestRoadView(game);
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
@@ -447,7 +448,13 @@ function checkPlayerWin(player){
     return false;
 }
 
-function checkLongestRoad(gameState){
+function updateLongestRoadView(game) {
+        if(game.gamestate.longestRoadPlayer != null) {
+                sendMessage(new View.Message.SetLongestRoadID(game,game.gamestate.longestRoadPlayer.id),game.views);
+        }
+}
+
+function updateLongestRoad(gameState){
     var player = getPlayers(gameState.currentPlayerID, gameState.players)[0];
     for(var i =0; i<player.firstSettlementsCoords.length;i++){
         var testLength = longestRoad(findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);

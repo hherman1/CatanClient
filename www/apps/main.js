@@ -24,6 +24,7 @@ define(function (require) {
     var uiController = require('./UserInterfaceJScript');
     var tradeOffers = require('./TradeOffer');
     var tradeViews = require('./TradeView');
+    var longestroadview = require('./LongestRoadView');
     function main() {
         canvas = document.getElementById('board');
         if(canvas.getContext) {

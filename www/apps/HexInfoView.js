@@ -3,6 +3,7 @@ View.Message.newMessageType("DisplayHexInfo",function(sender,hex,position){
         this.hex = hex;
         this.position = position;
 });
+View.Message.newMessageType("HideHexInfo",function(){});
 
 HexInfoView = function() {
         var self = this;
@@ -10,8 +11,13 @@ HexInfoView = function() {
         self.hide();
         $("#userInterface").append(self.display);
         ClientView.call(self,function(message) {
-                if(message.hasType("DisplayHexInfo")) {
-                        self.showHex(message.hex,message.position);
+                switch(message.type) {
+                        case View.Message.Type.DisplayHexInfo:
+                                self.showHex(message.hex,message.position);
+                                break;
+                        case View.Message.Type.HideHexInfo:
+                                self.hide();
+                                break;
                 }
         });
 }

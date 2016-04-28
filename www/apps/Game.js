@@ -392,14 +392,7 @@ function gameStep(game) {
                 var drawCircle = true;
                 shouldRedraw = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-
-                        pushAnimation(new InfoBox(game.mouse.pos,"Terrain: "
-                                                                + getResourceTerrainName(maxHit.data.resource)
-                                                                + " Resource: "
-                                                                + getResourceName(maxHit.data.resource)
-                                                                + " Token: "
-                                                                + maxHit.data.token,100,100,20),game);
-
+                        sendMessage(new View.Message.DisplayHexInfo(game,maxHit.data,game.mouse.pos),game.views);
                 }
 
                 if(potentialAction != null) {

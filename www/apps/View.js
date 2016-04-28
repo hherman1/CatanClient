@@ -233,5 +233,6 @@ function makeUIViews(destination) {
         views.push(new TimerMessageView());
         views.push(new LongestRoadView());
         views.push(new DiceRollView(DICE_ROLL_DURATION,DICE_ROLL_STEPS,DICE_ROLL_MAX,DICE_ROLL_MIN));
+        views.push(new HexInfoView());
         return views;
 }

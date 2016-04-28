@@ -25,6 +25,7 @@ define(function (require) {
     var tradeViews = require('./TradeView');
     var longestroadview = require('./LongestRoadView');
     var dicerollview = require('./DiceRollView');
+    var hexView = require('./HexInfoView');
     function main() {
         canvas = document.getElementById('board');
         if(canvas.getContext) {

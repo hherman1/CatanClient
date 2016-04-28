@@ -415,7 +415,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	background-color: #0000FF;
 }
 
-#phaseMessageHolder[phase="trade"] {
+#phaseMessageHolder[phase="trading"] {
 	background-color: #00cc00;
 }
 
@@ -427,6 +427,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	margin: 0px;
 	text-align: center;
+	font-weight: bold;
 }
 
 #phaseMessageHolder[phase="init"] #phaseMessage {
@@ -436,11 +437,11 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	color:#00cc00;
 }
 
-#phaseMessage[phase="normal"] #phaseMessage {
+#phaseMessageHolder[phase="normal"] #phaseMessage {
 	color: #0000FF;
 }
 
-#phaseMessage[phase="robbing"] #phaseMessage {
+#phaseMessageHolder[phase="robbing"] #phaseMessage {
 	color: red;
 }
 

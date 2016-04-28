@@ -1,11 +1,12 @@
 // File contains methods dealing with the construction and actions of the robber
 
-/* Robber constructor - the Robber object simply takes a positional argument, so that it knows which hex it's on
+/* Robber
+ * A constructor for the robber object. Takes a hex (positional argument) and a boolean indicating whether the Robber has just moved or not.
  */
 
 Robber = function(hex, moved) {
   this.hex = hex;
-    this.moved = false;
+    this.moved = moved;
 }
 
 /* moveRobber

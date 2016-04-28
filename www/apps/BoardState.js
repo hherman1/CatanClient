@@ -11,7 +11,7 @@ ClosenessToWerewolf = {
     Vampires: "No",
     Mack: "Pretty Sad",
     Carsten: "Actually a Werewolf"
-}
+};
 
 SubPhase = {
     Building: 0,

@@ -139,7 +139,6 @@ Buffer = function() {
 CatanGame = function(side,views) {
         var self=this;
         self.views  = views;
-        self.mouse = new Mouse(); //new Mouse();
         self.graphics = new Graphics(); //new Graphics();
         self.server = new Server(); //new Server();
         self.actions = new Reference([]); //new Reference([]);
@@ -155,6 +154,7 @@ CatanGame = function(side,views) {
                                    ,self.gamestate.board.hexes
                                    ,self.side)),self.views);
         }
+        self.processing = [];
         self.inbox = [];
         View.Message.Client.call(self,function(message) {
                 self.inbox.push(message);
@@ -193,6 +193,7 @@ function endTurn(game) {
             //game.teststate = cloneGameState(game.gamestate);
             if (game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
+//<<<<<<< HEAD
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"), roll.first, 6, 1, 100), game);
                 pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"), roll.second, 6, 1, 100), game);
                 if (game.gamestate.subPhase == SubPhase.Trading) {
@@ -214,15 +215,40 @@ function endTurn(game) {
                     //window.location.href = "www/result.html"; //goes to the results page
                     //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
                 }
+//=======
+/*
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
+                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
+                if(game.gamestate.subPhase == SubPhase.Trading) {
+                        displayTrade(game);
+                        updatePhaseLabel(game);
+                }
+        }
+    game.teststate = cloneGameState(game.gamestate);
+
+        for(var i = 0; i<game.gamestate.players.length;i++) {
+         //   console.log(game.gamestate.players[i]);
+            if (checkPlayerWin(game.gamestate.players[i])) {
+                var winner = game.gamestate.players[i];
+                console.log(winner); //we see the player info of the winner
+                console.log(game.gamestate.players[i] + "wins");
+                //console.log("donefdsf");
+                sendMessage(new View.Message.WinnerMessage(game,winner.id),game.views);
+                //window.location.href = "www/result.html"; //goes to the results page
+                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+>>>>>>> 749770444113f404dc4d45b023493527525edb79*/
             }
             renderGame(game, null);
         
 }
-
-function displayTrade(game){
+function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
-    sendMessage(new View.Message.DisplayIncomingTrades(game,incomingTrades)
+    sendMessage(new View.Message.SetIncomingTrades(game,incomingTrades)
         ,game.views);
+}
+
+function sendAcceptValidations(game) {
+    var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
     incomingTrades.forEach(function(trade) {
         sendMessage(new View.Message.AcceptValidation(game
                 ,trade.tradeID
@@ -231,6 +257,17 @@ function displayTrade(game){
                     ,trade.requestResources))
             ,game.views);
     });
+}
+
+function setTradeSubPhase(gamestate) {
+        gamestate.subPhase = SubPhase.Trading;
+}
+
+function updatePhaseLabel(game) {
+        sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
+}
+function displayTrade(game){
+        sendMessage(new View.Message.DisplayTradeView(game),game.views);
 }
 
 function processUIMessage(message,game) {
@@ -283,11 +320,26 @@ function processUIMessage(message,game) {
                 var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(validateTrade(game.gamestate,trade)) {
                         applyTrade(game.gamestate,trade);
+                        game.teststate = cloneGameState(game.gamestate);
                         game.gamestate.trades = filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
                         updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
-            case View.Message.Type.IncomingTradesViewClosed:
-                sendMessage(new View.Message.DisplayOfferDesigner(game,game.gamestate),game.views);
+                break;
+            case View.Message.Type.RequestGameState:
+                respond(message,new View.Message.GameState(game,game.gamestate));
+                break;
+            case View.Message.Type.RequestAcceptValidations:
+                sendAcceptValidations(game);
+                break;
+            case View.Message.Type.RequestIncomingTrades:
+                sendIncomingTrades(game);
+                break;
+            case View.Message.Type.TradeViewClosed:
+                game.gamestate.subPhase = SubPhase.Building;
+                game.teststate = cloneGameState(game.gamestate);
+                updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
+                break;
         }
 }
 
@@ -310,8 +362,10 @@ function processInbox(inbox, game){
 }
 
 function processGameInbox(game) {
-    processInbox(game.inbox, game);//Processes information from the UI in buffer
-    flushInbox(game.inbox);
+        game.processing = game.inbox.slice();
+        flushInbox(game.inbox);
+    processInbox(game.processing, game);//Processes information from the UI in buffer
+    flushInbox(game.processing);
 
 }
 
@@ -364,6 +418,18 @@ function gameStep(game) {
                     }
                     else{
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
+//<<<<<<< HEAD
+//=======
+ /*                           console.log("validate passed for robber");
+                                if (game.gamestate.subPhase == SubPhase.Robbing 
+                                   && potentialAction.type == Action.Type.RobHex) {
+                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                                    setTradeSubPhase(game.gamestate);
+                                    displayTrade(game);
+                                    updatePhaseLabel(game);
+                                    game.teststate = cloneGameState(game.gamestate);
+                                } else if(game.gamestate.subPhase == SubPhase.Building) {
+>>>>>>> 749770444113f404dc4d45b023493527525edb79*/
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
 

@@ -42,16 +42,10 @@ MouseBuffer = function() {
         this.mousescrolls = [];
 }
 
-View.Message.Type.RequestMouseData = registerType();
-View.Message.RequestMouseData = function(sender) {
-        View.Message.Blank.call(this,sender,View.Message.Type.RequestMouseData);
-}
-
-View.Message.Type.MouseData = registerType();
-View.Message.MouseData = function(sender,mouse) {
+View.Message.newMessageType("RequestMouseData",function() {});
+View.Message.newMessageType("MouseData",function(sender,mouse) {
         this.mouse = mouse;
-        View.Message.Blank.call(this,sender,View.Message.Type.MouseData);
-}
+});
 
 MouseView = function(canvas) {
         var self = this;

@@ -227,7 +227,8 @@ button {
 .playerDiv{
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	display:inline-block;
-	width: 153px;
+	width: 160px;
+	margin-right: 5px;
 }
 
  .playerDiv[active=true] .playerName {
@@ -245,11 +246,12 @@ button {
 	border: 1px solid black;
 	border-radius: 0 0 4px 4px;
 	margin: 0px;
-	width: 152.8px;
+	width: 160px;
 }
 
 .playerNameTab {
         position:relative;
+        width: 160px;
 }
 .playerNameTab:hover > .overlay {
         opacity:0.25;
@@ -274,7 +276,7 @@ button {
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: white;
-	width: 152.8px;
+	width: 160px;
 }
 
 #playerTabs{
@@ -304,6 +306,12 @@ button {
 	width: 100%;
 }
 
+.playerStructureEndItem{
+	display: inline;
+	padding: 4px;
+	width: 100%;
+}
+
 .playerStructuresInfo{
 	border-top: 1px solid black;
 }
@@ -317,7 +325,7 @@ button {
 
 .playerStructureQuantity{
 	display: inline;
-	font-size: 25px;
+	font-size: 22px;
 }
 
 .playerInfoVPoints{

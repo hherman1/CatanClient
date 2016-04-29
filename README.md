@@ -1,7 +1,5 @@
 # MacSettlers
 
-![](graphics/splash.svg)
-
 ## Synopsis
 
 Our main project goal is to create a version of Settlers of Catan, an original board game created by Klaus Teuber. More specifically, our product--MacSettlers--is a multiplayer web game that allows gamers to play endless rounds of Settlers together!

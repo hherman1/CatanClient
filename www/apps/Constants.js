@@ -59,3 +59,12 @@ BASE_DEVELOPMENT_CARDS_LIST = [];
 ROAD_COST = [1,0,0,1,0]; // Cost of a road - default is [1,0,0,1,0] (1 Lumber, 1 Brick)
 SETTLEMENT_COST = [1,1,0,1,1]; // Cost of a settlement - default is [1,1,0,1,1] (1 Lumber, 1 Wool, 1 Brick, 1 Grain)
 CITY_COST = [0,0,3,0,2]; // Cost of a city - default is [0,0,3,0,2] (3 Ore, 2 Grain)
+
+////////////////////////////////////////////////////////////////////////
+/*                         DICE VIEW CONSTANTS                        */
+////////////////////////////////////////////////////////////////////////
+
+DICE_ROLL_DURATION = 5000;
+DICE_ROLL_STEPS = 100;
+DICE_ROLL_MAX = 6;
+DICE_ROLL_MIN = 1;

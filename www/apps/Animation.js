@@ -72,6 +72,13 @@ Timing = {
                 return -Math.pow(t,2) + 2*t;
         },
 
+        //A quadratic function which sums to 1 for any discrete sum from k=0 to n
+        //t = k/n
+        quadraticFixedDiscreteSum: function(t,n) {
+                var c = 6*n/((1+n)*(-1+4*n));
+                return c*Timing.quadratic(t);
+        },
+
         //f(0) = 0, f(1) = 1, f'(0) = d
         quadraticInitialDerivative: function(t,d) {
                 return (1 - d) * Math.pow(t,2) + d * t

@@ -103,7 +103,7 @@ Server = function() {
             applyActionsForCurrentPlayer(actionsToBeValidated.data, this.gamestate);//Applies pending actions to server gamestate
             flushActions(actionsToBeValidated);//Flushes the pending actions
 
-            checkLongestRoad(this.gamestate);
+            updateLongestRoad(this.gamestate);
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
                 , this.gamestate.tradeoffers);
 
@@ -186,33 +186,54 @@ function runGame(game,frameDuration) {
 function pushAnimation(animation,game) {
         game.graphics.animations.data.push(animation);
 }
+function changePhaseViews(game) {
+    updatePhaseLabel(game);
+    switch(game.gamestate.subPhase) {
+            case SubPhase.Building:
+                    sendMessage(new View.Message.EnableEndTurnButton(game),game.views);
+                    break;
+            case SubPhase.Trading:
+                    sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+                    displayTrade(game);
+                    break;
+            default:
+                    sendMessage(new View.Message.DisableEndTurnButton(game),game.views);
+                    break;
+    }
+}
+
+function rollDice(){
+    var roll = Math.floor(Math.random()* 6) + 1;
+    return roll
+}
 
 function endTurn(game) {
         game.server.endTurn(game.actions);
         game.gamestate = game.server.getState();//Replaces the game's gamestate with the server's gamestate
         //game.teststate = cloneGameState(game.gamestate);
+        updateLongestRoadView(game);
         if(game.gamestate.phase == Phase.Normal) {
                 var roll = game.server.getRoll();
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue1"),roll.first,6,1,100),game);
-                pushAnimation(new DiceRollWindow(document.getElementById("rollValue2"),roll.second,6,1,100),game);
-                displayTrade(game);
-        }
-    game.teststate = cloneGameState(game.gamestate);
-
-        for(var i = 0; i<game.gamestate.players.length;i++) {
-         //   console.log(game.gamestate.players[i]);
-            if (checkPlayerWin(game.gamestate.players[i])) {
-                var winner = game.gamestate.players[i];
-                console.log(winner); //we see the player info of the winner
-                console.log(game.gamestate.players[i] + "wins");
-                //console.log("donefdsf");
-                sendMessage(new View.Message.WinnerMessage(winner.id,game),game.views);
-                //window.location.href = "www/result.html"; //goes to the results page
-                //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+                sendMessage(new View.Message.RollDice(game,roll),game.views);
             }
-        }
-        renderGame(game,null);
+            game.teststate = cloneGameState(game.gamestate);
+            changePhaseViews(game);
 
+            for (var i = 0; i < game.gamestate.players.length; i++) {
+                //   console.log(game.gamestate.players[i]);
+                if (checkPlayerWin(game.gamestate.players[i])) {
+                    var winner = game.gamestate.players[i];
+                    console.log(winner); //we see the player info of the winner
+                    console.log(game.gamestate.players[i] + "wins");
+                    //console.log("donefdsf");
+                    sendMessage(new View.Message.WinnerMessage(winner.id, game), game.views);
+                    //window.location.href = "www/result.html"; //goes to the results page
+                    //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
+                }
+
+            }
+            renderGame(game, null);
+        
 }
 function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
@@ -232,9 +253,14 @@ function sendAcceptValidations(game) {
     });
 }
 
+function setTradeSubPhase(gamestate) {
+        gamestate.subPhase = SubPhase.Trading;
+}
+
+function updatePhaseLabel(game) {
+        sendMessage(new View.Message.PhaseMessage(game,game.gamestate.phase, game.gamestate.subPhase),game.views);
+}
 function displayTrade(game){
-        game.gamestate.subPhase = SubPhase.Trading;
-        sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
         sendMessage(new View.Message.DisplayTradeView(game),game.views);
 }
 
@@ -306,7 +332,7 @@ function processUIMessage(message,game) {
                 game.gamestate.subPhase = SubPhase.Building;
                 game.teststate = cloneGameState(game.gamestate);
                 updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
-                sendMessage(new View.Message.PhaseMessage(game.gamestate.phase, game.gamestate.subPhase, game),game.views);
+                changePhaseViews(game);
                 break;
         }
 }
@@ -355,6 +381,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
+                sendMessage(new View.Message.HideHexInfo(game),game.views);
                 sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.views);
                 shouldRedraw = true;
         }
@@ -364,33 +391,32 @@ function gameStep(game) {
         }
         if(game.mouse.clicked) {
                 var drawCircle = true;
+                shouldRedraw = true;
                 if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
-
-                        pushAnimation(new InfoBox(game.mouse.pos,"Terrain: "
-                                                                + getResourceTerrainName(maxHit.data.resource)
-                                                                + " Resource: "
-                                                                + getResourceName(maxHit.data.resource)
-                                                                + " Token: "
-                                                                + maxHit.data.token,100,100,20),game);
-
+                        sendMessage(new View.Message.DisplayHexInfo(game,maxHit.data,game.mouse.pos),game.views);
                 }
 
                 if(potentialAction != null) {
+                    if(potentialAction.type == Action.Type.RobHex){
+                        if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
+                            applyActionForCurrentPlayer(potentialAction, game.gamestate);
+                            game.gamestate.subPhase = SubPhase.Trading;
+                            game.teststate = cloneGameState(game.gamestate);
+                            changePhaseViews(game);
+                        }
+                    }
+                    else{
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)) {
-                            console.log("validate passed for robber");
-                                if (game.gamestate.subPhase == SubPhase.Robbing 
-                                   && potentialAction.type == Action.Type.RobHex) {
-                                    applyActionForCurrentPlayer(potentialAction, game.gamestate);
-                                    game.teststate = cloneGameState(game.gamestate);
-                                    displayTrade(game);
-                                } else if(game.gamestate.subPhase == SubPhase.Building) {
+
                                     game.actions.data.push(potentialAction);
                                     applyActionForCurrentPlayer(potentialAction, game.teststate);
-                                }
+
                         } else {
                                 pushAnimation(new XClick(game.mouse.pos,15,10),game);
                                 drawCircle = false;
                         }
+                }
+
                 }
                 if(drawCircle) {
                     pushAnimation(new ClickCircle(game.mouse.pos,10,10),game);
@@ -400,7 +426,6 @@ function gameStep(game) {
                 makeBoard(game);
                 game.gamestate.board.robber.moved = false;
             }
-                shouldRedraw = true;
         }
 
 
@@ -437,7 +462,13 @@ function checkPlayerWin(player){
     return false;
 }
 
-function checkLongestRoad(gameState){
+function updateLongestRoadView(game) {
+        if(game.gamestate.longestRoadPlayer != null) {
+                sendMessage(new View.Message.SetLongestRoadID(game,game.gamestate.longestRoadPlayer.id),game.views);
+        }
+}
+
+function updateLongestRoad(gameState){
     var player = getPlayers(gameState.currentPlayerID, gameState.players)[0];
     for(var i =0; i<player.firstSettlementsCoords.length;i++){
         var testLength = longestRoad(findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);

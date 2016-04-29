@@ -626,3 +626,27 @@ address {
 
 	transform: translate(-50%, 0);
 }
+
+#hexInfoView {
+        display:inline-block;
+        padding:10px;
+        background-color:#FFAADD;
+        border-radius:5px;
+        padding-right:50px;
+}
+#hexInfoView>.closeDisplay {
+        border:0;
+        border-top-right-radius:5px;
+        position:absolute;
+        top:0;
+        right:0;
+        padding:5px;
+        padding-left:10px;
+        padding-right:10px;
+}
+#hexInfoView>.closeDisplay:active {
+        background-color:#AAAAAA;
+}
+#hexInfoView>.closeDisplay:focus {
+        outline:none;
+}

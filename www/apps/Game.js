@@ -381,7 +381,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
-                sendMessage(new View.Message.HideHexInfo(game),game.views);
+//                sendMessage(new View.Message.HideHexInfo(game),game.views);
                 sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.views);
                 shouldRedraw = true;
         }

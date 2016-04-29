@@ -558,19 +558,24 @@ address {
         padding-right:50px;
 }
 #hexInfoView .closeDisplay {
-        border:0;
-        border-top-right-radius:5px;
         position:absolute;
         top:0;
         right:0;
+}
+#hexInfoView .closeDisplay>button {
+        border:0;
+        border-top-right-radius:5px;
         padding:5px;
         padding-left:10px;
         padding-right:10px;
 }
-#hexInfoView .closeDisplay:active {
+#hexInfoView .closeDisplay>button:hover {
+        background-color:#EEEEEE;
+}
+#hexInfoView .closeDisplay>button:active {
         background-color:#AAAAAA;
 }
-#hexInfoView .closeDisplay:focus {
+#hexInfoView .closeDisplay>button:focus {
         outline:none;
 }
 #hexInfoView>.content:after {
@@ -582,4 +587,5 @@ address {
     left: -10px;
     top: 10px;
     content: '';
+}
 }

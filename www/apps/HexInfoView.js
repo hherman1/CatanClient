@@ -24,10 +24,14 @@ HexInfoView = function() {
 HexInfoView.prototype.makeHexInfoViewDisplay = function() {
         var self = this;
         res =  $("<div id=hexInfoView>" +
-                        "<div class=resourceDisplay></div>" +
-                        "<div class=terrainDisplay></div>" +
-                        "<div class=tokenDisplay></div>" +
-                        "<button class='closeDisplay'> X </button>" + 
+                        "<div class=content>" +
+                                "<div class=resourceDisplay></div>" +
+                                "<div class=terrainDisplay></div>" +
+                                "<div class=tokenDisplay></div>" +
+                                "<div class=closeDisplay>" +
+                                    "<button> X </button>" + 
+                                "</div>" +
+                        "</div>" +
                 "</div>");
         $(".closeDisplay",res).click(function(){self.hide()});
         return res;

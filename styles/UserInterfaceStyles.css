@@ -627,14 +627,17 @@ address {
 	transform: translate(-50%, 0);
 }
 
-#hexInfoView {
+#hexInfoView>.content{
         display:inline-block;
+        position:relative;
+        top:-24px;
+        left:10px;
         padding:10px;
         background-color:#FFAADD;
         border-radius:5px;
         padding-right:50px;
 }
-#hexInfoView>.closeDisplay {
+#hexInfoView .closeDisplay {
         border:0;
         border-top-right-radius:5px;
         position:absolute;
@@ -644,9 +647,23 @@ address {
         padding-left:10px;
         padding-right:10px;
 }
-#hexInfoView>.closeDisplay:active {
+#hexInfoView .closeDisplay:active {
         background-color:#AAAAAA;
 }
-#hexInfoView>.closeDisplay:focus {
+#hexInfoView .closeDisplay:focus {
         outline:none;
+<<<<<<< HEAD
 }
+=======
+}
+#hexInfoView>.content:after {
+    position: absolute;
+    display: inline-block;
+    border-top: 15px solid transparent;
+    border-right: 20px solid #FFAADD;
+    border-bottom: 15px solid transparent;
+    left: -10px;
+    top: 10px;
+    content: '';
+}
+>>>>>>> 28030a91f5fd840be0e5a774281a7dbfaf168b84

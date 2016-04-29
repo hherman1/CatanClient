@@ -210,7 +210,7 @@ TimerMessageView = function() {
                 $("#phaseMessage").html("TRADING");
                 $("#phaseMessageHolder").attr("phase","trading");
             }else if(message.subPhase == SubPhase.Robbing){
-                $("#phaseMessage").html("Robbin'");
+                $("#phaseMessage").html("ROBBIN'");
                 $("#phaseMessageHolder").attr("phase","robbing");
             }else{
                 throw ("Err: TimerMessageView not getting a proper phase or subphase");

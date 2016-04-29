@@ -415,7 +415,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	background-color: #0000FF;
 }
 
-#phaseMessageHolder[phase="trade"] {
+#phaseMessageHolder[phase="trading"] {
 	background-color: #00cc00;
 }
 
@@ -427,6 +427,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	margin: 0px;
 	text-align: center;
+	font-weight: bold;
 }
 
 #phaseMessageHolder[phase="init"] #phaseMessage {
@@ -436,11 +437,11 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	color:#00cc00;
 }
 
-#phaseMessage[phase="normal"] #phaseMessage {
+#phaseMessageHolder[phase="normal"] #phaseMessage {
 	color: #0000FF;
 }
 
-#phaseMessage[phase="robbing"] #phaseMessage {
+#phaseMessageHolder[phase="robbing"] #phaseMessage {
 	color: red;
 }
 
@@ -545,6 +546,85 @@ address {
 .bankPicHolder{
 	display: inline-block;
 	margin: 0 0 0 11px;
+}
+
+.resource-input{
+	width: 25px;
+
+}
+
+.title{
+	text-align: center;
+	margin: 10px;
+	font-weight: normal;
+}
+
+#targetPlayer{
+	display: inline-block;
+}
+
+.tradeOfferHeading{
+
+}
+
+.resource-input{
+
+}
+
+#offer-resources-bank{
+	display: inline-block;
+	margin-right: 30px;
+}
+
+#request-resources-bank{
+	display: inline-block;
+	margin-right: 30px;
+}
+
+#offer-resources{
+	display: inline-block;
+}
+
+#request-resources{
+	display: inline-block;
+}
+
+.tradeoffer-screen{
+	background-color: #FFF0BD;
+	width: 460px;
+}
+
+.tradeoffer-screen *{
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+}
+
+.tradingHeader{
+	text-align: center;
+	font-size: 40px;
+}
+
+.tradingPanel{
+	border-radius: 8px;
+	border: solid black 2px;
+	padding: 8px;
+	background-color: white;
+	margin-bottom: 30px;
+}
+
+.bankTradingControls{
+	left: 50%;
+	position: relative;
+	display: inline-block;
+
+	transform: translate(-50%, 0);
+}
+
+.playerTradingControls{
+	left: 50%;
+	position: relative;
+	display: inline-block;
+
+	transform: translate(-50%, 0);
 }
 
 #hexInfoView>.content{

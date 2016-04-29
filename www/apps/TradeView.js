@@ -168,6 +168,11 @@ BankTradingView.prototype.newBankOption = function(resource) {
 BankTradingView.prototype.setBankableResources = function(bankResources) {
         var self = this;
         self.clearBankableResources();
+        if(bankResources.length == 0) {
+                self.disable();
+        } else {
+                self.enable();
+        }
         bankResources.forEach(function(resource) {
                 $("#offer-resources-bank>select").append(self.newBankOption(resource)); 
         });
@@ -183,6 +188,12 @@ BankTradingView.prototype.trade = function() {
                                                   ,this.getOfferResource()
                                                   ,this.getRequestResource())
                    ,this.messageDestination);
+}
+BankTradingView.prototype.disable = function() {
+        $("#bankTradeConfirmButton").prop("disabled",true);
+}
+BankTradingView.prototype.enable = function() {
+        $("#bankTradeConfirmButton").prop("disabled",false);
 }
 
 IncomingTradesView = function(messageDestination) {

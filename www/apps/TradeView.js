@@ -43,8 +43,8 @@ View.Message.newMessageType("MakeOffer", function(sender,targetID,offerResources
 TradeView = function(messageDestination) {
         var ActiveView = {
                 None:-1,
-                Trading:0,
-                MakeOffer:1
+                FirstWindow:0,
+                SecondWindow:1
         };
         var self = this;
 
@@ -52,8 +52,41 @@ TradeView = function(messageDestination) {
 
         self.activeView = ActiveView.None;
 
-        self.incomingTradesView = new IncomingTradesView(messageDestination,self);
-        self.makeOfferView = new MakeOfferView(messageDestination,self);
+        $(".tradeoffer-screen button.closeWindow").click(function() {
+                self.nextWindow();
+        });
+
+        self.incomingTradesView = new IncomingTradesView(messageDestination);
+        self.makeOfferView = new MakeOfferView(messageDestination);
+        //self.bankTrading = new BankTradingView(messageDestination);
+
+        self.nextWindow = function() {
+                switch(self.activeView) {
+                        case ActiveView.None:
+                                self.activeView = ActiveView.FirstWindow;
+                                $("#firstTradeWindow").show();
+                                self.incomingTradesView.display();
+                                self.makeOfferView.hide();
+         //                       self.bankTrading.hide();
+                                break;
+                        case ActiveView.FirstWindow:
+                                self.activeView = ActiveView.SecondWindow;
+                                $("#firstTradeWindow").hide();
+                                self.incomingTradesView.hide();
+                                $("#secondTradeWindow").show();
+                                self.makeOfferView.display();
+//                                self.bankTrading.display();
+                                break;
+                        case ActiveView.SecondWindow:
+                                self.activeView = ActiveView.None;
+                                $("#secondTradeWindow").hide();
+                                self.incomingTradesView.hide();
+                                self.makeOfferView.hide();
+//                                self.bankTrading.hide();
+                                sendMessage(new View.Message.TradeViewClosed(self),self.messageDestination);
+                                break;
+                }
+        }
 
         self.setMessageDestination = function(destination) {
                 self.messageDestination = destination;
@@ -61,25 +94,15 @@ TradeView = function(messageDestination) {
                 self.makeOfferView.messageDestination = destination;
         }
 
-        self.incomingTradesViewClosed = function() {
-                self.activeView = ActiveView.MakeOffer;
-                self.makeOfferView.display();
-        }
-
-        self.makeOfferViewClosed = function() {
-                self.activeView = ActiveView.None;
-                sendMessage(new View.Message.TradeViewClosed(self),self.messageDestination);
-        }
-
         self.getActiveView = function() {
                 switch(self.activeView) {
                         case ActiveView.None:
-                                //throw "Error `getActiveView`: No active trade-view";
+                                return null;
                                 break;
-                        case ActiveView.Trading:
+                        case ActiveView.FirstWindow:
                                 return self.incomingTradesView;
                                 break;
-                        case ActiveView.MakeOffer:
+                        case ActiveView.SecondWindow:
                                 return self.makeOfferView;
                                 break;
                 }
@@ -95,9 +118,8 @@ TradeView = function(messageDestination) {
         ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.DisplayTradeView:
-                                self.activeView = ActiveView.Trading;
-                                self.incomingTradesView.display();
-                    default:
+                            self.nextWindow();
+                        default:
                             self.passMessage(message);
                             break;
                 }
@@ -105,16 +127,13 @@ TradeView = function(messageDestination) {
 }
 
 
-IncomingTradesView = function(messageDestination,manager) {
+IncomingTradesView = function(messageDestination) {
         var self = this;
         self.messageDestination = messageDestination;
         self.incomingTradeTemplate = $('#templateTradeOffer');
-        self.manager = manager;
-        $("button#finish").click(function() {
-                $("#incomingTradeOffers").hide();
+        self.hide = function() {
                 $("#incomingTradeOffers>#offers").empty();
-                self.manager.incomingTradesViewClosed();
-        });
+        };
         function newDOMTradeOffer(trade) {
                 var out = self.incomingTradeTemplate.clone();
                 out.removeAttr('id');
@@ -132,7 +151,6 @@ IncomingTradesView = function(messageDestination,manager) {
                 return out;
         }
         self.display = function() {
-                $("#incomingTradeOffers").show();
                 sendMessage(new View.Message.RequestIncomingTrades(self),messageDestination);
                 sendMessage(new View.Message.RequestAcceptValidations(self),messageDestination);
         }
@@ -156,19 +174,10 @@ IncomingTradesView = function(messageDestination,manager) {
         });
 
 }
-/*
-        function closeView() {
-                $("#offerCreator").hide();
-                $("select#targetPlayer").empty();
-                resetResources();
-                self.manager.makeOfferViewClosed();
-        }
-        */
 
-MakeOfferView = function(messageDestination,manager) {
+MakeOfferView = function(messageDestination) {
         var self = this;
         self.messageDestination = messageDestination;
-        self.manager = manager;
         function newTargetOption(id) {
                 return $("<option value="+id+"> Player "+id+" </option>");
         }
@@ -181,12 +190,18 @@ MakeOfferView = function(messageDestination,manager) {
         });
 
         self.display = function() {
-                $("#offerCreator").show();
                 sendMessage(new View.Message.RequestGameState(self),messageDestination);
         }
 
+        self.hide = function() {
+                resetResources();
+                clearTargets();
+        }
         function resetResources() {
                 $("#offerCreator input.resource-input[resource]").val(0);
+        }
+        function clearTargets() {
+                $("select#targetPlayer").empty();
         }
         function makeOffer() {
                 var offerResources = getResources($("#offer-resources"));

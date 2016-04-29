@@ -730,10 +730,11 @@ address {
     position: absolute;
     display: inline-block;
     border-top: 15px solid transparent;
-    border-right: 20px solid #FFAADD;
+    border-right: 20px solid #FFF0BD;
     border-bottom: 15px solid transparent;
-    left: -10px;
-    top: 10px;
+    left: -15px;
+    top: 50%;
+    transform:translate(0,-50%);
     content: '';
 }
 

@@ -386,6 +386,7 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
+                sendMessage(new View.Message.HideHexInfo(game),game.views);
                 sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.views);
                 shouldRedraw = true;
         }

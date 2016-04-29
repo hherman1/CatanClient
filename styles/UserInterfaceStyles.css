@@ -3,6 +3,10 @@ body {
         overflow: hidden;
 }
 
+button {
+        cursor: pointer;
+}
+
 /*Bottom Right Display*/
 
 
@@ -636,6 +640,7 @@ address {
         background-color:#FFAADD;
         border-radius:5px;
         padding-right:50px;
+        box-shadow: 1px 1px 5px black;
 }
 #hexInfoView .closeDisplay {
         position:absolute;
@@ -650,7 +655,6 @@ address {
         padding-right:10px;
 }
 #hexInfoView .closeDisplay>button:hover {
-        cursor:pointer;
         background-color:#EEEEEE;
 }
 #hexInfoView .closeDisplay>button:active {

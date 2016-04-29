@@ -79,10 +79,10 @@ function drawHexes(gamestate,scale,ctx) {
 
 function generateHexCanvas(gamestate,scale) {
         var $canvas = $("<canvas></canvas>");
-        $canvas.attr("width","500");
-        $canvas.attr("height","500");
+        $canvas.attr("width","1000");
+        $canvas.attr("height","1000");
         var ctx = $canvas[0].getContext("2d");
-        ctx.translate(250,250);
+        ctx.translate(500,500);
         drawHexes(gamestate,scale,ctx);
         return $canvas[0];
 }

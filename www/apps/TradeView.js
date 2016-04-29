@@ -189,16 +189,61 @@ IncomingTradesView = function(messageDestination) {
         var self = this;
         self.messageDestination = messageDestination;
         self.incomingTradeTemplate = $('#templateTradeOffer');
-        self.hide = function() {
+        self.clearOffers = function () {
                 $("#incomingTrades>#offers").empty();
+        }
+        self.hide = function() {
+                self.clearOffers();
         };
+        $("#incomingTrades>#reject-all").click(self.clearOffers);
+        function newDOMTradeDisplay() {
+                return $("<table class=trade>" +
+                                "<tr>" +
+                                    "<th></th>"+
+                                    "<th>Lumber</th>"+
+                                    "<th>Wool</th>"+
+                                    "<th>Ore</th>"+
+                                    "<th>Brick</th>"+
+                                    "<th>Grain</th>"+
+                                "</tr>" +
+                                "<tr offer>" +
+                                    "<th> Offer </th>"+
+                                    "<td resource="+Resource.Lumber+">0</td>"+
+                                    "<td resource="+Resource.Wool+">0</td>"+
+                                    "<td resource="+Resource.Ore+">0</td>"+
+                                    "<td resource="+Resource.Brick+">0</td>"+
+                                    "<td resource="+Resource.Grain+">0</td>"+
+                                "</tr>"+
+                                "<tr request>" +
+                                    "<th> Request </th>"+
+                                    "<td resource="+Resource.Lumber+">0</td>"+
+                                    "<td resource="+Resource.Wool+">0</td>"+
+                                    "<td resource="+Resource.Ore+">0</td>"+
+                                    "<td resource="+Resource.Brick+">0</td>"+
+                                    "<td resource="+Resource.Grain+">0</td>"+
+                                "</tr>"+
+                        "</table>");
+                                    
+        }
+        function setTradeDisplay(display,trade) {
+            trade.offerResources.forEach(function(amount,resource) {
+                    $("tr[offer]>td[resource="+resource+"]",display).html(amount);
+            });
+            trade.requestResources.forEach(function(amount,resource) {
+                    $("tr[request]>td[resource="+resource+"]",display).html(amount);
+            });
+        }
+        function newTradeDOM(trade) {
+                var out = newDOMTradeDisplay();
+                setTradeDisplay(out,trade);
+                return out;
+        }
         function newDOMTradeOffer(trade) {
                 var out = self.incomingTradeTemplate.clone();
                 out.removeAttr('id');
                 out.attr('tradeID',trade.tradeID);
-                $(".offerer",out).html('From: ' + trade.offererID);
-                $(".offeredResources",out).html('Offering: ' + trade.offerResources);
-                $(".requestedResources",out).html('Requesting: ' + trade.requestResources);
+                $(".offerer",out).html('From: Player ' + trade.offererID);
+                $(".details",out).append(newTradeDOM(trade));
                 $("button.acceptOffer",out).click(function() {
                         sendMessage(new View.Message.AcceptTrade(self,trade.tradeID),self.messageDestination);
                         out.remove();

@@ -156,6 +156,14 @@ IncomingTradesView = function(messageDestination,manager) {
         });
 
 }
+/*
+        function closeView() {
+                $("#offerCreator").hide();
+                $("select#targetPlayer").empty();
+                resetResources();
+                self.manager.makeOfferViewClosed();
+        }
+        */
 
 MakeOfferView = function(messageDestination,manager) {
         var self = this;
@@ -164,13 +172,12 @@ MakeOfferView = function(messageDestination,manager) {
         function newTargetOption(id) {
                 return $("<option value="+id+"> Player "+id+" </option>");
         }
-        $("#cancelOffer").click(function() {
-                closeView();
+        $("#resetOffer").click(function() {
+                resetResources();
         });
         $("#makeOffer").click(function() {
                 makeOffer();
                 resetResources();
-                //closeView();
         });
 
         self.display = function() {
@@ -181,16 +188,10 @@ MakeOfferView = function(messageDestination,manager) {
         function resetResources() {
                 $("#offerCreator input.resource-input[resource]").val(0);
         }
-        function closeView() {
-                $("#offerCreator").hide();
-                $("select#targetPlayer").empty();
-                resetResources();
-                self.manager.makeOfferViewClosed();
-        }
         function makeOffer() {
                 var offerResources = getResources($("#offer-resources"));
                 var requestResources = getResources($("#request-resources"));
-                var targetID = parseInt($("#offerCreator>#targetPlayer").val());
+                var targetID = parseInt($("select#targetPlayer").val());
                 sendMessage(new View.Message.MakeOffer(self,targetID,offerResources,requestResources)
                            ,self.messageDestination);
         }

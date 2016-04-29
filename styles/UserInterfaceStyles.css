@@ -1,3 +1,9 @@
+/*
+~~~COLORS~~~
+hover normal button color: FFD13D
+normal button color: FFDB66
+disabled button color: FFF0BD
+*/
 
 body {
         overflow: hidden;
@@ -12,7 +18,6 @@ button {
 }
 /*Bottom Right Display*/
 
-
 .bottomRightDisplay{
 	border: solid black 1px;
 	border-radius: 8px 0 0 0;
@@ -22,18 +27,27 @@ button {
 }
 
 .endTurnButton{
-	background: #FFF0BD;
-	color: #696558;
+	background: #ffdb66;
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+	border-right: solid black 1px;;
+	color: black;
 	width: 320px;
 	height: 75px;
 	font-size: 50px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
-
 }
 
 .endTurnButton:hover:enabled{
-	background: #ffdb66;
-	box-shadow: 1px 1px 5px #888888;
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+}
+
+.endTurnButton:disabled{
+	background: #FFF0BD;
+	color: gray;
 }
 
 .topBar{
@@ -43,23 +57,26 @@ button {
 }
 
 #undoButton {
-	background: #FFF0BD;
-	color: #696558;
+	background: #FFDB66;
+	border-left: solid black 1px;
+	border-right: solid black 1px;
+	color: black;
 	width: 50%;
 	font-size: 30px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;;
-
+	margin: 0px 0 0 2px;
 }
 #undoButton:hover:enabled{
-	background: #ffdb66;
-	box-shadow: 1px 1px 5px #888888;
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
 
 .rollHolder{
-  text-align:center;
-  font-size: 12px;
+  	text-align:center;
+  	font-size: 12px;
 	display: inline-block;
-	border-right: solid black 1px;
 	float: left;
 	padding: 0 0px 0 4px;
 	width: 154px;
@@ -134,9 +151,16 @@ button {
 }
 
 .resources{
-	background-color: #FFF0BD;
+	background-color: #ffdb66;
 	border: solid black 1px;
 	border-radius: 0 8px 0 0;
+}
+
+.resources:hover{
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
 /*Build Card*/
 .buildCard{
@@ -203,7 +227,8 @@ button {
 .playerDiv{
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	display:inline-block;
-	width: 153px;
+	width: 160px;
+	margin-right: 5px;
 }
 
  .playerDiv[active=true] .playerName {
@@ -221,11 +246,12 @@ button {
 	border: 1px solid black;
 	border-radius: 0 0 4px 4px;
 	margin: 0px;
-	width: 152.8px;
+	width: 160px;
 }
 
 .playerNameTab {
         position:relative;
+        width: 160px;
 }
 .playerNameTab:hover > .overlay {
         opacity:0.25;
@@ -250,7 +276,7 @@ button {
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: white;
-	width: 152.8px;
+	width: 160px;
 }
 
 #playerTabs{
@@ -280,6 +306,12 @@ button {
 	width: 100%;
 }
 
+.playerStructureEndItem{
+	display: inline;
+	padding: 4px;
+	width: 100%;
+}
+
 .playerStructuresInfo{
 	border-top: 1px solid black;
 }
@@ -293,7 +325,7 @@ button {
 
 .playerStructureQuantity{
 	display: inline;
-	font-size: 25px;
+	font-size: 22px;
 }
 
 .playerInfoVPoints{
@@ -376,7 +408,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	position: absolute;
 	right: 0;
 	top: 0;
-	background-color: #FFF0BD;
+	background-color: #FFE592;/*different color here because this div looks extra saturated due to smaller size*/
 	width: 145px;
 	border: solid black 1px;
 	border-radius: 0px 0px 0 8px;
@@ -484,6 +516,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
         padding:20px;
         background-color:#ffffff;
         border-radius:10px;
+        border: solid black 2px;
         position:absolute;
         top:50%;
         left:50%;
@@ -571,7 +604,7 @@ address {
 }
 
 .tradeOfferHeading{
-
+	margin-top: 5px;
 }
 
 .resource-input{
@@ -590,6 +623,7 @@ address {
 
 #offer-resources{
 	display: inline-block;
+	margin-right: 60px;
 }
 
 #request-resources{
@@ -689,4 +723,46 @@ address {
 }
 #hexInfoView .closeDisplay>button:focus {
         outline:none;
+
 }
+
+#hexInfoView>.content:after {
+    position: absolute;
+    display: inline-block;
+    border-top: 15px solid transparent;
+    border-right: 20px solid #FFAADD;
+    border-bottom: 15px solid transparent;
+    left: -10px;
+    top: 10px;
+    content: '';
+}
+
+.tradePlayerSelect{
+	margin-left: 29%;
+}
+
+.playerTradeSelectTitle{
+	display:inline-block;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.playerTradeConfirmPanel{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 15px;
+}
+
+#bankTradeConfirmButton{
+	position: relative;
+    bottom: 13px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#makeOffer{
+	margin-right: 10%;
+}
+

@@ -11,6 +11,7 @@ ClosenessToWerewolf = {
     Vampires: "No",
     Mack: "Pretty Sad",
     Carsten: "Actually a Werewolf"
+    Dingo: "require.js"
 };
 
 SubPhase = {

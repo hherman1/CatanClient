@@ -36,7 +36,7 @@ animateDiceRoll = function(diceRollView,targetRoll) {
         var self = diceRollView;
         var deltaTime = self.duration * Timing.quadraticFixedDiscreteSum(self.step/self.steps,self.steps);
         self.step++;
-        if(self.step == self.steps) {
+        if(self.step >= self.steps) {
                 self.setBoxes(targetRoll.first,targetRoll.second);
         } else {
                 self.regenBoxes();

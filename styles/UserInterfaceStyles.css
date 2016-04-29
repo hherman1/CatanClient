@@ -650,6 +650,7 @@ address {
         padding-right:10px;
 }
 #hexInfoView .closeDisplay>button:hover {
+        cursor:pointer;
         background-color:#EEEEEE;
 }
 #hexInfoView .closeDisplay>button:active {

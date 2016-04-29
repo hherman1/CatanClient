@@ -364,6 +364,7 @@ function processGameInbox(game) {
 
 function gameStep(game) {
         var shouldRedraw = false;
+        var highlight = null;
 
         sendMessage(new View.Message.RequestMouseData(game),game.views);
         processGameInbox(game);
@@ -389,6 +390,11 @@ function gameStep(game) {
                 sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.views);
                 shouldRedraw = true;
         }
+        if(potentialAction != null) {
+                if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
+                    highlight = getPositionObject(potentialAction,game.teststate.currentPlayerID);
+                }
+        }
         if(game.mouse.clicked) {
                 var drawCircle = true;
                 shouldRedraw = true;
@@ -397,6 +403,7 @@ function gameStep(game) {
                 }
 
                 if(potentialAction != null) {
+                    highlight = getPositionObject(potentialAction,game.teststate.currentPlayerID);
                     if(potentialAction.type == Action.Type.RobHex){
                         if(validateActionForCurrentPlayer(potentialAction,game.teststate)){
                             applyActionForCurrentPlayer(potentialAction, game.gamestate);
@@ -430,10 +437,6 @@ function gameStep(game) {
 
 
         if(shouldRedraw) {
-                var highlight = null;
-                if(potentialAction != null) {
-                        highlight = getPositionObject(potentialAction,game.teststate.currentPlayerID);
-                }
                 renderGame(game,highlight);
         }
 

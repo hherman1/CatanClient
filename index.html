@@ -55,18 +55,18 @@
                                                 <h2> Recieve: </h2>
                                                 <select id="targetPlayer"></select><br />
                                         </div>
-                                        <button> Trade </button>
+                                        <button id="bankTradeConfirmButton"> Trade </button>
                                     </div>
                                     
                                 </div>
                                 <div class="tradingPanel">
                                     <h1 class="title">Players</h1>
-                                    <div class="tradePlayerSelect">
-                                        <p style="display:inline-block">
-                                            Trading with: 
-                                        </p>
-                                        <select id="targetPlayer"></select><br />
-                                    </div>
+                                        <div class="tradePlayerSelect">
+                                            <p class="playerTradeSelectTitle">
+                                                Trade with: 
+                                            </p>
+                                            <select id="targetPlayer"></select><br />
+                                        </div> 
                                     <div class="playerTradingControls">  
                                         <div id="offer-resources">
                                                 <h2 class="tradeOfferHeading"> Offer: </h2>
@@ -84,8 +84,10 @@
                                                 <span class="resource-type"> Ore </span> <input class="resource-input" type="number" resource="Ore" value=0 min=0 /> <br />
                                                 <span class="resource-type"> Brick </span> <input class="resource-input" type="number" resource="Brick" value=0 min=0 /> <br />
                                         </div>
-                                        <button id="makeOffer" > Make Offer </button>
-                                        <button id="cancelOffer" > Cancel Offer </button>
+                                        <div class="playerTradeConfirmPanel">
+                                            <button id="makeOffer" > Make Offer </button>
+                                            <button id="resetOffer" > Reset Offer </button>
+                                        </div>
                                     </div>
                                     
                                     
@@ -238,7 +240,7 @@
                                                 0
                                             </p>
                                         </div>
-                                        <div class="playerStructure">
+                                        <div class="playerStructureEndItem">
                                             <div class="playerStructurePic roadPic"> </div>
                                             <p structure="Road" class="playerStructureQuantity">
                                                 0

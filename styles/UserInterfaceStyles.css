@@ -770,3 +770,30 @@ address {
 	margin-right: 10%;
 }
 
+#passGame {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        color:#FFFFFF;
+        z-index:1;
+        display:none;
+}
+#passGame>div.fill {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity:0.5;
+        background-color:#000000;
+}
+#passGame>div.content {
+        display:inline-block;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        z-index:1;
+}

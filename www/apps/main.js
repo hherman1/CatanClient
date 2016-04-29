@@ -26,6 +26,7 @@ define(function (require) {
     var longestroadview = require('./LongestRoadView');
     var dicerollview = require('./DiceRollView');
     var hexView = require('./HexInfoView');
+    var hexView = require('./PassView');
     function main() {
         canvas = document.getElementById('board');
         if(canvas.getContext) {

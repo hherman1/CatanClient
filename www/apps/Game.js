@@ -300,6 +300,9 @@ function processBankMessage(message,game) {
 function processUIMessage(message,game) {
         switch(message.type) {
             case View.Message.Type.EndTurn:
+                sendMessage(new View.Message.OpenPassView(game,getNextPlayer(game.gamestate)),game.views);
+                break;
+            case View.Message.Type.PassViewClosed:
                 switch(game.gamestate.phase){
                     case Phase.Init:
                         var currentPlayer = getPlayers(game.gamestate.currentPlayerID,game.teststate.players)[0];

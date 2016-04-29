@@ -263,6 +263,40 @@ function displayTrade(game){
         sendMessage(new View.Message.DisplayTradeView(game),game.views);
 }
 
+function getCurrentPlayer(gamestate) {
+        return getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+}
+
+function bankableResources(gamestate) {
+        var currentPlayer = getCurrentPlayer(gamestate);
+        var out = [];
+        currentPlayer.resources.forEach(function(amount,resource) {
+                if(amount >= BANKABLE_RESOURCE_COUNT) {
+                        out.push(resource);
+                }
+        });
+        return out;
+}
+function tradeWithBank(gamestate,offerResource,requestResource) {
+        var currentPlayer = getCurrentPlayer(gamestate);
+        if(currentPlayer.resources[offerResource] >= BANKABLE_RESOURCE_COUNT) {
+                currentPlayer.resources[requestResource] += 1;
+                currentPlayer.resources[offerResource] -= BANKABLE_RESOURCE_COUNT;
+        }
+}
+function processBankMessage(message,game) {
+        switch(message.type) {
+                case View.Message.Type.RequestBankableResources:
+                        respond(message
+                               ,new View.Message.BankableResources(game, bankableResources(game.gamestate)));
+                        break;
+                case View.Message.Type.TradeWithBank:
+                        tradeWithBank(game.gamestate,message.offerResource,message.requestResource);
+                        updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                        break;
+        }
+}
+
 function processUIMessage(message,game) {
         switch(message.type) {
             case View.Message.Type.EndTurn:
@@ -333,6 +367,8 @@ function processUIMessage(message,game) {
                 updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 changePhaseViews(game);
                 break;
+            default:
+                processBankMessage(message,game);
         }
 }
 

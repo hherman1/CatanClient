@@ -58,7 +58,7 @@ TradeView = function(messageDestination) {
 
         self.incomingTradesView = new IncomingTradesView(messageDestination);
         self.makeOfferView = new MakeOfferView(messageDestination);
-        //self.bankTrading = new BankTradingView(messageDestination);
+        self.bankTradingView = new BankTradingView(messageDestination);
 
         self.nextWindow = function() {
                 switch(self.activeView) {
@@ -67,7 +67,7 @@ TradeView = function(messageDestination) {
                                 $("#firstTradeWindow").show();
                                 self.incomingTradesView.display();
                                 self.makeOfferView.hide();
-         //                       self.bankTrading.hide();
+                                self.bankTradingView.hide();
                                 break;
                         case ActiveView.FirstWindow:
                                 self.activeView = ActiveView.SecondWindow;
@@ -75,14 +75,14 @@ TradeView = function(messageDestination) {
                                 self.incomingTradesView.hide();
                                 $("#secondTradeWindow").show();
                                 self.makeOfferView.display();
-//                                self.bankTrading.display();
+                                self.bankTradingView.display();
                                 break;
                         case ActiveView.SecondWindow:
                                 self.activeView = ActiveView.None;
                                 $("#secondTradeWindow").hide();
                                 self.incomingTradesView.hide();
                                 self.makeOfferView.hide();
-//                                self.bankTrading.hide();
+                                self.bankTradingView.hide();
                                 sendMessage(new View.Message.TradeViewClosed(self),self.messageDestination);
                                 break;
                 }
@@ -126,6 +126,64 @@ TradeView = function(messageDestination) {
         });
 }
 
+View.Message.newMessageType("RequestBankableResources",function(){});
+View.Message.newMessageType("BankableResources",function(sender,bankResources){
+        this.bankResources = bankResources
+});
+View.Message.newMessageType("TradeWithBank",function(sender,offerResource,requestResource) {
+        this.offerResource = offerResource;
+        this.requestResource = requestResource;
+});
+
+
+BankTradingView = function(messageDestination) {
+
+        var self = this;
+        self.messageDestination = messageDestination;
+
+        $("#bankTradeConfirmButton").click(function() {
+                self.trade();
+                self.display();
+        });
+
+        ClientView.call(self,function(message) {
+                if(message.hasType("BankableResources")) {
+                        self.setBankableResources(message.bankResources);
+                }
+        });
+
+}
+BankTradingView.prototype.display = function() {
+        sendMessage(new View.Message.RequestBankableResources(this),this.messageDestination);
+}
+BankTradingView.prototype.clearBankableResources = function() {
+        $("#offer-resources-bank>select").empty();
+}
+BankTradingView.prototype.hide = function() {
+        this.clearBankableResources();
+}
+BankTradingView.prototype.newBankOption = function(resource) {
+        return $("<option value="+resource+"> " + getResourceName(resource) + "</option>");
+}
+BankTradingView.prototype.setBankableResources = function(bankResources) {
+        var self = this;
+        self.clearBankableResources();
+        bankResources.forEach(function(resource) {
+                $("#offer-resources-bank>select").append(self.newBankOption(resource)); 
+        });
+}
+BankTradingView.prototype.getOfferResource = function() {
+        return parseInt($("#offer-resources-bank>select").val());
+}
+BankTradingView.prototype.getRequestResource = function() {
+        return parseInt($("#request-resources-bank>select").val());
+}
+BankTradingView.prototype.trade = function() {
+        sendMessage(new View.Message.TradeWithBank(this
+                                                  ,this.getOfferResource()
+                                                  ,this.getRequestResource())
+                   ,this.messageDestination);
+}
 
 IncomingTradesView = function(messageDestination) {
         var self = this;

@@ -68,3 +68,8 @@ DICE_ROLL_DURATION = 5000;
 DICE_ROLL_STEPS = 100;
 DICE_ROLL_MAX = 6;
 DICE_ROLL_MIN = 1;
+
+////////////////////////////////////////////////////////////////////////
+/*                            BANK CONSTANTS                          */
+////////////////////////////////////////////////////////////////////////
+BANKABLE_RESOURCE_COUNT = 4

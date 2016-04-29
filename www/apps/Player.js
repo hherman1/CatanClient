@@ -99,14 +99,6 @@ function getPlayerColors(playerList) {
         return out;
 }
 
-//deprecated
-function getCurrentPlayer(players, currentPlayerID){
-  for (player in players){
-    if (currentPlayerID == players[player].id){
-      return players[player];
-    }
-  }
-}
 
 function getPlayers(id, playerList){
         return playerList.filter(function(player) {return player.id == id});

@@ -143,7 +143,7 @@ function setVictoryPointsVal(playerTab, amount){
 
     function updateUIInfo(players, currentPlayerID){
         updateUIInfoTopBar(players,currentPlayerID);
-        var currentPlayer = getCurrentPlayer(players, currentPlayerID);
+        var currentPlayer = getPlayers(currentPlayerID,players)[0];
         updateResourceBar(currentPlayer);
     }
 
@@ -313,11 +313,3 @@ function loadGame(game,callback) {
         });
 }
 
-function tradeWithBank(player, resourceToGive, resourceToGet) {
-    if(player.resources[resourceToGive] > 3) {
-        player.resources[resourceToGive] -= 4;
-        player.resources[resourceToGet] ++;
-        console.log("Made it here");
-    }
-    console.log("made it here");
-}

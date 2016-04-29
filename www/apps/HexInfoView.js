@@ -9,7 +9,7 @@ HexInfoView = function() {
         var self = this;
         self.display = self.makeHexInfoViewDisplay();
         self.hide();
-        $("#userInterface").append(self.display);
+        $("#userInterface").prepend(self.display);
         ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.AdjustTranslation:

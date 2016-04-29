@@ -631,6 +631,10 @@ address {
 	transform: translate(-50%, 0);
 }
 
+#hexInfoView {
+        pointer-events:none;
+}
+
 #hexInfoView>.content{
         display:inline-block;
         position:relative;
@@ -641,6 +645,7 @@ address {
         border-radius:5px;
         padding-right:50px;
         box-shadow: 1px 1px 5px black;
+        pointer-events:all;
 }
 #hexInfoView .closeDisplay {
         position:absolute;

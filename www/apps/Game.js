@@ -114,7 +114,6 @@ Server = function() {
                 this.roll.first = rollDice();
                 this.roll.second = rollDice();
                 resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
-
                 if (this.roll.first + this.roll.second == 7) {
                     this.gamestate.subPhase = SubPhase.Robbing;
                 }
@@ -233,7 +232,7 @@ function endTurn(game) {
 
             }
             renderGame(game, null);
-        
+
 }
 function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);

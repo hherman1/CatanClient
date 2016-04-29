@@ -9,6 +9,15 @@ body {
         overflow: hidden;
 }
 
+button {
+        cursor: pointer;
+}
+
+* {
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+}
+/*Bottom Right Display*/
+
 .bottomRightDisplay{
 	border: solid black 1px;
 	border-radius: 8px 0 0 0;
@@ -651,31 +660,62 @@ address {
 	transform: translate(-50%, 0);
 }
 
+#hexInfoView {
+        pointer-events:none;
+}
+
 #hexInfoView>.content{
         display:inline-block;
         position:relative;
-        top:-24px;
-        left:10px;
+        left:15px;
         padding:10px;
-        background-color:#FFAADD;
+       // background-color:#FFAADD;
+        background-color: #FFF0BD;
         border-radius:5px;
         padding-right:50px;
+        box-shadow: 1px 1px 5px black;
+        transform:translate(0,-50%);
+        pointer-events:all;
 }
+
+/* ----------------------------------------------------------------------------- * 
+*  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
+*  ----------------------------------------------------------------------------- */
+#hexInfoView>.content:after {
+    position: absolute;
+    display: inline-block;
+    border-top: 15px solid transparent;
+    border-right: 20px solid #FFF0BD;
+    border-bottom: 15px solid transparent;
+    left: -15px;
+    top: 50%;
+    transform:translate(0,-50%);
+    content: '';
+}
+/* ----------------------------------------------------------------------------- * 
+*  ----------------------------------------------------------------------------- */
+
 #hexInfoView .closeDisplay {
-        border:0;
-        border-top-right-radius:5px;
         position:absolute;
         top:0;
         right:0;
+}
+#hexInfoView .closeDisplay>button {
+        border:0;
+        border-top-right-radius:5px;
         padding:5px;
         padding-left:10px;
         padding-right:10px;
 }
-#hexInfoView .closeDisplay:active {
+#hexInfoView .closeDisplay>button:hover {
+        background-color:#EEEEEE;
+}
+#hexInfoView .closeDisplay>button:active {
         background-color:#AAAAAA;
 }
-#hexInfoView .closeDisplay:focus {
+#hexInfoView .closeDisplay>button:focus {
         outline:none;
+
 }
 
 #hexInfoView>.content:after {
@@ -717,3 +757,4 @@ address {
 #makeOffer{
 	margin-right: 7.5%;
 }
+

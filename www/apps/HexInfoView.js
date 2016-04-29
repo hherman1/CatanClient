@@ -9,9 +9,12 @@ HexInfoView = function() {
         var self = this;
         self.display = self.makeHexInfoViewDisplay();
         self.hide();
-        $("#userInterface").append(self.display);
+        $("#userInterface").prepend(self.display);
         ClientView.call(self,function(message) {
                 switch(message.type) {
+                        case View.Message.Type.AdjustTranslation:
+                                self.translate(message.translation);
+                                break;
                         case View.Message.Type.DisplayHexInfo:
                                 self.showHex(message.hex,message.position);
                                 break;
@@ -56,4 +59,10 @@ HexInfoView.prototype.showHex = function(hex,position) {
         $(".resourceDisplay",this.display).html("Resource: " + getResourceName(hex.resource));
         $(".tokenDisplay",this.display).html("Token: " + hex.token);
         this.show(position);
+}
+HexInfoView.prototype.translate = function(translation) {
+        var pos = this.display.position();
+        pos.top = translation.y + pos.top;
+        pos.left = translation.x + pos.left;
+        this.display.offset(pos);
 }

@@ -114,7 +114,6 @@ Server = function() {
                 this.roll.first = rollDice();
                 this.roll.second = rollDice();
                 resourceGeneration(this.roll.first + this.roll.second, this.gamestate.players, this.gamestate.board.vertices, this.gamestate.board.hexes, this.gamestate.board.robber);
-
                 if (this.roll.first + this.roll.second == 7) {
                     this.gamestate.subPhase = SubPhase.Robbing;
                 }
@@ -233,7 +232,7 @@ function endTurn(game) {
 
             }
             renderGame(game, null);
-        
+
 }
 function sendIncomingTrades(game) {
     var incomingTrades = getIncomingTrades(game.gamestate.currentPlayerID,game.gamestate.tradeoffers);
@@ -381,11 +380,12 @@ function gameStep(game) {
                 shouldRedraw = true;
         }
         if(game.mouse.dragging) {
-                sendMessage(new View.Message.HideHexInfo(game),game.views);
+//                sendMessage(new View.Message.HideHexInfo(game),game.views);
                 sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.views);
                 shouldRedraw = true;
         }
         if(game.mouse.scroll.y != 0) {
+                sendMessage(new View.Message.HideHexInfo(game),game.views);
                 sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.views);
                 shouldRedraw = true;
         }

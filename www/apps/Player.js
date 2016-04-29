@@ -147,19 +147,26 @@ function currentPlayerListIndex(gamestate){
         return out;
 }
 
-function nextPlayer(gamestate){
+function nextPlayer(gamestate) {
+        gamestate.currentPlayerID = getNextPlayer(gamestate);
+}
+function getNextPlayer(gamestate){
       var currentPlayerIndex = currentPlayerListIndex(gamestate);
+      var out = null;
         switch(gamestate.rotation) {
                 case Rotation.Forwards:
         //get current player index and then increase it by one and set the global player to this calculated player
-                      var nextPlayer = (currentPlayerIndex+1) % (gamestate.players.length);
-                      gamestate.currentPlayerID = gamestate.players[nextPlayer].id;//Moves to next player
+                      var next = (currentPlayerIndex+1) % (gamestate.players.length);
+                      out = gamestate.players[next].id;//Moves to next player
                       break;
                 case Rotation.Backwards:
-                      var nextPlayer = (currentPlayerIndex-1) % (gamestate.players.length);
-                      gamestate.currentPlayerID = gamestate.players[nextPlayer].id;//Moves to next player
+                      var next = (currentPlayerIndex-1) % (gamestate.players.length);
+                      out = gamestate.players[next].id;//Moves to next player
                       break;
+                case Rotation.None:
+                      out = gamestate.players[currentPlayerIndex].id;
         }
+        return out;
 }
 function getStoredPlayers() {
         var out = [];

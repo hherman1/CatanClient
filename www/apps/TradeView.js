@@ -132,7 +132,7 @@ IncomingTradesView = function(messageDestination) {
         self.messageDestination = messageDestination;
         self.incomingTradeTemplate = $('#templateTradeOffer');
         self.hide = function() {
-                $("#incomingTradeOffers>#offers").empty();
+                $("#incomingTrades>#offers").empty();
         };
         function newDOMTradeOffer(trade) {
                 var out = self.incomingTradeTemplate.clone();
@@ -156,10 +156,10 @@ IncomingTradesView = function(messageDestination) {
         }
         function displayIncomingTrades(trades) {
                 var DOMOffers = joinJQueryArray(trades.map(newDOMTradeOffer));
-                $("#incomingTradeOffers>#offers").append(DOMOffers);
+                $("#incomingTrades>#offers").append(DOMOffers);
         }
         function processAcceptValidation(message) {
-                $("#incomingTradeOffers>#offers>div.tradeOffer[tradeID="+message.tradeID+"]>button.acceptOffer").prop("disabled",!message.validation);
+                $("#incomingTrades>#offers>div.tradeOffer[tradeID="+message.tradeID+"]>button.acceptOffer").prop("disabled",!message.validation);
         }
 
         ClientView.call(self,function(message) {

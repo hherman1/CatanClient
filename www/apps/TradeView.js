@@ -327,11 +327,11 @@ MakeOfferView = function(messageDestination) {
         }
         function setupInputCorrection(resources) {
                 $("input.resource-input[resource]").attr("max",99);
-                $("#offer-resources>input.resource-input[resource=Lumber]").attr("max",resources[Resource.Lumber]);
-                $("#offer-resources>input.resource-input[resource=Wool]").attr("max",resources[Resource.Wool]);
-                $("#offer-resources>input.resource-input[resource=Ore]").attr("max",resources[Resource.Ore]);
-                $("#offer-resources>input.resource-input[resource=Brick]").attr("max",resources[Resource.Brick]);
-                $("#offer-resources>input.resource-input[resource=Grain]").attr("max",resources[Resource.Grain]);
+                $("#offer-resources input.resource-input[resource=Lumber]").attr("max",resources[Resource.Lumber]);
+                $("#offer-resources input.resource-input[resource=Wool]").attr("max",resources[Resource.Wool]);
+                $("#offer-resources input.resource-input[resource=Ore]").attr("max",resources[Resource.Ore]);
+                $("#offer-resources input.resource-input[resource=Brick]").attr("max",resources[Resource.Brick]);
+                $("#offer-resources input.resource-input[resource=Grain]").attr("max",resources[Resource.Grain]);
                 $("input.resource-input[resource]").change(function(ev) {
                         var valFloat = parseFloat($(ev.target).val());
                         var val = Math.round(valFloat);

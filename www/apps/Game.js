@@ -222,10 +222,10 @@ function endTurn(game) {
                 //   console.log(game.gamestate.players[i]);
                 if (checkPlayerWin(game.gamestate.players[i])) {
                     var winner = game.gamestate.players[i];
-                    console.log(winner); //we see the player info of the winner
+                    console.log(winner.id); //we see the player info of the winner
                     console.log(game.gamestate.players[i] + "wins");
                     //console.log("donefdsf");
-                    sendMessage(new View.Message.WinnerMessage(winner.id, game), game.views);
+                    sendMessage(new View.Message.WinnerMessage(game,winner.id), game.views);
                     //window.location.href = "www/result.html"; //goes to the results page
                     //document.getElementById('winner').value = winner; //i'm trying to save the winner info to pass it into the results html page but this doesn't work
                 }
@@ -457,6 +457,7 @@ function renderGame(game,positionHighlight) {
 
 function checkPlayerWin(player){
     if(player.vicPoints>=VPS_REQUIRED_FOR_WIN){
+       console.log("WONN");
         return true;
     }
     return false;

@@ -651,6 +651,10 @@ address {
         transform:translate(0,-50%);
         pointer-events:all;
 }
+
+/* ----------------------------------------------------------------------------- * 
+*  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
+*  ----------------------------------------------------------------------------- */
 #hexInfoView>.content:after {
     position: absolute;
     display: inline-block;
@@ -662,6 +666,9 @@ address {
     transform:translate(0,-50%);
     content: '';
 }
+/* ----------------------------------------------------------------------------- * 
+*  ----------------------------------------------------------------------------- */
+
 #hexInfoView .closeDisplay {
         position:absolute;
         top:0;

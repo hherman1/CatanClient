@@ -1,4 +1,5 @@
-define(['BoardState','Player','TradeOffer','GameMethods'],function(BoardState,Player,TradeOffer,GameMethods) {
+define(['Util','BoardState','Player','TradeOffer','GameMethods']
+       ,function(Util,BoardState,Player,TradeOffer,GameMethods) {
 var GameState = function() {
         this.board = new BoardState.Board();
         this.phase = BoardState.Phase.Init;
@@ -37,7 +38,7 @@ function currentPlayerListIndex(gamestate){
 }
 
 function nextPlayer(gamestate) {
-        gamestate.currentPlayerID = BoardState.getNextPlayer(gamestate);
+        gamestate.currentPlayerID = getNextPlayer(gamestate);
 }
 function getNextPlayer(gamestate){
       var currentPlayerIndex = currentPlayerListIndex(gamestate);
@@ -63,7 +64,12 @@ function getCurrentPlayer(gamestate) {
 function updateLongestRoad(gameState){
     var player = getCurrentPlayer(gameState);
     for(var i =0; i<player.firstSettlementsCoords.length;i++){
-        var testLength = GameMethods.longestRoad(BoardState.findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
+        var testLength = GameMethods.longestRoad(BoardState.findVertex(gameState.board.vertices
+                                                                                  ,player.firstSettlementsCoords[i])
+                                                ,gameState.board.vertices
+                                                ,gameState.board.roads
+                                                ,player
+                                                ,[]);
         if(testLength>gameState.longestRoad && testLength >= 5){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
@@ -76,18 +82,18 @@ function updateLongestRoad(gameState){
     }
 }
 function updateGamePhase(gamestate) {
-        if(gamestate.phase == Phase.Init) {
-                if(gamestate.rotation == Rotation.Backwards) {
+        if(gamestate.phase == BoardState.Phase.Init) {
+                if(gamestate.rotation == BoardState.Rotation.Backwards) {
                         if(gamestate.players[0].id == gamestate.currentPlayerID) {
-                                gamestate.rotation = Rotation.Forwards;
-                                gamestate.phase = Phase.Normal;
+                                gamestate.rotation = BoardState.Rotation.Forwards;
+                                gamestate.phase = BoardState.Phase.Normal;
                                 return true;
                         }
-                } else if(gamestate.rotation == Rotation.None) {
-                        gamestate.rotation = Rotation.Backwards;
+                } else if(gamestate.rotation == BoardState.Rotation.None) {
+                        gamestate.rotation = BoardState.Rotation.Backwards;
                         return false;
-                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
-                        gamestate.rotation = Rotation.None;
+                } else if(Util.last(gamestate.players).id == gamestate.currentPlayerID) {
+                        gamestate.rotation = BoardState.Rotation.None;
                         return false;
                 }
         }

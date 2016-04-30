@@ -1,4 +1,4 @@
-define(['BoardState','Player'],function(BoardState,Player){
+define(['Util','BoardState','Player'],function(Util,BoardState,Player){
 
 var TradeOffer = function(tradeID,offererID,targetID,offerResources,requestResources) {
         this.tradeID = tradeID;
@@ -38,8 +38,8 @@ function validateAccept(gamestate,targetID,requestResources) {
 
 function applyTrade(gamestate,trade) {
         function transaction(playerID,players,addedResources,subtractedResources) {
-                subtractResources(Player.getPlayersResources(Player.getPlayers(playerID,players)[0]),subtractedResources);
-                addResources(Player.getPlayersResources(Player.getPlayers(playerID,players)[0]),addedResources);
+                BoardState.subtractResources(Player.getPlayersResources(Player.getPlayer(playerID,players)),subtractedResources);
+                BoardState.addResources(Player.getPlayersResources(Player.getPlayer(playerID,players)),addedResources);
         }
         transaction(trade.offererID,gamestate.players,trade.requestResources,trade.offerResources);
         transaction(trade.targetID,gamestate.players,trade.offerResources,trade.requestResources);
@@ -71,7 +71,7 @@ function validateTrade(gamestate,trade) {
 
 function nextTradeID(trades) {
         if(trades.length > 0) {
-                return last(trades).tradeID + 1;
+                return Util.last(trades).tradeID + 1;
         } else {
                 return 0;
         }

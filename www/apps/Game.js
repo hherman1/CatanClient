@@ -36,9 +36,6 @@ define(['jquery'
 /*                                    UTILITY FUNCTIONS                                             */
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function last(list) {
-        return list[list.length - 1]
-}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +230,7 @@ function sendAcceptValidations(game) {
     incomingTrades.forEach(function(trade) {
         View.sendMessage(new View.Message.AcceptValidation(game
                 ,trade.tradeID
-                ,validateAccept(game.gamestate
+                ,TradeOffer.validateAccept(game.gamestate
                     ,trade.targetID
                     ,trade.requestResources))
             ,game.views);
@@ -333,7 +330,7 @@ function processUIMessage(message,game) {
                 }
                 break;
             case View.Message.Type.AcceptTrade:
-                var trade = getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
+                var trade = TradeOffer.getTrades(message.tradeID,game.gamestate.tradeoffers)[0];
                 if(TradeOffer.validateTrade(game.gamestate,trade)) {
                         TradeOffer.applyTrade(game.gamestate,trade);
                         game.teststate = GameState.cloneGameState(game.gamestate);

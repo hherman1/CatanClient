@@ -125,6 +125,7 @@ return {
         clonePlayer:clonePlayer,
         getPlayerColor:getPlayerColor,
         getPlayerColors:getPlayerColors,
+        getPlayer:getPlayer,
         getPlayers:getPlayers,
         getPlayersResources:getPlayersResources,
         getStoredPlayers:getStoredPlayers,

@@ -172,16 +172,16 @@ Message.newMessageType("PhaseMessage",function(sender,phase,subPhase) {
 var TimerMessageView = function() {
     Message.Client.call(this,function(message){
         if(message.hasType("PhaseMessage")) {
-            if(message.phase == Phase.Init) {
+            if(message.phase == BoardState.Phase.Init) {
                 $("#phaseMessage").html("GAME START");
                 $("#phaseMessageHolder").attr("phase","init");                
-            }else if(message.subPhase == SubPhase.Building){
+            }else if(message.subPhase == BoardState.SubPhase.Building){
                 $("#phaseMessage").html("BUILDING");
                 $("#phaseMessageHolder").attr("phase","normal");
-            }else if(message.subPhase == SubPhase.Trading){
+            }else if(message.subPhase == BoardState.SubPhase.Trading){
                 $("#phaseMessage").html("TRADING");
                 $("#phaseMessageHolder").attr("phase","trading");
-            }else if(message.subPhase == SubPhase.Robbing){
+            }else if(message.subPhase == BoardState.SubPhase.Robbing){
                 $("#phaseMessage").html("ROBBIN'");
                 $("#phaseMessageHolder").attr("phase","robbing");
             }else{

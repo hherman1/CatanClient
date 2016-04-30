@@ -1,4 +1,5 @@
-define(['Grid','BoardState'],function(Grid,BoardState) {
+define(['Constants','Grid','BoardState','Player']
+      ,function(Constants,Grid,BoardState,Player) {
 
 // File contains requisite methods for modifying the state of the game, e.g. construction,
 // road connectivity checking, legality checking, etc.
@@ -42,7 +43,7 @@ function checkSettlementLegality(coords, player, vertexList, roadList){
 	}
 	var neighborList = getVertexNeighbors(coords, vertexList);
 	for(i=0;i<neighborList.length;i++){
-		if(BoardState.findVertex(vertexList, neighborList[i]).structure>0){ // Ensures the adjacent vertices aren't already settled
+		if(neighborList[i].structure>0){ // Ensures the adjacent vertices aren't already settled
 			return false;
 		}
 	}
@@ -81,7 +82,7 @@ function checkInitSettlementLegality(coords, vertexList){
 	}
 	var neighborList = getVertexNeighbors(coords, vertexList);
 	for(i=0;i<neighborList.length;i++){
-		if(BoardState.findVertex(vertexList, neighborList[i].coordinate).structure>0){ // Ensures the neighboring vertices aren't already settled
+		if(neighborList[i].structure>BoardState.Structure.Empty){ // Ensures the neighboring vertices aren't already settled
 			return false;
 		}
 	}
@@ -178,7 +179,7 @@ function getConnectedVertices(coords, player, roadList, vertexList){
 	for (var i = 0; i<neighbors.length;i++){
 		var testRoad = BoardState.findRoad(roadList, neighbors[i].coordinate, coords);
 		if(testRoad.playerID == player.id){
-			connectedVertices.push(BoardState.findVertex(vertexList,neighbors[i])); // Checks which neighboring vertices are connected by player-owned roads
+			connectedVertices.push(neighbors[i]); // Checks which neighboring vertices are connected by player-owned roads
 		}
 	}
 	return connectedVertices;
@@ -191,18 +192,18 @@ function getConnectedVertices(coords, player, roadList, vertexList){
  */
 
 function checkAdjacentPlayerRoads(coords1, coords2, player, roadList, vertexList) {
-	var testCoords1 = getVertexNeighbors(coords1, vertexList);
-	for (var i = 0; i < testCoords1.length; i++) {
-		var road1 = BoardState.findRoad(roadList, coords1, testCoords1[i]); // Checks the vertices adjacent to the first coordinate for player roads
+	var testVertices1 = getVertexNeighbors(coords1, vertexList);
+	for (var i = 0; i < testVertices1.length; i++) {
+		var road1 = BoardState.findRoad(roadList, coords1, testVertices1[i].coordinate); // Checks the vertices adjacent to the first coordinate for player roads
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
 			}
 		}
 	}
-	var testCoords2 = getVertexNeighbors(coords2, vertexList);
-	for (i = 0; i < testCoords2.length; i++) {
-		var road2 = BoardState.findRoad(roadList, coords2, testCoords2[i]); // Checks the vertices adjacent to the second coordinate for player roads
+	var testVertices2 = getVertexNeighbors(coords2, vertexList);
+	for (i = 0; i < testVertices2.length; i++) {
+		var road2 = BoardState.findRoad(roadList, coords2, testVertices2[i].coordinate); // Checks the vertices adjacent to the second coordinate for player roads
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;
@@ -260,7 +261,7 @@ function resourceGeneration(diceRoll, playerList, vertexList, hexList, robber){
 			for(var l=0;l<tileVertices.length;l++){
 				var currNeighbor = tileVertices[l];
 				if(currNeighbor.structure>0){
-					var receivingPlayer = getPlayers(currNeighbor.playerID, playerList)[0]; // Awards the correct resource to a player if they own a neighboring vertex
+					var receivingPlayer = Player.getPlayers(currNeighbor.playerID, playerList)[0]; // Awards the correct resource to a player if they own a neighboring vertex
 					if(hexList[i].resource != BoardState.Resource.Desert){	
 						BoardState.addResource(receivingPlayer.resources, hexList[i].resource, currNeighbor.structure);
 					}

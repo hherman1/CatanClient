@@ -119,11 +119,9 @@ function loadGame(game,callback) {
 
         var loaded = false;
         
-        $(images).load(function() {
+        function checkLoaded() {
                 numLoadedImages = numComplete(images.toArray());
-
                 $("#loaded").css("width",100* numLoadedImages/totalImages + "%");
-
                 if(numLoadedImages == totalImages && !loaded) {
                         loaded = true;
                         callback();
@@ -135,7 +133,17 @@ function loadGame(game,callback) {
                         console.log(images.length);
                         throw "What"
                 }
+        }
+        function periodicallyCheckLoaded() {
+                if(!loaded) {
+                        checkLoaded();
+                        setInterval(periodicallyCheckLoaded,1000);
+                }
+        }
+        $(images).load(function() {
+                checkLoaded();
         });
+        periodicallyCheckLoaded();
         
 }
 

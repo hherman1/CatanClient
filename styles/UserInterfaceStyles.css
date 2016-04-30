@@ -692,11 +692,22 @@ address {
 /* ----------------------------------------------------------------------------- * 
 *  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
 *  ----------------------------------------------------------------------------- */
+#hexInfoView>.content:before {
+    position: absolute;
+    display: inline-block;
+    border-top: 11px solid transparent;
+    border-right: 16px solid #000000;
+    border-bottom: 11px solid transparent;
+    left: -16px;
+    top: 50%;
+    transform:translate(0,-50%);
+    content: '';
+}
 #hexInfoView>.content:after {
     position: absolute;
     display: inline-block;
     border-top: 15px solid transparent;
-    border-right: 20px solid #FFF0BD;
+    border-right: 15px solid #FFF0BD;
     border-bottom: 15px solid transparent;
     left: -15px;
     top: 50%;

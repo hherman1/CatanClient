@@ -26,57 +26,57 @@ var Images = {
         Robber:'',
 }
 
-Images.Robber = 'graphics/swiper.svg';
+Images.Robber = '../graphics/swiper.svg';
 Images.Loaded.Robber = loadImage(Images.Robber);
 
-Images.Settlements[Player.Colors.Red]     = 'graphics/reds.svg';
-Images.Settlements[Player.Colors.Orange]  = 'graphics/oranges.svg';
-Images.Settlements[Player.Colors.Blue]    = 'graphics/blues.svg';
-Images.Settlements[Player.Colors.Green]   = 'graphics/whites.svg';
-Images.Settlements[Player.Colors.White]   = 'graphics/buildingcosts.svg';
+Images.Settlements[Player.Colors.Red]     = '../graphics/reds.svg';
+Images.Settlements[Player.Colors.Orange]  = '../graphics/oranges.svg';
+Images.Settlements[Player.Colors.Blue]    = '../graphics/blues.svg';
+Images.Settlements[Player.Colors.Green]   = '../graphics/whites.svg';
+Images.Settlements[Player.Colors.White]   = '../graphics/buildingcosts.svg';
 Images.Loaded.Settlements = Images.Settlements.map(loadImage);
 
-Images.Cities[Player.Colors.Red]      = 'graphics/redc.svg';
-Images.Cities[Player.Colors.Orange]   = 'graphics/orangec.svg';
-Images.Cities[Player.Colors.Blue]     = 'graphics/bluec.svg';
-Images.Cities[Player.Colors.Green]    = 'graphics/whitec.svg';
-Images.Cities[Player.Colors.White]   = 'graphics/buildingcostc.svg';
+Images.Cities[Player.Colors.Red]      = '../graphics/redc.svg';
+Images.Cities[Player.Colors.Orange]   = '../graphics/orangec.svg';
+Images.Cities[Player.Colors.Blue]     = '../graphics/bluec.svg';
+Images.Cities[Player.Colors.Green]    = '../graphics/whitec.svg';
+Images.Cities[Player.Colors.White]   = '../graphics/buildingcostc.svg';
 Images.Loaded.Cities = Images.Cities.map(loadImage);
 
-Images.Roads[Player.Colors.Red]     = 'graphics/redr.svg';
-Images.Roads[Player.Colors.Orange]  = 'graphics/oranger.svg';
-Images.Roads[Player.Colors.Blue]    = 'graphics/bluer.svg';
-Images.Roads[Player.Colors.Green]   = 'graphics/whiter.svg';
-Images.Roads[Player.Colors.White]   = 'graphics/buildingcostr.svg';
+Images.Roads[Player.Colors.Red]     = '../graphics/redr.svg';
+Images.Roads[Player.Colors.Orange]  = '../graphics/oranger.svg';
+Images.Roads[Player.Colors.Blue]    = '../graphics/bluer.svg';
+Images.Roads[Player.Colors.Green]   = '../graphics/whiter.svg';
+Images.Roads[Player.Colors.White]   = '../graphics/buildingcostr.svg';
 Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Lumber] = 'graphics/forest.svg';
+Images.Resources[BoardState.Resource.Lumber] = '../graphics/forest.svg';
 //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Grain] = 'graphics/field.svg';
+Images.Resources[BoardState.Resource.Grain] = '../graphics/field.svg';
 //'https://upload.wikimedia.org/wikipedia/commons/d/d3/Sheep_pasture_-_geograph.org.uk_-_462124.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Wool] = 'graphics/pasture.svg';
+Images.Resources[BoardState.Resource.Wool] = '../graphics/pasture.svg';
 //'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
 //quarry: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Bethesda-Mine-07367u.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Ore] = 'graphics/quarry.svg';
+Images.Resources[BoardState.Resource.Ore] = '../graphics/quarry.svg';
 //'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg'
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Brick] = 'graphics/hills.svg';
+Images.Resources[BoardState.Resource.Brick] = '../graphics/hills.svg';
 //"https://upload.wikimedia.org/wikipedia/commons/b/bd/Morocco_Africa_Flickr_Rosino_December_2005_84514010.jpg
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Desert] = 'graphics/desert.svg';
+Images.Resources[BoardState.Resource.Desert] = '../graphics/desert.svg';
 Images.Loaded.Resources = Images.Resources.map(loadImage);
 
-Images.ResourceSymbols[BoardState.Resource.Lumber] = 'graphics/WOODS.svg';
-Images.ResourceSymbols[BoardState.Resource.Grain] = 'graphics/wheatsymbol.svg';
-Images.ResourceSymbols[BoardState.Resource.Wool] = 'graphics/WOOL.svg';
-Images.ResourceSymbols[BoardState.Resource.Ore] = 'graphics/oresymbol.svg';
-Images.ResourceSymbols[BoardState.Resource.Brick] = 'graphics/bricksymbol.svg';
+Images.ResourceSymbols[BoardState.Resource.Lumber] = '../graphics/WOODS.svg';
+Images.ResourceSymbols[BoardState.Resource.Grain] = '../graphics/wheatsymbol.svg';
+Images.ResourceSymbols[BoardState.Resource.Wool] = '../graphics/WOOL.svg';
+Images.ResourceSymbols[BoardState.Resource.Ore] = '../graphics/oresymbol.svg';
+Images.ResourceSymbols[BoardState.Resource.Brick] = '../graphics/bricksymbol.svg';
 Images.Loaded.ResourceSymbols = Images.ResourceSymbols.map(loadImage);
 
 function getGameImages() {

@@ -97,46 +97,46 @@ function addUIImages(structureIcons,costImages,resourceSymbolImages) {
         addResourceSymbolImages(resourceSymbolImages);
 }
 
+//take regular array
+function numComplete(images) {
+        var out = 0;
+        images.forEach(function(i) {out += i.complete});
+        return out;
+}
 
 function loadGame(game,callback) {
         var structureIcons = genStructureIcons();
         var costImages = genCostImages();
         var resourceSymbolImages = genResourceSymbolImages();
         var gameImages = StructureRenderer.getLoadedImages(); // array
-        var images = flattenJQuery([flattenJQuery(flattenDictionary(structureIcons))
-                              ,flattenJQuery(flattenDictionary(costImages))
-                              ,resourceSymbolImages
-                              ,$(gameImages)]);
 
-        var numLoadedImages = 0;
+        $("#loader").append(gameImages);
+        addUIImages(structureIcons,costImages,resourceSymbolImages);
+        var images = $.merge($("img"),gameImages);
+        var numLoadedImages = numComplete(images.toArray());;
         var totalImages = images.length;
 
-        addUIImages(structureIcons,costImages,resourceSymbolImages);
-        setTimeout(function() {
-                $("#loading-screen").fadeOut(300);
-//                               $("#board,#userInterface").fadeTo(2000,1);
-                callback();
-        },1);
 
-//        $("#board,#userInterface").css("opacity","0");
-
-        /*
+        var loaded = false;
+        
         $(images).load(function() {
-                numLoadedImages++;
+                numLoadedImages = numComplete(images.toArray());
 
                 $("#loaded").css("width",100* numLoadedImages/totalImages + "%");
 
-                if(numLoadedImages == totalImages) {
-//                        makeBoard(game);
-                        //renderGame(game,null); // Initial render with no highlight.
+                if(numLoadedImages == totalImages && !loaded) {
+                        loaded = true;
+                        callback();
                         setTimeout(function() {
                                 $("#loading-screen").fadeOut(300);
- //                               $("#board,#userInterface").fadeTo(2000,1);
-                                callback();
                         },1000);
+                } else if(numLoadedImages > totalImages) {
+                        numComplete([]);
+                        console.log(images.length);
+                        throw "What"
                 }
         });
-        */
+        
 }
 
 return {loadGame:loadGame}

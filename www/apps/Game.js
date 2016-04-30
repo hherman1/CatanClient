@@ -504,6 +504,7 @@ function flushInbox(inbox) {
 return {
         CatanGame:CatanGame,
         runGame:runGame,
+        renderGame:renderGame,
         makeBoard:makeBoard,
 }
 });

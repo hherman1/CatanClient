@@ -47,6 +47,8 @@ function prepareGame(game) {
         game.views = views;
         game.setUpHitboxes();
         UserInterfaceJScript.genPlayerTabs(game.gamestate.players);
+        Game.makeBoard(game);
+        Game.renderGame(game,null); // Initial render with no highlight.
 }
 function main() {
         canvas = document.getElementById('board');

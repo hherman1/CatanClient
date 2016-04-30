@@ -522,12 +522,13 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
         border: solid black 2px;
         position:absolute;
         top:50%;
-        left:50%;
+        left:20%;
         height:75%;
         width:50%;
         transform:translate(-50%,-50%);
         font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
         font-size: 14px;
+        overflow-y: scroll;
 }
 
 .tradeOffer {
@@ -602,6 +603,10 @@ address {
 	font-weight: normal;
 }
 
+.ratioInfo{
+  text-align: center;
+}
+
 #targetPlayer{
 	display: inline-block;
 }
@@ -611,7 +616,9 @@ address {
 }
 
 .resource-input{
-
+  font-size: 12px;
+  padding: 5px;
+  color: black;
 }
 
 #offer-resources-bank{
@@ -635,7 +642,7 @@ address {
 
 .tradeoffer-screen{
 	background-color: #FFF0BD;
-	width: 460px;
+	width: 420px;
 }
 
 .tradeoffer-screen *{
@@ -644,7 +651,7 @@ address {
 
 .tradingHeader{
 	text-align: center;
-	font-size: 40px;
+	font-size: 30px;
 }
 
 .tradingPanel{
@@ -689,7 +696,7 @@ address {
         pointer-events:all;
 }
 
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
 *  ----------------------------------------------------------------------------- */
 #hexInfoView>.content:before {
@@ -714,7 +721,7 @@ address {
     transform:translate(0,-50%);
     content: '';
 }
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  ----------------------------------------------------------------------------- */
 
 #hexInfoView .closeDisplay {
@@ -771,14 +778,23 @@ address {
 }
 
 #bankTradeConfirmButton{
-	position: relative;
+	 position: relative;
     bottom: 13px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    background-color: #f6bc73;
+    //color: #17324f;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 10px;
+
 }
 
-#makeOffer{
+#makeOffer,#resetOffer{
 	margin-right: 10%;
+  background-color: #f6bc73;
+  //color: #17324f;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 #passGame {
@@ -790,6 +806,7 @@ address {
         color:#FFFFFF;
         z-index:1;
         display:none;
+        font-size: 30px;
 }
 #passGame>div.fill {
         position:absolute;
@@ -807,4 +824,50 @@ address {
         left:50%;
         transform:translate(-50%,-50%);
         z-index:1;
+}
+
+/*
+some Button styles
+*/
+#continueGame{
+  background-color: #f6bc73;
+  font-size: 24px;
+  padding: 5px;
+  border-radius: 10px;
+}
+#continueGame:hover{
+  background-color: #ffecbc;
+  font-size: 24px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#reject-all,.closeWindow{
+  background-color: #f6bc73;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#reject-all:hover, .closeWindow:hover{
+  background-color: #ffecbc;
+  font-size: 14px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.acceptOffer{
+  background-color: green;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.rejectOffer{
+  background-color: red;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.acceptOffer:hover,.rejectOffer:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }

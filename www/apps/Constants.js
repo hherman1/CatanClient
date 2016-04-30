@@ -23,12 +23,6 @@ ROAD_VPS : 0, // Victory Points awarded per road - default is 0
 /*                         BOARD GENERATION                           */
 ////////////////////////////////////////////////////////////////////////
 
-BASE_RESOURCE_LIST : // The baseline Catan resource list for a standard board - note that this list should have at least 19 elements to work with standard Catan
-    [Resource.Desert,  Resource.Grain, Resource.Grain, Resource.Grain,
-        Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
-        Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
-        Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
-        Resource.Brick, Resource.Brick, Resource.Brick],
 BASE_TOKEN_LIST : [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12], // The baseline Catan token list for a standard board - note that this list should have at least 18 values
 
 /* 25 development cards

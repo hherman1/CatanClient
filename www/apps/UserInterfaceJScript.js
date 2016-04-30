@@ -80,7 +80,7 @@ function newPlayerTab(player,color,template) {
         setTabPlayerID(out,player.id);
         setTabPlayerImages(out,color);
         $(out).removeAttr("id");
-        $(".playerName",$(out)).css("background-color",getColor(color));
+        $(".playerName",$(out)).css("background-color",Player.getColor(color));
         return out;
 }
 
@@ -103,9 +103,9 @@ function setTabPlayerID(tab,playerID) {
 }
 
 function setTabPlayerImages(tab,color) {
-        $(".settlementPic",tab).append(getBuildingImg(BoardState.Structure.Settlement,color))
-        $(".cityPic",tab).append(getBuildingImg(BoardState.Structure.City,color))
-        $(".roadPic",tab).append(getBuildingImg(BoardState.Structure.Road,color))
+        $(".settlementPic",tab).append(StructureRenderer.getBuildingImg(BoardState.Structure.Settlement,color))
+        $(".cityPic",tab).append(StructureRenderer.getBuildingImg(BoardState.Structure.City,color))
+        $(".roadPic",tab).append(StructureRenderer.getBuildingImg(BoardState.Structure.Road,color))
 }
 
 //Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount
@@ -156,19 +156,15 @@ function setVictoryPointsVal(playerTab, amount){
     }
 
     function updateResourceBar(player){
-        setResourceVal("Lumber", player.resources[Resource.Lumber]);
-        setResourceVal("Grain", player.resources[Resource.Grain]);
-        setResourceVal("Wool", player.resources[Resource.Wool]);
-        setResourceVal("Ore", player.resources[Resource.Ore]);
-        setResourceVal("Brick", player.resources[Resource.Brick]);
+        setResourceVal("Lumber", player.resources[BoardState.Resource.Lumber]);
+        setResourceVal("Grain", player.resources[BoardState.Resource.Grain]);
+        setResourceVal("Wool", player.resources[BoardState.Resource.Wool]);
+        setResourceVal("Ore", player.resources[BoardState.Resource.Ore]);
+        setResourceVal("Brick", player.resources[BoardState.Resource.Brick]);
     }
 
 
 
-function resizeBoardDOM(width,height) {
-        $("#board").attr("width",width);
-        $("#board").attr("height",height);
-}
 return {
         initTime:initTime,
         initClock:initClock,
@@ -186,5 +182,6 @@ return {
         setTabPlayerImages:setTabPlayerImages,
         setStructureVal:setStructureVal,
         setVictoryPointsVal:setVictoryPointsVal,
+        updateUIInfo:updateUIInfo,
 }
 });

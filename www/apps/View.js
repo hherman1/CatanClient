@@ -10,7 +10,7 @@
 //Do not put Messages/Message.Types here. Use Types.registerType() from Types.js instead.
 //See below for examples.
 
-define(['Types'],function(Types) {
+define(['Types','BoardState'],function(Types,BoardState) {
 
 var Message = {
         Type : {},
@@ -66,7 +66,7 @@ var ClientView = function(receiveMessage) {
 }
 
 var ClientViewSendOnly = function() {
-        Clientcall(this,function(){});
+        ClientView.call(this,function(){});
 }
 
 
@@ -78,7 +78,7 @@ var EndTurnView = function(messageDestination) {
         var self = this;
         self.messageDestination = messageDestination;
         self.setupButton();
-        Clientcall(self,function(message) {
+        ClientView.call(self,function(message) {
                 switch(message.type) {
                         case Message.Type.DisableEndTurnButton:
                                 self.disable();
@@ -89,19 +89,19 @@ var EndTurnView = function(messageDestination) {
                 }
         });
 }
-EndTurn.prototype.getButton = function() {
+EndTurnView.prototype.getButton = function() {
         return $("#endTurnButton");
 }
-EndTurn.prototype.setupButton = function() {
+EndTurnView.prototype.setupButton = function() {
         var self = this;
         $("#endTurnButton").on('click',function() {
                 sendMessage(new Message.EndTurn(self),self.messageDestination);
         });
 }
-EndTurn.prototype.disable = function() {
+EndTurnView.prototype.disable = function() {
         this.getButton().prop("disabled",true);
 }
-EndTurn.prototype.enable = function() {
+EndTurnView.prototype.enable = function() {
         this.getButton().prop("disabled",false);
 }
 
@@ -112,7 +112,7 @@ Message.newMessageType("BuildChoice",function(sender,structure) {
 
 var BuildChoiceView = function(structure,messageDestination) {
         var self = this;
-        $(".buildChoice[structure="+getStructureName(structure)+"]").click(function() {
+        $(".buildChoice[structure="+BoardState.getStructureName(structure)+"]").click(function() {
                 sendMessage(new Message.BuildChoice(self,structure),messageDestination);
         });
         ClientViewSendOnly.call(self);
@@ -129,6 +129,11 @@ var UndoView = function(messageDestination) {
 }
 
 Message.newMessageType("Resize",function(){});
+
+function resizeBoardDOM(width,height) {
+        $("#board").attr("width",width);
+        $("#board").attr("height",height);
+}
 
 function resizeGame() {
         resizeBoardDOM($("#game").width(),$("#game").height());
@@ -200,6 +205,7 @@ return {
         ResizeView:ResizeView,
         WinnerMessageView:WinnerMessageView,
         TimerMessageView:TimerMessageView,
+        resizeBoardDOM:resizeBoardDOM,
 }
 
 });

@@ -1,5 +1,5 @@
 define(['Grid','BoardState','Transform','StructureRenderer','CanvasMethods'],
-       function(Grid,BoardState,Transform,StructureRenderer){
+       function(Grid,BoardState,Transform,StructureRenderer,CanvasMethods){
 
 
 var Node = function(draw) {
@@ -183,6 +183,7 @@ return {
     drawNode:drawNode,
     makeRoadNodes:makeRoadNodes,
     makeVertexNodes:makeVertexNodes,
+    makeHexNodes:makeHexNodes,
 }
 
 });

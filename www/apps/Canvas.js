@@ -6,7 +6,8 @@ define(['Grid'
        ,'CanvasMethods'
        ,'RenderTree'
        ,'Animation'
-       ,'View']
+       ,'View'
+       ,'MouseView']
        ,function(Grid
                 ,Transform
                 ,Player
@@ -15,7 +16,8 @@ define(['Grid'
                 ,CanvasMethods
                 ,RenderTree
                 ,Animation
-                ,View) {
+                ,View
+                ,MouseView) {
 
 /*
  * CANVAS.JS
@@ -69,7 +71,7 @@ View.Message.newMessageType("HitsData",function(sender,hits) {
 
 CanvasView = function(ctx) {
         var self = this;
-        self.mouseView = new MouseView(ctx.canvas);
+        self.mouseView = new MouseView.MouseView(ctx.canvas);
         self.canvasRenderView = new CanvasRenderView(ctx);
         View.Message.Client.call(self,function(message) {
                 View.sendMessage(message,self.mouseView);

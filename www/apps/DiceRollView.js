@@ -11,7 +11,7 @@ var DiceRollView = function(duration,steps,max,min) {
         self.min = min;
         self.step = 0;
         self.steps = steps;
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 if(message.hasType("RollDice")) {
                         self.startAnimation(message.targetRoll);
                 }

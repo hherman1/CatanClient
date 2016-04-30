@@ -1,4 +1,4 @@
-define(['Grid','Transform'],function(Grid,Transform) {
+define(['Grid','Transform','CanvasMethods'],function(Grid,Transform,CanvasMethods) {
 /*
  * Animation : {
  *  draw(ctx) 
@@ -134,7 +134,7 @@ var XClick = function(coordinate,radius,frames) {
                 */
         }
         function drawSegment(start,end,ctx) {
-                linePath(start,end,ctx);
+                CanvasMethods.linePath(start,end,ctx);
                 outerStyle(ctx);
                 ctx.stroke();
                 innerStyle(ctx);
@@ -222,6 +222,7 @@ return {
         Animation:Animation,
         Timing:Timing,
         ClickCircle:ClickCircle,
+        XClick:XClick,
         InfoBox:InfoBox,
         pruneAnimations:pruneAnimations,
         drawAnims:drawAnims

@@ -40,10 +40,7 @@ function setY(c,y) {
 
 
 function vectorEquals(vector1, vector2){
-    if((vector1.x == vector2.x)&&(vector1.y==vector2.y)){
-        return true;
-    }
-    return false;
+    return (vector1.x == vector2.x)&&(vector1.y==vector2.y)
 }
 
 function add(c1,c2) {

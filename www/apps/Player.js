@@ -79,7 +79,7 @@ function clonePlayer(player) {
         return out;
 }
 
-function getColor(id,playerList) {
+function getPlayerColor(id,playerList) {
         return getPlayers(id,playerList)[0].color;
 }
 
@@ -123,7 +123,7 @@ return {
 
         Player:Player,
         clonePlayer:clonePlayer,
-        getColor:getColor,
+        getPlayerColor:getPlayerColor,
         getPlayerColors:getPlayerColors,
         getPlayers:getPlayers,
         getPlayersResources:getPlayersResources,

@@ -81,7 +81,7 @@ function checkInitSettlementLegality(coords, vertexList){
 	}
 	var neighborList = getVertexNeighbors(coords, vertexList);
 	for(i=0;i<neighborList.length;i++){
-		if(BoardState.findVertex(vertexList, neighborList[i]).structure>0){ // Ensures the neighboring vertices aren't already settled
+		if(BoardState.findVertex(vertexList, neighborList[i].coordinate).structure>0){ // Ensures the neighboring vertices aren't already settled
 			return false;
 		}
 	}
@@ -176,7 +176,7 @@ function getConnectedVertices(coords, player, roadList, vertexList){
 	var connectedVertices = [];
 	var neighbors = getVertexNeighbors(coords, vertexList); // Gets the vertices that neighbor the given coordinates
 	for (var i = 0; i<neighbors.length;i++){
-		var testRoad = BoardState.findRoad(roadList, neighbors[i], coords);
+		var testRoad = BoardState.findRoad(roadList, neighbors[i].coordinate, coords);
 		if(testRoad.playerID == player.id){
 			connectedVertices.push(BoardState.findVertex(vertexList,neighbors[i])); // Checks which neighboring vertices are connected by player-owned roads
 		}
@@ -261,7 +261,7 @@ function resourceGeneration(diceRoll, playerList, vertexList, hexList, robber){
 				var currNeighbor = tileVertices[l];
 				if(currNeighbor.structure>0){
 					var receivingPlayer = getPlayers(currNeighbor.playerID, playerList)[0]; // Awards the correct resource to a player if they own a neighboring vertex
-					if(hexList[i].resource != Resource.Desert){	
+					if(hexList[i].resource != BoardState.Resource.Desert){	
 						BoardState.addResource(receivingPlayer.resources, hexList[i].resource, currNeighbor.structure);
 					}
 				}
@@ -276,10 +276,10 @@ function resourceGeneration(diceRoll, playerList, vertexList, hexList, robber){
  */
 
 function initSettlementResources(coords, hexList, player){
-	var resourceHexCoords = adjacentHexes(coords);
+	var resourceHexCoords = Grid.adjacentHexes(coords);
 	for(var i = 0; i<resourceHexCoords.length;i++){
 		var hex = BoardState.findHex(resourceHexCoords[i], hexList); // For every adjacent hex, provides the player one of that hex's resource
-		if(hex != undefined && hex.resource != Resource.Desert){
+		if(hex != undefined && hex.resource != BoardState.Resource.Desert){
 			BoardState.addResource(player.resources, hex.resource, 1);
 		}
 	}

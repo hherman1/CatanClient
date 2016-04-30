@@ -12,6 +12,7 @@ define(['jquery'
        ,'Animation'
        ,'View'
        ,'Canvas'
+       ,'UserInterfaceJScript'
        ]
       ,function($
                ,Constants
@@ -27,6 +28,7 @@ define(['jquery'
                ,Animation
                ,View
                ,Canvas
+               ,UserInterfaceJScript
                ) {
 
 
@@ -139,7 +141,7 @@ CatanGame = function(side,views) {
         self.server = new Server(); //new Server();
         self.actions = new Reference([]); //new Reference([]);
         self.side = side;
-        self.server.newGame(5, Constants.BASE_RESOURCE_LIST.slice()
+        self.server.newGame(5, BoardState.BASE_RESOURCE_LIST.slice()
                              , Constants.BASE_TOKEN_LIST.slice()
                              , Player.getStoredPlayers());
         self.gamestate = self.server.getState();
@@ -275,7 +277,7 @@ function processBankMessage(message,game) {
                         break;
                 case View.Message.Type.TradeWithBank:
                         tradeWithBank(game.gamestate,message.offerResource,message.requestResource);
-                        updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                        UserInterfaceJScript.updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                         break;
         }
 }
@@ -336,7 +338,7 @@ function processUIMessage(message,game) {
                         TradeOffer.applyTrade(game.gamestate,trade);
                         game.teststate = GameState.cloneGameState(game.gamestate);
                         game.gamestate.trades = TradeOffer.filterOutTrades(trade.tradeID,game.gamestate.tradeoffers);
-                        updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                        UserInterfaceJScript.updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 }
                 break;
             case View.Message.Type.RequestGameState:
@@ -351,7 +353,7 @@ function processUIMessage(message,game) {
             case View.Message.Type.TradeViewClosed:
                 game.gamestate.subPhase = BoardState.SubPhase.Building;
                 game.teststate = GameState.cloneGameState(game.gamestate);
-                updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
+                UserInterfaceJScript.updateUIInfo(game.gamestate.players,game.gamestate.currentPlayerID);
                 changePhaseViews(game);
                 break;
             default:
@@ -421,13 +423,13 @@ function gameStep(game) {
         if(game.mouse.clicked) {
                 var drawCircle = true;
                 shouldRedraw = true;
-                if(maxHit != null && maxHit.data.type == Position.Type.Hex) {
+                if(maxHit != null && maxHit.data.type == BoardState.Position.Type.Hex) {
                         View.sendMessage(new View.Message.DisplayHexInfo(game,maxHit.data,game.mouse.pos),game.views);
                 }
 
                 if(potentialAction != null) {
                     highlight = Action.getPositionObject(potentialAction,game.teststate.currentPlayerID);
-                    if(potentialAction.type == Action.Type.RobHex){
+                    if(potentialAction.type == Action.Action.Type.RobHex){
                         if(Action.validateActionForCurrentPlayer(potentialAction,game.teststate)){
                             Action.applyActionForCurrentPlayer(potentialAction, game.gamestate);
                             game.gamestate.subPhase = BoardState.SubPhase.Trading;
@@ -471,7 +473,7 @@ function renderGame(game,positionHighlight) {
                                                      ,game.side)
                    ,game.views);
         //drawHitboxes(hitlist,hits,game.ctx);
-        updateUIInfo(game.teststate.players
+        UserInterfaceJScript.updateUIInfo(game.teststate.players
                     ,game.teststate.currentPlayerID);
 }
 
@@ -502,6 +504,7 @@ function flushInbox(inbox) {
 return {
         CatanGame:CatanGame,
         runGame:runGame,
+        makeBoard:makeBoard,
 }
 });
 ////////////////////////////

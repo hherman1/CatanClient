@@ -1,4 +1,4 @@
-define(['View'],function(View));
+define(['View'],function(View){
 View.Message.newMessageType("SetLongestRoadID",function(sender,longestRoadID) {
         this.longestRoadID = longestRoadID;
 });

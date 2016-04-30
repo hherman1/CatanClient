@@ -1,3 +1,11 @@
+define(['jquery'
+       ,'BoardState'
+       ,'Player'
+       ,'StructureRenderer']
+      ,function($
+               ,BoardState
+               ,Player
+               ,StructureRenderer){
 function flattenDictionary(dictionary) {
         var out = [];
         Object.keys(dictionary).forEach(function(k) {
@@ -14,7 +22,7 @@ function flattenJQuery(selectors) {
 }
 
 function genResourceSymbolImages() {
-        var images = flattenDictionary(getResourceSymbolImages());
+        var images = flattenDictionary(StructureRenderer.getResourceSymbolImages());
         return $(images).clone();
 }
 
@@ -22,11 +30,11 @@ function addResourceSymbolImages(images) {
         function addToResource(resource,image) {
                 $("[resource="+resource+"]").append(image);
         }
-        addToResource("Lumber",images[Resource.Lumber]);
-        addToResource("Grain",images[Resource.Grain]);
-        addToResource("Wool",images[Resource.Wool]);
-        addToResource("Ore",images[Resource.Ore]);
-        addToResource("Brick",images[Resource.Brick]);
+        addToResource("Lumber",images[BoardState.Resource.Lumber]);
+        addToResource("Grain",images[BoardState.Resource.Grain]);
+        addToResource("Wool",images[BoardState.Resource.Wool]);
+        addToResource("Ore",images[BoardState.Resource.Ore]);
+        addToResource("Brick",images[BoardState.Resource.Brick]);
 }
 
 function addStructureIcons(images) {
@@ -41,7 +49,7 @@ function addStructureIcons(images) {
 }
 function genStructureIcons() {
         function genIcon(structure) {
-            return $(StructureRenderer.getBuildingImg(structure,Colors.White)).clone();
+            return $(StructureRenderer.getBuildingImg(structure,Player.Colors.White)).clone();
         }
         var out = {};
         out[BoardState.Structure.Settlement] = genIcon(BoardState.Structure.Settlement);
@@ -80,11 +88,8 @@ function genCostImages() {
 }
 
 function gameImageCount() {
-        return StructureRenderer.getLoadedImages).length;
+        return StructureRenderer.getLoadedImages().length;
 }
-
-
-
 
 function addUIImages(structureIcons,costImages,resourceSymbolImages) {
         addStructureIcons(structureIcons);
@@ -97,7 +102,7 @@ function loadGame(game,callback) {
         var structureIcons = genStructureIcons();
         var costImages = genCostImages();
         var resourceSymbolImages = genResourceSymbolImages();
-        var gameImages = StructureRenderer.getLoadedImages); // array
+        var gameImages = StructureRenderer.getLoadedImages(); // array
         var images = flattenJQuery([flattenJQuery(flattenDictionary(structureIcons))
                               ,flattenJQuery(flattenDictionary(costImages))
                               ,resourceSymbolImages
@@ -107,16 +112,22 @@ function loadGame(game,callback) {
         var totalImages = images.length;
 
         addUIImages(structureIcons,costImages,resourceSymbolImages);
+        setTimeout(function() {
+                $("#loading-screen").fadeOut(300);
+//                               $("#board,#userInterface").fadeTo(2000,1);
+                callback();
+        },1);
 
 //        $("#board,#userInterface").css("opacity","0");
 
+        /*
         $(images).load(function() {
                 numLoadedImages++;
 
                 $("#loaded").css("width",100* numLoadedImages/totalImages + "%");
 
                 if(numLoadedImages == totalImages) {
-                        makeBoard(game);
+//                        makeBoard(game);
                         //renderGame(game,null); // Initial render with no highlight.
                         setTimeout(function() {
                                 $("#loading-screen").fadeOut(300);
@@ -125,4 +136,9 @@ function loadGame(game,callback) {
                         },1000);
                 }
         });
+        */
 }
+
+return {loadGame:loadGame}
+
+});

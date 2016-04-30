@@ -1,4 +1,4 @@
-define(['BoardState
+define(['BoardState'
        ,'TradeOffer'
        ,'Player'
        ,'GameState'
@@ -282,7 +282,7 @@ IncomingTradesView = function(messageDestination) {
                 var out = [];
                 arr.forEach(function(e) {
                         out = $.merge(out,e);
-                }
+                });
                 return out;
         }
         function displayIncomingTrades(trades) {
@@ -401,3 +401,4 @@ MakeOfferView = function(messageDestination) {
 return {
         TradeView:TradeView,
 }
+});

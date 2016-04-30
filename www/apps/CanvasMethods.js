@@ -22,7 +22,7 @@ function drawPath(verts,ctx) {
         ctx.closePath();
 }
 function hexPath(side,ctx) {
-        var verts = Grid.vertices(new Vector(0,0)).map(function(c) {
+        var verts = Grid.vertices(new Grid.Vector(0,0)).map(function(c) {
                 return Grid.vertexToWorld(c,side);
         })
         drawPath(verts,ctx);
@@ -103,5 +103,6 @@ return {
         linePath:linePath,
         wrapText:wrapText,
         newScale:newScale,
+        clearCanvas:clearCanvas,
 }
 });

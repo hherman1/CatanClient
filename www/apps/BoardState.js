@@ -44,6 +44,13 @@ var Resource = {
         Desert : 5
 };
 
+var BASE_RESOURCE_LIST = // The baseline Catan resource list for a standard board - note that this list should have at least 19 elements to work with standard Catan
+    [Resource.Desert,  Resource.Grain, Resource.Grain, Resource.Grain,
+        Resource.Grain, Resource.Wool, Resource.Wool, Resource.Wool,
+        Resource.Wool, Resource.Lumber, Resource.Lumber, Resource.Lumber,
+        Resource.Lumber, Resource.Ore, Resource.Ore, Resource.Ore,
+        Resource.Brick, Resource.Brick, Resource.Brick]
+
 ////////////////////////////////////////////////////////////////////////
 /*                             CONSTRUCTORS                           */
 ////////////////////////////////////////////////////////////////////////
@@ -76,6 +83,15 @@ var RegularHexBoard = function(width, resourceList, tokenList) {
     }
     this.robber = new Robber(this.hexes[desertIndex], false);
 };
+
+/* Robber
+ * A constructor for the robber object. Takes a hex (positional argument) and a boolean indicating whether the Robber has just moved or not.
+ */
+
+var Robber = function(hex, moved) {
+  this.hex = hex;
+    this.moved = moved;
+}
 
 var Position = {
         Type: {
@@ -496,7 +512,9 @@ return {
         Resource:Resource,
         Board:Board,
         RegularHexBoard:RegularHexBoard,
+        Robber:Robber,
         Position:Position,
+        getStructureName:getStructureName,
         getResourceName:getResourceName,
         getResourceTerrainName:getResourceTerrainName,
         buildRegularHexFramework:buildRegularHexFramework,
@@ -515,12 +533,12 @@ return {
         getVertexNeighbors:getVertexNeighbors,
         compareRoadPositions:compareRoadPositions,
         compareTwoCoordPositions:compareTwoCoordPositions,
-        updateGamePhase:updateGamePhase,
         getInitStructureLimit:getInitStructureLimit,
         cloneResources:cloneResources,
         getResource:getResource,
         addResource:addResource,
         addResources:addResources,
         subtractResources:subtractResources,
+        BASE_RESOURCE_LIST: BASE_RESOURCE_LIST,
 }
 });

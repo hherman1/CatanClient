@@ -29,7 +29,7 @@ function processMouseBuffer(mouse,mousebuffer) {
         if (mousebuffer.mousedowns.length > 0) {
                 mouse.click = 1;
         }
-        if (mouse.click && norm(mouse.movement) > MAX_CLICK_MOVEMENT) {
+        if (mouse.click && Grid.norm(mouse.movement) > Constants.MAX_CLICK_MOVEMENT) {
                 mouse.click = 0;
                 mouse.dragging = 1;
         }
@@ -53,12 +53,6 @@ function updateMouse(mouse,evt) {
 
 }
 
-function mouseEventSaver(mousebuffer) {
-        return (function(evt) {
-            evt.preventDefault();
-            mousebuffer.push(evt);
-        })
-}
 
 
 function getCoords(evt) {

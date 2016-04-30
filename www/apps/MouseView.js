@@ -10,6 +10,12 @@ var MouseBuffer = function() {
         this.mouseups = [];
         this.mousescrolls = [];
 }
+function mouseEventSaver(mousebuffer) {
+        return (function(evt) {
+            evt.preventDefault();
+            mousebuffer.push(evt);
+        })
+}
 
 function initMouseBuffer(elem,buffer) {
         // elem instead of document is more reliable, but is unpleasant.
@@ -28,7 +34,7 @@ var MouseView = function(canvas) {
         var self = this;
         self.mouseEventBuffer = new MouseBuffer();
         initMouseBuffer(canvas,self.mouseEventBuffer);
-        self.mouse = new Mouse()
+        self.mouse = new Mouse.Mouse()
         View.Message.Client.call(self, function(message) {
                 if(message.type == View.Message.Type.RequestMouseData) {
                         self.mouse = Mouse.processMouseBuffer(self.mouse,self.mouseEventBuffer);

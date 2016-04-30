@@ -1,5 +1,5 @@
-define(['Constants','Grid','BoardState','Robber','GameMethods','GameState'],
-                function(Constants,Grid,BoardState,Robber,GameMethods,GameState) {
+define(['Constants','Grid','BoardState','RobberMethods','GameMethods','Hitbox','GameState'],
+                function(Constants,Grid,BoardState,Robber,GameMethods,Hitbox,GameState) {
 
 var Action = {
     Type: {
@@ -31,11 +31,11 @@ var Action = {
 function getActionBuildStructure(action) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                    return Structure.Road;
+                    return BoardState.Structure.Road;
                 case Action.Type.BuildSettlement:
-                    return Structure.Settlement;
+                    return BoardState.Structure.Settlement;
                 case Action.Type.BuildCity:
-                    return Structure.City;
+                    return BoardState.Structure.City;
         }
 }
 
@@ -43,14 +43,14 @@ function getActionBuildStructure(action) {
 function getPositionObject(action,playerID) {
         switch(action.type) {
                 case Action.Type.BuildRoad:
-                        return new BoardState.Position.Road(Structure.Road
+                        return new BoardState.Position.Road(BoardState.Structure.Road
                                                 ,action.coordinateA
                                                 ,action.coordinateB
                                                 ,playerID);
                 case Action.Type.BuildSettlement:
-                        return new BoardState.Position.Vertex(Structure.Settlement,action.coordinate, playerID);
+                        return new BoardState.Position.Vertex(BoardState.Structure.Settlement,action.coordinate, playerID);
                 case Action.Type.BuildCity:
-                        return new BoardState.Position.Vertex(Structure.City,action.coordinate, playerID);
+                        return new BoardState.Position.Vertex(BoardState.Structure.City,action.coordinate, playerID);
         }
 }
 
@@ -84,7 +84,7 @@ function validateInit(action,gamestate,player) {
                                                        , gamestate.board.vertices
                                                        , gamestate.board.roads));
                 case Action.Type.BuildSettlement:
-                        return (player.settlementCount < getInitStructureLimit(gamestate.rotation)
+                        return (player.settlementCount < BoardState.getInitStructureLimit(gamestate.rotation)
                                && GameMethods.checkInitSettlementLegality(action.coordinate
                                                              , gamestate.board.vertices));
                 case Action.Type.BuildCity:
@@ -141,9 +141,9 @@ function validateNormal(action,gamestate,player) {
 
 function validateAction (action,gamestate,player) {
         switch(gamestate.phase) {
-                case Phase.Init:
+                case BoardState.Phase.Init:
                         return validateInit(action,gamestate,player);
-                case Phase.Normal:
+                case BoardState.Phase.Normal:
                         switch(gamestate.subPhase){
                             case BoardState.SubPhase.Building:
                                 if(validateNormal(action,gamestate,player)) {
@@ -249,7 +249,7 @@ function genPotentialAction(vertices,roads,actions,box) {
         if(box.data.type == BoardState.Position.Type.Hex){
             return new Action.RobHex(box.data.coordinate);
         }
-        switch(getHitboxStructure(vertices,roads,box)) {
+        switch(Hitbox.getHitboxStructure(vertices,roads,box)) {
                 case BoardState.Structure.Empty:
                         switch(box.data.type) {
                                 case BoardState.Position.Type.Vertex:

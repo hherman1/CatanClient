@@ -103,15 +103,15 @@ function genRoadBoxes(roads,side) {
 function genRoadBox(road,side) {
         var w1 = Grid.vertexToWorld(road.coord1,side);
         var w2 = Grid.vertexToWorld(road.coord2,side);
-        var cost = Grid.dotProduct(new Grid.Vector(1,0),Grid.add(w1,times(-1,w2)))/(side);
+        var cost = Grid.dotProduct(new Grid.Vector(1,0),Grid.add(w1,Grid.times(-1,w2)))/(side);
         if (cost < -1) {
                 cost = -1;
         } else if (cost > 1) {
                 cost = 1;
         }
-        var diff = Grid.add(w1,times(-1,w2));
+        var diff = Grid.add(w1,Grid.times(-1,w2));
         var rotation = Math.atan(diff.y/diff.x);
-        var center = Grid.times(0.5,add(w1,w2));
+        var center = Grid.times(0.5,Grid.add(w1,w2));
         return new Hitbox.Box(center
                         ,new Grid.Vector(side/2,side/3)
                         ,road

@@ -1,4 +1,4 @@
-define(['BoardState','Player','TradeOffer'],function(BoardState,Player,TradeOffer) {
+define(['BoardState','Player','TradeOffer','GameMethods'],function(BoardState,Player,TradeOffer,GameMethods) {
 var GameState = function() {
         this.board = new BoardState.Board();
         this.phase = BoardState.Phase.Init;
@@ -61,9 +61,9 @@ function getCurrentPlayer(gamestate) {
         return Player.getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
 }
 function updateLongestRoad(gameState){
-    var player = GameState.getCurrentPlayer(gameState);
+    var player = getCurrentPlayer(gameState);
     for(var i =0; i<player.firstSettlementsCoords.length;i++){
-        var testLength = longestRoad(findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
+        var testLength = GameMethods.longestRoad(BoardState.findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
         if(testLength>gameState.longestRoad && testLength >= 5){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
@@ -95,7 +95,7 @@ function updateGamePhase(gamestate) {
 function validateEndTurn(teststate) {
         switch(teststate.phase){
             case BoardState.Phase.Init:
-                var currentPlayer = GameState.getCurrentPlayer();
+                var currentPlayer = getCurrentPlayer(teststate);
                 if (currentPlayer.roadCount == BoardState.getInitStructureLimit(teststate.rotation) &&
                     currentPlayer.settlementCount == BoardState.getInitStructureLimit(teststate.rotation)){
                     console.log("End turn valid");
@@ -109,6 +109,7 @@ function validateEndTurn(teststate) {
 }
 return {
         GameState:GameState,
+        cloneGameState:cloneGameState,
         currentPlayerListIndex:currentPlayerListIndex,
         nextPlayer:nextPlayer,
         getNextPlayer:getNextPlayer,
@@ -117,3 +118,4 @@ return {
         updateGamePhase:updateGamePhase,
         validateEndTurn:validateEndTurn,
 }
+});

@@ -2,14 +2,6 @@ define(['Grid','BoardState','Player'],
         function(Grid,BoardState,Player) {
 // File contains methods dealing with the construction and actions of the robber
 
-/* Robber
- * A constructor for the robber object. Takes a hex (positional argument) and a boolean indicating whether the Robber has just moved or not.
- */
-
-var Robber = function(hex, moved) {
-  this.hex = hex;
-    this.moved = moved;
-}
 
 /* moveRobber
  * Given a hex, updates the robber's hex position
@@ -63,7 +55,6 @@ function robPlayer(receivingPlayer, losingPlayer){
 }
 
 return {
-        Robber:Robber,
         moveRobber:moveRobber,
         robHex:robHex,
         robPlayer:robPlayer,

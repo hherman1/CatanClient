@@ -1,14 +1,14 @@
-define([],function() {
+define(['Grid'],function(Grid) {
 
 var Transform = function(translation,scale) {
         this.translation=translation;
         this.scale = scale;
 }
 function inverseTransform(v,trans) {
-        return times((1/trans.scale),add(times(-1,trans.translation),v))
+        return Grid.times((1/trans.scale),Grid.add(Grid.times(-1,trans.translation),v))
 }
 function transform(v,trans) {
-        return add(trans.translation,times(trans.scale,v))
+        return Grid.add(trans.translation,Grid.times(trans.scale,v))
 }
 function setTransform(transform,ctx) {
         ctx.setTransform(transform.scale,0,0,transform.scale,transform.translation.x,transform.translation.y)
@@ -21,7 +21,8 @@ return {
         Transform:Transform,
         inverseTransform:inverseTransform,
         transform:transform,
-        setTransform:setTransform
+        setTransform:setTransform,
+        resetTransform:resetTransform,
 }
 
 });

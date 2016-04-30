@@ -12,7 +12,7 @@ PassView = function(messageDestination) {
         self.hide();
         $("button",self.DOM).click(function(){
                 self.hide();
-                sendMessage(new View.Message.PassViewClosed(self),self.messageDestination);
+                View.sendMessage(new View.Message.PassViewClosed(self),self.messageDestination);
         });
         View.ClientView.call(self,function(message) {
                 if(message.hasType("OpenPassView")) {

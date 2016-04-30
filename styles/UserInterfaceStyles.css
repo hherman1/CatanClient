@@ -689,7 +689,7 @@ address {
         pointer-events:all;
 }
 
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
 *  ----------------------------------------------------------------------------- */
 #hexInfoView>.content:before {
@@ -714,7 +714,7 @@ address {
     transform:translate(0,-50%);
     content: '';
 }
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  ----------------------------------------------------------------------------- */
 
 #hexInfoView .closeDisplay {
@@ -771,10 +771,14 @@ address {
 }
 
 #bankTradeConfirmButton{
-	position: relative;
+	 position: relative;
     bottom: 13px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    background-color: #f6bc73;
+    //color: #17324f;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 10px;
+
 }
 
 #makeOffer{
@@ -790,6 +794,7 @@ address {
         color:#FFFFFF;
         z-index:1;
         display:none;
+        font-size: 30px;
 }
 #passGame>div.fill {
         position:absolute;
@@ -807,4 +812,60 @@ address {
         left:50%;
         transform:translate(-50%,-50%);
         z-index:1;
+}
+
+/*
+some Button styles
+*/
+#continueGame{
+  background-color: #f6bc73;
+  //color: #17324f;
+  font-size: 24px;
+  padding: 5px;
+  border-radius: 10px;
+}
+#continueGame:hover{
+  background-color: #ffecbc;
+  //color: #17324f;
+  font-size: 24px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#reject-all{
+  background-color: #f6bc73;
+  //color: #17324f;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#reject-all:hover{
+  background-color: #ffecbc;
+  //color: #17324f;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.closeWindow{
+  background-color: #f6bc73;
+  //color: #17324f;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.closeWindow:hover{
+  background-color: #ffecbc;
+  //color: #17324f;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.resource-input{
+  font-size: 12px;
+  padding: 5px;
+  color: black;
 }

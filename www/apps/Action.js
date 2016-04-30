@@ -76,16 +76,6 @@ function validateActionForCurrentPlayer(action,gamestate) {
     return validateAction(action,gamestate,currentPlayer);
 }
 
-function getInitStructureLimit(rotation) {
-        switch(rotation) {
-                case Rotation.Forwards:
-                        return 1;
-                case Rotation.Backwards:
-                        return 2;
-                default:
-                        return 2;
-        }
-}
 
 function validateInit(action,gamestate,player) {
         switch (action.type) {

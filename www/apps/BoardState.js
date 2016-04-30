@@ -453,3 +453,15 @@ function updateGamePhase(gamestate) {
         }
 }
 
+function getInitStructureLimit(rotation) {
+        switch(rotation) {
+                case Rotation.Forwards:
+                        return 1;
+                case Rotation.Backwards:
+                        return 2;
+                case Rotation.None:
+                        return 1;
+                default:
+                        return 2;
+        }
+}

@@ -107,9 +107,9 @@ Server = function() {
             this.gamestate.tradeoffers = filterOutIncomingTrades(this.gamestate.currentPlayerID
                 , this.gamestate.tradeoffers);
 
-            if (!updateGamePhase(this.gamestate)) {
-                nextPlayer(this.gamestate);//Change current player ID
-            }
+            nextPlayer(this.gamestate);
+            updateGamePhase(this.gamestate)
+
             if(this.gamestate.phase == Phase.Normal) {
                 this.roll.first = rollDice();
                 this.roll.second = rollDice();
@@ -297,25 +297,31 @@ function processBankMessage(message,game) {
         }
 }
 
+function validateEndTurn(teststate) {
+        switch(teststate.phase){
+            case Phase.Init:
+                var currentPlayer = getPlayers(teststate.currentPlayerID,teststate.players)[0];
+                if (currentPlayer.roadCount == getInitStructureLimit(teststate.rotation) &&
+                    currentPlayer.settlementCount == getInitStructureLimit(teststate.rotation)){
+                    console.log("End turn valid");
+                    return true;
+                }
+                break;
+            case Phase.Normal:
+                return true;
+        }
+        return false;
+}
+
 function processUIMessage(message,game) {
         switch(message.type) {
             case View.Message.Type.EndTurn:
-                sendMessage(new View.Message.OpenPassView(game,getNextPlayer(game.gamestate)),game.views);
+                if(validateEndTurn(game.teststate)) {
+                        sendMessage(new View.Message.OpenPassView(game,getNextPlayer(game.gamestate)),game.views);
+                }
                 break;
             case View.Message.Type.PassViewClosed:
-                switch(game.gamestate.phase){
-                    case Phase.Init:
-                        var currentPlayer = getPlayers(game.gamestate.currentPlayerID,game.teststate.players)[0];
-                        if (currentPlayer.roadCount == getInitStructureLimit(game.gamestate.rotation) &&
-                            currentPlayer.settlementCount == getInitStructureLimit(game.gamestate.rotation)){
-                            console.log("End game valid");
-                            endTurn(game);
-                        }
-                        break;
-                        // End if settlement & Road were built
-                    case Phase.Normal:
-                        endTurn(game);
-                }
+                endTurn(game);
                 break;
             case View.Message.Type.BuildRoad:
                     //console.log(elem);

@@ -1,5 +1,6 @@
+define(['BoardState','Player'],function(BoardState,Player){
 
-TradeOffer = function(tradeID,offererID,targetID,offerResources,requestResources) {
+var TradeOffer = function(tradeID,offererID,targetID,offerResources,requestResources) {
         this.tradeID = tradeID;
         this.offererID = offererID;
         this.targetID = targetID;
@@ -10,8 +11,8 @@ TradeOffer = function(tradeID,offererID,targetID,offerResources,requestResources
 function cloneTradeOffer(offer) {
         return new TradeOffer(offer.offererID
                              ,offer.targetID
-                             ,cloneResources(offer.offerResources)
-                             ,cloneResources(offer.requestResources));
+                             ,BoardState.cloneResources(offer.offerResources)
+                             ,BoardState.cloneResources(offer.requestResources));
 }
 
 function validateTradeOffer(gamestate,trade) {
@@ -25,7 +26,7 @@ function filterValidTradeOffers(gamestate) {
 }
 
 function validateOffer(gamestate,offererID,offerResources) {
-       return getPlayersResources(getPlayers(offererID,gamestate.players)[0])
+       return Player.getPlayersResources(Player.getPlayers(offererID,gamestate.players)[0])
                .every(function(val,resource) {
                        return val >= offerResources[resource];
                });
@@ -37,8 +38,8 @@ function validateAccept(gamestate,targetID,requestResources) {
 
 function applyTrade(gamestate,trade) {
         function transaction(playerID,players,addedResources,subtractedResources) {
-                subtractResources(getPlayersResources(getPlayers(playerID,players)[0]),subtractedResources);
-                addResources(getPlayersResources(getPlayers(playerID,players)[0]),addedResources);
+                subtractResources(Player.getPlayersResources(Player.getPlayers(playerID,players)[0]),subtractedResources);
+                addResources(Player.getPlayersResources(Player.getPlayers(playerID,players)[0]),addedResources);
         }
         transaction(trade.offererID,gamestate.players,trade.requestResources,trade.offerResources);
         transaction(trade.targetID,gamestate.players,trade.offerResources,trade.requestResources);
@@ -75,4 +76,21 @@ function nextTradeID(trades) {
                 return 0;
         }
 }
+
+return {
+        TradeOffer:TradeOffer,
+        cloneTradeOffer:cloneTradeOffer,
+        validateTradeOffer:validateTradeOffer,
+        filterValidTradeOffers:filterValidTradeOffers,
+        validateOffer:validateOffer,
+        validateAccept:validateAccept,
+        applyTrade:applyTrade,
+        getIncomingTrades:getIncomingTrades,
+        getTrades:getTrades,
+        filterOutTrades:filterOutTrades,
+        filterOutIncomingTrades:filterOutIncomingTrades,
+        validateTrade:validateTrade,
+        nextTradeID:nextTradeID,
+}
+});
 

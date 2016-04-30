@@ -1,8 +1,10 @@
+define(['Grid'],function(Grid) {
+
 //SETTLEMENT
 //
 //
 
-Images = {
+var Images = {
         Loaded:{
                 Settlements:[],
                 Cities:[],
@@ -96,8 +98,8 @@ function loadImage(src) {
 }
 
 function drawRoad(coordinateA,coordinateB,color,ctx) {
-  var worldA = vertexToWorld(coordinateA,1);//vertexToWorld(coordinateA,side);
-  var worldB = vertexToWorld(coordinateB,1);//vertexToWorld(coordinateB,side);
+  var worldA = Grid.vertexToWorld(coordinateA,1);//vertexToWorld(coordinateA,side);
+  var worldB = Grid.vertexToWorld(coordinateB,1);//vertexToWorld(coordinateB,side);
   ctx.beginPath();
   ctx.moveTo(worldA.x, worldA.y);
 
@@ -120,7 +122,7 @@ function drawRoad(coordinateA,coordinateB,color,ctx) {
 
 function drawBuilding(coordinate,structure,color,side,ctx){
         if(structure != Structure.Empty) {
-          var worldCoord = vertexToWorld(coordinate,side);
+          var worldCoord = Grid.vertexToWorld(coordinate,side);
           ctx.drawImage(getBuildingImg(structure, color)
                        , worldCoord.x-side/2, worldCoord.y-side/2
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
@@ -132,6 +134,14 @@ function drawStructure(structure,color,side,ctx){
                        , -side/2, -side/2
                        , side, side*0.75); //need to adjust width and height of the building rendered...right now its set to w=side and h=side*0.75
         }
+}
+
+/* drawRobber
+ * Given coordinates, scale and a context, draws the image of the robber.
+ */
+
+function drawRobber(x,y, z, ctx){
+    ctx.drawImage(getRobberImg(), x-30, y-(z*0.75), z*1.2, z*1.5);
 }
 
 function getRobberImg() {
@@ -168,3 +178,19 @@ function getResourceSymbolImage(resource) {
 //wool image src: http://s0.geograph.org.uk/geophotos/02/40/15/2401511_d55c4dac.jpg
 //grain image src: https://c1.staticflickr.com/5/4038/4525119513_1ec891529b_b.jpg
 //ore image src: https://upload.wikimedia.org/wikipedia/commons/5/52/Gold-Quartz-273364.jpg
+
+
+return {
+        Images:Images,
+        getGameImages:getGameImages,
+        getLoadedImages:getLoadedImages,
+        drawRoad:drawRoad,
+        drawBuilding:drawBuilding,
+        drawStructure:drawStructure,
+        getRobberImg:getRobberImg,
+        getBuildingImg:getBuildingImg,
+        getResourceSymbolImages:getResourceSymbolImages,
+        getResourceSymbolImage:getResourceSymbolImages,
+}
+
+});

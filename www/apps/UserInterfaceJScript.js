@@ -1,3 +1,6 @@
+define(['jquery','BoardState','Player','StructureRenderer']
+      ,function($,BoardState,Player,StructureRenderer) {
+
 //This function adds the functionality for the slide up build menu information---------
 $(document).ready(function(){
     $("#bottomLeftDisplay").click(function(){
@@ -60,7 +63,7 @@ var timeinterval = setInterval(updateClock,1000);
 function genPlayerTabs(players) {
         var container = getPlayerTabsContainer();
         var template = getPlayerTabTemplate();
-        var colorMap = getPlayerColors(players);
+        var colorMap = Player.getPlayerColors(players);
 
         $(container).append(players.map(function(player) {
                 return newPlayerTab(player,colorMap[player.id],template);
@@ -100,9 +103,9 @@ function setTabPlayerID(tab,playerID) {
 }
 
 function setTabPlayerImages(tab,color) {
-        $(".settlementPic",tab).append(getBuildingImg(Structure.Settlement,color))
-        $(".cityPic",tab).append(getBuildingImg(Structure.City,color))
-        $(".roadPic",tab).append(getBuildingImg(Structure.Road,color))
+        $(".settlementPic",tab).append(getBuildingImg(BoardState.Structure.Settlement,color))
+        $(".cityPic",tab).append(getBuildingImg(BoardState.Structure.City,color))
+        $(".roadPic",tab).append(getBuildingImg(BoardState.Structure.Road,color))
 }
 
 //Sets the structure info for a player. Takes in a player number (1,2,3,4), structure and amount
@@ -132,18 +135,11 @@ function setVictoryPointsVal(playerTab, amount){
     //Tests
     //setResourceVal
 
-
-    function resizeGame(buffer) {
-        resizeBoardDOM($("#game").width(),$("#game").height());
-        buffer.messages.push(UI.Message.Resize);
-    }
-
-
 // function
 
     function updateUIInfo(players, currentPlayerID){
         updateUIInfoTopBar(players,currentPlayerID);
-        var currentPlayer = getPlayers(currentPlayerID,players)[0];
+        var currentPlayer = Player.getPlayers(currentPlayerID,players)[0];
         updateResourceBar(currentPlayer);
     }
 
@@ -173,143 +169,22 @@ function resizeBoardDOM(width,height) {
         $("#board").attr("width",width);
         $("#board").attr("height",height);
 }
-
-function getStructureName(structure) {
-        switch(structure) {
-                case Structure.Road:
-                        return "Road";
-                case Structure.Settlement:
-                        return "Settlement";
-                case Structure.City:
-                        return "City";
-        }
-};
-
-function flattenDictionary(dictionary) {
-        var out = [];
-        Object.keys(dictionary).forEach(function(k) {
-                out.push(dictionary[k]);
-        });
-        return out;
+return {
+        initTime:initTime,
+        initClock:initClock,
+        getTimeElapsed:getTimeElapsed,
+        hoursSpan:hoursSpan,
+        minutesSpan:minutesSpan,
+        secondsSpan:secondsSpan,
+        updateClock:updateClock,
+        genPlayerTabs:genPlayerTabs,
+        getPlayerTabTemplate:getPlayerTabTemplate,
+        getPlayerTabsContainer:getPlayerTabsContainer,
+        getPlayerTab:getPlayerTab,
+        getPlayerName:getPlayerName,
+        setTabPlayerID:setTabPlayerID,
+        setTabPlayerImages:setTabPlayerImages,
+        setStructureVal:setStructureVal,
+        setVictoryPointsVal:setVictoryPointsVal,
 }
-function flattenJQuery(selectors) {
-        var out = $();
-        selectors.forEach(function(s) {
-                out = out.add(s);
-        });
-        return out;
-}
-
-function genResourceSymbolImages() {
-        var images = flattenDictionary(getResourceSymbolImages());
-        return $(images).clone();
-}
-
-function addResourceSymbolImages(images) {
-        function addToResource(resource,image) {
-                $("[resource="+resource+"]").append(image);
-        }
-        addToResource("Lumber",images[Resource.Lumber]);
-        addToResource("Grain",images[Resource.Grain]);
-        addToResource("Wool",images[Resource.Wool]);
-        addToResource("Ore",images[Resource.Ore]);
-        addToResource("Brick",images[Resource.Brick]);
-}
-
-function addStructureIcons(images) {
-        function addStructureImage(structure,image) {
-            var structureName = getStructureName(structure);
-            $("[structure="+structureName+"] .structureImage").append(image);
-        };
-        addStructureImage(Structure.Settlement,images[Structure.Settlement]);
-        addStructureImage(Structure.City,images[Structure.City]);
-        addStructureImage(Structure.Road,images[Structure.Road]);
-
-}
-function genStructureIcons() {
-        function genIcon(structure) {
-            return $(getBuildingImg(structure,Colors.White)).clone();
-        }
-        var out = {};
-        out[Structure.Settlement] = genIcon(Structure.Settlement);
-        out[Structure.City] = genIcon(Structure.City);
-        out[Structure.Road] = genIcon(Structure.Road);
-        return out;
-}
-
-function addCostImages(images) {
-        function addCostImagesForStructure(structure) {
-                var imgs = images[structure];
-                var structureName = getStructureName(structure);
-                $("[structure="+structureName+"] .choiceReqs").append(imgs);
-        };
-        addCostImagesForStructure(Structure.Settlement);
-        addCostImagesForStructure(Structure.City);
-        addCostImagesForStructure(Structure.Road);
-}
-
-function genCostImages() {
-        function genCostImagesFromResources(resources) {
-                var out = [];
-                resources.forEach(function(count,resource) {
-                        var img = getResourceSymbolImage(resource);
-                        for(var i  = 0; i < count; i ++) {
-                                out.push(img);
-                        }
-                });
-                return $(out).clone();
-        };
-        var out = {};
-        out[Structure.Road] = genCostImagesFromResources(getPrice(Structure.Road));
-        out[Structure.Settlement] = genCostImagesFromResources(getPrice(Structure.Settlement));
-        out[Structure.City] = genCostImagesFromResources(getPrice(Structure.City));
-        return out;
-}
-
-function gameImageCount() {
-        return getLoadedImages().length;
-}
-
-
-
-
-function addUIImages(structureIcons,costImages,resourceSymbolImages) {
-        addStructureIcons(structureIcons);
-        addCostImages(costImages);
-        addResourceSymbolImages(resourceSymbolImages);
-}
-
-function loadGame(game,callback) {
-        var structureIcons = genStructureIcons();
-        var costImages = genCostImages();
-        var resourceSymbolImages = genResourceSymbolImages();
-        var gameImages = getLoadedImages(); // array
-        var images = flattenJQuery([flattenJQuery(flattenDictionary(structureIcons))
-                              ,flattenJQuery(flattenDictionary(costImages))
-                              ,resourceSymbolImages
-                              ,$(gameImages)]);
-
-        var numLoadedImages = 0;
-        var totalImages = images.length;
-
-        addUIImages(structureIcons,costImages,resourceSymbolImages);
-
-//        $("#board,#userInterface").css("opacity","0");
-
-        $(images).load(function() {
-                numLoadedImages++;
-
-                $("#loaded").css("width",100* numLoadedImages/totalImages + "%");
-
-                if(numLoadedImages == totalImages) {
-                        makeBoard(game);
-                        renderGame(game,null); // Initial render with no highlight.
-                        setTimeout(function() {
-                                $("#loading-screen").fadeOut(300);
- //                               $("#board,#userInterface").fadeTo(2000,1);
-                                callback();
-                        },1000);
-                }
-        });
-}
-
+});

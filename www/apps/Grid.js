@@ -1,3 +1,5 @@
+define(function(){
+
 /* Vector object:
  * {x: int, y: int}
  *
@@ -6,7 +8,7 @@
  //This is a test line. Please delete it when you find it!
  //
 
-Vector = function(x,y) {
+var Vector = function(x,y) {
         return {x:x,y:y}
 }
 
@@ -171,3 +173,33 @@ function fromHex(hexcoords) {
 }
 
 
+return {
+        Vector:Vector,
+        dotProduct:dotProduct,
+        sum:sum,
+        ident:ident,
+        identX:identX,
+        identY:identY,
+        setX:setX,
+        setY:setY,
+        vectorEquals:vectorEquals,
+        add:add,
+        times:times,
+        piecewiseTimes:piecewiseTimes,
+        center:center,
+        norm:norm,
+        unitVector:unitVector,
+        rotationMatrix:rotationMatrix,
+        multiplyMatrix:multiplyMatrix,
+        even:even,
+        vertexNeighbors:vertexNeighbors,
+        vertices:vertices,
+        adjacentHexes:adjacentHexes,
+        neighbours:neighbours,
+        hexPoints:hexPoints,
+        hexToWorld:hexToWorld,
+        vertexToWorld:vertexToWorld,
+        fromVertex:fromVertex,
+        fromHex:fromHex
+}
+});

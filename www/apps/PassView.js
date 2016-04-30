@@ -1,3 +1,4 @@
+define(['View'],function(View) {
 
 View.Message.newMessageType("PassViewClosed",function(){});
 View.Message.newMessageType("OpenPassView",function(sender,playerID){
@@ -13,7 +14,7 @@ PassView = function(messageDestination) {
                 self.hide();
                 sendMessage(new View.Message.PassViewClosed(self),self.messageDestination);
         });
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 if(message.hasType("OpenPassView")) {
                         self.display(message.playerID);
                 }
@@ -26,3 +27,7 @@ PassView.prototype.display = function(playerID) {
         $(".playerNumber",this.DOM).html(playerID);
         this.DOM.show();
 }
+
+return {PassView:PassView}
+
+});

@@ -1,9 +1,10 @@
+define(['jquery','Animation','View'],function($,Animation,View) {
 
 View.Message.newMessageType("RollDice",function(sender,targetRoll){
     this.targetRoll = targetRoll;
 });
 
-DiceRollView = function(duration,steps,max,min) {
+var DiceRollView = function(duration,steps,max,min) {
         var self = this;
         self.duration = duration;
         self.max = max;
@@ -34,7 +35,7 @@ DiceRollView.prototype.regenBoxes = function() {
 }
 animateDiceRoll = function(diceRollView,targetRoll) {
         var self = diceRollView;
-        var deltaTime = self.duration * Timing.quadraticFixedDiscreteSum(self.step/self.steps,self.steps);
+        var deltaTime = self.duration * Animation.Timing.quadraticFixedDiscreteSum(self.step/self.steps,self.steps);
         self.step++;
         if(self.step >= self.steps) {
                 self.setBoxes(targetRoll.first,targetRoll.second);
@@ -47,3 +48,5 @@ DiceRollView.prototype.startAnimation = function(target) {
         this.step = 0;
         animateDiceRoll(this,target);
 }
+return {DiceRollView:DiceRollView}
+});

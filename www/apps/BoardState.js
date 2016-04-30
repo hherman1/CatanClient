@@ -1,39 +1,41 @@
+define(['Grid','Constants'],function(Grid,Constants) { 
+
 ////////////////////////////////////////////////////////////////////////
 /*                               DATA TYPES                           */
 ////////////////////////////////////////////////////////////////////////
 
-Phase = {
+var Phase = {
     Init: 0,
     Normal: 1
 };
 
-ClosenessToWerewolf = {
+var ClosenessToWerewolf = {
     Vampires: "No",
     Mack: "Pretty Sad",
     Carsten: "Actually a Werewolf",
     Dingo: "require.js"
 };
 
-SubPhase = {
+var SubPhase = {
     Building: 0,
     Trading: 1,
     Robbing: 2
 };
 
-Rotation = {
+var Rotation = {
         Forwards: 0,
         Backwards: 1,
         None: 2
 };
 
-Structure = {
+var Structure = {
         Empty: 0,
         Settlement: 1,
         City: 2,
         Road: 3
 };
 
-Resource = {
+var Resource = {
         Lumber : 0,
         Wool : 1,
         Ore : 2,
@@ -50,7 +52,7 @@ Resource = {
  * The baseline board object encapsulates a hex list, a vertex list, and a road list, as well as a robber object (implementation forthcoming)
  */
 
-Board = function() {
+var Board = function() {
     this.hexes = [];
     this.vertices = [];
     this.roads = [];
@@ -61,7 +63,7 @@ Board = function() {
  * This subversion of the board object is a standard hexagonal board.
  */
 
-RegularHexBoard = function(width, resourceList, tokenList) {
+var RegularHexBoard = function(width, resourceList, tokenList) {
     Board.call(this);
     this.hexes = buildRegularHexFramework(width, resourceList, tokenList);
     this.vertices = buildVertexFramework(this.hexes);
@@ -75,7 +77,7 @@ RegularHexBoard = function(width, resourceList, tokenList) {
     this.robber = new Robber(this.hexes[desertIndex], false);
 };
 
-Position = {
+var Position = {
         Type: {
                 Vertex: 0,
                 Road: 1,
@@ -130,12 +132,17 @@ Position = {
 /*                     BOARD BUILDING FUNCTIONS                       */
 ////////////////////////////////////////////////////////////////////////
 
-/*Returns the name of the resource: Lumber : 0,
-Wool : 1,
-Ore : 2,
-Brick : 3,
-Grain : 4,
-Desert : 5
+function getStructureName(structure) {
+        switch(structure) {
+                case Structure.Road:
+                        return "Road";
+                case Structure.Settlement:
+                        return "Settlement";
+                case Structure.City:
+                        return "City";
+        }
+};
+/*Returns the name of the resource
 */
 function getResourceName(resource) {
         switch(resource) {
@@ -195,7 +202,7 @@ function buildRegularHexFramework(width, resourceList, tokenList){
             else{
                 var tok = tokenList.pop(); // Assigns a random token to the hex
             }
-            var coords = new Vector(i, j+yShift); // Determines coordinates of the hex
+            var coords = new Grid.Vector(i, j+yShift); // Determines coordinates of the hex
             hexList.push(new Position.Hex(res,tok,coords)); // Creates and adds the hex
         }
     }
@@ -209,9 +216,9 @@ function buildRegularHexFramework(width, resourceList, tokenList){
 function buildVertexFramework(hexList){
     var vertexFrame = [];
     for(var i=0;i<hexList.length;i++){
-        var coordList = vertices(hexList[i].coordinate); // Gets the coordinates of the vertices of a hex
+        var coordList = Grid.vertices(hexList[i].coordinate); // Gets the coordinates of the vertices of a hex
         for(j=0;j<coordList.length;j++){
-            testVector = coordList[j];
+            var testVector = coordList[j];
             if(doesNotContainVertexAtCoordinates(vertexFrame,testVector)) { // Ensures the vertex hasn't been created yet
                 vertexFrame.push(new Position.Vertex(Structure.Empty, coordList[j], 0)); // Creates and adds the vertex
             }
@@ -246,7 +253,7 @@ function buildRoadFramework(vertexList){
 
 function findHex(coords, hexList){
     for(var i = 0; i<hexList.length; i++){
-        if(vectorEquals(hexList[i].coordinate, coords)){
+        if(Grid.vectorEquals(hexList[i].coordinate, coords)){
             return hexList[i];
         }
     }
@@ -257,7 +264,7 @@ function findVertex(vertexList,coordinate) {
 }
 
 function findVertices(vertexList,coordinate) {
-    return vertexList.filter(function(v) {return vectorEquals(v.coordinate,coordinate)});
+    return vertexList.filter(function(v) {return Grid.vectorEquals(v.coordinate,coordinate)});
 }
 
 function findRoad(roadList, coord1, coord2){
@@ -337,7 +344,7 @@ function equalPositionCoordinates(positionA,positionB) {
                 case Position.Type.Road:
                         return compareRoadPositions(positionA,positionB);
                 case Position.Type.Vertex:
-                        return vectorEquals(positionA.coordinate,positionB.coordinate);
+                        return Grid.vectorEquals(positionA.coordinate,positionB.coordinate);
         }
 }
 
@@ -349,11 +356,11 @@ function equalPositionCoordinates(positionA,positionB) {
 function getPrice(structure) {
         switch(structure) {
                 case Structure.Road:
-                        return ROAD_COST;
+                        return Constants.ROAD_COST;
                 case Structure.Settlement:
-                        return SETTLEMENT_COST;
+                        return Constants.SETTLEMENT_COST;
                 case Structure.City:
-                        return CITY_COST;
+                        return Constants.CITY_COST;
         }
 }
 
@@ -379,7 +386,7 @@ function generateYShift(width, xcoord){
 
 function doesNotContainVertexAtCoordinates(vertexList, coordinate){
 	for(var count = 0; count<vertexList.length;count++){
-		if(vectorEquals(coordinate,vertexList[count].coordinate)){
+		if(Grid.vectorEquals(coordinate,vertexList[count].coordinate)){
 			return false;
 		}
 	}
@@ -391,7 +398,7 @@ function doesNotContainVertexAtCoordinates(vertexList, coordinate){
  */
 
 function getVertexNeighbors(coordinate,vertexList) {
-        return vertexNeighbors(coordinate)
+        return Grid.vertexNeighbors(coordinate)
                 .map(function(v) {return findVertex(vertexList,v)})
                 .filter(function(v) {return v != undefined})
                 .map(function(v) {return v.coordinate})
@@ -425,8 +432,8 @@ function compareRoadPositions(road1, road2){
  */
 
 function compareTwoCoordPositions(object1coord1, object1coord2, object2coord1, object2coord2){
-    if((vectorEquals(object1coord1,object2coord1)&&vectorEquals(object1coord2,object2coord2))||
-        (vectorEquals(object1coord1,object2coord2)&&vectorEquals(object1coord2,object2coord1))){
+    if(  (Grid.vectorEquals(object1coord1,object2coord1) && Grid.vectorEquals(object1coord2,object2coord2))
+      || (Grid.vectorEquals(object1coord1,object2coord2) && Grid.vectorEquals(object1coord2,object2coord1))) {
         return true;
     }
     return false;
@@ -435,33 +442,85 @@ function compareTwoCoordPositions(object1coord1, object1coord2, object2coord1, o
 //TODO: Comment
 // Returns true for phase switch
 
-function updateGamePhase(gamestate) {
-        if(gamestate.phase == Phase.Init) {
-                if(gamestate.rotation == Rotation.Backwards) {
-                        if(gamestate.players[0].id == gamestate.currentPlayerID) {
-                                gamestate.rotation = Rotation.Forwards;
-                                gamestate.phase = Phase.Normal;
-                                return true;
-                        }
-                } else if(gamestate.rotation == Rotation.None) {
-                        gamestate.rotation = Rotation.Backwards;
-                        return false;
-                } else if(last(gamestate.players).id == gamestate.currentPlayerID) {
-                        gamestate.rotation = Rotation.None;
-                        return false;
-                }
-        }
-}
 
 function getInitStructureLimit(rotation) {
         switch(rotation) {
                 case Rotation.Forwards:
-                        return 1;
+                        return Constants.FIRST_TURN_HOUSES_AND_ROADS;
                 case Rotation.Backwards:
-                        return 2;
+                        return Constants.SECOND_TURN_HOUSES_AND_ROADS;
                 case Rotation.None:
-                        return 1;
+                        return Constants.FIRST_TURN_HOUSES_AND_ROADS;
                 default:
-                        return 2;
+                        return Constants.SECOND_TURN_HOUSES_AND_ROADS;
         }
 }
+
+function cloneResources(resources) {
+        var out = [];
+        out[Resource.Lumber] = resources[Resource.Lumber];
+        out[Resource.Wool] = resources[Resource.Wool];
+        out[Resource.Ore] = resources[Resource.Ore];
+        out[Resource.Brick] = resources[Resource.Brick];
+        out[Resource.Grain] = resources[Resource.Grain];
+        return out;
+}
+
+function getResource(resources,resource) {
+        return resources[resource]
+}
+
+function addResource(resources, resource, amount){
+        resources[resource] += amount;
+        return resources;
+}
+
+function addResources(store,adder) {
+        adder.forEach(function(val,resource) {
+                addResource(store,resource,val);
+        });
+}
+
+function subtractResources(pos,neg) {
+        neg.forEach(function(val,resource) {
+                addResource(pos,resource,-1 * val);
+        });
+        return pos;
+}
+return {
+        Phase:Phase,
+        ClosenessToWerewolf:ClosenessToWerewolf,
+        SubPhase:SubPhase,
+        Rotation:Rotation,
+        Structure:Structure,
+        Resource:Resource,
+        Board:Board,
+        RegularHexBoard:RegularHexBoard,
+        Position:Position,
+        getResourceName:getResourceName,
+        getResourceTerrainName:getResourceTerrainName,
+        buildRegularHexFramework:buildRegularHexFramework,
+        buildVertexFramework:buildVertexFramework,
+        buildRoadFramework:buildRoadFramework,
+        doesNotContainVertexAtCoordinates:doesNotContainVertexAtCoordinates,
+        findHex:findHex,
+        findVertex:findVertex,
+        findVertices:findVertices,
+        findRoad:findRoad,
+        cloneBoard:cloneBoard,
+        notEqualPositionCoordinatesFilter:notEqualPositionCoordinatesFilter,
+        equalPositionCoordinates:equalPositionCoordinates,
+        getPrice:getPrice,
+        generateYShift:generateYShift,
+        getVertexNeighbors:getVertexNeighbors,
+        compareRoadPositions:compareRoadPositions,
+        compareTwoCoordPositions:compareTwoCoordPositions,
+        updateGamePhase:updateGamePhase,
+        getInitStructureLimit:getInitStructureLimit,
+        cloneResources:cloneResources,
+        getResource:getResource,
+        addResource:addResource,
+        addResources:addResources,
+        subtractResources:subtractResources,
+}
+});

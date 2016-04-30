@@ -1,4 +1,4 @@
-
+define(['BoardState','View'],function(BoardState,View) {
 View.Message.newMessageType("DisplayHexInfo",function(sender,hex,position){
         this.hex = hex;
         this.position = position;
@@ -10,7 +10,7 @@ HexInfoView = function() {
         self.display = self.makeHexInfoViewDisplay();
         self.hide();
         $("#userInterface").prepend(self.display);
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.AdjustTranslation:
                                 self.translate(message.translation);
@@ -55,8 +55,8 @@ HexInfoView.prototype.show = function(position) {
         this.display.offset(pos);
 }
 HexInfoView.prototype.showHex = function(hex,position) {
-        $(".terrainDisplay",this.display).html("Terrain: " + getResourceTerrainName(hex.resource));
-        $(".resourceDisplay",this.display).html("Resource: " + getResourceName(hex.resource));
+        $(".terrainDisplay",this.display).html("Terrain: " + BoardState.getResourceTerrainName(hex.resource));
+        $(".resourceDisplay",this.display).html("Resource: " + BoardState.getResourceName(hex.resource));
         $(".tokenDisplay",this.display).html("Token: " + hex.token);
         this.show(position);
 }
@@ -66,3 +66,5 @@ HexInfoView.prototype.translate = function(translation) {
         pos.left = translation.x + pos.left;
         this.display.offset(pos);
 }
+return {HexInfoView:HexInfoView}
+});

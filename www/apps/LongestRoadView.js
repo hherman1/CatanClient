@@ -1,13 +1,13 @@
-
+define(['View'],function(View){
 View.Message.newMessageType("SetLongestRoadID",function(sender,longestRoadID) {
         this.longestRoadID = longestRoadID;
 });
 
-LongestRoadView = function(longestRoadID) {
+var LongestRoadView = function(longestRoadID) {
         var self = this;
         self.longestRoadID = longestRoadID;
 
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.SetLongestRoadID:
                                 self.longestRoadID = message.longestRoadID;
@@ -32,3 +32,6 @@ LongestRoadView.prototype.update = function() {
         this.getPlayerTab().append(this.longestRoadElement);
 }
 
+return {LongestRoadView:LongestRoadView}
+
+});

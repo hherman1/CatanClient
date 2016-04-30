@@ -1,3 +1,13 @@
+define(['BoardState'
+       ,'TradeOffer'
+       ,'Player'
+       ,'GameState'
+       ,'View']
+       ,function(BoardState
+                ,TradeOffer
+                ,Player
+                ,GameState
+                ,View) {
 
 View.Message.newMessageType("DisplayTradeView", function() {});
 
@@ -83,7 +93,7 @@ TradeView = function(messageDestination) {
                                 self.incomingTradesView.hide();
                                 self.makeOfferView.hide();
                                 self.bankTradingView.hide();
-                                sendMessage(new View.Message.TradeViewClosed(self),self.messageDestination);
+                                View.sendMessage(new View.Message.TradeViewClosed(self),self.messageDestination);
                                 break;
                 }
         }
@@ -111,11 +121,11 @@ TradeView = function(messageDestination) {
         self.passMessage = function(message) {
                 var dest = self.getActiveView();
                 if(dest != undefined) {
-                        sendMessage(message,dest);
+                        View.sendMessage(message,dest);
                 }
         };
 
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.DisplayTradeView:
                             self.nextWindow();
@@ -146,7 +156,7 @@ BankTradingView = function(messageDestination) {
                 self.display();
         });
 
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 if(message.hasType("BankableResources")) {
                         self.setBankableResources(message.bankResources);
                 }
@@ -154,7 +164,7 @@ BankTradingView = function(messageDestination) {
 
 }
 BankTradingView.prototype.display = function() {
-        sendMessage(new View.Message.RequestBankableResources(this),this.messageDestination);
+        View.sendMessage(new View.Message.RequestBankableResources(this),this.messageDestination);
 }
 BankTradingView.prototype.clearBankableResources = function() {
         $("#offer-resources-bank>select").empty();
@@ -184,7 +194,7 @@ BankTradingView.prototype.getRequestResource = function() {
         return parseInt($("#request-resources-bank>select").val());
 }
 BankTradingView.prototype.trade = function() {
-        sendMessage(new View.Message.TradeWithBank(this
+        View.sendMessage(new View.Message.TradeWithBank(this
                                                   ,this.getOfferResource()
                                                   ,this.getRequestResource())
                    ,this.messageDestination);
@@ -219,19 +229,19 @@ IncomingTradesView = function(messageDestination) {
                                 "</tr>" +
                                 "<tr offer>" +
                                     "<th> Offer </th>"+
-                                    "<td resource="+Resource.Lumber+">0</td>"+
-                                    "<td resource="+Resource.Wool+">0</td>"+
-                                    "<td resource="+Resource.Ore+">0</td>"+
-                                    "<td resource="+Resource.Brick+">0</td>"+
-                                    "<td resource="+Resource.Grain+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Lumber+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Wool+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Ore+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Brick+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Grain+">0</td>"+
                                 "</tr>"+
                                 "<tr request>" +
                                     "<th> Request </th>"+
-                                    "<td resource="+Resource.Lumber+">0</td>"+
-                                    "<td resource="+Resource.Wool+">0</td>"+
-                                    "<td resource="+Resource.Ore+">0</td>"+
-                                    "<td resource="+Resource.Brick+">0</td>"+
-                                    "<td resource="+Resource.Grain+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Lumber+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Wool+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Ore+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Brick+">0</td>"+
+                                    "<td resource="+BoardState.Resource.Grain+">0</td>"+
                                 "</tr>"+
                         "</table>");
                                     
@@ -256,7 +266,7 @@ IncomingTradesView = function(messageDestination) {
                 $(".offerer",out).html('From: Player ' + trade.offererID);
                 $(".details",out).append(newTradeDOM(trade));
                 $("button.acceptOffer",out).click(function() {
-                        sendMessage(new View.Message.AcceptTrade(self,trade.tradeID),self.messageDestination);
+                        View.sendMessage(new View.Message.AcceptTrade(self,trade.tradeID),self.messageDestination);
                         out.remove();
                 });
                 $("button.rejectOffer",out).click(function() {
@@ -265,8 +275,15 @@ IncomingTradesView = function(messageDestination) {
                 return out;
         }
         self.display = function() {
-                sendMessage(new View.Message.RequestIncomingTrades(self),messageDestination);
-                sendMessage(new View.Message.RequestAcceptValidations(self),messageDestination);
+                View.sendMessage(new View.Message.RequestIncomingTrades(self),messageDestination);
+                View.sendMessage(new View.Message.RequestAcceptValidations(self),messageDestination);
+        }
+        function joinJQueryArray(arr) {
+                var out = [];
+                arr.forEach(function(e) {
+                        out = $.merge(out,e);
+                });
+                return out;
         }
         function displayIncomingTrades(trades) {
                 var DOMOffers = joinJQueryArray(trades.map(newDOMTradeOffer));
@@ -276,7 +293,7 @@ IncomingTradesView = function(messageDestination) {
                 $("#incomingTrades>#offers>div.tradeOffer[tradeID="+message.tradeID+"]>button.acceptOffer").prop("disabled",!message.validation);
         }
 
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.SetIncomingTrades:
                                 displayIncomingTrades(message.trades);
@@ -304,7 +321,7 @@ MakeOfferView = function(messageDestination) {
         });
 
         self.display = function() {
-                sendMessage(new View.Message.RequestGameState(self),messageDestination);
+                View.sendMessage(new View.Message.RequestGameState(self),messageDestination);
         }
 
         self.hide = function() {
@@ -321,16 +338,16 @@ MakeOfferView = function(messageDestination) {
                 var offerResources = getResources($("#offer-resources"));
                 var requestResources = getResources($("#request-resources"));
                 var targetID = parseInt($("select#targetPlayer").val());
-                sendMessage(new View.Message.MakeOffer(self,targetID,offerResources,requestResources)
+                View.sendMessage(new View.Message.MakeOffer(self,targetID,offerResources,requestResources)
                            ,self.messageDestination);
         }
         function getResources(par) {
                 var out = [];
-                out[Resource.Lumber] = getVal(par,"Lumber");
-                out[Resource.Wool] = getVal(par,"Wool");
-                out[Resource.Ore] = getVal(par,"Ore");
-                out[Resource.Brick] = getVal(par,"Brick");
-                out[Resource.Grain] = getVal(par,"Grain");
+                out[BoardState.Resource.Lumber] = getVal(par,"Lumber");
+                out[BoardState.Resource.Wool] = getVal(par,"Wool");
+                out[BoardState.Resource.Ore] = getVal(par,"Ore");
+                out[BoardState.Resource.Brick] = getVal(par,"Brick");
+                out[BoardState.Resource.Grain] = getVal(par,"Grain");
                 return out;
         }
         function getVal(par,resource) {
@@ -338,11 +355,11 @@ MakeOfferView = function(messageDestination) {
         }
         function setupInputCorrection(resources) {
                 $("input.resource-input[resource]").attr("max",99);
-                $("#offer-resources input.resource-input[resource=Lumber]").attr("max",resources[Resource.Lumber]);
-                $("#offer-resources input.resource-input[resource=Wool]").attr("max",resources[Resource.Wool]);
-                $("#offer-resources input.resource-input[resource=Ore]").attr("max",resources[Resource.Ore]);
-                $("#offer-resources input.resource-input[resource=Brick]").attr("max",resources[Resource.Brick]);
-                $("#offer-resources input.resource-input[resource=Grain]").attr("max",resources[Resource.Grain]);
+                $("#offer-resources input.resource-input[resource=Lumber]").attr("max",resources[BoardState.Resource.Lumber]);
+                $("#offer-resources input.resource-input[resource=Wool]").attr("max",resources[BoardState.Resource.Wool]);
+                $("#offer-resources input.resource-input[resource=Ore]").attr("max",resources[BoardState.Resource.Ore]);
+                $("#offer-resources input.resource-input[resource=Brick]").attr("max",resources[BoardState.Resource.Brick]);
+                $("#offer-resources input.resource-input[resource=Grain]").attr("max",resources[BoardState.Resource.Grain]);
                 $("input.resource-input[resource]").change(function(ev) {
                         var valFloat = parseFloat($(ev.target).val());
                         var val = Math.round(valFloat);
@@ -363,16 +380,16 @@ MakeOfferView = function(messageDestination) {
                 });
         }
         function displayOfferDesigner(gamestate) {
-                getPlayerIDs(gamestate.players).forEach(function(id) {
+                Player.getPlayerIDs(gamestate.players).forEach(function(id) {
                         if(id != gamestate.currentPlayerID) {
                                 $("select#targetPlayer").append(newTargetOption(id));
                         }
                 });
-                setupInputCorrection(getPlayersResources(getPlayers(gamestate.currentPlayerID,gamestate.players)[0]));
+                setupInputCorrection(Player.getPlayersResources(GameState.getCurrentPlayer(gamestate)));
 
         }
 
-        ClientView.call(self,function(message) {
+        View.ClientView.call(self,function(message) {
                 switch(message.type) {
                         case View.Message.Type.GameState:
                                 displayOfferDesigner(message.gamestate);
@@ -381,13 +398,7 @@ MakeOfferView = function(messageDestination) {
 
 }
 
-
-
-
-function getOfferFromMessage(message,tradeID,offererID) {
-    return new TradeOffer(tradeID
-                         ,offererID
-                         ,message.targetID
-                         ,message.offerResources
-                         ,message.requestResources);
+return {
+        TradeView:TradeView,
 }
+});

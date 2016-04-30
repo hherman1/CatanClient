@@ -1,65 +1,17 @@
-/*  input {
- *  }
- *  
- *  deterministicly produce object:
- *  {renderBoard : board,
- *   hitboxes:[hitbox]
- *   receivehits:function
- *   hitreceivers:[function]}
- *
- *      receivehits takes a callback function which accepts the triggerred
- *   hitbox as an argument and registers that callback function to be called when
- *   a hit is detected. 
- */
+define(['Constants','Grid'],function(Constants,Grid) {
 
-/*
- * MouseEventBuffer {
- *  clicks : [evt]
- *  mouseovers : [evt]
- *  }
- *
- *  ActivatedBox {
- *  hitbox: hitbox
- *  evt : evt
- *  }
- */
 
-maxClickMove = 4
-Mouse = function() {
-        this.pos = new Vector(-1,-1);
+var Mouse = function() {
+        this.pos = new Grid.Vector(-1,-1);
         this.button = -1;
         this.click = 0; // could the mouse be clicking
         this.clicked = 0; // has the mouse just clicked
         this.dragging = 0; // is the mouse dragging
-        this.movement = new Vector(0,0);
-        this.scroll = new Vector(0,0);
+        this.movement = new Grid.Vector(0,0);
+        this.scroll = new Grid.Vector(0,0);
 }
 
-MouseBuffer = function() {
-        this.mousemoves=[];
-        this.mousedowns = [];
-        this.mouseups = [];
-        this.mousescrolls = [];
-}
 
-View.Message.newMessageType("RequestMouseData",function() {});
-View.Message.newMessageType("MouseData",function(sender,mouse) {
-        this.mouse = mouse;
-});
-
-MouseView = function(canvas) {
-        var self = this;
-        self.mouseEventBuffer = new MouseBuffer();
-        initMouseBuffer(canvas,self.mouseEventBuffer);
-        self.mouse = new Mouse()
-        View.Message.Client.call(self, function(message) {
-                if(message.type == View.Message.Type.RequestMouseData) {
-                        self.mouse = processMouseBuffer(self.mouse,self.mouseEventBuffer);
-                        flushMouseEvents(self.mouseEventBuffer);
-                        respond(message,new View.Message.MouseData(self,self.mouse));
-                }
-        });
-}
 
 function processMouseBuffer(mouse,mousebuffer) {
         mouse.clicked = 0;
@@ -69,7 +21,7 @@ function processMouseBuffer(mouse,mousebuffer) {
         mouse.scroll.y = 0;
         if(mousebuffer.mousescrolls.length > 0) {
                 var wheel = collapseWheelEvents(mousebuffer.mousescrolls);
-                mouse.scroll = new Vector(wheel.deltaX,wheel.deltaY);
+                mouse.scroll = new Grid.Vector(wheel.deltaX,wheel.deltaY);
         }
         if(mousebuffer.mousemoves.length > 0) {
                 updateMouse(mouse,collapseMousemoveEvents(mousebuffer.mousemoves));
@@ -77,7 +29,7 @@ function processMouseBuffer(mouse,mousebuffer) {
         if (mousebuffer.mousedowns.length > 0) {
                 mouse.click = 1;
         }
-        if (mouse.click && norm(mouse.movement) > maxClickMove) {
+        if (mouse.click && Grid.norm(mouse.movement) > Constants.MAX_CLICK_MOVEMENT) {
                 mouse.click = 0;
                 mouse.dragging = 1;
         }
@@ -101,30 +53,10 @@ function updateMouse(mouse,evt) {
 
 }
 
-function mouseEventSaver(mousebuffer) {
-        return (function(evt) {
-            evt.preventDefault();
-            mousebuffer.push(evt);
-        })
-}
 
-function flushMouseEvents(mousebuffer) {
-    mousebuffer.mousemoves.length = 0;
-    mousebuffer.mousedowns.length = 0;
-    mousebuffer.mouseups.length = 0;
-}
-
-
-function initMouseBuffer(elem,buffer) {
-        // elem instead of document is more reliable, but is unpleasant.
-    document.addEventListener("mousemove",mouseEventSaver(buffer.mousemoves));
-    elem.addEventListener("mousedown",mouseEventSaver(buffer.mousedowns));
-    elem.addEventListener("wheel",mouseEventSaver(buffer.mousescrolls));
-    document.addEventListener("mouseup",mouseEventSaver(buffer.mouseups));
-}
 
 function getCoords(evt) {
-    return new Vector(evt.offsetX,evt.offsetY);
+    return new Grid.Vector(evt.offsetX,evt.offsetY);
 }
 
 function collapseMousemoveEvents(evts) {
@@ -145,33 +77,9 @@ function collapseWheelEvents(evts) {
 }
 
 
-//Returns a mousebuffer of ActivatedBox's
-
-//Takes a list of current players and produces a mapping [(player,color)]
-function pickColors(players) {
-
+return {
+        Mouse:Mouse,
+        processMouseBuffer:processMouseBuffer,
 }
 
-//takes a value 'a' and a map: [[a,b]] and returns the corresponding b or null
-function lookup(index,map) {
-    var res = null;
-    map.some(function(vals) {
-            if (vals[0] == index) {
-                res = vals[1];
-                return true;
-            }
-            return false;
-    })
-    return res
-}
-
-//takes a keyMap [[k,k']] and a map [[k,v]] and returns [[k',v]], also 
-//modifies input 'map'. 
-function updateKeys(keyMap,map) {
-        var res = map
-        res.map(function(vals) {
-                vals[0] = lookup(vals[0],keyMap);
-                return vals;
-        })
-        return res;
-}
+});

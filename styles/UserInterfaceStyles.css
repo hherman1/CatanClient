@@ -833,13 +833,9 @@ some Button styles
   background-color: #f6bc73;
   font-size: 24px;
   padding: 5px;
-  border-radius: 10px;
 }
 #continueGame:hover{
   background-color: #ffecbc;
-  font-size: 24px;
-  border-radius: 10px;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 #reject-all,.closeWindow{

@@ -1,6 +1,6 @@
 
 requirejs.config({
-    baseUrl: 'www/apps/',
+    baseUrl: 'https://raw.githubusercontent.com/hherman1/CatanClient/master/www/apps/',
     paths: {
         jquery: "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min",
     }

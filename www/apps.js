@@ -6,7 +6,7 @@
 requirejs.config({
     baseUrl: 'lib',
     paths: {
-        app: '../app'
+        app: 'https://raw.githubusercontent.com/hherman1/CatanClient/master/www/apps/',
         jquery: "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min",
     }
 });

@@ -21,6 +21,8 @@ Note: To run MacSettlers, you will need to have Google Chrome or Safari to run t
 
 ## Architecture
 
+MacSettler's architecture uses a model-view-controller programming model.
+
 ###Framework
 
 * JQuery (front-end)

@@ -53,7 +53,7 @@ Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Lumber] = '../graphics/forest.svg';
+Images.Resources[BoardState.Resource.Lumber] = '../graphics/forest.png';
 //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';
 //labeled for noncommercial reuse
 Images.Resources[BoardState.Resource.Grain] = '../graphics/field.svg';
@@ -63,7 +63,8 @@ Images.Resources[BoardState.Resource.Wool] = '../graphics/pasture.svg';
 //'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
 //quarry: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Bethesda-Mine-07367u.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Ore] = '../graphics/quarry.svg';
+
+Images.Resources[BoardState.Resource.Ore] = '../graphics/quarry.png';
 //'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg'
 //labeled for noncommercial reuse
 Images.Resources[BoardState.Resource.Brick] = '../graphics/hills.svg';

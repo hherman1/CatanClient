@@ -50,7 +50,7 @@ function getNextPlayer(gamestate){
                       out = gamestate.players[next].id;//Moves to next player
                       break;
                 case BoardState.Rotation.Backwards:
-                      var next = (currentPlayerIndex-1) % (gamestate.players.length);
+                      var next = Math.max((currentPlayerIndex-1) % (gamestate.players.length),0);
                       out = gamestate.players[next].id;//Moves to next player
                       break;
                 case BoardState.Rotation.None:
@@ -81,10 +81,10 @@ function updateLongestRoad(gameState){
         }
     }
 }
-function updateGamePhase(gamestate) {
+function updateGamePhase(gamestate, unupdatedCurrentPlayerID) {
         if(gamestate.phase == BoardState.Phase.Init) {
                 if(gamestate.rotation == BoardState.Rotation.Backwards) {
-                        if(gamestate.players[0].id == gamestate.currentPlayerID) {
+                        if(gamestate.players[0].id == unupdatedCurrentPlayerID) {
                                 gamestate.rotation = BoardState.Rotation.Forwards;
                                 gamestate.phase = BoardState.Phase.Normal;
                                 return true;

@@ -1,4 +1,7 @@
-Action = {
+define(['Constants','Grid','BoardState','RobberMethods','GameMethods','Hitbox','GameState'],
+                function(Constants,Grid,BoardState,Robber,GameMethods,Hitbox,GameState) {
+
+var Action = {
     Type: {
         BuildRoad: 0,
         BuildSettlement: 1,
@@ -25,20 +28,14 @@ Action = {
 };
 
 
-function nextPlayerInit(gamestate) {
-        if(currentPlayerListIndex(gamestate) == (gamestate.players.length - 1)) {
-
-        }
-}
-
 function getActionBuildStructure(action) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                    return Structure.Road;
+                    return BoardState.Structure.Road;
                 case Action.Type.BuildSettlement:
-                    return Structure.Settlement;
+                    return BoardState.Structure.Settlement;
                 case Action.Type.BuildCity:
-                    return Structure.City;
+                    return BoardState.Structure.City;
         }
 }
 
@@ -46,19 +43,19 @@ function getActionBuildStructure(action) {
 function getPositionObject(action,playerID) {
         switch(action.type) {
                 case Action.Type.BuildRoad:
-                        return new Position.Road(Structure.Road
+                        return new BoardState.Position.Road(BoardState.Structure.Road
                                                 ,action.coordinateA
                                                 ,action.coordinateB
                                                 ,playerID);
                 case Action.Type.BuildSettlement:
-                        return new Position.Vertex(Structure.Settlement,action.coordinate, playerID);
+                        return new BoardState.Position.Vertex(BoardState.Structure.Settlement,action.coordinate, playerID);
                 case Action.Type.BuildCity:
-                        return new Position.Vertex(Structure.City,action.coordinate, playerID);
+                        return new BoardState.Position.Vertex(BoardState.Structure.City,action.coordinate, playerID);
         }
 }
 
 function validateActionsForCurrentPlayer(actions,gamestate) {
-    var clonedGameState = cloneGameState(gamestate);
+    var clonedGameState = GameState.cloneGameState(gamestate);
     return actions.every(function(action) {
         if(validateActionForCurrentPlayer(action,clonedGameState)) {
             applyActionForCurrentPlayer(action,clonedGameState);
@@ -72,33 +69,23 @@ function validateActionsForCurrentPlayer(actions,gamestate) {
 }
 
 function validateActionForCurrentPlayer(action,gamestate) {
-    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+    var currentPlayer = GameState.getCurrentPlayer(gamestate);
     return validateAction(action,gamestate,currentPlayer);
 }
 
-function getInitStructureLimit(rotation) {
-        switch(rotation) {
-                case Rotation.Forwards:
-                        return 1;
-                case Rotation.Backwards:
-                        return 2;
-                default:
-                        return 2;
-        }
-}
 
 function validateInit(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
-                        return (player.roadCount < getInitStructureLimit(gamestate.rotation)
-                               && checkInitRoadLegality(action.coordinateA
+                        return (player.roadCount < BoardState.getInitStructureLimit(gamestate.rotation)
+                               && GameMethods.checkInitRoadLegality(action.coordinateA
                                                        , action.coordinateB
                                                        , player
                                                        , gamestate.board.vertices
                                                        , gamestate.board.roads));
                 case Action.Type.BuildSettlement:
-                        return (player.settlementCount < getInitStructureLimit(gamestate.rotation)
-                               && checkInitSettlementLegality(action.coordinate
+                        return (player.settlementCount < BoardState.getInitStructureLimit(gamestate.rotation)
+                               && GameMethods.checkInitSettlementLegality(action.coordinate
                                                              , gamestate.board.vertices));
                 case Action.Type.BuildCity:
                         return false;
@@ -116,7 +103,7 @@ function validateRobbing(action, gamestate, player){
         case Action.Type.BuildSettlement:
             return false;
         case Action.Type.RobHex:
-            return checkRobbingLegality(player, gamestate.board.robber, action.coordinate, gamestate.board.hexes, gamestate.board.vertices);
+            return GameMethods.checkRobbingLegality(player, gamestate.board.robber, action.coordinate, gamestate.board.hexes, gamestate.board.vertices);
 
     }
 }
@@ -126,21 +113,21 @@ function validateNormal(action,gamestate,player) {
         switch (action.type) {
                 case Action.Type.BuildRoad:
 
-                        if (checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
+                        if (GameMethods.checkRoadLegality(gamestate.board.vertices, action.coordinateA, action.coordinateB, player, gamestate.board.roads)) {
                                 //console.log("Road legal");
                                 return true;
                         }
                         //console.log("Road illegal")
                         return false;
                 case Action.Type.BuildSettlement:
-                        if (checkSettlementLegality(action.coordinate, player, gamestate.board.vertices, gamestate.board.roads)) {
+                        if (GameMethods.checkSettlementLegality(action.coordinate, player, gamestate.board.vertices, gamestate.board.roads)) {
                                 //console.log("Settlement legal");
                                 return true;
                         }
                         //console.log("Settlement illegal");
                         return false;
                 case Action.Type.BuildCity:
-                        if (checkCityLegality(action.coordinate, player, gamestate.board.vertices)) {
+                        if (GameMethods.checkCityLegality(action.coordinate, player, gamestate.board.vertices)) {
                         //        console.log("City legal");
                                 return true;
                         }
@@ -154,13 +141,13 @@ function validateNormal(action,gamestate,player) {
 
 function validateAction (action,gamestate,player) {
         switch(gamestate.phase) {
-                case Phase.Init:
+                case BoardState.Phase.Init:
                         return validateInit(action,gamestate,player);
-                case Phase.Normal:
+                case BoardState.Phase.Normal:
                         switch(gamestate.subPhase){
-                            case SubPhase.Building:
+                            case BoardState.SubPhase.Building:
                                 if(validateNormal(action,gamestate,player)) {
-                                    var cost = getPrice(getActionBuildStructure(action));
+                                    var cost = BoardState.getPrice(getActionBuildStructure(action));
                                     if (!player.resources.every(function (e, i) {
                                             return e >= cost[i]
                                         })) {
@@ -168,9 +155,9 @@ function validateAction (action,gamestate,player) {
                                     }
                                     return true;
                                 }
-                            case SubPhase.Trading:
+                            case BoardState.SubPhase.Trading:
                                 return false;
-                            case SubPhase.Robbing:
+                            case BoardState.SubPhase.Robbing:
                                 return validateRobbing(action, gamestate, player);
                         }
         }
@@ -183,7 +170,7 @@ function applyActionsForCurrentPlayer(actions,gamestate) {
 }
 
 function applyActionForCurrentPlayer(action,gamestate) {
-    var currentPlayer = getPlayers(gamestate.currentPlayerID,gamestate.players)[0];
+    var currentPlayer = GameState.getCurrentPlayer(gamestate);
     applyAction(action,gamestate,currentPlayer);
 }
 
@@ -193,25 +180,26 @@ function flushActions(actions){
 
 function applyAction(action,gamestate,player) {
         switch(gamestate.phase){
-                case Phase.Normal:
-                    if(gamestate.subPhase == SubPhase.Building) {
-                        player.resources = subtractResources(player.resources, getPrice(getActionBuildStructure(action)));
-                        updateResourceBar(player);
+                case BoardState.Phase.Normal:
+                    if(gamestate.subPhase == BoardState.SubPhase.Building) {
+                        player.resources = BoardState.subtractResources(player.resources, BoardState.getPrice(getActionBuildStructure(action)));
+//                        updateResourceBar(player);
+//                        refix this bug the proper way
                         break;
                     }
         }
         switch(action.type) {
                 case Action.Type.BuildSettlement:
-                        findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                v.structure = Structure.Settlement;
+                        BoardState.findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = BoardState.Structure.Settlement;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.settlementCount++;
-                                player.vicPoints+=SETTLEMENT_VPS;
-                                if(gamestate.phase == Phase.Init){
-                                    initSettlementResources(action.coordinate,gamestate.board.hexes, player);
+                                player.vicPoints += Constants.SETTLEMENT_VPS;
+                                if(gamestate.phase == BoardState.Phase.Init){
+                                    GameMethods.initSettlementResources(action.coordinate,gamestate.board.hexes, player);
                                     var add = true;
                                     for(var i = 0;i<player.firstSettlementsCoords.length;i++){      //TODO: Clean
-                                        if(vectorEquals(player.firstSettlementsCoords[i], action.coordinate)){
+                                        if(Grid.vectorEquals(player.firstSettlementsCoords[i], action.coordinate)){
                                             add = false;
                                         }
                                     }
@@ -222,27 +210,26 @@ function applyAction(action,gamestate,player) {
                         });
                         break;
                 case Action.Type.BuildCity:
-                        findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
-                                v.structure = Structure.City;
+                        BoardState.findVertices(gamestate.board.vertices,action.coordinate).forEach(function(v) {
+                                v.structure = BoardState.Structure.City;
                                 v.playerID = gamestate.currentPlayerID;
                                 player.cityCount++;
                                 player.settlementCount--;
-                                player.vicPoints-=SETTLEMENT_VPS;
-                                player.vicPoints+=CITY_VPS;
+                                player.vicPoints-=Constants.SETTLEMENT_VPS;
+                                player.vicPoints+=Constants.CITY_VPS;
                         })
                         break;
                 case Action.Type.BuildRoad:
-                        var r = findRoad(gamestate.board.roads,action.coordinateA,action.coordinateB);
-                        r.structure = Structure.Road;
+                        var r = BoardState.findRoad(gamestate.board.roads,action.coordinateA,action.coordinateB);
+                        r.structure = BoardState.Structure.Road;
                         r.playerID = gamestate.currentPlayerID;
                         player.roadCount++;
-                        player.vicPoints+=ROAD_VPS;
-
+                        player.vicPoints+=Constants.ROAD_VPS;
                         break;
             case Action.Type.RobHex:
-                    var hex = findHex(action.coordinate, gamestate.board.hexes);
-                    moveRobber(gamestate.board.robber, hex);
-                    robHex(hex, player, gamestate.board.vertices, gamestate.players);
+                    var hex = BoardState.findHex(action.coordinate, gamestate.board.hexes);
+                    Robber.moveRobber(gamestate.board.robber, hex);
+                    Robber.robHex(hex, player, gamestate.board.vertices, gamestate.players);
                     console.log("Robbed");
         }
 }
@@ -251,7 +238,7 @@ function applyAction(action,gamestate,player) {
 function willActAt(actions,type,coord) {
         return actions.filter(function(a) {
                 return a.type == type
-                    && vectorEquals(a.coordinate,coord);
+                    && Grid.vectorEquals(a.coordinate,coord);
         }).length > 0;
 }
 
@@ -259,24 +246,51 @@ function genPotentialAction(vertices,roads,actions,box) {
         if(box == null) {
                 return null;
         }
-        if(box.data.type == Position.Type.Hex){
+        if(box.data.type == BoardState.Position.Type.Hex){
             return new Action.RobHex(box.data.coordinate);
         }
-        switch(getHitboxStructure(vertices,roads,box)) {
-                case Structure.Empty:
+        switch(Hitbox.getHitboxStructure(vertices,roads,box)) {
+                case BoardState.Structure.Empty:
                         switch(box.data.type) {
-                                case Position.Type.Vertex:
+                                case BoardState.Position.Type.Vertex:
                                         if(willActAt(actions,Action.Type.BuildSettlement,box.data.coordinate)) {
                                                 return new Action.BuildCity(box.data.coordinate);
                                         }
                                         return new Action.BuildSettlement(box.data.coordinate);
-                                case Position.Type.Road:
+                                case BoardState.Position.Type.Road:
                                         return new Action.BuildRoad(box.data.coord1,box.data.coord2);
 
 
                         }
                         break;
-                case Structure.Settlement:
+                case BoardState.Structure.Settlement:
                        return new Action.BuildCity(box.data.coordinate);
         }
 }
+function removeRedundantSettlements(actions) {
+        return actions.filter(function(a) {
+                if(a.type == Action.Type.BuildSettlement) {
+                        return !willActAt(actions,Action.Type.BuildCity,a.coordinate);
+                }
+                return true;
+        });
+}
+return {
+        Action:Action,
+        getActionBuildStructure:getActionBuildStructure,
+        getPositionObject:getPositionObject,
+        validateActionsForCurrentPlayer:validateActionsForCurrentPlayer,
+        validateActionForCurrentPlayer:validateActionForCurrentPlayer,
+        validateInit:validateInit,
+        validateRobbing:validateRobbing,
+        validateNormal:validateNormal,
+        validateAction:validateAction,
+        applyActionsForCurrentPlayer:applyActionsForCurrentPlayer,
+        applyActionForCurrentPlayer:applyActionForCurrentPlayer,
+        flushActions:flushActions,
+        applyAction:applyAction,
+        willActAt:willActAt,
+        genPotentialAction:genPotentialAction,
+        removeRedundantSettlements:removeRedundantSettlements,
+}
+});

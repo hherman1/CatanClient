@@ -1,13 +1,7 @@
+define(['Grid','BoardState','Player'],
+        function(Grid,BoardState,Player) {
 // File contains methods dealing with the construction and actions of the robber
 
-/* Robber
- * A constructor for the robber object. Takes a hex (positional argument) and a boolean indicating whether the Robber has just moved or not.
- */
-
-Robber = function(hex, moved) {
-  this.hex = hex;
-    this.moved = moved;
-}
 
 /* moveRobber
  * Given a hex, updates the robber's hex position
@@ -18,13 +12,6 @@ function moveRobber(robber, hex){
     robber.moved = true;
 }
 
-/* drawRobber
- * Given coordinates, scale and a context, draws the image of the robber.
- */
-
-function drawRobber(x,y, z, ctx){
-    ctx.drawImage(getRobberImg(), x-30, y-(z*0.75), z*1.2, z*1.5);
-}
 
 /* robHex
  * Given a hex, a robbing player, a list of vertices and a list of players,
@@ -32,16 +19,16 @@ function drawRobber(x,y, z, ctx){
  */
 
 function robHex(hex,player, vertexList, playerList){
-  var affectedVertices = vertices(hex.coordinate);
+  var affectedVertices = Grid.vertices(hex.coordinate);
   var affectedPlayers = [];
   for(var i = 0; i<6;i++){
-      var vert = findVertex(vertexList, affectedVertices[i]);
+      var vert = BoardState.findVertex(vertexList, affectedVertices[i]);
     if(vert.playerID>0 && vert.playerID != player.id){
       affectedPlayers.push(vert.playerID); // Checks each vertex around the hex for opposing players, adding them to a list
     }
   }
   var randomNum = Math.floor(Math.random() * affectedPlayers.length);
-    robPlayer(player, getPlayer(affectedPlayers[randomNum],playerList)); // Robs a random player from those affected
+    robPlayer(player, Player.getPlayer(affectedPlayers[randomNum],playerList)); // Robs a random player from those affected
 }
 
 /* robPlayer
@@ -66,3 +53,11 @@ function robPlayer(receivingPlayer, losingPlayer){
     receivingPlayer.resources[i]++;
     losingPlayer.resources[i]--;
 }
+
+return {
+        moveRobber:moveRobber,
+        robHex:robHex,
+        robPlayer:robPlayer,
+}
+
+});

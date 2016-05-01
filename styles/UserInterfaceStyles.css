@@ -1,3 +1,9 @@
+/*
+~~~COLORS~~~
+hover normal button color: FFD13D
+normal button color: FFDB66
+disabled button color: FFF0BD
+*/
 
 body {
         overflow: hidden;
@@ -6,12 +12,14 @@ body {
 button {
         cursor: pointer;
 }
+button[disabled] {
+        cursor: default;
+}
 
 * {
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 }
 /*Bottom Right Display*/
-
 
 .bottomRightDisplay{
 	border: solid black 1px;
@@ -22,18 +30,27 @@ button {
 }
 
 .endTurnButton{
-	background: #FFF0BD;
-	color: #696558;
+	background: #ffdb66;
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+	border-right: solid black 1px;;
+	color: black;
 	width: 320px;
 	height: 75px;
 	font-size: 50px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
-
 }
 
 .endTurnButton:hover:enabled{
-	background: #ffdb66;
-	box-shadow: 1px 1px 5px #888888;
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+}
+
+.endTurnButton:disabled{
+	background: #FFF0BD;
+	color: gray;
 }
 
 .topBar{
@@ -43,23 +60,26 @@ button {
 }
 
 #undoButton {
-	background: #FFF0BD;
-	color: #696558;
+	background: #FFDB66;
+	border-left: solid black 1px;
+	border-right: solid black 1px;
+	color: black;
 	width: 50%;
 	font-size: 30px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;;
-
+	margin: 0px 0 0 2px;
 }
 #undoButton:hover:enabled{
-	background: #ffdb66;
-	box-shadow: 1px 1px 5px #888888;
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
 
 .rollHolder{
-  text-align:center;
-  font-size: 12px;
+  	text-align:center;
+  	font-size: 12px;
 	display: inline-block;
-	border-right: solid black 1px;
 	float: left;
 	padding: 0 0px 0 4px;
 	width: 154px;
@@ -134,9 +154,16 @@ button {
 }
 
 .resources{
-	background-color: #FFF0BD;
+	background-color: #ffdb66;
 	border: solid black 1px;
 	border-radius: 0 8px 0 0;
+}
+
+.resources:hover{
+	background: #FFD13D;
+	-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  	box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
 /*Build Card*/
 .buildCard{
@@ -203,7 +230,8 @@ button {
 .playerDiv{
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	display:inline-block;
-	width: 153px;
+	width: 160px;
+	margin-right: 5px;
 }
 
  .playerDiv[active=true] .playerName {
@@ -221,11 +249,12 @@ button {
 	border: 1px solid black;
 	border-radius: 0 0 4px 4px;
 	margin: 0px;
-	width: 152.8px;
+	width: 160px;
 }
 
 .playerNameTab {
         position:relative;
+        width: 160px;
 }
 .playerNameTab:hover > .overlay {
         opacity:0.25;
@@ -250,7 +279,7 @@ button {
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: white;
-	width: 152.8px;
+	width: 160px;
 }
 
 #playerTabs{
@@ -280,6 +309,12 @@ button {
 	width: 100%;
 }
 
+.playerStructureEndItem{
+	display: inline;
+	padding: 4px;
+	width: 100%;
+}
+
 .playerStructuresInfo{
 	border-top: 1px solid black;
 }
@@ -293,7 +328,7 @@ button {
 
 .playerStructureQuantity{
 	display: inline;
-	font-size: 25px;
+	font-size: 22px;
 }
 
 .playerInfoVPoints{
@@ -376,7 +411,7 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
 	position: absolute;
 	right: 0;
 	top: 0;
-	background-color: #FFF0BD;
+	background-color: #FFE592;/*different color here because this div looks extra saturated due to smaller size*/
 	width: 145px;
 	border: solid black 1px;
 	border-radius: 0px 0px 0 8px;
@@ -484,14 +519,16 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
         padding:20px;
         background-color:#ffffff;
         border-radius:10px;
+        border: solid black 2px;
         position:absolute;
         top:50%;
-        left:50%;
+        left:20%;
         height:75%;
         width:50%;
         transform:translate(-50%,-50%);
         font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
         font-size: 14px;
+        overflow-y: scroll;
 }
 
 .tradeOffer {
@@ -566,16 +603,22 @@ address {
 	font-weight: normal;
 }
 
+.ratioInfo{
+  text-align: center;
+}
+
 #targetPlayer{
 	display: inline-block;
 }
 
 .tradeOfferHeading{
-
+	margin-top: 5px;
 }
 
 .resource-input{
-
+  font-size: 12px;
+  padding: 5px;
+  color: black;
 }
 
 #offer-resources-bank{
@@ -590,6 +633,7 @@ address {
 
 #offer-resources{
 	display: inline-block;
+	margin-right: 60px;
 }
 
 #request-resources{
@@ -598,7 +642,7 @@ address {
 
 .tradeoffer-screen{
 	background-color: #FFF0BD;
-	width: 460px;
+	width: 420px;
 }
 
 .tradeoffer-screen *{
@@ -607,7 +651,7 @@ address {
 
 .tradingHeader{
 	text-align: center;
-	font-size: 40px;
+	font-size: 30px;
 }
 
 .tradingPanel{
@@ -652,21 +696,32 @@ address {
         pointer-events:all;
 }
 
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  This css style was roughly borrowed from https://davidwalsh.name/css-tooltips *
 *  ----------------------------------------------------------------------------- */
+#hexInfoView>.content:before {
+    position: absolute;
+    display: inline-block;
+    border-top: 11px solid transparent;
+    border-right: 16px solid #000000;
+    border-bottom: 11px solid transparent;
+    left: -16px;
+    top: 50%;
+    transform:translate(0,-50%);
+    content: '';
+}
 #hexInfoView>.content:after {
     position: absolute;
     display: inline-block;
     border-top: 15px solid transparent;
-    border-right: 20px solid #FFF0BD;
+    border-right: 15px solid #FFF0BD;
     border-bottom: 15px solid transparent;
     left: -15px;
     top: 50%;
     transform:translate(0,-50%);
     content: '';
 }
-/* ----------------------------------------------------------------------------- * 
+/* ----------------------------------------------------------------------------- *
 *  ----------------------------------------------------------------------------- */
 
 #hexInfoView .closeDisplay {
@@ -689,4 +744,126 @@ address {
 }
 #hexInfoView .closeDisplay>button:focus {
         outline:none;
+
+}
+
+#hexInfoView>.content:after {
+    position: absolute;
+    display: inline-block;
+    border-top: 15px solid transparent;
+    border-right: 20px solid #FFF0BD;
+    border-bottom: 15px solid transparent;
+    left: -15px;
+    top: 50%;
+    transform:translate(0,-50%);
+    content: '';
+}
+
+.tradePlayerSelect{
+	margin-left: 29%;
+}
+
+.playerTradeSelectTitle{
+	display:inline-block;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.playerTradeConfirmPanel{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 15px;
+}
+
+#bankTradeConfirmButton{
+	 position: relative;
+    bottom: 13px;
+    background-color: #f6bc73;
+    //color: #17324f;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 10px;
+
+}
+
+#makeOffer,#resetOffer{
+	margin-right: 10%;
+  background-color: #f6bc73;
+  //color: #17324f;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#passGame {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        color:#FFFFFF;
+        z-index:1;
+        display:none;
+        font-size: 30px;
+}
+#passGame>div.fill {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity:0.8;
+        background-image: radial-gradient(ellipse closest-side, #000000 0%, #111111 95%);
+}
+#passGame>div.content {
+        display:inline-block;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        z-index:1;
+}
+
+/*
+some Button styles
+*/
+#continueGame{
+  background-color: #f6bc73;
+  font-size: 24px;
+  padding: 5px;
+}
+#continueGame:hover{
+  background-color: #ffecbc;
+}
+
+#reject-all,.closeWindow{
+  background-color: #f6bc73;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#reject-all:hover, .closeWindow:hover{
+  background-color: #ffecbc;
+  font-size: 14px;
+  border-radius: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.acceptOffer{
+  background-color: green;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.rejectOffer{
+  background-color: red;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.acceptOffer:hover,.rejectOffer:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }

@@ -1,4 +1,4 @@
-
+define(['Grid','Transform','CanvasMethods'],function(Grid,Transform,CanvasMethods) {
 /*
  * Animation : {
  *  draw(ctx) 
@@ -6,7 +6,7 @@
  *  }
  */
 
-Animation = {
+var Animation = {
         Type: {
                 Object: 0,
                 MultiFrame: 1,
@@ -60,7 +60,7 @@ Animation = {
 
 }
 
-Timing = {
+var Timing = {
 
         //f(0) = 0, f(1) = 1;
         linear: function(t) {
@@ -107,11 +107,11 @@ Timing = {
 
 }
 
-ClickCircle = function(coordinate,radius,frames) {
+var ClickCircle = function(coordinate,radius,frames) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 //setTransform(transform,ctx);
-                                resetTransform(ctx);
+                                Transform.resetTransform(ctx);
                                 ctx.beginPath();
                                 var outerRadius = radius * Timing.quadraticInitialDerivative(frame/totalFrames,0);
                                 var innerRadius = radius * Timing.linear(frame/totalFrames);
@@ -123,7 +123,7 @@ ClickCircle = function(coordinate,radius,frames) {
                         ,frames)
 }
 
-XClick = function(coordinate,radius,frames) {
+var XClick = function(coordinate,radius,frames) {
         function innerStyle(ctx) {
                 ctx.strokeStyle = "rgba(255,0,0,0.8)";
                 ctx.lineWidth = "7";
@@ -134,7 +134,7 @@ XClick = function(coordinate,radius,frames) {
                 */
         }
         function drawSegment(start,end,ctx) {
-                linePath(start,end,ctx);
+                CanvasMethods.linePath(start,end,ctx);
                 outerStyle(ctx);
                 ctx.stroke();
                 innerStyle(ctx);
@@ -143,16 +143,18 @@ XClick = function(coordinate,radius,frames) {
         Animation.MultiFrame.call(this
                         ,function(ctx,transform,frame,totalFrames) {
                                 //setTransform(transform,ctx);
-                                resetTransform(ctx);
+                                Transform.resetTransform(ctx);
                                 ctx.beginPath();
                                 var outerRadius = radius * Timing.quadraticInitialDerivative(frame/totalFrames,4);
                                 var innerRadius = radius * Timing.cubic(frame/totalFrames);
-                                drawSegment(add(ident(outerRadius),coordinate),add(ident(innerRadius),coordinate),ctx);
-                                drawSegment(add(ident(-outerRadius),coordinate),add(ident(-innerRadius),coordinate),ctx);
-                                drawSegment(add(new Vector(-outerRadius,outerRadius),coordinate)
-                                        ,add(new Vector(-innerRadius,innerRadius),coordinate),ctx);
-                                drawSegment(add(new Vector(outerRadius,-outerRadius),coordinate)
-                                        ,add(new Vector(innerRadius,-innerRadius),coordinate),ctx);
+                                drawSegment(Grid.add(Grid.ident(outerRadius),coordinate)
+                                           ,Grid.add(Grid.ident(innerRadius),coordinate),ctx);
+                                drawSegment(Grid.add(Grid.ident(-outerRadius),coordinate)
+                                           ,Grid.add(Grid.ident(-innerRadius),coordinate),ctx);
+                                drawSegment(Grid.add(new Grid.Vector(-outerRadius,outerRadius),coordinate)
+                                           ,Grid.add(new Grid.Vector(-innerRadius,innerRadius),coordinate),ctx);
+                                drawSegment(Grid.add(new Grid.Vector(outerRadius,-outerRadius),coordinate)
+                                           ,Grid.add(new Grid.Vector(innerRadius,-innerRadius),coordinate),ctx);
                                 ctx.stroke();
                         }
                         ,frames)
@@ -160,7 +162,7 @@ XClick = function(coordinate,radius,frames) {
 
 
 
-InfoBox = function(coordinate,text,height,width,transitionFrames) {
+var InfoBox = function(coordinate,text,height,width,transitionFrames) {
         var self = this;
 
         var padding = 10;
@@ -171,7 +173,7 @@ InfoBox = function(coordinate,text,height,width,transitionFrames) {
                 self.height += target*Timing.quarticFixedDiscreteSum(frame/frames,frames);
         }
         self.drawBox = function(text,ctx) {
-                resetTransform(ctx);
+                Transform.resetTransform(ctx);
                 ctx.save();
 
                 ctx.beginPath();
@@ -216,4 +218,13 @@ function drawAnims(anims,transform,ctx) {
         anims.forEach(function(anim){anim.draw(ctx,transform)})
 }
 
-
+return {
+        Animation:Animation,
+        Timing:Timing,
+        ClickCircle:ClickCircle,
+        XClick:XClick,
+        InfoBox:InfoBox,
+        pruneAnimations:pruneAnimations,
+        drawAnims:drawAnims
+}
+});

@@ -21,14 +21,14 @@ define(['jquery','View','Input','MouseView','TouchView']
                                 case View.Message.Type.RequestInputData:
                                         self.resetData();
                                         View.sendMessage(new View.Message.RequestMouseData(self),self.mouseView);
-                                        View.sendMessage(new View.Message.RequestTouchData(self),self.touchView);
+                                        View.sendMessage(new View.Message.RequestAggregateTouch(self),self.touchView);
                                         break;
                                 case View.Message.Type.MouseData:
-                                        self.mouseData = message.mouse;
+                                        self.mouseData = {data:message.mouse};
                                         self.dataReceived();
                                         break;
-                                case View.Message.Type.TouchData:
-                                        self.touchData = message.touch;
+                                case View.Message.Type.AggregateTouch:
+                                        self.touchData = {data:message.touch};
                                         self.dataReceived();
                                         break;
                         }
@@ -41,7 +41,7 @@ define(['jquery','View','Input','MouseView','TouchView']
         InputView.prototype.dataReceived = function() {
                 var self = this;
                 if(self.mouseData != null && self.touchData != null) {
-                        var data = Input.consolidateTouchAndMouse(self.touchData,self.mouseData);
+                        var data = Input.consolidateTouchAndMouse(self.touchData.data,self.mouseData.data);
                         View.sendMessage(new View.Message.InputData(self,data),self.messageDestination);
                 }
         }

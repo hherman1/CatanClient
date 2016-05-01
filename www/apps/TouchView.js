@@ -1,12 +1,12 @@
-define(['jquery','View','Touch'],function($,View,Touch) {
-        View.Message.newMessageType("RequestTouchData",function(){});
-        View.Message.newMessageType("TouchData",function(sender,touch) {
+define(['jquery','View','TouchManager'],function($,View,TouchManager) {
+        View.Message.newMessageType("RequestAggregateTouch",function(){});
+        View.Message.newMessageType("AggregateTouch",function(sender,touch) {
                 this.touch=touch;
         });
 
         var TouchView = function(listen) {
                 var self = this;
-                self.touch = new Touch.Touch();
+                self.touchManager = new TouchManager.TouchManager();
                 self.touchStarts = [];
                 self.touchEnds = [];
                 self.touchMoves = [];
@@ -23,10 +23,12 @@ define(['jquery','View','Touch'],function($,View,Touch) {
                         self.touchMoves.push(e.originalEvent)
                 });
                 View.ClientView.call(self,function(message) {
-                        if(message.hasType("RequestTouchData")) {
+                        if(message.hasType("RequestAggregateTouch")) {
                                 self.processBuffers();
                                 self.flushBuffers();
-                                View.respond(message,new View.Message.TouchData(self,self.touch));
+                                View.respond(message
+                                            ,new View.Message.AggregateTouch(self
+                                                                       ,self.touchManager.getAggregateTouch()));
                         }
                 });
         }
@@ -46,10 +48,10 @@ define(['jquery','View','Touch'],function($,View,Touch) {
         }
         TouchView.prototype.processBuffers = function() {
                 var self = this;
-                self.touch.step();
-                actOnChangedTouchesFrom(self.touchStarts,function(t){self.touch.startTouch(t)});
-                actOnChangedTouchesFrom(self.touchEnds,function(t){self.touch.endTouch(t)});
-                actOnChangedTouchesFrom(self.touchMoves,function(t){self.touch.moveTouch(t)});
+                self.touchManager.step();
+                actOnChangedTouchesFrom(self.touchStarts,function(t){self.touchManager.startTouch(t)});
+                actOnChangedTouchesFrom(self.touchEnds,function(t){self.touchManager.endTouch(t)});
+                actOnChangedTouchesFrom(self.touchMoves,function(t){self.touchManager.moveTouch(t)});
         }
 
         return {

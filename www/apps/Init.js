@@ -6,6 +6,7 @@ define(['Constants'
        ,'PassView'
        ,'DiceRollView'
        ,'TradeView'
+       ,'InputView'
        ,'Game'
        ,'UserInterfaceJScript'
        ,'Load']
@@ -17,6 +18,7 @@ define(['Constants'
                ,PassView
                ,DiceRollView
                ,TradeView
+               ,InputView
                ,Game
                ,UserInterfaceJScript
                ,Load) {
@@ -38,6 +40,7 @@ function makeUIViews(destination) {
                                                 ,Constants.DICE_ROLL_MIN));
         views.push(new HexInfoView.HexInfoView());
         views.push(new PassView.PassView(destination));
+        views.push(new InputView.InputView(destination));
         return views;
 }
 function prepareGame(game) {

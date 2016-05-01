@@ -47,6 +47,9 @@ function add(c1,c2) {
         return new Vector(c1.x + c2.x,
                          c1.y + c2.y)
 }
+function subtract(c1,c2) {
+        return add(c1,times(-1,c2));
+}
 function times(s,c) {
         return piecewiseTimes(ident(s),c)
 }
@@ -181,6 +184,7 @@ return {
         setY:setY,
         vectorEquals:vectorEquals,
         add:add,
+        subtract:subtract,
         times:times,
         piecewiseTimes:piecewiseTimes,
         center:center,

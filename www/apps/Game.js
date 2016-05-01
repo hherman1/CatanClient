@@ -126,9 +126,6 @@ Server = function() {
         }
 
 
-Buffer = function() {
-    this.mouse = new MouseBuffer();
-}
 
 
 CatanGame = function(side,views) {
@@ -360,8 +357,8 @@ function processUIMessage(message,game) {
 
 function processDataMessage(message,game) {
         switch(message.type) {
-            case View.Message.Type.MouseData:
-                game.mouse = message.mouse;
+            case View.Message.Type.InputData:
+                game.input = message.input;
                 break;
             case View.Message.Type.HitsData:
                 game.hits = message.hits;
@@ -388,9 +385,9 @@ function gameStep(game) {
         var shouldRedraw = false;
         var highlight = null;
 
-        View.sendMessage(new View.Message.RequestMouseData(game),game.views);
+        View.sendMessage(new View.Message.RequestInputData(game),game.views);
         processGameInbox(game);
-        View.sendMessage(new View.Message.RequestHits(game,game.mouse.pos),game.views);
+        View.sendMessage(new View.Message.RequestHits(game,game.input.pos),game.views);
         processGameInbox(game);
 
         var maxHit = getMaxPositionHit(game.hits);
@@ -402,14 +399,14 @@ function gameStep(game) {
         if(game.hits.length != 0 || game.graphics.animations.data.length != 0) {
                 shouldRedraw = true;
         }
-        if(game.mouse.dragging) {
+        if(game.input.dragging) {
 //                View.sendMessage(new View.Message.HideHexInfo(game),game.views);
-                View.sendMessage(new View.Message.AdjustTranslation(game,game.mouse.movement),game.views);
+                View.sendMessage(new View.Message.AdjustTranslation(game,game.input.movement),game.views);
                 shouldRedraw = true;
         }
-        if(game.mouse.scroll.y != 0) {
+        if(game.input.scroll.y != 0) {
                 View.sendMessage(new View.Message.HideHexInfo(game),game.views);
-                View.sendMessage(new View.Message.AdjustScale(game,game.mouse.scroll.y),game.views);
+                View.sendMessage(new View.Message.AdjustScale(game,game.input.scroll.y),game.views);
                 shouldRedraw = true;
         }
         if(potentialAction != null) {
@@ -417,11 +414,11 @@ function gameStep(game) {
                     highlight = Action.getPositionObject(potentialAction,game.teststate.currentPlayerID);
                 }
         }
-        if(game.mouse.clicked) {
+        if(game.input.clicked) {
                 var drawCircle = true;
                 shouldRedraw = true;
                 if(maxHit != null && maxHit.data.type == BoardState.Position.Type.Hex) {
-                        View.sendMessage(new View.Message.DisplayHexInfo(game,maxHit.data,game.mouse.pos),game.views);
+                        View.sendMessage(new View.Message.DisplayHexInfo(game,maxHit.data,game.input.pos),game.views);
                 }
 
                 if(potentialAction != null) {
@@ -439,14 +436,14 @@ function gameStep(game) {
                                     game.actions.data.push(potentialAction);
                                     Action.applyActionForCurrentPlayer(potentialAction, game.teststate);
                         } else {
-                                pushAnimation(new Animation.XClick(game.mouse.pos,15,10),game);
+                                pushAnimation(new Animation.XClick(game.input.pos,15,10),game);
                                 drawCircle = false;
                         }
                 }
 
                 }
                 if(drawCircle) {
-                    pushAnimation(new Animation.ClickCircle(game.mouse.pos,10,10),game);
+                    pushAnimation(new Animation.ClickCircle(game.input.pos,10,10),game);
                 }
 
             if(game.gamestate.board.robber.moved) {

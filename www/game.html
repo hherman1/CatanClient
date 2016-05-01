@@ -2,12 +2,14 @@
 <html>
         <head>
                 <meta charset="utf-8">
+                <meta name=viewport content="width=device-width, initial-scale=0.8">
                 <!--image for favicon-->
                 <link rel="shortcut icon" href="../graphics/favicon.ico" type="image/x-icon">
                 <link rel="icon" href="../graphics/favicon.ico" type="image/x-icon">
                 <title>game - macsettlers </title>
                 <!-- We should eventually use a compiler to pack these into a single minified javascript source -->
                 <!--using require.js-->
+
                 <script data-main="./apps/main.js" src="./lib/require.js"></script>
                 <link rel="stylesheet" href="../styles/UserInterfaceStyles.css">
                 <script type="text/javascript">
@@ -148,10 +150,15 @@
                                             <div id="offers">
                                                     <div id="templateTradeOffer" class="tradeOffer">
                                                             <div class="offerer"> </div>
-                                                            <div class="details"></div>
-                                                            <button class="acceptOffer" > Accept </button>
-                                                            <button class="rejectOffer" > Reject </button>
+                                                            <div class="interface">
+                                                                    <div class="details"></div>
+                                                                    <div class="buttons">
+                                                                            <button class="acceptOffer" > Accept </button>
+                                                                            <button class="rejectOffer" > Reject </button>
+                                                                    </div>
+                                                            </div>
                                                     </div>
+                                                    <br />
                                             </div>
                                             <button id="reject-all"> Reject All </button>
                                     </div>

@@ -71,10 +71,8 @@ View.Message.newMessageType("HitsData",function(sender,hits) {
 
 CanvasView = function(ctx) {
         var self = this;
-        self.mouseView = new MouseView.MouseView(ctx.canvas);
         self.canvasRenderView = new CanvasRenderView(ctx);
         View.Message.Client.call(self,function(message) {
-                View.sendMessage(message,self.mouseView);
                 View.sendMessage(message,self.canvasRenderView);
         });
 }

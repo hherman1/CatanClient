@@ -1,20 +1,23 @@
 body {
-  padding-left: 20em;
+  padding:1em;
   font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
   color: #17324f;
-  background-color: #77B2EB }
+  background-color: #77B2EB 
+}
 
 h1 {
 font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;}
 
 a:link {
-  color: #17324f;
-  background-color: #f6bc73;
-  font-size: 24px;
-  text-decoration: none;
-  padding: 5px;
-  border-radius: 10px;
- }
+    display: inline-block;
+    margin: 0.33em;
+    color: #17324f;
+    background-color: #f6bc73;
+    font-size: 24px;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 3px;
+}
 a:visited {
   color: #17324f
 }
@@ -26,17 +29,14 @@ a:hover{
 }
 
 ul.navbar {
+        display:inline-block;
   list-style-type: none;
   padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 3em;
-  left: 7em;
-  width: 10em }
+  margin: 0.66em;
+  }
 ul.navbar li {
   background: #f6bc73;
   margin: 0.5em 0;
-  padding: 0.5em;
   border-right: 1em solid #17324f;
   border-radius: 10px;}
 ul.navbar a {

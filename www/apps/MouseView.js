@@ -1,9 +1,5 @@
 define(['Mouse','View'],function(Mouse,View) {
 
-View.Message.newMessageType("RequestMouseData",function() {});
-View.Message.newMessageType("MouseData",function(sender,mouse) {
-        this.mouse = mouse;
-});
 var MouseBuffer = function() {
         this.mousemoves=[];
         this.mousedowns = [];
@@ -30,6 +26,10 @@ function flushMouseEvents(mousebuffer) {
     mousebuffer.mouseups.length = 0;
 }
 
+View.Message.newMessageType("RequestMouseData",function() {});
+View.Message.newMessageType("MouseData",function(sender,mouse) {
+        this.mouse = mouse;
+});
 var MouseView = function(canvas) {
         var self = this;
         self.mouseEventBuffer = new MouseBuffer();

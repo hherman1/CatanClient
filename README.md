@@ -10,20 +10,15 @@ The main purpose of this software project is to learn about software development
 
 ## How to run the game
 
-Prerequisites:
-* Have Git installed
-* Have a GitHub account
-
 Note: To run MacSettlers, you will need to have Google Chrome or Safari to run the game in the browser.
 
-1. Fork our repository for MacSettlers (https://github.com/hherman1/CatanClient)
-2. Clone the repository you just forked.
-3. Open the landing.html file to start playing the game locally.
+1. Download our repository
+2. Open the index.html file.
 
 
 ## Architecture
 
-MacSettler's architecture uses a model-view-controller programming model.
+MacSettler's follows the MVC pattern.
 
 ###Framework
 

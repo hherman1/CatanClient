@@ -2,6 +2,8 @@
 
 You can play MacSettlers online at https://hherman1.github.io/CatanClient
 
+Note: If your browser has Adblock/uBlock plugin, you will need to turn that off in order to play online.
+
 ## Synopsis
 
 Our main project goal is to create a version of Settlers of Catan, an original board game created by Klaus Teuber. More specifically, our product--MacSettlers--is a multiplayer web game that allows gamers to play endless rounds of Settlers together!

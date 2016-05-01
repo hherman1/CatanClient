@@ -137,7 +137,7 @@ function loadGame(game,callback) {
         function periodicallyCheckLoaded() {
                 if(!loaded) {
                         checkLoaded();
-                        setInterval(periodicallyCheckLoaded,1000);
+                        setTimeout(periodicallyCheckLoaded,1000);
                 }
         }
         $(images).load(function() {

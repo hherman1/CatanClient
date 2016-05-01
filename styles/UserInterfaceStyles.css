@@ -522,18 +522,42 @@ font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida San
         border: solid black 2px;
         position:absolute;
         top:50%;
-        left:20%;
+        left:0;
         height:75%;
         width:50%;
-        transform:translate(-50%,-50%);
+        transform:translate(0%,-50%);
         font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
         font-size: 14px;
         overflow-y: scroll;
 }
 
 .tradeOffer {
+        display:inline-block;
         width:100%;
-        background-color:#AAAAAA;
+        margin:1em;
+}
+.tradeOffer .offerer{
+        display:inline-block;
+}
+
+.interface {
+        margin:1em;
+        float:left;
+}
+.details {
+        display:inline-block;
+        float:left;
+}
+.buttons {
+        float:left;
+        height:100%;
+        width: 70px;
+        margin-left: 30px;
+}
+.buttons button {
+        display:inline-block;
+        height:50%;
+        width:100%;
 }
 
 #templateTradeOffer {
@@ -784,7 +808,6 @@ address {
     //color: #17324f;
     font-size: 16px;
     padding: 5px;
-    border-radius: 10px;
 
 }
 
@@ -794,7 +817,6 @@ address {
   //color: #17324f;
   font-size: 12px;
   padding: 5px;
-  border-radius: 10px;
 }
 
 #passGame {
@@ -829,6 +851,15 @@ address {
 /*
 some Button styles
 */
+
+.tradeoffer-screen button {
+  background-color: #f6bc73;
+  font-size: 14px;
+  padding: 5px;
+}
+.tradeoffer-screen button:hover {
+      background-color: #ffecbc;
+}
 #continueGame{
   background-color: #f6bc73;
   font-size: 24px;
@@ -838,32 +869,18 @@ some Button styles
   background-color: #ffecbc;
 }
 
-#reject-all,.closeWindow{
-  background-color: #f6bc73;
-  font-size: 14px;
-  padding: 5px;
-  border-radius: 10px;
+
+button.acceptOffer{
+  background-color: limegreen;
 }
 
-#reject-all:hover, .closeWindow:hover{
-  background-color: #ffecbc;
-  font-size: 14px;
-  border-radius: 10px;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+button.rejectOffer{
+  background-color: firebrick;
 }
 
-.acceptOffer{
-  background-color: green;
-  border-radius: 10px;
-  font-size: 14px;
+button.acceptOffer:hover{ 
+        background-color:lawngreen;
 }
-
-.rejectOffer{
-  background-color: red;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.acceptOffer:hover,.rejectOffer:hover{
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+button.rejectOffer:hover{
+        background-color: tomato;
 }

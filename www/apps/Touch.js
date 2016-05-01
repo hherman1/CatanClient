@@ -35,7 +35,7 @@ define(['Constants','Grid'],function(Constants,Grid) {
         Touch.prototype.endTouch = function(newtouch){
                 if(this.id == newtouch.identifier) {
                         this.id = null;
-                        this.pos = new Grid.Vector(-1,-1);
+                        this.pos = browserTouchPos(newtouch);
                         this.down = false;
                         if(this.click) {
                                 this.clicked = true; // has the mouse just clicked
@@ -56,7 +56,7 @@ define(['Constants','Grid'],function(Constants,Grid) {
                         }
                         this.pos = browserTouchPos(newtouch);
 
-                        if(Grid.norm(this.movement) < Constants.MAX_CLICK_MOVEMENT) {
+                        if(Grid.norm(this.movement) < Constants.MAX_TAP_MOVEMENT) {
                                 this.click = true;
                         } else  {
                                 this.click = false;

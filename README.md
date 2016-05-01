@@ -6,7 +6,7 @@ You can play MacSettlers online at https://hherman1.github.io/CatanClient
 
 Our main project goal is to create a version of Settlers of Catan, an original board game created by Klaus Teuber. More specifically, our product--MacSettlers--is a multiplayer web game that allows gamers to play endless rounds of Settlers together!
 
-The main purpose of this software project is to learn about software development and work as a team to produce a minimum viable product for our computer science course, COMP 225 Software Design and Development, taught by Professor Bret Jackson. Through this project, we practice becoming self-starters, learning JavaScript/CSS/HTML and dissecting the original game logic and design to build our website. Another motivation behind this project is to provide users in our community with an alternative option to the original Settlers of Catan game (the latter being expensive to acquire). MacSettlers is free and easy to use on a PC or Macintosh laptop/desktop and supports Google Chrome and Safari.
+The main purpose of this software project is to learn about software development and work as a team to produce a product for our computer science course, COMP 225 Software Design and Development, taught by Professor Bret Jackson. Through this project, we practice becoming self-starters, learning JavaScript/CSS/HTML and dissecting the original game logic and design to build our website. Another motivation behind this project is to provide users in our community with an alternative option to the original Settlers of Catan game (it being expensive to acquire). MacSettlers is free and easy to use on a PC or Macintosh laptop/desktop and supports Google Chrome and Safari.
 
 ## How to run the game
 
@@ -18,12 +18,13 @@ Note: To run MacSettlers, you will need to have Google Chrome or Safari to run t
 
 ## Architecture
 
-MacSettler's follows the MVC pattern.
+MacSettler's follows the MVC pattern. There is formally only one controller, Game, although its somewhat divided into controllers for each of the independent views.
+
+![](/README-images/Architecture Diagram.png?raw=true "Rough Architecture Diagram")
 
 ###Framework
 
-* JQuery (front-end)
-* CSS, HTML (front-end)
+We depend on jQuery and RequireJS.
 
 ###Testing
 
@@ -122,6 +123,7 @@ used to get the hexes that have a specific vertex as one of their vertices. Both
 
 ## Current Bugs
 
+See our issues for a nearly comprehensive list.
 
 ## Authors
 

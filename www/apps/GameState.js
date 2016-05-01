@@ -1,5 +1,5 @@
-define(['Util','BoardState','Player','TradeOffer','GameMethods']
-       ,function(Util,BoardState,Player,TradeOffer,GameMethods) {
+define(['Util','BoardState','Player','TradeOffer','GameMethods','Constants']
+       ,function(Util,BoardState,Player,TradeOffer,GameMethods,Constants) {
 var GameState = function() {
         this.board = new BoardState.Board();
         this.phase = BoardState.Phase.Init;
@@ -74,10 +74,10 @@ function updateLongestRoad(gameState){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
             if(gameState.longestRoadPlayer != null) {
-                gameState.longestRoadPlayer.vicPoints -= LONGEST_ROAD_VPS;
+                gameState.longestRoadPlayer.vicPoints -= Constants.LONGEST_ROAD_VPS;
             }
             gameState.longestRoadPlayer = player;
-            gameState.longestRoadPlayer.vicPoints += LONGEST_ROAD_VPS;
+            gameState.longestRoadPlayer.vicPoints += Constants.LONGEST_ROAD_VPS;
         }
     }
 }

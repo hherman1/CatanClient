@@ -433,6 +433,9 @@ function gameStep(game) {
                     }
                     else{
                         if(Action.validateActionForCurrentPlayer(potentialAction,game.teststate)) {
+                                    if(game.gamestate.phase == BoardState.Phase.Init){
+                                        View.sendMessage(new View.Message.InitBuilt(game), game.views);
+                                    }
                                     game.actions.data.push(potentialAction);
                                     Action.applyActionForCurrentPlayer(potentialAction, game.teststate);
                         } else {

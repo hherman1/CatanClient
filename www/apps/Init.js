@@ -41,6 +41,7 @@ function makeUIViews(destination) {
         views.push(new HexInfoView.HexInfoView());
         views.push(new PassView.PassView(destination));
         views.push(new InputView.InputView(destination));
+        views.push(new View.InstructionsMessageView());
         return views;
 }
 function prepareGame(game) {

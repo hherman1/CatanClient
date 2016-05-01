@@ -884,3 +884,21 @@ button.acceptOffer:hover{
 button.rejectOffer:hover{
         background-color: tomato;
 }
+
+.instructionsDisplay {
+	position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    top: 12%;
+    width: 500px;
+    height: 100px;
+    padding: 10px;
+}
+
+#instructions {
+	font-size: 30px;
+	color:#FFDF00;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	margin: 0px;
+	text-align: center;
+}

@@ -103,8 +103,9 @@ Server = function() {
             this.gamestate.tradeoffers = TradeOffer.filterOutIncomingTrades(this.gamestate.currentPlayerID
                 , this.gamestate.tradeoffers);
 
+            var unupdatedCurrentPlayerID = this.gamestate.currentPlayerID;
             GameState.nextPlayer(this.gamestate);
-            GameState.updateGamePhase(this.gamestate)
+            GameState.updateGamePhase(this.gamestate, unupdatedCurrentPlayerID);
 
             if(this.gamestate.phase == BoardState.Phase.Normal) {
                 this.roll.first = rollDice();
@@ -485,7 +486,7 @@ function updateLongestRoadView(game) {
                                 ,game.views);
         }
 }
-
+        
 
 function storeBoardImage(graphics,gamestate,side) {
         graphics.renderedHexes = Canvas.generateHexCanvas(gamestate,side);

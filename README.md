@@ -18,7 +18,7 @@ Note: To run MacSettlers, you will need to have Google Chrome or Safari to run t
 
 ## Architecture
 
-MacSettler's follows the MVC pattern. There is formally only one controller, Game, although its somewhat divided into controllers for each of the independent views.
+MacSettlers follows the MVC pattern. There is formally only one controller, Game, although its somewhat divided into controllers for each of the independent views.
 
 ![](/README-images/Architecture Diagram.png?raw=true "Rough Architecture Diagram")
 

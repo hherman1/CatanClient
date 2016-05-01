@@ -28,7 +28,7 @@ function fromTouch(touch) {
 }
 
 function consolidateTouchAndMouse(touch,mouse) {
-        if(touch.isActive()) {
+        if(touch != null && touch.isActive()) {
                 return fromTouch(touch);
         } else {
                 return fromMouse(mouse);

@@ -65,6 +65,20 @@ define(['Constants','Grid'],function(Constants,Grid) {
                 }
                 return this;
         };
-        return{Touch:Touch}
+        function mergeTouches(touchA,touchB) {
+                var out = new Touch();
+                out.id = touchA.id || touchB.id;
+                out.dragging = touchA.dragging || touchB.dragging;
+                out.clicked = touchA.clicked && touchB.clicked;
+                out.down = null;
+                out.click = null;
+                out.pos = Grid.times(0.5,Grid.add(touchA.pos,touchB.pos));
+                out.movement = Grid.add(touchA.movement,touchB.movement);
+                return out;
+        }
+        return{
+                Touch:Touch,
+                mergeTouches:mergeTouches,
+        }
 
 });

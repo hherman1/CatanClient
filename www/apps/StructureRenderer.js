@@ -53,7 +53,7 @@ Images.Loaded.Roads = Images.Roads.map(loadImage);
 
 //'http://upload.wikimedia.org/wikipedia/commons/5/57/Pine_forest_in_Estonia.jpg';
 //labeled for noncommercial reuse
-Images.Resources[BoardState.Resource.Lumber] = '../graphics/forest.svg';
+Images.Resources[BoardState.Resource.Lumber] = '../graphics/forest.png';
 //'http://s0.geograph.org.uk/geophotos/01/95/58/1955803_c2ba5c1a.jpg';
 //labeled for noncommercial reuse
 Images.Resources[BoardState.Resource.Grain] = '../graphics/field.svg';

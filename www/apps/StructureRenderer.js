@@ -12,6 +12,7 @@ var Images = {
                 Resources:[],
                 ResourceSymbols:[],
                 Robber:{},
+                LongestRoad:{}
         },
         Settlements:[],
 
@@ -24,10 +25,15 @@ var Images = {
         ResourceSymbols:[],
 
         Robber:'',
+
+        LongestRoad:''
 }
 
 Images.Robber = '../graphics/swiper.svg';
 Images.Loaded.Robber = loadImage(Images.Robber);
+
+Images.LongestRoad = '../graphics/longestroad.svg';
+Images.Loaded.LongestRoad = loadImage(Images.LongestRoad);
 
 Images.Settlements[Player.Colors.Red]     = '../graphics/reds.svg';
 Images.Settlements[Player.Colors.Orange]  = '../graphics/oranges.svg';

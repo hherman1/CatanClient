@@ -1,4 +1,4 @@
-define(['View'],function(View){
+define(['View','StructureRenderer'],function(View,StructureRenderer){
 View.Message.newMessageType("SetLongestRoadID",function(sender,longestRoadID) {
         this.longestRoadID = longestRoadID;
 });
@@ -19,7 +19,7 @@ var LongestRoadView = function(longestRoadID) {
 }
 
 LongestRoadView.prototype.longestRoadElement = function() {
-        return $("<div id=longestRoad>Longest Road Man </div>");
+        return $("<div id=longestRoad><span>Longest Road Settler</span> </div>").prepend(StructureRenderer.Images.Loaded.LongestRoad);
 }
 LongestRoadView.prototype.removeLongestRoadDOM = function() {
         $("#longestRoad").remove();

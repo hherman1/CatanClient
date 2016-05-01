@@ -63,11 +63,8 @@ Images.Resources[BoardState.Resource.Wool] = '../graphics/pasture.svg';
 //'https://c2.staticflickr.com/4/3891/15098151722_ff47b2b841_b.jpg';
 //quarry: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Bethesda-Mine-07367u.jpg';
 //labeled for noncommercial reuse
-<<<<<<< HEAD
-Images.Resources[Resource.Ore] = 'graphics/quarry.png';
-=======
-Images.Resources[BoardState.Resource.Ore] = '../graphics/quarry.svg';
->>>>>>> 0fb2e415a1391a49026abca4ba744642aa6628d4
+
+Images.Resources[BoardState.Resource.Ore] = '../graphics/quarry.png';
 //'https://c2.staticflickr.com/6/5325/7097453311_4108c089f3_b.jpg'
 //labeled for noncommercial reuse
 Images.Resources[BoardState.Resource.Brick] = '../graphics/hills.svg';

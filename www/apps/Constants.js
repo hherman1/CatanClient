@@ -81,6 +81,7 @@ BANKABLE_RESOURCE_COUNT : 4,
 /*                           MOUSE CONSTANTS                          */
 ////////////////////////////////////////////////////////////////////////
 MAX_CLICK_MOVEMENT : 4,
+MAX_TAP_MOVEMENT : 7,
 });
 
 

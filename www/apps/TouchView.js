@@ -10,9 +10,18 @@ define(['jquery','View','Touch'],function($,View,Touch) {
                 self.touchStarts = [];
                 self.touchEnds = [];
                 self.touchMoves = [];
-                $(listen).on('touchstart',function(e){self.touchStarts.push(e.originalEvent)});
-                $(listen).on('touchend',function(e){self.touchEnds.push(e.originalEvent)});
-                $(listen).on('touchmove',function(e){self.touchMoves.push(e.originalEvent)});
+                $(listen).on('touchstart',function(e){
+                        e.preventDefault();
+                        self.touchStarts.push(e.originalEvent)
+                });
+                $(listen).on('touchend',function(e){
+                        e.preventDefault();
+                        self.touchEnds.push(e.originalEvent)
+                });
+                $(listen).on('touchmove',function(e){
+                        e.preventDefault();
+                        self.touchMoves.push(e.originalEvent)
+                });
                 View.ClientView.call(self,function(message) {
                         if(message.hasType("RequestTouchData")) {
                                 self.processBuffers();

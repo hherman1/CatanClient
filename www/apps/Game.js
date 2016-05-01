@@ -470,9 +470,8 @@ function updateLongestRoadView(game) {
 
 function updateLongestRoad(gameState){
     var player = getPlayers(gameState.currentPlayerID, gameState.players)[0];
-    for(var i =0; i<player.firstSettlementsCoords.length;i++){
-        var testLength = longestRoad(findVertex(gameState.board.vertices, player.firstSettlementsCoords[i]), gameState.board.vertices, gameState.board.roads, player, []);
-        if(testLength>gameState.longestRoad && testLength >= 5){
+    var testLength = longestRoadWrapper(gameState.board.vertices, gameState.board.roads, player);
+            if(testLength>gameState.longestRoad && testLength >= 5){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
             if(gameState.longestRoadPlayer != null) {
@@ -482,7 +481,6 @@ function updateLongestRoad(gameState){
             gameState.longestRoadPlayer.vicPoints += LONGEST_ROAD_VPS;
         }
     }
-}
 
 function storeBoardImage(graphics,gamestate,side) {
         graphics.renderedHexes = generateHexCanvas(gamestate,side);

@@ -123,6 +123,44 @@ function checkRobbingLegality(player, robber, coords, hexList, vertList){
  * the longest road stemming from the initial vertex
  */
 
+function longestRoadWrapper(vertexList, roadList, player){
+	if(player.firstSettlementsCoords[0]!=undefined) {
+		var settlement1Verts = getConnectedVertices(player.firstSettlementsCoords[0], player, roadList, vertexList);
+		var settlement1Max = 0;
+		var settlement1Max2 = 0;
+		for (var i = 0; i < settlement1Verts.length; i++) {
+			var result = longestRoad(settlement1Verts[i], vertexList, roadList, player, []);
+			if (result > settlement1Max) {
+				settlement1Max2 = settlement1Max;
+				settlement1Max = result;
+			} else {
+				if (result > settlement1Max2) {
+					settlement1Max2 = result;
+				}
+			}
+		} //TODO: Fix longest road
+	}
+	if(player.firstSettlementsCoords[1]!=undefined) {
+		var settlement2Verts = getConnectedVertices(player.firstSettlementsCoords[1], player, roadList, vertexList);
+		var settlement2Max = 0;
+		var settlement2Max2 = 0;
+		for (var j = 0; j < settlement2Verts.length; j++) {
+			var result = longestRoad(settlement2Verts[j], vertexList, roadList, player, []);
+			if (result > settlement2Max) {
+				settlement2Max2 = settlement2Max;
+				settlement2Max = result;
+			} else {
+				if (result > settlement2Max2) {
+					settlement2Max2 = result;
+				}
+			}
+		}
+	}
+	var val = Math.max(settlement1Max+settlement1Max2, settlement2Max+settlement2Max2);
+	console.log(val);
+	return val;
+}
+
 function longestRoad(vert, vertexList, roadList, player, visitedVertices){
 	visitedVertices.push(vert); // Adds the current vertex to the vertices that have been visited
 	var newVertices = [];

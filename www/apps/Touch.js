@@ -19,6 +19,7 @@ define(['Constants','Grid'],function(Constants,Grid) {
                 if(self.id == null) {
                         self.clicked = false;
                 }
+                self.movement = Grid.ident(0);
         }
         Touch.prototype.startTouch = function(newtouch) {
                 if(this.id == null) {

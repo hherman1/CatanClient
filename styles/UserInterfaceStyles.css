@@ -814,8 +814,8 @@ address {
         left:0;
         width:100%;
         height:100%;
-        opacity:0.5;
-        background-color:#000000;
+        opacity:0.8;
+        background-image: radial-gradient(ellipse closest-side, #000000 0%, #111111 95%);
 }
 #passGame>div.content {
         display:inline-block;

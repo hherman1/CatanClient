@@ -159,9 +159,22 @@ CatanGame = function(side,views) {
         });
 }
 
+//send a message to all game views indicating if it is the first time playing; 
+//updates first-time storage data
+function processFirstTime(game) {
+        var firstTime = localStorage.getItem("first-time-playing");
+        if(firstTime == null || firstTime == true) {
+                View.sendMessage(new View.Message.FirstTimePlaying(game,true),game.views);
+        } else {
+                View.sendMessage(new View.Message.FirstTimePlaying(game,false),game.views);
+        }
+        localStorage.setItem("first-time-playing",false);
+}
+
 
 
 function runGame(game,frameDuration) {
+        processFirstTime(game);
         window.setInterval(gameStep,frameDuration,game);
 }
 

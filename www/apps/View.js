@@ -69,7 +69,6 @@ var ClientViewSendOnly = function() {
         ClientView.call(this,function(){});
 }
 
-
 Message.newMessageType("EndTurn",function() {});
 Message.newMessageType("DisableEndTurnButton",function(){});
 Message.newMessageType("EnableEndTurnButton",function(){});
@@ -191,6 +190,11 @@ var TimerMessageView = function() {
         }
     });
 }
+
+Message.newMessageType("FirstTimePlaying",function(sender,firstTime) {
+        this.firstTime = firstTime;
+});
+
 
 
 Message.newMessageType("InitBuilt",function(sender) {})

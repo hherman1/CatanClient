@@ -1,5 +1,5 @@
-define(['Util','BoardState','Player','TradeOffer','GameMethods']
-       ,function(Util,BoardState,Player,TradeOffer,GameMethods) {
+define(['Util','BoardState','Player','TradeOffer','GameMethods','Constants']
+       ,function(Util,BoardState,Player,TradeOffer,GameMethods,Constants) {
 var GameState = function() {
         this.board = new BoardState.Board();
         this.phase = BoardState.Phase.Init;
@@ -50,7 +50,7 @@ function getNextPlayer(gamestate){
                       out = gamestate.players[next].id;//Moves to next player
                       break;
                 case BoardState.Rotation.Backwards:
-                      var next = (currentPlayerIndex-1) % (gamestate.players.length);
+                      var next = Math.max((currentPlayerIndex-1) % (gamestate.players.length),0);
                       out = gamestate.players[next].id;//Moves to next player
                       break;
                 case BoardState.Rotation.None:
@@ -74,17 +74,17 @@ function updateLongestRoad(gameState){
             console.log("Longest road changed");
             gameState.longestRoad = testLength;
             if(gameState.longestRoadPlayer != null) {
-                gameState.longestRoadPlayer.vicPoints -= LONGEST_ROAD_VPS;
+                gameState.longestRoadPlayer.vicPoints -= Constants.LONGEST_ROAD_VPS;
             }
             gameState.longestRoadPlayer = player;
-            gameState.longestRoadPlayer.vicPoints += LONGEST_ROAD_VPS;
+            gameState.longestRoadPlayer.vicPoints += Constants.LONGEST_ROAD_VPS;
         }
     }
 }
-function updateGamePhase(gamestate) {
+function updateGamePhase(gamestate, unupdatedCurrentPlayerID) {
         if(gamestate.phase == BoardState.Phase.Init) {
                 if(gamestate.rotation == BoardState.Rotation.Backwards) {
-                        if(gamestate.players[0].id == gamestate.currentPlayerID) {
+                        if(gamestate.players[0].id == unupdatedCurrentPlayerID) {
                                 gamestate.rotation = BoardState.Rotation.Forwards;
                                 gamestate.phase = BoardState.Phase.Normal;
                                 return true;

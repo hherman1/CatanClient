@@ -878,9 +878,42 @@ button.rejectOffer{
   background-color: firebrick;
 }
 
-button.acceptOffer:hover{ 
+button.acceptOffer:hover{
         background-color:lawngreen;
 }
 button.rejectOffer:hover{
         background-color: tomato;
+}
+
+#longestRoad {
+  margin-top: 5px;
+  background-color: #FFD13D;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+#longestRoad img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  float:left;
+}
+
+.instructionsDisplay {
+	position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    top: 12%;
+    width: 500px;
+    height: 100px;
+    padding: 10px;
+}
+
+#instructions {
+	font-size: 30px;
+	color:#FFDF00;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	margin: 0px;
+	text-align: center;
 }

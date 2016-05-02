@@ -197,6 +197,32 @@ Message.newMessageType("FirstTimePlaying",function(sender,firstTime) {
 
 
 
+Message.newMessageType("InitBuilt",function(sender) {})
+
+var InstructionsMessageView = function() {
+    Message.Client.call(this,function(message){
+        switch(message.type) {
+            case Message.Type.PhaseMessage:
+                if(message.phase == BoardState.Phase.Init) {
+                    $("#instructions").html("Build a house on an intersection and then a road attached to it");
+                }else if(message.subPhase == BoardState.subPhase.Building) {
+                    $("#instructions").html("Use your resources to build roads, houses or cities").delay(10000).fadeOut();
+                }else if(message.subPhase == BoardState.SubPhase.Robbing){
+                    $("#instructions").html("Place the robber on a tile of your choice").delay(10000).fadeOut(3000);
+                }else if(message.subPhase == BoardState.subPhase.Trading){
+                    $("#instructions").html("").delay(10000).fadeOut();                
+                }     
+                break;
+            case Message.Type.InitBuilt:
+                $("#instructions").fadeOut(3000);     
+                break; 
+        }
+        
+    });
+}
+
+
+
 return {
         Message:Message,
         sendMessage:sendMessage,
@@ -209,6 +235,7 @@ return {
         ResizeView:ResizeView,
         WinnerMessageView:WinnerMessageView,
         TimerMessageView:TimerMessageView,
+        InstructionsMessageView:InstructionsMessageView,
         resizeBoardDOM:resizeBoardDOM,
 }
 

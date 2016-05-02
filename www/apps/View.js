@@ -200,9 +200,9 @@ var InstructionsMessageView = function() {
         switch(message.type) {
             case Message.Type.PhaseMessage:
                 if(message.phase == BoardState.Phase.Init) {
-                    $("#instructions").html("Build a house on an intersection and then a road attached to it");
+                    $("#instructions").html("Build a house on an intersection and then a road attached to it").show();
                 }else if(message.subPhase == BoardState.subPhase.Building) {
-                    $("#instructions").html("Use your resources to build roads, houses or cities").delay(10000).fadeOut();
+                    $("#instructions").html("Use your resources to build roads, houses or cities").show().delay(2000).fadeOut(1500);
                 }else if(message.subPhase == BoardState.SubPhase.Robbing){
                     $("#instructions").html("Place the robber on a tile of your choice").delay(10000).fadeOut(3000);
                 }else if(message.subPhase == BoardState.subPhase.Trading){
@@ -210,7 +210,7 @@ var InstructionsMessageView = function() {
                 }     
                 break;
             case Message.Type.InitBuilt:
-                $("#instructions").fadeOut(3000);     
+                $("#instructions").fadeOut(1500);     
                 break; 
         }
         

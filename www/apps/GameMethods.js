@@ -126,6 +126,9 @@ function checkRobbingLegality(player, robber, coords, hexList, vertList){
  * the longest road stemming from the initial vertex
  */
 
+
+
+
 function longestRoad(vert, vertexList, roadList, player, visitedVertices){
 	visitedVertices.push(vert); // Adds the current vertex to the vertices that have been visited
 	var newVertices = [];
@@ -139,12 +142,19 @@ function longestRoad(vert, vertexList, roadList, player, visitedVertices){
 		return 0;
 	}
 	var maxSubRoad = 0;
+	var maxSubRoad2 = 0;
 	for(var j = 0 ;j<newVertices.length;j++){
 		var testLength = longestRoad(newVertices[j], vertexList, roadList, player, visitedVertices); // Finds the longest road beginning at each of the unvisited vertices
 		if(testLength>maxSubRoad){
 			maxSubRoad = testLength;
 		}
+		else if(testLength>maxSubRoad2){
+			maxSubRoad2 = testLength;
+		}
 	}
+	if (vert == visitedVertices[0] && newVertices.length > 1){
+			return maxSubRoad + maxSubRoad2 + 2;
+		}
 	return 1 + maxSubRoad; // Returns the longest road
 }
 

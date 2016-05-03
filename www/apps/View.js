@@ -69,7 +69,6 @@ var ClientViewSendOnly = function() {
         ClientView.call(this,function(){});
 }
 
-
 Message.newMessageType("EndTurn",function() {});
 Message.newMessageType("DisableEndTurnButton",function(){});
 Message.newMessageType("EnableEndTurnButton",function(){});
@@ -192,6 +191,40 @@ var TimerMessageView = function() {
     });
 }
 
+Message.newMessageType("FirstTimePlaying",function(sender,firstTime) {
+        this.firstTime = firstTime;
+});
+
+
+
+Message.newMessageType("InitBuilt",function(sender) {})
+
+Message.newMessageType("Robbed",function(sender) {})
+
+
+var InstructionsMessageView = function() {
+    Message.Client.call(this,function(message){
+        switch(message.type) {
+            case Message.Type.PhaseMessage:
+                if(message.phase == BoardState.Phase.Init) {
+                    $("#instructions").html("Build a house on an intersection and then a road attached to it").show();
+                }else if(message.subPhase == BoardState.SubPhase.Building) {
+                    $("#instructions").html("Use your resources to build roads, houses or cities").show().delay(5000).fadeOut(1000);
+                }else if(message.subPhase == BoardState.SubPhase.Robbing){
+                    $("#instructions").html("Place the robber on a tile of your choice").delay(10000).fadeOut(3000);
+                }else if(message.subPhase == BoardState.SubPhase.Trading){
+                    $("#instructions").html("").hide();                
+                }     
+                break;
+            case Message.Type.InitBuilt:
+                $("#instructions").fadeOut(1000);     
+                break; 
+        }
+        
+    });
+}
+
+
 
 return {
         Message:Message,
@@ -205,6 +238,7 @@ return {
         ResizeView:ResizeView,
         WinnerMessageView:WinnerMessageView,
         TimerMessageView:TimerMessageView,
+        InstructionsMessageView:InstructionsMessageView,
         resizeBoardDOM:resizeBoardDOM,
 }
 

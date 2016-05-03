@@ -288,6 +288,7 @@ IncomingTradesView = function(messageDestination) {
         function displayIncomingTrades(trades) {
                 var DOMOffers = joinJQueryArray(trades.map(newDOMTradeOffer));
                 $("#incomingTrades>#offers").append(DOMOffers);
+                $("#incomingTrades>#offers .tradeOffer").append($("<br />"));
         }
         function processAcceptValidation(message) {
                 $("#incomingTrades>#offers>div.tradeOffer[tradeID="+message.tradeID+"]>button.acceptOffer").prop("disabled",!message.validation);

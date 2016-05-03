@@ -103,8 +103,9 @@ Server = function() {
             this.gamestate.tradeoffers = TradeOffer.filterOutIncomingTrades(this.gamestate.currentPlayerID
                 , this.gamestate.tradeoffers);
 
+            var unupdatedCurrentPlayerID = this.gamestate.currentPlayerID;
             GameState.nextPlayer(this.gamestate);
-            GameState.updateGamePhase(this.gamestate)
+            GameState.updateGamePhase(this.gamestate, unupdatedCurrentPlayerID);
 
             if(this.gamestate.phase == BoardState.Phase.Normal) {
                 this.roll.first = rollDice();
@@ -158,9 +159,22 @@ CatanGame = function(side,views) {
         });
 }
 
+//send a message to all game views indicating if it is the first time playing; 
+//updates first-time storage data
+function processFirstTime(game) {
+        var firstTime = localStorage.getItem("first-time-playing");
+        if(firstTime == null || firstTime == true) {
+                View.sendMessage(new View.Message.FirstTimePlaying(game,true),game.views);
+        } else {
+                View.sendMessage(new View.Message.FirstTimePlaying(game,false),game.views);
+        }
+        localStorage.setItem("first-time-playing",false);
+}
+
 
 
 function runGame(game,frameDuration) {
+        processFirstTime(game);
         window.setInterval(gameStep,frameDuration,game);
 }
 
@@ -433,6 +447,9 @@ function gameStep(game) {
                     }
                     else{
                         if(Action.validateActionForCurrentPlayer(potentialAction,game.teststate)) {
+                                    if(game.gamestate.phase == BoardState.Phase.Init){
+                                        View.sendMessage(new View.Message.InitBuilt(game), game.views);
+                                    }
                                     game.actions.data.push(potentialAction);
                                     Action.applyActionForCurrentPlayer(potentialAction, game.teststate);
                         } else {
@@ -482,7 +499,7 @@ function updateLongestRoadView(game) {
                                 ,game.views);
         }
 }
-
+        
 
 function storeBoardImage(graphics,gamestate,side) {
         graphics.renderedHexes = Canvas.generateHexCanvas(gamestate,side);

@@ -113,7 +113,7 @@ function checkRobbingLegality(player, robber, coords, hexList, vertList){
 	if(hex == robber.hex){
 		return false;
 	}
-	return checkHexSettled(hex, player, vertList);
+	return true;
 
 }
 

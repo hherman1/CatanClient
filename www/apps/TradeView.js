@@ -291,7 +291,7 @@ IncomingTradesView = function(messageDestination) {
                 $("#incomingTrades>#offers .tradeOffer").append($("<br />"));
         }
         function processAcceptValidation(message) {
-                $("#incomingTrades>#offers>div.tradeOffer[tradeID="+message.tradeID+"]>button.acceptOffer").prop("disabled",!message.validation);
+                $("#incomingTrades>#offers>div.tradeOffer[tradeID="+message.tradeID+"] button.acceptOffer").prop("disabled",!message.validation);
         }
 
         View.ClientView.call(self,function(message) {

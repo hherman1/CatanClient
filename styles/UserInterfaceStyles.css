@@ -926,8 +926,7 @@ button.rejectOffer:hover{
 
 #userInterface > div.instructionsDisplay {
 	position: absolute;
-    left: 85%;
-    transform: translate(-50%,0);
+    right: 0;
     top: 30%;
     width: 300px;
     height: 400px;

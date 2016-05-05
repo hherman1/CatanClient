@@ -211,7 +211,7 @@ var InstructionsMessageView = function() {
                 }else if(message.subPhase == BoardState.SubPhase.Building) {
                     $("#instructions").html("Use your resources to build roads, houses or cities").show().delay(5000).fadeOut(1000);
                 }else if(message.subPhase == BoardState.SubPhase.Robbing){
-                    $("#instructions").html("Place the robber on a tile of your choice").delay(12000).fadeOut(3000);
+                    $("#instructions").html("Place the robber on a tile of your choice").show().delay(12000).fadeOut(3000);
                 }else if(message.subPhase == BoardState.SubPhase.Trading){
                     $("#instructions").html("").hide();                
                 }     

@@ -57,6 +57,7 @@ var Player = function(id){
   this.color = Colors.List[id-1];
   //Player victory points
   this.vicPoints = 0;
+  this.hasSeenBuildInstruction = false;
 }
 
 /*WIPWIPWIP

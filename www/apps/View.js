@@ -173,7 +173,7 @@ var TimerMessageView = function() {
         if(message.hasType("PhaseMessage")) {
             if(message.phase == BoardState.Phase.Init) {
                 $("#phaseMessage").html("GAME START");
-                $("#phaseMessageHolder").attr("phase","init");                
+                $("#phaseMessageHolder").attr("phase","init");
             }else if(message.subPhase == BoardState.SubPhase.Building){
                 $("#phaseMessage").html("BUILDING");
                 $("#phaseMessageHolder").attr("phase","normal");
@@ -207,20 +207,20 @@ var InstructionsMessageView = function() {
         switch(message.type) {
             case Message.Type.PhaseMessage:
                 if(message.phase == BoardState.Phase.Init) {
-                    $("#instructions").html("Build a house on an intersection and then a road attached to it").show();
+                    $("#instructions").html("Place 1 settlement and 1 adjoining road, then click 'End Turn'").show();
                 }else if(message.subPhase == BoardState.SubPhase.Building) {
                     $("#instructions").html("Use your resources to build roads, houses or cities").show().delay(5000).fadeOut(1000);
                 }else if(message.subPhase == BoardState.SubPhase.Robbing){
                     $("#instructions").html("Place the robber on a tile of your choice").delay(10000).fadeOut(3000);
                 }else if(message.subPhase == BoardState.SubPhase.Trading){
-                    $("#instructions").html("").hide();                
-                }     
+                    $("#instructions").html("").hide();
+                }
                 break;
             case Message.Type.InitBuilt:
-                $("#instructions").fadeOut(1000);     
-                break; 
+                $("#instructions").fadeOut(1000);
+                break;
         }
-        
+
     });
 }
 

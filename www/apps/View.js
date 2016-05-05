@@ -156,7 +156,7 @@ var WinnerMessageView = function(){
         Message.Client.call(this, function(winnermessage){
           if (winnermessage.hasType("WinnerMessage")){
             localStorage.setItem('winner',winnermessage.winner);
-            window.location.href = "www/result.html"; //goes to the results page
+            window.location.href = "./result.html"; //goes to the results page
           }
         })
 }

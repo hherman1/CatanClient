@@ -27,6 +27,9 @@ function robHex(hex,player, vertexList, playerList){
       affectedPlayers.push(vert.playerID); // Checks each vertex around the hex for opposing players, adding them to a list
     }
   }
+    if(affectedPlayers.length == 0){
+        return;
+    }
   var randomNum = Math.floor(Math.random() * affectedPlayers.length);
     robPlayer(player, Player.getPlayer(affectedPlayers[randomNum],playerList)); // Robs a random player from those affected
 }
@@ -41,6 +44,9 @@ function robPlayer(receivingPlayer, losingPlayer){
     var resource = undefined;
     for(var i = 0;i<5;i++){
         num += losingPlayer.resources[i]; // num equals total number of resources the losing player has
+    }
+    if (num == 0){
+        return;
     }
     num-=Math.round(Math.random() * num); // A random number is subtracted from num
     for(var i = 0; i<5;i++){

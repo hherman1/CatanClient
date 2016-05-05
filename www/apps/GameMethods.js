@@ -108,12 +108,12 @@ function checkInitRoadLegality(coords1, coords2, player, vertexList, roadList){
 /*                   ROBBING LEGALITY FUNCTIONS                       */
 ////////////////////////////////////////////////////////////////////////
 
-function checkRobbingLegality(player, robber, coords, hexList, vertList){
+function checkRobbingLegality(robber, coords, hexList){
 	var hex = BoardState.findHex(coords, hexList);
 	if(hex == robber.hex){
 		return false;
 	}
-	return checkHexSettled(hex, player, vertList);
+	return true;
 
 }
 

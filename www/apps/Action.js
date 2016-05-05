@@ -103,7 +103,7 @@ function validateRobbing(action, gamestate, player){
         case Action.Type.BuildSettlement:
             return false;
         case Action.Type.RobHex:
-            return GameMethods.checkRobbingLegality(player, gamestate.board.robber, action.coordinate, gamestate.board.hexes, gamestate.board.vertices);
+            return GameMethods.checkRobbingLegality(gamestate.board.robber, action.coordinate, gamestate.board.hexes);
 
     }
 }

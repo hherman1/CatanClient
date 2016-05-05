@@ -173,7 +173,7 @@ BankTradingView.prototype.hide = function() {
         this.clearBankableResources();
 }
 BankTradingView.prototype.newBankOption = function(resource) {
-        return $("<option value="+resource+"> " + getResourceName(resource) + "</option>");
+        return $("<option value="+resource+"> " + BoardState.getResourceName(resource) + "</option>");
 }
 BankTradingView.prototype.setBankableResources = function(bankResources) {
         var self = this;

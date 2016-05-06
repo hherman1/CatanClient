@@ -60,14 +60,6 @@ var Player = function(id){
   this.hasSeenBuildInstruction = false;
 }
 
-/*WIPWIPWIP
-function initPlayers(numPlayers){
-  for (var i = 0; i < numPlayers; i++) {
-    Players.
-  };
-}
-*/
-
 function clonePlayer(player) {
         var out = new Player(player.id);
         out.resources = BoardState.cloneResources(player.resources);

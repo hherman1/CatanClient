@@ -1,3 +1,6 @@
+//This file is responsible for setting up and preparing the game for use. It makes the UI
+//views, prepares the game with players and a board and starts the game.
+
 define(['Constants'
        ,'BoardState'
        ,'View'

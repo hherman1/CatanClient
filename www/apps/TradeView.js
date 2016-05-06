@@ -1,3 +1,6 @@
+//This file handles trading within the game. It contains many messages which helps the game
+//logic communicate with the trade view.
+
 define(['BoardState'
        ,'TradeOffer'
        ,'Player'

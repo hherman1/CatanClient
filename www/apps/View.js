@@ -12,6 +12,7 @@
 
 define(['Types','BoardState'],function(Types,BoardState) {
 
+// Holds a message that can be sent from or to View.js
 var Message = {
         Type : {},
         Client : function(receiveMessage) {
@@ -73,6 +74,7 @@ Message.newMessageType("EndTurn",function() {});
 Message.newMessageType("DisableEndTurnButton",function(){});
 Message.newMessageType("EnableEndTurnButton",function(){});
 
+//View for allowing the player to end their turn
 var EndTurnView = function(messageDestination) {
         var self = this;
         self.messageDestination = messageDestination;
@@ -119,6 +121,7 @@ var BuildChoiceView = function(structure,messageDestination) {
 
 Message.newMessageType("Undo",function(){});
 
+//View that allows the player to undo moves they place on the board
 var UndoView = function(messageDestination) {
         var self = this;
         $("#undoButton").on('click',function() {
@@ -129,6 +132,7 @@ var UndoView = function(messageDestination) {
 
 Message.newMessageType("Resize",function(){});
 
+//The following views work with resizing the board
 function resizeBoardDOM(width,height) {
         $("#board").attr("width",width);
         $("#board").attr("height",height);
@@ -152,6 +156,7 @@ Message.newMessageType("WinnerMessage",function(sender,winner){
         this.winner = winner;
 });
 
+//View for when a player wins the game
 var WinnerMessageView = function(){
         Message.Client.call(this, function(winnermessage){
           if (winnermessage.hasType("WinnerMessage")){
@@ -167,7 +172,9 @@ Message.newMessageType("PhaseMessage",function(sender,phase,subPhase) {
     this.subPhase = subPhase;
 });
 
-
+//View that contains a timer and phase message. The timer displays the total current game length
+//and the phase message indicates what stage of the game the players are in (init = game start,
+//building = building, etc)
 var TimerMessageView = function() {
     Message.Client.call(this,function(message){
         if(message.hasType("PhaseMessage")) {
@@ -201,7 +208,7 @@ Message.newMessageType("InitBuilt",function(sender) {})
 
 Message.newMessageType("Robbed",function(sender) {})
 
-
+//Used to display instructions that helps to guide the player through the game.
 var InstructionsMessageView = function() {
     Message.Client.call(this,function(message){
         switch(message.type) {

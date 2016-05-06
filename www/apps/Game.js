@@ -120,10 +120,6 @@ Server = function() {
             }
             }
             this.gamestate.tradeoffers = TradeOffer.filterValidTradeOffers(this.gamestate);
-
-            //resourceGeneration(diceRoll, playerList, vertexFrame, tileFrame)
-            //UI method to show the new resources that players received at the start of their new turn
-            //Generate resources
         }
 
 

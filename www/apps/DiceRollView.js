@@ -1,3 +1,5 @@
+//This file is used for our dice roll animation and functionality.
+
 define(['jquery','Animation','View'],function($,Animation,View) {
 
 View.Message.newMessageType("RollDice",function(sender,targetRoll){

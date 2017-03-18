@@ -7,7 +7,6 @@ import * as Player from "./Player"
 import * as GameMethods from "./GameMethods"
 import * as GameState from "./GameState"
 import * as Hitbox from "./Hitbox"
-import * as Action from "./Action"
 import * as Animation from "./Animation"
 import * as View from "./View"
 import * as Canvas from "./Canvas"
@@ -23,6 +22,9 @@ import * as PassView from "./PassView"
 import * as HexInfoView from "./HexInfoView"
 
 import * as LongestRoadView from "./LongestRoadView"
+
+import * as Action from "./Action/Action"
+import * as BuildAction from "./Action/Build"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 /*                                    UTILITY FUNCTIONS                                             */
@@ -71,8 +73,9 @@ class Server {
         right:0
     };
     gameState:GameState.GameState;
-    newGame(width:number,resourceList:BoardState.Resource[],tokenList:number[],players:Player.Player[]) {
-        this.gameState = new GameState.GameState(BoardState.makeRegularHexBoard(width, resourceList, tokenList),players[0].id)
+    newGame(width:number,resourceList:BoardState.Resource[],tokenList:number[],numPlayers:number) {
+        let players = Player.genPlayers(numPlayers);
+        this.gameState = new GameState.GameState(BoardState.makeRegularHexBoard(width, resourceList, tokenList),players[0])
         this.gameState.players = players;
     }
     addPlayer(player:Player.Player) {
@@ -84,31 +87,30 @@ class Server {
     getRoll() {
         return this.roll;
     }
-    endTurn(actionsToBeValidated:Action.Action.Any[]) {
-        Action.applyActionsForCurrentPlayer(actionsToBeValidated, this.gameState);//Applies pending actions to server gamestate
-        Action.flushActions(actionsToBeValidated);//Flushes the pending actions
+    // endTurn(actionsToBeValidated:Action.AnyAction[]) {
+    //     Action.applyActions(actionsToBeValidated, this.gameState);//Applies pending actions to server gamestate
+    //     Action.flushActions(actionsToBeValidated);//Flushes the pending actions
         
-        GameState.updateLongestRoad(this.gameState);
-        this.gameState.tradeOffers = TradeOffer.filterOutIncomingTrades(this.gameState.currentPlayerID
-        , this.gameState.tradeOffers);
+    //     GameState.updateLongestRoad(this.gameState);
+    //     this.gameState.tradeOffers = TradeOffer.filterOutIncomingTrades(this.gameState.currentPlayer.id, this.gameState.tradeOffers);
         
-        var unupdatedCurrentPlayerID = this.gameState.currentPlayerID;
-        GameState.nextPlayer(this.gameState);
-        GameState.updateGamePhase(this.gameState, unupdatedCurrentPlayerID);
+    //     var unupdatedCurrentPlayerID = this.gameState.currentPlayer.id;
+    //     GameState.nextPlayer(this.gameState);
+    //     GameState.updateGamePhase(this.gameState, unupdatedCurrentPlayerID);
         
-        if(this.gameState.phase == BoardState.Phase.Normal) {
-            this.roll.left = rollDice();
-            this.roll.right = rollDice();
-            GameMethods.resourceGeneration(this.roll.left + this.roll.right, this.gameState.players, this.gameState.board.vertices, this.gameState.board.hexes, this.gameState.board.robber);
-            if (this.roll.left + this.roll.right == 7) {
-                this.gameState.subPhase = BoardState.SubPhase.Robbing;
-            }
-            else {
-                this.gameState.subPhase = BoardState.SubPhase.Trading;
-            }
-        }
-        this.gameState.tradeOffers = TradeOffer.filterValidTradeOffers(this.gameState.players,this.gameState.tradeOffers);
-    }
+    //     if(this.gameState.phase == BoardState.Phase.Normal) {
+    //         this.roll.left = rollDice();
+    //         this.roll.right = rollDice();
+    //         GameMethods.resourceGeneration(this.roll.left + this.roll.right, this.gameState.players, this.gameState.board.vertices, this.gameState.board.hexes, this.gameState.board.robber);
+    //         if (this.roll.left + this.roll.right == 7) {
+    //             this.gameState.subPhase = BoardState.SubPhase.Robbing;
+    //         }
+    //         else {
+    //             this.gameState.subPhase = BoardState.SubPhase.Trading;
+    //         }
+    //     }
+    //     this.gameState.tradeOffers = TradeOffer.filterValidTradeOffers(this.gameState.players,this.gameState.tradeOffers);
+    // }
 }
 type CatanGameOutputs = 
 Canvas.SetHitboxes |
@@ -157,21 +159,26 @@ function isDataMessage(message:View.Message<any>): message is DataMessage {
 export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameOutputs> {
     types:string[] = [];
     graphics = makeGraphics(); //new Graphics();
-    server = new Server(); //new Server();
-    actions:Action.Action.Any[] = []; //new Reference([]);
+    log:Action.AnyAction[] = [];
+    actions:Action.AnyAction[] = []; //new Reference([]);
     gameState:GameState.GameState;
-    testState:GameState.GameState;
+    lastReplay:GameState.GameState;
     hits:Hitbox.Hitbox[] = [];
     inbox:CatanGameInputs[] = [];
     processing:View.Message<any>[] = [];
     input:Input.Input|undefined;
     constructor(public side:number,public distributor:View.Distributor) {
         super();
-        this.server.newGame(5, BoardState.BASE_RESOURCE_LIST.slice()
-            , Constants.BASE_TOKEN_LIST.slice()
-            , Player.getStoredPlayers());
-        this.gameState = this.server.getState();
-        this.testState = GameState.cloneGameState(this.gameState);
+        let newGame:Action.NewGame = {
+            numPlayers:Player.getStoredPlayers(),
+            tokenList:BoardState.shuffle(Constants.BASE_TOKEN_LIST.slice()),
+            resourceList:BoardState.shuffle(BoardState.BASE_RESOURCE_LIST.slice()),
+            type:"NewGame",
+            width:5
+        }
+        this.log.push(newGame);
+        this.gameState = Action.newGame(newGame);
+        this.lastReplay = Action.replayActions(this.log);
     }
     setUpHitboxes() {
         let x = 1;
@@ -201,9 +208,9 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
     pushAnimation(animation:Animation.Animation) {
         this.graphics.animations.push(animation);
     }
-    changePhaseViews() {
+    refreshPhaseViews() {
         this.updatePhaseLabel();
-        switch(this.gameState.subPhase) {
+        switch(this.lastReplay.subPhase) {
             case BoardState.SubPhase.Building:
                 this.distribute({type:"EnableEndTurnButton"});
                 break;
@@ -232,27 +239,33 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
         }
     }
     endTurn() {
-        this.server.endTurn(this.actions);
-        this.gameState = this.server.getState();//Replaces the game's gamestate with the server's gamestate
-        //game.teststate = GameState.cloneGameState(game.gamestate);
+        //let endTurn:Action.EndTurn = {type:"EndTurn",roll:GameState.genRoll()}
+        let endTurn:Action.EndTurn = {type:"EndTurn",roll:{left:3,right:4}}
+
+        Action.applyActions(this.actions, this.gameState);//Applies pending actions to server gamestate
+        this.log = this.log.concat(this.actions);
+        this.log.push(endTurn);
+        Action.flushActions(this.actions);//Flushes the pending actions
+        Action.applyAction(endTurn,this.gameState);
+        Action.applyAction(endTurn,this.lastReplay);
+
         updateLongestRoadView(this);
-        if(this.gameState.phase == BoardState.Phase.Normal) {
-            var roll = this.server.getRoll();
-            this.distribute({type:"RollDice",targetRoll:roll});
-            // View.sendMessage(new View.Message.RollDice(this,roll),this.views);
-        }
-        this.testState = GameState.cloneGameState(this.gameState);
-        this.changePhaseViews();
+        if(this.gameState.phase == BoardState.Phase.Normal)
+            this.distribute({type:"RollDice",targetRoll:endTurn.roll});
+
+        // this.lastReplay = Action.replayActions(this.log);
+        this.refreshPhaseViews();
         this.processWinner();
+        this.processCanEnd();
         
         renderGame(this, undefined);
     }
     sendIncomingTrades() {
-        var incomingTrades = TradeOffer.getIncomingTrades(this.gameState.currentPlayerID,this.gameState.tradeOffers);
+        var incomingTrades = TradeOffer.getIncomingTrades(this.gameState.currentPlayer.id,this.gameState.tradeOffers);
         this.distribute({type:"SetIncomingTrades",trades:incomingTrades});
     }
     sendAcceptValidations() {
-        var incomingTrades = TradeOffer.getIncomingTrades(this.gameState.currentPlayerID,this.gameState.tradeOffers);
+        var incomingTrades = TradeOffer.getIncomingTrades(this.gameState.currentPlayer.id,this.gameState.tradeOffers);
         let self = this;
         incomingTrades.forEach(function(trade) {
             self.distribute({
@@ -274,16 +287,31 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
                 this.distribute({type:"BankableResources",bankResources:bankableResources(this.gameState)});
                 break;
             case "TradeWithBank":
-                tradeWithBank(this.gameState,message.offerResource,message.requestResource);
-                UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayerID);
+                let bankTrade:Action.BankTrade = {
+                    type:"BankTrade",
+                    tradein:message.offerResource,
+                    receive:message.requestResource
+                }
+                if(Action.validateAction(bankTrade,this.lastReplay)) {
+                    this.log.push(bankTrade);
+                    Action.applyAction(bankTrade,this.gameState);
+                    Action.applyAction(bankTrade,this.lastReplay);
+                    UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayer.id);
+                }
+                this.refreshTradeWindow();
+                //tradeWithBank(this.gameState,message.offerResource,message.requestResource);
                 break;
         }
+    }
+    refreshTradeWindow() {
+        this.distribute({type:"GameState",gameState:this.gameState});
+        this.distribute({type:"BankableResources",bankResources:bankableResources(this.gameState)});
     }
     processTradeViewMessage(message:TradeViewMessage) {
         var trade:TradeOffer.TradeOffer;
         switch(message.type) {
             case "MakeOffer":
-                trade = getOfferFromMessage(message,TradeOffer.nextTradeID(this.gameState.tradeOffers),this.gameState.currentPlayerID);
+                trade = getOfferFromMessage(message,TradeOffer.nextTradeID(this.gameState.tradeOffers),this.gameState.currentPlayer.id);
                 if(TradeOffer.validateTradeOffer(this.gameState.players,trade)) {
                     this.gameState.tradeOffers.push(trade);
                 } else {
@@ -294,10 +322,12 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
             case "AcceptTrade":
                 trade = TradeOffer.getTrades(message.tradeID,this.gameState.tradeOffers)[0];
                 if(TradeOffer.validateTrade(this.gameState.players,trade)) {
-                    TradeOffer.applyTrade(this.gameState.players,trade);
+                    let tradeAction = Action.fromTradeOffer(trade);
+                    this.log.push(tradeAction);
+                    Action.applyAction(tradeAction,this.gameState);
+                    Action.applyAction(tradeAction,this.lastReplay);
                     this.gameState.tradeOffers = TradeOffer.filterOutTrades(trade.tradeID,this.gameState.tradeOffers);
-                    this.testState = GameState.cloneGameState(this.gameState);
-                    UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayerID);
+                    UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayer.id);
                 }
                 break;
             case "RequestGameState":
@@ -310,11 +340,17 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
                 this.sendIncomingTrades();
                 break;
             case "TradeViewClosed":
-                this.gameState.subPhase = BoardState.SubPhase.Building;
-                this.testState = GameState.cloneGameState(this.gameState);
-                UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayerID);
-                this.changePhaseViews();
-                break;
+                // this.gameState.subPhase = BoardState.SubPhase.Building;
+                // this.testState = GameState.cloneGameState(this.gameState);
+                let action:Action.EndTradePhase = {type:"EndTradePhase"};
+                if(Action.validateAction(action,this.gameState)) {
+                    this.log.push(action);
+                    Action.applyAction(action,this.gameState);
+                    Action.applyAction(action,this.lastReplay);
+                }
+                UserInterfaceJScript.updateUIInfo(this.gameState.players,this.gameState.currentPlayer.id);
+                this.refreshPhaseViews();
+                // break;
         }
     }
     processDataMessage(message:DataMessage) {
@@ -338,10 +374,10 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
         else {
             switch(message.type) {
                 case "EndTurn":
-                    if(GameState.validateEndTurn(this.testState)) {
+                    if(Action.validateEndTurn(this.lastReplay)) {
                         this.distribute({
                             type:"OpenPassView",
-                            playerID:GameState.getNextPlayer(this.gameState)
+                            playerID:GameState.getNextPlayer(this.gameState).id
                         });
                     }
                     break;
@@ -350,8 +386,7 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
                     break;
                 case "Undo":
                     this.actions.pop();
-                    this.testState = GameState.cloneGameState(this.gameState);
-                    Action.applyActionsForCurrentPlayer(this.actions,this.testState);
+                    this.lastReplay = Action.replayActions(this.log.concat(this.actions));
                     renderGame(this,undefined);
                     break;
                 case "Resize":
@@ -373,6 +408,13 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
         flushInbox(this.processing);
         
     }
+    processCanEnd() {
+        if(GameState.validateEndTurn(this.lastReplay)) {
+            this.distribute({type:"EnableEndTurnButton"});
+        } else {
+            this.distribute({type:"DisableEndTurnButton"});
+        }
+    }
     gameStep() {
         var shouldRedraw = false;
         var highlight:BoardState.Position.Road | BoardState.Position.Vertex | undefined = undefined;
@@ -386,14 +428,11 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
 
         
             var maxHit = getMaxPositionHit(this.hits);
-            var potentialAction:Action.Action.Any | undefined;
+            var potentialAction:Action.AnyAction | undefined;
             if( maxHit === undefined) {
                 potentialAction = undefined;
             } else {
-                potentialAction = Action.genPotentialAction(this.gameState.board.vertices
-                ,this.gameState.board.roads
-                ,this.actions
-                ,maxHit);
+                potentialAction = Action.genPotentialAction(maxHit);
             }
 
         
@@ -411,54 +450,50 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
                 shouldRedraw = true;
             }
             if(potentialAction != null) {
-                if(Action.validateActionForCurrentPlayer(potentialAction,this.testState)){
-                    if(potentialAction.type != "RobHex")  {
-                        highlight = Action.getPositionObject(potentialAction,this.testState.currentPlayerID);
+                if(Action.validateAction(potentialAction,this.lastReplay)){
+                    if(BuildAction.isBuildAction(potentialAction)) {
+                        highlight = BuildAction.getPositionObject(potentialAction,this.lastReplay.currentPlayer.id);
                         shouldRedraw = true;
                     }
                 }
             }
             if(this.input.clicked) {
                 var drawCircle = true;
+                var robberMoved = false;
+
                 shouldRedraw = true;
                 if(maxHit != null && maxHit.data.type == BoardState.Position.Type.Hex) {
                     this.distribute({type:"DisplayHexInfo",hex:maxHit.data,position:this.input.pos});
                 }
                 
                 if(potentialAction !== undefined) {
-                    if(potentialAction.type != "RobHex") {
-                        highlight = Action.getPositionObject(potentialAction,this.testState.currentPlayerID);
-                        shouldRedraw = true;
-                    }
-                    if(potentialAction.type == "RobHex"){
-                        if(Action.validateActionForCurrentPlayer(potentialAction,this.testState)){
-                            Action.applyActionForCurrentPlayer(potentialAction, this.gameState);
-                            this.gameState.subPhase = BoardState.SubPhase.Trading;
-                            this.testState = GameState.cloneGameState(this.gameState);
-                            this.changePhaseViews;
+                    if(Action.validateAction(potentialAction,this.lastReplay)) {
+                        if(this.gameState.phase == BoardState.Phase.Init){
+                            this.distribute({type:"InitBuilt"});
                         }
-                    }
-                    else{
-                        if(Action.validateActionForCurrentPlayer(potentialAction,this.testState)) {
-                            if(this.gameState.phase == BoardState.Phase.Init){
-                                this.distribute({type:"InitBuilt"});
-                            }
+                        if(potentialAction.type == "RobHex") {
+                            robberMoved = true;
+                            this.log.push(potentialAction);
+                            Action.applyAction(potentialAction, this.lastReplay);
+                            Action.applyAction(potentialAction, this.gameState);
+                        }
+                        else {
                             this.actions.push(potentialAction);
-                            Action.applyActionForCurrentPlayer(potentialAction, this.testState);
-                        } else {
-                            this.pushAnimation(new Animation.XClick(this.input.pos,15,10));
-                            drawCircle = false;
+                            Action.applyAction(potentialAction, this.lastReplay);
                         }
+                        this.refreshPhaseViews();
+                        this.processCanEnd();
+                    } else {
+                        this.pushAnimation(new Animation.XClick(this.input.pos,15,10));
+                        drawCircle = false;
                     }
-                    
                 }
                 if(drawCircle) {
                     this.pushAnimation(new Animation.ClickCircle(this.input.pos,10,10));
                 }
                 
-                if(this.gameState.board.robber.moved) {
+                if(robberMoved) {
                     makeBoard(this);
-                    this.gameState.board.robber.moved = false;
                 }
             }
         }
@@ -469,13 +504,9 @@ export class CatanGame extends View.DistributedClient<CatanGameInputs,CatanGameO
         
     }
 }
-function rollDice(){
-    var roll = Math.floor(Math.random()* 6) + 1;
-    return roll
-}
 
 function bankableResources(gameState:GameState.GameState) {
-    var currentPlayer = GameState.getCurrentPlayer(gameState);
+    var currentPlayer = gameState.currentPlayer;
     var out:BoardState.Resource[] = [];
     currentPlayer.resources.forEach(function(amount,resource) {
         if(amount >= Constants.BANKABLE_RESOURCE_COUNT) {
@@ -485,7 +516,7 @@ function bankableResources(gameState:GameState.GameState) {
     return out;
 }
 function tradeWithBank(gamestate:GameState.GameState,offerResource:BoardState.Resource,requestResource:BoardState.Resource) {
-    var currentPlayer = GameState.getCurrentPlayer(gamestate);
+    var currentPlayer = gamestate.currentPlayer;
     if(currentPlayer.resources[offerResource] >= Constants.BANKABLE_RESOURCE_COUNT) {
         currentPlayer.resources[requestResource] += 1;
         currentPlayer.resources[offerResource] -= Constants.BANKABLE_RESOURCE_COUNT;
@@ -506,13 +537,13 @@ function getOfferFromMessage(message:TradeView.MakeOffer,tradeID:number,offererI
 export function renderGame(game:CatanGame,positionHighlight:BoardState.Position.Road | BoardState.Position.Vertex | undefined) {
     game.distribute({
         type:"RenderGameCanvas",
-        gamestate:game.testState,
+        gamestate:game.lastReplay,
         highlight:positionHighlight,
         graphics:game.graphics,
         side:game.side
     })
     //drawHitboxes(hitlist,hits,game.ctx);
-    UserInterfaceJScript.updateUIInfo(game.testState.players,game.testState.currentPlayerID);
+    UserInterfaceJScript.updateUIInfo(game.lastReplay.players,game.lastReplay.currentPlayer.id);
 }
 
 /* checkPlayerWin
@@ -532,7 +563,7 @@ function storeBoardImage(graphics:Canvas.Graphics,gamestate:GameState.GameState,
 }
 
 export function makeBoard(game:CatanGame) {
-    storeBoardImage(game.graphics,game.gameState,game.side);
+    storeBoardImage(game.graphics,game.lastReplay,game.side);
 }
 
 function flushInbox(inbox:any[]) {

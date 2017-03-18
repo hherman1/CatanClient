@@ -138,8 +138,8 @@ export function adjacentHexes(vertCoords:Vector){
     }
     else{
         hexCoords.push({x:vertCoords.x,y:Math.floor(vertCoords.y/2)});
-        hexCoords.push({x:vertCoords.x,y:(vertCoords.y+1/2)});
-        hexCoords.push({x:vertCoords.x-1,y:(vertCoords.y+1/2)});
+        hexCoords.push({x:vertCoords.x,y:(vertCoords.y+1)/2});
+        hexCoords.push({x:vertCoords.x-1,y:(vertCoords.y+1)/2});
     }
     return hexCoords;
 

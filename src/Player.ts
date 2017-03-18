@@ -109,19 +109,28 @@ export function getPlayersResources(player:Player) {
     return player.resources;
 }
 
-
-export function getStoredPlayers() {
+export function genPlayers(num:number) {
     var out = [];
-    let numPlayers = localStorage.getItem("numPlayers");
-    if(numPlayers === null) {
-        throw "numPlayers not set"
-    }
-    for(var i = 0; i < +numPlayers; i++) {
+    for(var i = 0; i < num; i++) {
         out.push(new Player(i+1));
     }
     return out;
 }
+export function getStoredPlayers():number {
+    let numPlayers = localStorage.getItem("numPlayers");
+    if(numPlayers === null) {
+        throw "numPlayers not set"
+    }
+    return parseInt(numPlayers);
+}
 
+export function requirePlayer(id:number,players:Player[]) {
+    let out = players.filter((player)=> player.id == id)[0];
+    if(out === undefined) {
+        throw "Not found"
+    }
+    return out;
+}
 export function getPlayerIDs(players:Player[]) {
     return players.map(function(player){return player.id});
 }

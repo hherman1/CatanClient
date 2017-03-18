@@ -123,8 +123,7 @@ export function makeRegularHexBoard(width:number,resourceList:Resource[],tokenLi
  */
 
 export interface Robber {
-    hex:Position.Hex,
-    moved:boolean
+    hex:Position.Hex
 }
 // var Robber = function(hex, moved) {
 //   this.hex = hex;
@@ -271,9 +270,7 @@ export function getResourceTerrainName(resource:Resource):string {
  */
 
 export function buildRegularHexFramework(width:number, resourceList:Resource[], tokenList:number[]){
-    var hexList:Position.Hex[] = [];
-    shuffle(resourceList);
-    shuffle(tokenList);
+    var hexList:Position.Hex[] = [];    
     for(var i=0-Math.floor(width/2);i<Math.ceil(width/2);i++){ // Cycles through columns
         var yShift = generateYShift(width,i);
         for(var j=0;j<width-Math.abs(i);j++){ // Cycles through rows
@@ -338,6 +335,14 @@ export function buildRoadFramework(vertexList:Position.Vertex[]){
 
 // Functions concerned with finding structures in a list according to coordinates
 
+export function requireHex(coords:Grid.Vector, hexList:Position.Hex[]){
+    let out = findHex(coords,hexList);
+    if(out === undefined)
+        throw "Could not find hex"
+    else
+        return out;
+}
+
 export function findHex(coords:Grid.Vector, hexList:Position.Hex[]){
     for(var i = 0; i<hexList.length; i++){
         if(Grid.vectorEquals(hexList[i].coordinate, coords)){
@@ -362,7 +367,7 @@ export function findVertices(vertexList:Position.Vertex[],coordinate:Grid.Vector
     return vertexList.filter(function(v) {return Grid.vectorEquals(v.coordinate,coordinate)});
 }
 
-export function findRoad(roadList:Position.Road[], coord1:Grid.Vector, coord2:Grid.Vector):Position.Road{
+export function requireRoad(roadList:Position.Road[], coord1:Grid.Vector, coord2:Grid.Vector):Position.Road {
     for(var i = 0; i<roadList.length;i++){
         if(compareTwoCoordPositions(roadList[i].coord1,roadList[i].coord2, coord1, coord2)){
             return roadList[i];
@@ -404,7 +409,7 @@ export function cloneHex(hex:Position.Hex):Position.Hex  {
 }
 
 export function cloneRobber(robber:Robber):Robber {
-    return {hex:cloneHex(robber.hex), moved:robber.moved};
+    return {hex:cloneHex(robber.hex)};
 }
 
 ////////////////////////////////////////////////////////////////////////

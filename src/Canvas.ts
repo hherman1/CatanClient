@@ -109,7 +109,7 @@ export class CanvasRenderView extends View.ClientView<Incoming,HitsData> {
 export function redraw(gamestate:GameState.GameState,highlight:BoardState.Position.Vertex | BoardState.Position.Road | undefined,
     graphics:Graphics,transform:Transform.Transform,side:number,ctx:CanvasRenderingContext2D) {
     var colorMap = Player.getPlayerColors(gamestate.players);
-    var currentPlayerColor = colorMap[gamestate.currentPlayerID];
+    var currentPlayerColor = colorMap[gamestate.currentPlayer.id];
     
     var hexes = gamestate.board.hexes;
     var roads = gamestate.board.roads;

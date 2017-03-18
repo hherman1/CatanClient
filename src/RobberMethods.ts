@@ -10,7 +10,6 @@ import * as Player from "./Player"
 
 export function moveRobber(robber:BoardState.Robber, hex:BoardState.Position.Hex){
   robber.hex = hex;
-    robber.moved = true;
 }
 
 

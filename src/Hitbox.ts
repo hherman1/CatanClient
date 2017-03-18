@@ -52,7 +52,7 @@ export function getHitboxStructure(vertices:BoardState.Position.Vertex[],roads:B
 		case BoardState.Position.Type.Vertex:
 			return (BoardState.requireVertex(vertices,box.data.coordinate)).structure;
 		case BoardState.Position.Type.Road:
-			return (BoardState.findRoad(roads,box.data.coord1,box.data.coord2)).structure;
+			return (BoardState.requireRoad(roads,box.data.coord1,box.data.coord2)).structure;
 	}
 }
 

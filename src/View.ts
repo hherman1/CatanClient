@@ -154,6 +154,7 @@ export class EndTurnView extends ClientView<EndTurnViewReceives,BlankMessage<"En
         constructor(protected messageDestination:Client<any,BlankMessage<"EndTurn">>) {
                 super();
                 this.setupButton();
+                this.disable();
         }
 }
 

@@ -24,7 +24,7 @@ type HexList = BoardState.Position.Hex[];
  */
 
 export function checkRoadLegality(vertexList:VertexList, coords1:Grid.Point, coords2:Grid.Point, player:Player.Player, roadList:RoadList){
-	if(BoardState.findRoad(roadList,coords1,coords2).playerID>0){
+	if(BoardState.requireRoad(roadList,coords1,coords2).structure !== undefined){
 		return false; // Ensures no road already exists at those coordinates
 	}
 	var vertex1 = BoardState.requireVertex(vertexList,coords1);
@@ -105,7 +105,7 @@ export function checkInitSettlementLegality(coords:Grid.Point, vertexList:Vertex
  */
 
 export function checkInitRoadLegality(coords1:Grid.Point, coords2:Grid.Point, player:Player.Player, vertexList:VertexList, roadList:RoadList){
-	if(BoardState.findRoad(roadList,coords1,coords2).playerID!=0){ // Ensures there isn't already a road at the intended coordinates
+	if(BoardState.requireRoad(roadList,coords1,coords2).playerID!=0){ // Ensures there isn't already a road at the intended coordinates
 		return false;
 	}
 	var vertex1 = BoardState.requireVertex(vertexList,coords1);
@@ -118,7 +118,7 @@ export function checkInitRoadLegality(coords1:Grid.Point, coords2:Grid.Point, pl
 ////////////////////////////////////////////////////////////////////////
 
 export function checkRobbingLegality(robber:BoardState.Robber, coords:Grid.Point, hexList:HexList){
-	var hex = BoardState.findHex(coords, hexList);
+	var hex = BoardState.requireHex(coords, hexList);
 	if(hex == robber.hex){
 		return false;
 	}
@@ -197,7 +197,7 @@ export function getConnectedVertices(coords:Grid.Point, player:Player.Player, ro
 	var connectedVertices = [];
 	var neighbors = getVertexNeighbors(coords, vertexList); // Gets the vertices that neighbor the given coordinates
 	for (var i = 0; i<neighbors.length;i++){
-		var testRoad = BoardState.findRoad(roadList, neighbors[i].coordinate, coords);
+		var testRoad = BoardState.requireRoad(roadList, neighbors[i].coordinate, coords);
 		if(testRoad.playerID == player.id){
 			connectedVertices.push(neighbors[i]); // Checks which neighboring vertices are connected by player-owned roads
 		}
@@ -214,7 +214,7 @@ export function getConnectedVertices(coords:Grid.Point, player:Player.Player, ro
 export function checkAdjacentPlayerRoads(coords1:Grid.Point, coords2:Grid.Point, player:Player.Player, roadList:RoadList, vertexList:VertexList) {
 	var testVertices1 = getVertexNeighbors(coords1, vertexList);
 	for (var i = 0; i < testVertices1.length; i++) {
-		var road1 = BoardState.findRoad(roadList, coords1, testVertices1[i].coordinate); // Checks the vertices adjacent to the first coordinate for player roads
+		var road1 = BoardState.requireRoad(roadList, coords1, testVertices1[i].coordinate); // Checks the vertices adjacent to the first coordinate for player roads
 		if (road1 != undefined) {
 			if (road1.playerID == player.id) {
 				return true;
@@ -223,7 +223,7 @@ export function checkAdjacentPlayerRoads(coords1:Grid.Point, coords2:Grid.Point,
 	}
 	var testVertices2 = getVertexNeighbors(coords2, vertexList);
 	for (i = 0; i < testVertices2.length; i++) {
-		var road2 = BoardState.findRoad(roadList, coords2, testVertices2[i].coordinate); // Checks the vertices adjacent to the second coordinate for player roads
+		var road2 = BoardState.requireRoad(roadList, coords2, testVertices2[i].coordinate); // Checks the vertices adjacent to the second coordinate for player roads
 		if (road2 != undefined) {
 			if (road2.playerID == player.id) {
 				return true;
@@ -299,7 +299,7 @@ export function initSettlementResources(coords:Grid.Point, hexList:HexList, play
 	var resourceHexCoords = Grid.adjacentHexes(coords);
 	for(var i = 0; i<resourceHexCoords.length;i++){
 		var hex = BoardState.findHex(resourceHexCoords[i], hexList); // For every adjacent hex, provides the player one of that hex's resource
-		if(hex != undefined && hex.resource != BoardState.Resource.Desert){
+		if(hex !== undefined && hex.resource != BoardState.Resource.Desert){
 			BoardState.addResource(player.resources, hex.resource, 1);
 		}
 	}

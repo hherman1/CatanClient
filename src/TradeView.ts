@@ -270,7 +270,10 @@ export class IncomingTradesView extends View.ClientView<SetIncomingTrades|Accept
         return out;
     }
     displayIncomingTrades(trades:TradeOffer.TradeOffer[]) {
-        var DOMOffers = this.joinJQueryArray(trades.map(this.newDOMTradeOffer));
+        let self = this;
+        var DOMOffers = this.joinJQueryArray(trades.map((trade)=>{
+            return self.newDOMTradeOffer(trade)
+        }));
         $("#incomingTrades>#offers").append(DOMOffers);
         $("#incomingTrades>#offers .tradeOffer").append($("<br />"));
     }
@@ -339,7 +342,7 @@ export class MakeOfferView extends View.ClientView<GameState,RequestGameState|Ma
         return out;
     }
     getVal(par:JQuery,resource:BoardState.Resource) {
-        return Math.round(parseFloat($("input.resource-input[resource="+resource+"]",par).val()));
+        return Math.round(parseFloat($("input.resource-input[resource="+BoardState.getResourceName(resource)+"]",par).val()));
     }
     setupInputCorrection(resources:number[]) {
         $("input.resource-input[resource]").attr("max",99);
@@ -370,14 +373,15 @@ export class MakeOfferView extends View.ClientView<GameState,RequestGameState|Ma
     displayOfferDesigner(gamestate:GameState.GameState) {
         let self = this;
         Player.getPlayerIDs(gamestate.players).forEach(function(id) {
-            if(id != gamestate.currentPlayerID) {
+            if(id != gamestate.currentPlayer.id) {
                 $("select#targetPlayer").append(self.newTargetOption(id));
             }
         });
-        this.setupInputCorrection(Player.getPlayersResources(GameState.getCurrentPlayer(gamestate)));
+        this.setupInputCorrection(Player.getPlayersResources(gamestate.currentPlayer));
         
     }
     onMessage(message:GameState) {
+        this.hide();
         this.displayOfferDesigner(message.gameState);
     }
 } 

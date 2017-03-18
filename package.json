@@ -1,0 +1,20 @@
+{
+  "name": "catan-client",
+  "version": "1.0.0",
+  "description": "You can play MacSettlers online at https://hherman1.github.io/CatanClient",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/hherman1/CatanClient"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.2",
+    "source-map-loader": "^0.2.0",
+    "typescript": "^2.2.1"
+  }
+}

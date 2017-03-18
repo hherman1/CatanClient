@@ -1,4 +1,4 @@
-define(['Grid'],function(Grid) {
+import * as Grid from "./Grid"
 
 function drawHexImage(image, ctx){
         var w = Math.sqrt(Math.pow(1,2)-Math.pow((1/2),2));
